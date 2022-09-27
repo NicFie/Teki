@@ -54,7 +54,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_152330) do
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.integer "round_winner"
     t.datetime "completion_time"
     t.bigint "challenge_id", null: false
     t.datetime "created_at", null: false
