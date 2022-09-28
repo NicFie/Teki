@@ -5,6 +5,7 @@ class CreateChallenges < ActiveRecord::Migration[7.0]
       t.text :description
       t.string :language
       t.text :tests
+      t.references :game_round, null: false, foreign_key: true
 
       t.timestamps
     end

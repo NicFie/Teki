@@ -19,8 +19,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_140733) do
     t.text "description"
     t.string "language"
     t.text "tests"
+    t.bigint "game_round_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["game_round_id"], name: "index_challenges_on_game_round_id"
   end
 
   create_table "friendships", force: :cascade do |t|
@@ -35,11 +37,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_140733) do
 
   create_table "game_rounds", force: :cascade do |t|
     t.datetime "completion_time"
-    t.bigint "challenge_id", null: false
+    t.bigint "game_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "winner_id"
-    t.index ["challenge_id"], name: "index_game_rounds_on_challenge_id"
+    t.bigint "winner_id", null: false
+    t.index ["game_id"], name: "index_game_rounds_on_game_id"
     t.index ["winner_id"], name: "index_game_rounds_on_winner_id"
   end
 
@@ -49,8 +51,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_140733) do
     t.integer "game_winner"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "game_round_id"
-    t.index ["game_round_id"], name: "index_games_on_game_round_id"
     t.index ["player_one_id"], name: "index_games_on_player_one_id"
     t.index ["player_two_id"], name: "index_games_on_player_two_id"
   end
@@ -69,11 +69,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_140733) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "challenges", "game_rounds"
   add_foreign_key "friendships", "users", column: "asker_id"
   add_foreign_key "friendships", "users", column: "receiver_id"
-  add_foreign_key "game_rounds", "challenges"
+  add_foreign_key "game_rounds", "games"
   add_foreign_key "game_rounds", "users", column: "winner_id"
-  add_foreign_key "games", "game_rounds"
   add_foreign_key "games", "users", column: "player_one_id"
   add_foreign_key "games", "users", column: "player_two_id"
 end
