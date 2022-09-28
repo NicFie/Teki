@@ -1,6 +1,6 @@
-class CreateRounds < ActiveRecord::Migration[7.0]
+class CreateGameRounds < ActiveRecord::Migration[7.0]
   def change
-    create_table :rounds do |t|
+    create_table :game_rounds do |t|
       t.datetime :completion_time
       t.references :challenge, null: false, foreign_key: true
 
