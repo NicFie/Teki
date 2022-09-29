@@ -1,7 +1,7 @@
 class FriendshipsController < ApplicationController
 
 
-  #charlie and nicola to do.
+  #charly and nicola to do.
   def new
   end
 
