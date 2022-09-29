@@ -1,20 +1,20 @@
 Challenge.destroy_all
 
-TheAnswer = Challenge.new(
+TheAnswer = Challenge.create(
   name: 'TheAnswer',
   description: 'type 42',
   language: 'Ruby',
   tests: 'blank'
 )
 
-NotEvenOdd = Challenge.new(
+NotEvenOdd = Challenge.create(
   name: 'Not even odd',
   description: 'Write a function taking a number as an argument. The function should return "even steven" if the number is even and "that was odd..." if the number is odd',
   language: 'Ruby',
   tests: 'blank'
 )
 
-ArrayArrayArray = Challenge.new(
+ArrayArrayArray = Challenge.create(
   name: 'Array Array Array',
   description: 'You are given an initial 2-value array (x). You will use this to calculate a score.
   If both values in (x) are numbers, the score is the sum of the two. If only one is a number, the score is that number.
@@ -26,7 +26,7 @@ ArrayArrayArray = Challenge.new(
   tests: 'blank'
 )
 
-PrintedErrors = Challenge.new(
+PrintedErrors = Challenge.create(
   name: 'Printed errors',
   description: 'In a factory a printer prints labels for boxes. For one kind of boxes the printer has to use colors
   which, for the sake of simplicity, are named with letters from a to m.
@@ -42,7 +42,7 @@ PrintedErrors = Challenge.new(
   tests: 'blank'
 )
 
-Arrays = Challenge.new(
+Arrays = Challenge.create(
   name: 'Arrays',
   description: '
   You are given an array (which will have a length of at least 3, but could be very large) containing integers. The array is either entirely comprised of odd integers or entirely comprised of even integers except for a single integer N. Write a method that takes the array as an argument and returns this "outlier" N.
@@ -55,7 +55,7 @@ Arrays = Challenge.new(
   tests: 'blank'
 )
 
-SortNumbers = Challenge.new(
+SortNumbers = Challenge.create(
   name: 'Sort numbers',
   description: 'You are given an array of integers. Your task is to sort odd numbers within the array in ascending order
   , and even numbers in descending order.
@@ -68,7 +68,7 @@ SortNumbers = Challenge.new(
   tests: 'blank'
 )
 
-DescendingOrder = Challenge.new(
+DescendingOrder = Challenge.create(
   name: 'Descending order',
   description: 'Your task is to make a function that can take any non-negative integer as an argument and return
   it with its digits in descending order. Essentially, rearrange the digits to create the highest possible number.

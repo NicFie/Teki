@@ -4,15 +4,26 @@ class GamesController < ApplicationController
   end
 
   def create
-    @game = Game.new
+    @game = Game.new(game_params)
     @game.player_one = current_user
     @game.player_two = current_user
 
-    # redirect_to
+    rounds = @game.round_count
+
+    while rounds.positive?
+      random = Challenge.all.size
+      challenge = Challenge.find(id: rand(1..random))
+      GameRound.new(game_id: @game.id, challenge_id: challenge)
+    end
+    
+    @game.save!
+
+    redirect_to game_path(@game)
   end
 
   def show
     @game = Game.find(params[:id])
+    raise
   end
 
   def edit
@@ -28,6 +39,6 @@ class GamesController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:player_one_id, :player_two_id, :game_winner)
+    params.require(:game).permit(:player_one_id, :player_two_id, :round_count)
   end
 end
