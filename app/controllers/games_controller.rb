@@ -1,16 +1,14 @@
 class GamesController < ApplicationController
-
   def new
     @game = Game.new
-    @rounds = 0
   end
 
   def create
-    @game = Game.new(game_params)
+    @game = Game.new
     @game.player_one = current_user
     @game.player_two = current_user
 
-    redirect_to
+    # redirect_to
   end
 
   def show

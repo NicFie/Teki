@@ -1,7 +1,6 @@
 <p>THIS WORKS</p>
 
-<%= simple_form_for [game], html: { autocomplete: "off" } do |f| %>
-    <%= f.input :name %>
-    <%= f.input :rounds, as: :integer %>
+<%= simple_form_for [current_user, @game] do |f| %>
+    <%= f.input :round_count, as: :integer %>
     <%= f.submit "Save" %>
 <% end %>
