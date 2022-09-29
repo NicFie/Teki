@@ -15,5 +15,4 @@ Rails.application.routes.draw do
       resources :challenges, only: %i[show]
     end
   end
-
 end

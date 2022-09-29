@@ -4,14 +4,14 @@ TheAnswer = Challenge.new(
   name: 'TheAnswer',
   description: 'type 42',
   language: 'Ruby',
-  test: 'blank'
+  tests: 'blank'
 )
 
 NotEvenOdd = Challenge.new(
   name: 'Not even odd',
   description: 'Write a function taking a number as an argument. The function should return "even steven" if the number is even and "that was odd..." if the number is odd',
   language: 'Ruby',
-  test: 'blank'
+  tests: 'blank'
 )
 
 ArrayArrayArray = Challenge.new(
@@ -23,7 +23,7 @@ ArrayArrayArray = Challenge.new(
   of sub arrays should be equal to the score.
   For example: if (x) == ["a", 3] you should return [["a", 3], ["a", 3], ["a", 3]].',
   language: 'Ruby',
-  test: 'blank'
+  tests: 'blank'
 )
 
 PrintedErrors = Challenge.new(
@@ -39,7 +39,7 @@ PrintedErrors = Challenge.new(
   representing a rational whose numerator is the number of errors and the denominator the length of the control string. Do not reduce this fraction to a simpler expression.
   The string has a length greater or equal to one and contains only letters from ato z.',
   language: 'Ruby',
-  test: 'blank'
+  tests: 'blank'
 )
 
 Arrays = Challenge.new(
@@ -52,7 +52,7 @@ Arrays = Challenge.new(
   [160, 3, 1719, 19, 11, 13, -21]
   Should return: 160 (the only even number)',
   language: 'Ruby',
-  test: 'blank'
+  tests: 'blank'
 )
 
 SortNumbers = Challenge.new(
@@ -65,7 +65,7 @@ SortNumbers = Challenge.new(
   odd numbers ascending:   [1, 3,       5   ]
   even numbers descending: [      8, 4,    2]',
   language: 'Ruby',
-  test: 'blank'
+  tests: 'blank'
 )
 
 DescendingOrder = Challenge.new(
@@ -77,7 +77,7 @@ DescendingOrder = Challenge.new(
   Input: 145263 Output: 654321
   Input: 123456789 Output: 987654321',
   language: 'Ruby',
-  test: 'blank'
+  tests: 'blank'
 )
 
 puts "Yep, that worked, stop sweating"
