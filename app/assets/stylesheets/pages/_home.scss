@@ -1,1 +1,49 @@
 // Specific CSS for your home-page
+
+.lp-card {
+  padding: 70px 45px;
+  border-top: 8px solid $dark-blue;
+  background-color: rgb(252, 252, 252);
+
+  .lp-card-container {
+    flex-flow: row-reverse;
+    gap: 2%;
+    align-items: stretch;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1100px;
+    border-radius: 12px;
+  }
+
+  .lp-card-container-text {
+    flex: 0 1 auto;
+    height: auto;
+    width: 52%;
+    z-index: 3;
+    font-size: 1.625rem;
+    font-weight: 400;
+    color: $black;
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: $white;
+  }
+
+  .lp-text-left {
+    padding: 2rem 3rem 0 3rem;
+  }
+
+  .lp-text-right {
+    padding: 2rem 3rem 0 3rem;
+  }
+
+  .lp-card-container-image {
+    box-sizing: border-box;
+    display: flex;
+    flex: 0 1 auto;
+    height: 100%;
+    width: 48%;
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+}
