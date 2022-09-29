@@ -7,15 +7,6 @@ class GamesController < ApplicationController
     @game = Game.new(game_params)
     @game.player_one = current_user
     @game.player_two = current_user
-
-    rounds = @game.round_count
-
-    while rounds.positive?
-      random = Challenge.all.size
-      challenge = Challenge.find(id: rand(1..random))
-      GameRound.new(game_id: @game.id, challenge_id: challenge)
-    end
-    
     @game.save!
 
     redirect_to game_path(@game)
@@ -23,6 +14,15 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
+    rounds = @game.round_count
+
+    while rounds.positive?
+      random = Challenge.all.size
+      challenge = Challenge.find(rand(1..random))
+      GameRound.create!(game_id: @game.id, challenge_id: challenge.id)
+      rounds -= 1
+    end
+
     raise
   end
 
