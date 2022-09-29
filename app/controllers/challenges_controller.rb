@@ -1,2 +1,13 @@
 class ChallengesController < ApplicationController
+
+  def new
+  end
+
+  def create
+  end
+
+  def show
+    random = Challenge.all.size
+    @challenge = Challenge.find(id: rand(1..random)) #chooses random challenge
+  end
 end
