@@ -1,4 +1,13 @@
 <div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.5)), url(https://images.unsplash.com/photo-1556244573-c3686c0f0e78?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80);">
+
+  <div class="lp-navbar">
+    <%= link_to "#", class: "navbar-brand" do %>
+      <%= image_tag "logo-teki-diamond-transparent-1" %>
+    <% end %>
+    <div>
+      <%= link_to "Login", new_user_session_path, class: "btn btn-second" %>
+    </div>
+  </div>
   <div class="container">
     <div class="mb-5" style="height: 20px"><h1 data-controller="typed-js"></h1></div>
     <p>Awesome short paragraph that will encourage visitors to sign up to this awesome website</p>

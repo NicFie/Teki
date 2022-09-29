@@ -10,3 +10,17 @@
   background: #1ccd7d !important;
   color: $black;
 }
+
+.btn-second {
+  color: $black;
+  padding: 8px 24px;
+  border-radius: 4px;
+  border: 2px $dark-green solid;
+  background: $white;
+  transition: background 0.3s ease;
+}
+
+.btn-second:hover {
+  background: rgb(224, 224, 224) !important;
+  color: $black;
+}
