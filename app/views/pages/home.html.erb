@@ -1,2 +1,38 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.5)), url(https://images.unsplash.com/photo-1556244573-c3686c0f0e78?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80);">
+
+  <div class="lp-navbar">
+    <%= link_to "#", class: "navbar-brand" do %>
+      <%= image_tag "logo-teki-diamond-transparent-1" %>
+    <% end %>
+    <div>
+      <%= link_to "Login", new_user_session_path, class: "btn btn-second" %>
+    </div>
+  </div>
+  <div class="container">
+    <div class="mb-5" style="height: 20px"><h1 data-controller="typed-js"></h1></div>
+    <p>Awesome short paragraph that will encourage visitors to sign up to this awesome website</p>
+    <a class="btn btn-main" href="#">Start battling!</a>
+  </div>
+</div>
+<div data-controller="lp-cards" data-action="scroll@window->lp-cards#changeOpacity">
+  <div class="lp-card" >
+    <div class="lp-card-container" data-lp-cards-target = "card">
+      <div class="lp-card-container-text lp-text-right">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa harum minus sapiente animi ratione cumque, labore sunt officia vero natus dicta placeat, deserunt mollitia facilis numquam debitis. Et, fuga deleniti!</div>
+      <%= image_tag "https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1631&q=80", class: 'lp-card-container-image' %>
+    </div>
+  </div>
+
+  <div class="lp-card">
+    <div class="lp-card-container" data-lp-cards-target = "card">
+      <%= image_tag "https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1631&q=80", class: 'lp-card-container-image' %>
+      <div class="lp-card-container-text lp-text-left">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa harum minus sapiente animi ratione cumque, labore sunt officia vero natus dicta placeat, deserunt mollitia facilis numquam debitis. Et, fuga deleniti!</div>
+    </div>
+  </div>
+
+  <div class="lp-card">
+    <div class="lp-card-container" data-lp-cards-target = "card">
+      <div class="lp-card-container-text lp-text-right">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa harum minus sapiente animi ratione cumque, labore sunt officia vero natus dicta placeat, deserunt mollitia facilis numquam debitis. Et, fuga deleniti!</div>
+      <%= image_tag "https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1631&q=80", class: 'lp-card-container-image' %>
+    </div>
+  </div>
+</div>
