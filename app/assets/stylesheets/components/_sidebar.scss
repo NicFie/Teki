@@ -45,7 +45,7 @@
     background: rgb(0, 0, 0);
   }
 
-  li a .links_name{
+  li a .path_links{
     color: rgb(0, 0, 0);
     font-size: 15px;
     font-weight: 400;
@@ -60,7 +60,7 @@
     color: #FAF9F9;
   }
 
-  li a:hover .links_name {
+  li a:hover .path_links {
     transition: all 0.5s ease;
     color: #FAF9F9;
   }
@@ -76,7 +76,7 @@
 .sidebar.open{
   width: 250px;
 
-  li a .links_name{
+  li a .path_links{
     opacity: 1;
     pointer-events: auto;
 
