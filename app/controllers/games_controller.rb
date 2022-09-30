@@ -29,6 +29,11 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
+
+    GameChannel.broadcast_to(
+      @game,
+      "HHHEEEELLLOOOO"
+    )
   end
 
   def edit

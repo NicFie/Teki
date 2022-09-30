@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import GameSubscriptionController from "./game_subscription_controller"
+application.register("game-subscription", GameSubscriptionController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 

@@ -1,4 +1,7 @@
-<div class="container">
+<div class="container"
+     data-controller="game-subscription"
+     data-game-subscription-game-id-value="<%= @game.id %>"
+     data-game-subscription-user-id-value="<%= current_user.id %>">
   <% @game.game_rounds.each do |round| %>
     <p><%= round.challenge.description %></p>
   <% end %>
