@@ -1,0 +1,5 @@
+<div class="container">
+  <% @game.game_rounds.each do |round| %>
+    <p><%= round.challenge.description %></p>
+  <% end %>
+</div>
