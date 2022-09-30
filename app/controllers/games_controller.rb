@@ -15,10 +15,12 @@ class GamesController < ApplicationController
   def add_rounds_and_challenges(id)
     game = Game.find(id)
     rounds = game.round_count
+    all_challenges = Challenge.all.to_a
 
     while rounds.positive?
-      challenge = Challenge.find(rand(1..Challenge.all.size))
+      challenge = all_challenges[rand(0..all_challenges.size - 1)]
       GameRound.create!(game_id: game.id, challenge_id: challenge.id, winner: current_user)
+      all_challenges.delete_at(all_challenges.index(challenge))
       rounds -= 1
     end
 
