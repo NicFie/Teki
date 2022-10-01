@@ -1,0 +1,50 @@
+.game-show-container {
+  height:80vh;
+  width:100%;
+  margin: 20px 0;
+  display:flex;
+  justify-content: space-around;
+}
+
+.user-codebox {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 35%;
+  background-color: aqua;
+}
+.codebox-input{
+  height: 60% ;
+  width:100% ;
+  // background-color: burlywood;
+}
+.code-submit{
+  height: 40px;
+  width: 10%;
+  background-color: rgb(68, 61, 52);
+}
+
+
+
+.game-round-instructions-and-tests-boxes {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 25%;
+  background-color: aqua;
+}
+.game-round-instructions{
+  height: 30%;
+  width: 100%;
+  background-color: rgb(133, 103, 64);
+}
+.game-round-tests{
+  height: 30%;
+  width: 100%;
+  margin-top: 40px;
+  background-color: rgb(133, 103, 64);
+}
