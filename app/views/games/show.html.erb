@@ -17,25 +17,27 @@
 
 
 
-<div class="game-show-container"
-     data-controller="game-subscription"
+<div data-controller="game-subscription"
      data-game-subscription-game-id-value="<%= @game.id %>"
      data-game-subscription-user-id-value="<%= current_user.id %>">
 
-  <div class="user-codebox">
-    <textarea id="editor-one"></textarea>
-    <div class="code-submit" id="playerOneSubmit"></div>
-  </div>
+  <div class="game-show-container" data-controller="solution">
 
-  <div class="game-round-instructions-and-tests-boxes">
-    <div class="game-round-instructions">
-      <p><%= @game.game_rounds.first.challenge.description %></p>
+    <div class="user-codebox">
+      <textarea id="editor-one"></textarea>
+      <div class="code-submit" id="playerOneSubmit"></div>
     </div>
-    <div class="game-round-tests"></div>
-  </div>
 
-  <div class="user-codebox">
-    <textarea id="editor-two"></textarea>
-    <div class="code-submit" id="playerTwoSubmit"></div>
+    <div class="game-round-instructions-and-tests-boxes">
+      <div class="game-round-instructions">
+        <p><%= @game.game_rounds.first.challenge.description %></p>
+      </div>
+      <div class="game-round-tests"></div>
+    </div>
+
+    <div class="user-codebox">
+      <textarea id="editor-two"></textarea>
+      <div class="code-submit" id="playerTwoSubmit"></div>
+    </div>
   </div>
 </div>
