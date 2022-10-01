@@ -18,13 +18,15 @@
 
     <% if current_page?(root_path) %>
         <% puts "We love animals" %>
+        <%= yield %>
     <% else %>
       <%= render "shared/navbar" %>
       <%= render "shared/sidebar" %>
+      <div class="push-right">
+      <%= yield %>
+      </div>
     <% end %>
     <%= render "shared/flashes" %>
-
-    <%= yield %>
 
   </body>
 </html>
