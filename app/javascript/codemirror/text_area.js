@@ -1,7 +1,7 @@
 const codemirror = require("./codemirror");
 
-
-// document.onload(editor);
+let playerOneSumbit = document.getElementById("playerOneSubmit")
+let playerTwoSumbit = document.getElementById("playerTwoSubmit")
 
 let editor_one = codemirror.fromTextArea(
   document.getElementById("editor-one"), {
@@ -10,6 +10,7 @@ let editor_one = codemirror.fromTextArea(
     lineNumbers: true
   }
 );
+
 let editor_two = codemirror.fromTextArea(
   document.getElementById("editor-two"), {
     mode: "ruby",
@@ -17,3 +18,13 @@ let editor_two = codemirror.fromTextArea(
     lineNumbers: true
   }
 );
+
+playerOneSumbit.addEventListener("click", function(){
+  let text = editor_one.getValue()
+  console.log(text)
+})
+
+playerTwoSumbit.addEventListener("click", function(){
+  let text = editor_two.getValue()
+  console.log(text)
+})
