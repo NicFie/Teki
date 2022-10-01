@@ -2,3 +2,6 @@
 import "@hotwired/turbo-rails"
 import "./controllers"
 import "bootstrap"
+import "./codemirror"
+import "./ruby"
+import "./text_area"
