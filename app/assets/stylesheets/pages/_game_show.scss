@@ -13,17 +13,33 @@
   justify-content: center;
   height: 100%;
   width: 35%;
-  background-color: aqua;
+  background-color: rgb(50, 50, 50);
+
+// codemirror style for game page.
+  .CodeMirror{
+    height: 60%;
+    width:100%;
+  }
 }
 .codebox-input{
-  height: 60% ;
-  width:100% ;
-  // background-color: burlywood;
 }
+
+.code-submit-buttons{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.right-buttons{
+  display: flex;
+  justify-content: center;
+}
+
 .code-submit{
   height: 40px;
-  width: 10%;
-  background-color: rgb(68, 61, 52);
+  background-color: rgb(130, 130, 130);
+  color: white;
+
 }
 
 
@@ -35,16 +51,22 @@
   justify-content: center;
   height: 100%;
   width: 25%;
-  background-color: aqua;
+  background-color: rgb(50, 50, 50);
 }
 .game-round-instructions{
   height: 30%;
   width: 100%;
-  background-color: rgb(133, 103, 64);
+  background-color: rgb(130, 130, 130);
+  color: white;
+  overflow: scroll;
+  padding: 10px;
 }
 .game-round-tests{
   height: 30%;
   width: 100%;
   margin-top: 40px;
-  background-color: rgb(133, 103, 64);
+  background-color: rgb(130, 130, 130);
+  color: white;
+  overflow: scroll;
+  white-space: pre;
 }
