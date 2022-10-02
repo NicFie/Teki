@@ -25,22 +25,23 @@
      data-game-subscription-player-two-id-value="<%= @game.player_two.id %>"
      data-game-subscription-update-url="<%= game_path(@game) %>">
 
-  <div class="user-codebox">
-    <textarea id="editor-one"
-    data-game-subscription-target="editor-one"
-    data-action="keyup->game-subscription#printEditorOne"></textarea>
-    <div class="code-submit"></div>
-  </div>
+  <div class="game-show-container" data-controller="solution">
 
-  <div class="game-round-instructions-and-tests-boxes">
-    <div class="game-round-instructions">
-      <p><%= @game.game_rounds.first.challenge.description %></p>
+    <div class="user-codebox">
+      <textarea id="editor-one"></textarea>
+      <div class="code-submit" id="playerOneSubmit"></div>
     </div>
-    <div class="game-round-tests"></div>
-  </div>
 
-  <div class="user-codebox">
-    <textarea id="editor-two"></textarea>
-    <div class="code-submit"></div>
+    <div class="game-round-instructions-and-tests-boxes">
+      <div class="game-round-instructions">
+        <p><%= @game.game_rounds.first.challenge.description %></p>
+      </div>
+      <div class="game-round-tests"></div>
+    </div>
+
+    <div class="user-codebox">
+      <textarea id="editor-two"></textarea>
+      <div class="code-submit" id="playerTwoSubmit"></div>
+    </div>
   </div>
 </div>

@@ -10,6 +10,9 @@ export default class extends Controller {
     this.channel = createConsumer().subscriptions.create(
       { channel: "GameChannel", id: this.gameIdValue },
       { received: data => console.log(data) }
+    // )
+    // console.log(`Subscribe to the chatroom with the id ${this.gameIdValue}.`)
+    // console.log(`The current user is ${this.userIdValue}`)
     )
     console.log(`Player one's current Id is ${this.playerOneIdValue}`)
     console.log(`Player two's current Id is ${this.playerTwoIdValue}`)
