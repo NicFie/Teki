@@ -11,21 +11,23 @@ export default class extends Controller {
       { channel: "GameChannel", id: this.gameIdValue },
       { received: data => console.log(data) }
     )
-    // console.log(`Subscribe to the chatroom with the id ${this.gameIdValue}.`)
     console.log(`Player one's current Id is ${this.playerOneIdValue}`)
     console.log(`Player two's current Id is ${this.playerTwoIdValue}`)
 
+    //Checks default value of the game then updates
+    //the game with correct user id's for player one and player two.
 
     if (this.playerOneIdValue === 1)
-      this.checkPlayerOne()
+      this.updatePlayerOneId()
     else {
-      this.checkPlayerTwo()
+      this.updatePlayerTwoId()
     };
   }
 
-  checkPlayerOne() {
-    // console.log(`User id is ${this.userId}`)
-    // console.log(`Player one's current ID is ${this.playerOneIdValue}`);
+  updatePlayerOneId() {
+    //Creates a form and sends it to to the server to update the game,
+    //changing player_one_id from the default 1 to the id of the first user
+
     let playerOnesForm = new FormData()
     playerOnesForm.append("game[player_one_id]", this.userIdValue)
     const token = document.getElementsByName("csrf-token")[0].content
@@ -47,9 +49,10 @@ export default class extends Controller {
     // console.log(`Player one's new id is ${this.playerOneIdValue}`)
   }
 
-  checkPlayerTwo() {
-    // console.log(`User id is ${this.userId}`)
-    // console.log(`Player Two's current ID is ${this.playerTwoIdValue}`);
+  updatePlayerTwoId() {
+    //Creates a form and sends it to to the server to update the game,
+    //changing player_two_id from the default 1 to the id of the second user
+
     let playerTwosForm = new FormData()
     playerTwosForm.append("game[player_two_id]", this.userIdValue)
     const token = document.getElementsByName("csrf-token")[0].content
