@@ -9,4 +9,8 @@ class User < ApplicationRecord
   has_many :games_as_player_one, class_name: "Game", foreign_key: :player_one_id
   has_many :games_as_player_two, class_name: "Game", foreign_key: :player_two_id
   has_many :game_rounds, class_name: "GameRound", foreign_key: :winner_id
+
+  def friendship_with(user)
+    Friendship.find_by(asker: self, receiver: user) || Friendship.find_by(asker: user, receiver: self)
+  end
 end

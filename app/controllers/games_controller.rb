@@ -7,8 +7,9 @@ class GamesController < ApplicationController
   def create
     @game = Game.new(game_params)
     authorize @game
-    @game.player_one = current_user
-    @game.player_two = current_user
+    user = User.find(1)
+    @game.player_one = user
+    @game.player_two = user
     @game.save!
 
     add_rounds_and_challenges(@game.id)
@@ -48,6 +49,11 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
     authorize @game
     @game.update(game_params)
+    @game.save
+
+    respond_to do |format|
+      format.js #add this at the beginning to make sure the form is populated.
+    end
   end
 
 
