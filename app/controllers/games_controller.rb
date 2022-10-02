@@ -1,10 +1,12 @@
 class GamesController < ApplicationController
   def new
     @game = Game.new
+    authorize @game
   end
 
   def create
     @game = Game.new(game_params)
+    authorize @game
     @game.player_one = current_user
     @game.player_two = current_user
     @game.save!
@@ -29,6 +31,7 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
+    authorize @game
 
     GameChannel.broadcast_to(
       @game,
@@ -38,10 +41,12 @@ class GamesController < ApplicationController
 
   def edit
     @game = Game.find(params[:id])
+    authorize @game
   end
 
   def update
     @game = Game.find(params[:id])
+    authorize @game
     @game.update(game_params)
   end
 
