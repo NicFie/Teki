@@ -1,7 +1,6 @@
 Challenge.destroy_all
 User.destroy_all
 
-
 puts "creating Katas erm... Challenges !"
 TheAnswer = Challenge.create(
   name: 'TheAnswer',
