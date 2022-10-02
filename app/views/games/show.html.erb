@@ -1,5 +1,43 @@
-<div class="container">
-  <% @game.game_rounds.each do |round| %>
-    <p><%= round.challenge.description %></p>
-  <% end %>
+<%# <div class="container"
+     data-controller="game-subscription"
+     data-game-subscription-game-id-value="<%= @game.id %>
+     <%# data-game-subscription-user-id-value="<%= current_user.id %>
+  <%# <% @game.game_rounds.each do |round| %>
+    <%# <p><%= round.challenge.description %>
+  <%# <% end %>
+
+  <%# <textarea id="editor"></textarea> %>
+<%# </div> %>
+
+<%# <div class="container"> %>
+  <%# @game.game_rounds.each do |round| %>
+    <%# <p>= round.challenge.description</p> %>
+  <%# end %>
+<%# </div> %>
+
+
+
+<div class="game-show-container"
+     data-controller="game-subscription"
+     data-game-subscription-game-id-value="<%= @game.id %>"
+     data-game-subscription-user-id-value="<%= current_user.id %>">
+
+  <div class="user-codebox">
+    <textarea id="editor-one"
+    data-game-subscription-target="editor-one"
+    data-action="keyup->game-subscription#printEditorOne"></textarea>
+    <div class="code-submit"></div>
+  </div>
+
+  <div class="game-round-instructions-and-tests-boxes">
+    <div class="game-round-instructions">
+      <p><%= @game.game_rounds.first.challenge.description %></p>
+    </div>
+    <div class="game-round-tests"></div>
+  </div>
+
+  <div class="user-codebox">
+    <textarea id="editor-two"></textarea>
+    <div class="code-submit"></div>
+  </div>
 </div>

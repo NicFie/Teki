@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <%# codemirror-5.65.9/lib/codemirror.js %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&family=Ubuntu+Mono:wght@700&display=swap" rel="stylesheet">
@@ -16,12 +18,15 @@
 
     <% if current_page?(root_path) %>
         <% puts "We love animals" %>
+        <%= yield %>
     <% else %>
       <%= render "shared/navbar" %>
       <%= render "shared/sidebar" %>
+      <div class="push-right">
+      <%= yield %>
+      </div>
     <% end %>
     <%= render "shared/flashes" %>
 
-    <%= yield %>
   </body>
 </html>
