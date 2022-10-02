@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     resources :game_rounds, only: %i[index]
   end
 
+  resources :friendships, only: %i[edit update index show]
+
   resources :games, only: %i[show edit update] do
     resources :game_rounds, only: %i[new create] do
       resources :challenges, only: %i[show]
