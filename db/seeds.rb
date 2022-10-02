@@ -1,5 +1,5 @@
 Challenge.destroy_all
-Users.destroy_all
+User.destroy_all
 
 
 puts "creating Katas erm... Challenges !"
@@ -83,7 +83,7 @@ DescendingOrder = Challenge.create(
   tests: 'blank'
 )
 
-puts "creating users"
+puts "Creating Users"
 user0 = User.create!(username: "4ar0n", email: "aaron@mail.com", password: '123456', avatar: "cool-emote.png")
 user1 = User.create!(username: "Ch4r1y", email: "charly@mail.com", password: '123456', avatar: "cool-doge.png")
 user2 = User.create!(username: "W1ll", email: "william@mail.com", password: '123456', avatar: "cool-cactus")
@@ -91,9 +91,10 @@ user3 = User.create!(username: "N1c0l4", email: "nicola@mail.com", password: '12
 user4 = User.create!(username: "UltimateRival", email: "DuncanMcLeod@mail.com", admin: true, password: 'Highlander', avatar: "coolest-duck.jpg")
 
 
-puts  " __          __          __          __
+puts  "
+        __          __          __          __
       <(o )___    <(o )___    <(o )___    <(o )___
        ( ._> /     ( ._> /     ( ._> /     ( ._> /
         `---'       `---'       `---'       `---'
 "
-puts " The four ducks of luck grant you safe passage, dont linger, they could change their mind"
+puts " The four ducks of luck grant you safe passage, dont linger, they could change their mind."
