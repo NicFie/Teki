@@ -17,11 +17,11 @@ class GamePolicy < ApplicationPolicy
     true
   end
 
-  def edit
+  def edit?
     true
   end
 
-  def update
+  def update?
     true
   end
 end
