@@ -1,0 +1,5 @@
+<% if @friendship %>
+        <%= button_to "Unfriend", friendship_path(@friendship),method: :delete, data: {turbo_confirm: "Are you sure you want" + " " + @user.username + " " + "to disapear from your life ?"}%>
+      <% else %>
+        <%= button_to "Friend", user_friendships_path(@user) , data: {turbo_method: :post}%>
+      <% end %>
