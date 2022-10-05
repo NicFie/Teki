@@ -50,13 +50,6 @@ export default class extends Controller {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ round_count: code }),
-    }).then(function(response) {
-      if (response.status != 204) {
-          console.log("This worked")
-      } else {
-        console.log("This didnt work")
-      }
     })
-
   }
 }
