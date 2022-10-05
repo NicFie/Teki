@@ -1,13 +1,16 @@
 class UserPolicy < ApplicationPolicy
   class Scope < Scope
-    # NOTE: Be explicit about which records you allow access to!
     def resolve
       scope.all
+      # scope.where.not(user: @current_user)
     end
+  end
+
+  def index
+
   end
 
   def show?
     true
   end
-
 end

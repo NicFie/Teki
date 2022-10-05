@@ -3,16 +3,6 @@ class FriendshipsController < ApplicationController
     @friendships = policy_scope(Friendship)
     @friendships = Friendship.where(asker_id: current_user)
     @users = User.all
-
-    # if params[:query].present?
-    #   @users = @users.where('username ILIKE ?', "%#{params[:query]}%")
-    # end
-
-    # respond_to do |format|
-    #   format.html # Follow regular flow of Rails
-    #   format.text { render partial: 'amazingpartial', locals: { users: @users } }
-    # end
-
   end
 
   def show
@@ -31,7 +21,7 @@ class FriendshipsController < ApplicationController
     @friendship.asker = current_user
     @friendship.receiver = User.find(params[:user_id])
     if @friendship.save
-      redirect_to users_path
+      redirect_to friendships_path
     else
       render root_path
     end
