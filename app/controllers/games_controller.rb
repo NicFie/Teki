@@ -57,7 +57,11 @@ class GamesController < ApplicationController
   end
 
   def game_test
-    raise
+    p params[:round_count]
+
+    respond_to do |format|
+      format.js #add this at the beginning to make sure the form is populated.
+    end
   end
 
   private

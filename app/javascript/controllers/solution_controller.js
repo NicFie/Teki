@@ -4,50 +4,59 @@ const codemirror = require("../codemirror/codemirror");
 // Connects to data-controller="solution"
 export default class extends Controller {
   static values = { gameId: Number }
+  static targets = ["editorone", "editortwo"]
+
+  initialize() {
+    this.hello = "testing hello"
+
+    this.editor_one = codemirror.fromTextArea(
+      this.editoroneTarget, {
+        mode: "ruby",
+        theme: "dracula",
+        lineNumbers: true
+      }
+    );
+
+    this.editor_two = codemirror.fromTextArea(
+      this.editortwoTarget, {
+        mode: "ruby",
+        theme: "dracula",
+        lineNumbers: true
+      }
+    );
+  }
 
   connect() {
-    let playerOneSumbit = document.getElementById("playerOneSubmit")
-    let playerTwoSumbit = document.getElementById("playerTwoSubmit")
+  }
 
-    let editor_one = codemirror.fromTextArea(
-      document.getElementById("editor-one"), {
-        mode: "ruby",
-        theme: "dracula",
-        lineNumbers: true
-      }
-    );
+  playerOneSubmission() {
+    this.sendCode(this.editor_one.getValue());
+  }
 
-    let editor_two = codemirror.fromTextArea(
-      document.getElementById("editor-two"), {
-        mode: "ruby",
-        theme: "dracula",
-        lineNumbers: true
-      }
-    );
-
-    playerOneSumbit.addEventListener("click", function(){
-      let playerOneSubmission = editor_one.getValue()
-      // console.log(playerOneSubmission)
-      sendCode(playerOneSubmission)
-    });
-
-    playerTwoSumbit.addEventListener("click", function(){
-      let playerTwoSubmission = editor_two.getValue()
-      console.log(playerTwoSubmission)
-    })
-
+  playerTwoSubmission() {
+    console.log(this.editor_two.getValue());
   }
 
   sendCode(code) {
+
+    console.log(`This game is ${this.gameIdValue}`)
+
+    const token = document.getElementsByName("csrf-token")[0].content
     fetch(`/games/${this.gameIdValue}/game_test`, {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "X-CSRF-Token": Rails.csrfToken(),
+        "X-CSRF-Token": token,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ code: code }),
+      body: JSON.stringify({ round_count: code }),
+    }).then(function(response) {
+      if (response.status != 204) {
+          console.log("This worked")
+      } else {
+        console.log("This didnt work")
+      }
     })
-    
+
   }
 }
