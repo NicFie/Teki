@@ -57,8 +57,8 @@ class GamesController < ApplicationController
   end
 
   def game_test
-    j = JSON.parse(params[:round_count])
-    p j
+    j = params[:round_count]
+    puts j
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
     end
