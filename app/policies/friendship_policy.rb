@@ -1,4 +1,4 @@
-class GamePolicy < ApplicationPolicy
+class FriendshipPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.all
@@ -17,15 +17,7 @@ class GamePolicy < ApplicationPolicy
     true
   end
 
-  def edit?
-    true
-  end
-
-  def edit?
-    update?
-  end
-
-  def update?
+  def destroy?
     true
   end
 end

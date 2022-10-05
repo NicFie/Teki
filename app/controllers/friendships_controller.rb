@@ -1,14 +1,68 @@
 class FriendshipsController < ApplicationController
+  def index
+    @friendships = policy_scope(Friendship)
+    @friendships = Friendship.where(asker_id: current_user)
+    @users = User.all
 
+    # if params[:query].present?
+    #   @users = @users.where('username ILIKE ?', "%#{params[:query]}%")
+    # end
 
-  #charly and nicola to do.
+    # respond_to do |format|
+    #   format.html # Follow regular flow of Rails
+    #   format.text { render partial: 'amazingpartial', locals: { users: @users } }
+    # end
+
+  end
+
+  def show
+    @friendship = Friendship.find(params[:id])
+    authorize @friendship
+  end
+
   def new
+    @friendship = Friendship.new
+    authorize @friendship
   end
 
   def create
+    @friendship = Friendship.new
+    authorize @friendship
+    @friendship.asker = current_user
+    @friendship.receiver = User.find(params[:user_id])
+    if @friendship.save
+      redirect_to users_path
+    else
+      render root_path
+    end
+  end
+
+  def edit
+    @friendship = Friendship.find(params[:id])
+    authorize @friendship
+  end
+
+  def update
+    @friendship = Friendship.find(params[:id])
+    authorize @friendship
+    @friendship.update(friendship_params)
+    if friendship.save
+      redirect_to friendships_path
+    else
+      render :update, status: :unprocessable_entity
+    end
   end
 
   def destroy
+    @friendship = Friendship.find(params[:id])
+    authorize @friendship
+    @friendship.destroy
+    redirect_to friendships_path, status: :see_other
   end
 
+  private
+
+  def friendship_params
+    params.require(:friendship).permit(:status)
+  end
 end

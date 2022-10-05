@@ -56,6 +56,9 @@ class GamesController < ApplicationController
     end
   end
 
+  def game_test
+    raise
+  end
 
   private
 

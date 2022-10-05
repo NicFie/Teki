@@ -3,6 +3,7 @@ const codemirror = require("../codemirror/codemirror");
 
 // Connects to data-controller="solution"
 export default class extends Controller {
+  static values = { gameId: Number }
 
   connect() {
     let playerOneSumbit = document.getElementById("playerOneSubmit")
@@ -25,14 +26,28 @@ export default class extends Controller {
     );
 
     playerOneSumbit.addEventListener("click", function(){
-      let text = editor_one.getValue()
-      console.log(text)
-    })
+      let playerOneSubmission = editor_one.getValue()
+      // console.log(playerOneSubmission)
+      sendCode(playerOneSubmission)
+    });
 
     playerTwoSumbit.addEventListener("click", function(){
-      let text = editor_two.getValue()
-      console.log(text)
+      let playerTwoSubmission = editor_two.getValue()
+      console.log(playerTwoSubmission)
     })
+
   }
-  
+
+  sendCode(code) {
+    fetch(`/games/${this.gameIdValue}/game_test`, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-CSRF-Token": Rails.csrfToken(),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ code: code }),
+    })
+    
+  }
 }
