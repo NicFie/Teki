@@ -4,7 +4,7 @@ const codemirror = require("../codemirror/codemirror");
 // Connects to data-controller="solution"
 export default class extends Controller {
   static values = { gameId: Number }
-  static targets = ["editorone", "editortwo"]
+  static targets = ["editorone", "editortwo", "tests"]
 
   initialize() {
      this.editor_one = codemirror.fromTextArea(
@@ -37,8 +37,6 @@ export default class extends Controller {
 
   sendCode(code) {
 
-    console.log(`This game is ${this.gameIdValue}`)
-
     const token = document.getElementsByName("csrf-token")[0].content
     fetch(`/games/${this.gameIdValue}/game_test`, {
       method: "POST",
@@ -49,5 +47,19 @@ export default class extends Controller {
       },
       body: JSON.stringify({ round_count: code }),
     })
+    // this.updateDisplay()
   }
+
+  // updateDisplay() {
+  //   fetch(`/games/${this.gameIdValue}/game_test`, {
+  //     method: "POST",
+  //     credentials: "same-origin",
+  //     headers: {
+  //       "X-CSRF-Token": token,
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ round_count: code }),
+  //   })
+  //   this.testsTarget.innerHtml =
+  // }
 }

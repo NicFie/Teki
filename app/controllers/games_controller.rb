@@ -59,12 +59,13 @@ class GamesController < ApplicationController
   end
 
   def game_test
-    @test = eval(params[:round_count])
-
-    p @test
+    try = eval(params[:round_count])
+    @game.test_results = method(try).call(10)
+    p @test_variable
     skip_authorization
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
+      format.json
     end
   end
 
