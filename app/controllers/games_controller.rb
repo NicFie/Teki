@@ -1,4 +1,6 @@
 class GamesController < ApplicationController
+  # skip_authorization only: [:game_test]
+
   def new
     @game = Game.new
     authorize @game
@@ -57,9 +59,14 @@ class GamesController < ApplicationController
   end
 
   def game_test
-    raise
-  end
+    @test = eval(params[:round_count])
 
+    p @test
+    skip_authorization
+    respond_to do |format|
+      format.js #add this at the beginning to make sure the form is populated.
+    end
+  end
 
   private
 
