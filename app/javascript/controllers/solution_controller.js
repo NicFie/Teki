@@ -7,9 +7,7 @@ export default class extends Controller {
   static targets = ["editorone", "editortwo"]
 
   initialize() {
-    this.hello = "testing hello"
-
-    this.editor_one = codemirror.fromTextArea(
+     this.editor_one = codemirror.fromTextArea(
       this.editoroneTarget, {
         mode: "ruby",
         theme: "dracula",

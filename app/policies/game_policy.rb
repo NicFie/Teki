@@ -28,4 +28,8 @@ class GamePolicy < ApplicationPolicy
   def update?
     true
   end
+
+  def game_test?
+    true
+  end
 end
