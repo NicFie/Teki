@@ -45,9 +45,11 @@ export default class extends Controller {
       credentials: "same-origin",
       headers: {
         "X-CSRF-Token": token,
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({ round_count: code }),
-    })
+    }).then((response) => response.json())
+    .then((data) => document.getElementById("giveMeData").innerText = data)
+
   }
 }
