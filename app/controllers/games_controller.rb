@@ -57,7 +57,21 @@ class GamesController < ApplicationController
   end
 
   def game_test
-    raise
+    user_submission = variable "userOneSubmission" recieved
+    from solution_controller.js via AJAX
+    our example: descending order challenge is an array of assert equals challenges
+     challenge_tests = [
+    [Test.assert_equals(descending_order(42145), 54421)],
+    [Test.assert_equals(descending_order(145263), 654321)],
+    [Test.assert_equals(descending_order(123456789), 987654321)]
+  ]
+     describe("#{challenge.name}") do
+       it("passes all tests") do
+       challenge_tests.each do |array|
+         return array;
+       end
+     end
+
   end
 
 
