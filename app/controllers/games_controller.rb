@@ -76,12 +76,15 @@ class GamesController < ApplicationController
   #   end
 
     try = eval(params[:round_count])
+
     @output = method(try).call(10)
-    skip_authorization
+
     respond_to do |format|
-      # format.js #add this at the beginning to make sure the form is populated.
+      format.js #add this at the beginning to make sure the form is populated.
       format.json { render json: @output.to_json }
     end
+
+    skip_authorization
   end
 
   private
