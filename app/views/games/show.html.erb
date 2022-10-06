@@ -28,12 +28,12 @@
   <div class="game-show-container" data-controller="solution" data-solution-game-id-value="<%= @game.id %>">
 
     <div class="user-codebox">
-      <textarea id="editor-one"></textarea>
+      <textarea data-solution-target="editorone"></textarea>
       <div class="code-submit-buttons">
         <button id="playerTwoClear" class="code-submit">Clear</button>
         <div class="right-buttons">
           <button id="playerOneTest" class="code-submit">Test</button>
-          <button id="playerOneSubmit" class="code-submit">Submit</button>
+          <button id="playerOneSubmit" class="code-submit" data-action="click->solution#playerOneSubmission">Submit</button>
         </div>
       </div>
     </div>
@@ -43,23 +43,17 @@
         <p><%= @game.game_rounds.first.challenge.description %></p>
       </div>
       <div class="game-round-tests">
-        Test 1 passed
-        Test 2 passed
-        Test 3 passed
-        Test 4 passed
-        Test 5 passed
-        Test 6 passed
-        Test 7 failed
+        <p>Test 1</p>
       </div>
     </div>
 
     <div class="user-codebox">
-      <textarea id="editor-two"></textarea>
+      <textarea data-solution-target="editortwo"></textarea>
       <div class="code-submit-buttons">
         <button id="playerTwoClear" class="code-submit">Clear</button>
         <div class="right-buttons">
           <button id="playerTwoTest" class="code-submit">Test</button>
-          <button id="playerTwoSubmit" class="code-submit">Submit</button>
+          <button id="playerTwoSubmit" class="code-submit" data-action="click->solution#playerTwoSubmission">Submit</button>
         </div>
       </div>
     </div>

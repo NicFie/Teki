@@ -36,6 +36,10 @@ class ApplicationPolicy
     false
   end
 
+  def game_test?
+    true
+  end
+
   class Scope
     def initialize(user, scope)
       @user = user
