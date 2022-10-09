@@ -16,7 +16,7 @@
 
   <body>
 
-    <% if current_page?(root_path) %>
+    <% if current_page?(unauthenticated_root_path) && !user_signed_in? %>
         <% puts "We love animals" %>
         <%= yield %>
     <% else %>

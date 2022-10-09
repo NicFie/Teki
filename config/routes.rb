@@ -1,6 +1,16 @@
 Rails.application.routes.draw do
   devise_for :users
-  root to: "pages#home"
+  #root to: "pages#home"
+  get '/dashboard', to: 'pages#dashboard', as: 'dashboard'
+
+  devise_scope :user do
+    authenticated :user do
+      get '/', to: 'pages#dashboard', as: 'authenticated_root'
+    end
+    unauthenticated do
+      get '/', to: 'pages#home', as: 'unauthenticated_root'
+    end
+  end
 
   resources :challenges, only: %i[new create]
 
@@ -20,5 +30,5 @@ Rails.application.routes.draw do
       resources :challenges, only: %i[show]
     end
   end
-  
+
 end

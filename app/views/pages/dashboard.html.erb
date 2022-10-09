@@ -1,0 +1,26 @@
+<h1>Dashboard</h1>
+
+<h2>Leaderboard</h2>
+<table>
+  <tbody>
+    <tr>
+      <th>Position</th>
+      <th>User</th>
+      <th>Score</th>
+    </tr>
+    <% count = 1 %>
+    <% @users_ordered_by_score.each do |user| %>
+      <tr>
+        <td>#<%= count %></td>
+        <td>
+          <div><%= image_tag(user.avatar, height: '40') %></div>
+          <div><%= user.username %></div>
+        </td>
+        <td><%= user.score %></td>
+      </tr>
+    <% count += 1 %>
+    <% end  %>
+  </tbody>
+</table>
+
+<%= link_to "Start game",  new_user_game_path(current_user), class: "btn btn-main" %>
