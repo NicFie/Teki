@@ -1,3 +1,4 @@
+Game.destroy_all
 Challenge.destroy_all
 User.destroy_all
 
