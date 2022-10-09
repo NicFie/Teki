@@ -22,6 +22,9 @@ export default class extends Controller {
         lineNumbers: true
       }
     );
+
+    // const initialDefaultMethod = this.editor_one.getValue()
+
   }
 
   connect() {
@@ -32,7 +35,15 @@ export default class extends Controller {
   }
 
   playerTwoSubmission() {
-    console.log(this.editor_two.getValue());
+    this.sendCode(this.editor_two.getValue());
+  }
+
+  clearPlayerOneSubmission(){
+    this.editor_one.getDoc().setValue("initialDefaultMethod");
+  }
+
+  clearPlayerTwoSubmission(){
+    this.editor_two.getDoc().setValue("initialDefaultMethod");
   }
 
   sendCode(code) {
@@ -45,9 +56,10 @@ export default class extends Controller {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify({ round_count: code }),
+      body: JSON.stringify({ player_one_code: code }),
     })
     .then((response) => response.json())
     .then((data) => this.outputTarget.innerHTML = data)
   }
+
 }

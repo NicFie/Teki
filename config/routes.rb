@@ -16,9 +16,9 @@ Rails.application.routes.draw do
     member do
       post :game_test
     end
-
     resources :game_rounds, only: %i[new create] do
       resources :challenges, only: %i[show]
     end
   end
+  
 end

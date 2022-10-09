@@ -13,7 +13,6 @@ class GamesController < ApplicationController
     @game.player_one = user
     @game.player_two = user
     @game.save!
-
     add_rounds_and_challenges(@game.id)
   end
 
@@ -59,21 +58,43 @@ class GamesController < ApplicationController
   end
 
   def game_test
-    try = eval(params[:round_count])
-
-    @output = method(try).call(10)
+    # lots of dangerous eval, look into ruby taints for possible safer alternative
+    @game = Game.find(params[:id])
+    submission = eval(params[:player_one_code])
+    @output = []
+    # tests variable needs modifying to return not just first test but sequentially after round is won
+    tests = eval(@game.game_rounds.first.challenge.tests)
+    tests.each do |k, v|
+      call = method(submission).call(k)
+      if call == v
+        @output << "Test passed.\nWhen given #{k}, method successfully returned #{v}.\n\n"
+      else
+        @output << "Test failed. Given #{k}, expected #{v}, got #{
+          if call.nil?
+            "nil"
+          elsif call.class == String
+            "'#{call}'"
+          elsif call.class == Symbol
+            ":#{call}"
+          else
+            call
+          end
+        }\n"
+      end
+    end
+    @output = @output.join
 
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
       format.json { render json: @output.to_json }
     end
-    
+
     skip_authorization
   end
 
   private
 
   def game_params
-    params.require(:game).permit(:player_one_id, :player_two_id, :round_count)
+    params.require(:game).permit(:player_one_id, :player_two_id, :player_one_code)
   end
 end
