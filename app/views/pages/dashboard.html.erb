@@ -1,1 +1,25 @@
 <h1>Hello</h1>
+
+<ul>
+  <% User.all.each do |user| %>
+    <li><%= user.username%></li>
+  <% end %>
+</ul>
+
+<table>
+  <tbody>
+    <tr>
+      <th>Position</th>
+      <th>User</th>
+      <th>Score</th>
+    </tr>
+    <tr>
+      <td>#<%= count %></td>
+      <td>
+        <div>picture</div>
+        <div><%= user.username %></div>
+      </td>
+      <td><%= user.score %></td>
+    </tr>
+  </tbody>
+</table>
