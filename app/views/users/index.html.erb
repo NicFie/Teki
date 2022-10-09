@@ -1,7 +1,9 @@
 
   <% @users.each do |user| %>
-          <h2><%= user.username %></h2>
-          <div>
+    <% if user != @current_user %>
+        <h2><%= user.username %></h2>
+        <div>
         <%= link_to "check details", user_path(user)%>
-      </div>
+        </div>
+  <% end %>
   <% end %>

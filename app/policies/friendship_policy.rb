@@ -14,11 +14,7 @@ class FriendshipPolicy < ApplicationPolicy
   end
 
   def create?
-    if @friendship || user == record.asker
-      false
-    else
-      true
-    end
+    true
   end
 
   def destroy?

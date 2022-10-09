@@ -1,6 +1,7 @@
 <% @friendships.each do |f|%>
-<%= f.receiver.username %>
+<%= f.id %>
 <%= image_tag f.receiver.avatar, width: "30px" %>
+<%#= image_tag f.asker.avatar, width: "30px" %>
 <% end %>
 
 <%= link_to "Back to users", users_path %>
