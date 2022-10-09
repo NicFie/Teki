@@ -13,7 +13,6 @@ class GamesController < ApplicationController
     @game.player_one = user
     @game.player_two = user
     @game.save!
-
     add_rounds_and_challenges(@game.id)
   end
 
@@ -59,25 +58,31 @@ class GamesController < ApplicationController
   end
 
   def game_test
-  #   user_submission = variable "userOneSubmission" recieved
-  #   from solution_controller.js via AJAX
-  #   our example: descending order challenge is an array of assert equals challenges
-  #    challenge_tests = [
-  #   [Test.assert_equals(descending_order(42145), 54421)],
-  #   [Test.assert_equals(descending_order(145263), 654321)],
-  #   [Test.assert_equals(descending_order(123456789), 987654321)]
-  # ]
-  #    describe("#{challenge.name}") do
-  #      it("passes all tests") do
-  #      challenge_tests.each do |array|
-  #        return array;
-  #      end
-  #    end
-  #   end
-
-    try = eval(params[:round_count])
-
-    @output = method(try).call(10)
+    # lots of dangerous eval, look into ruby taints for possible safer alternative
+    @game = Game.find(params[:id])
+    submission = eval(params[:player_one_code])
+    @output = []
+    # tests variable needs modifying to return not just first test but sequentially after round is won
+    tests = eval(@game.game_rounds.first.challenge.tests)
+    tests.each do |k, v|
+      call = method(submission).call(k)
+      if call == v
+        @output << "Test passed.\nWhen given #{k}, method successfully returned #{v}.\n\n"
+      else
+        @output << "Test failed. Given #{k}, expected #{v}, got #{
+          if call.nil?
+            "nil"
+          elsif call.class == String
+            "'#{call}'"
+          elsif call.class == Symbol
+            ":#{call}"
+          else
+            call
+          end
+        }\n"
+      end
+    end
+    @output = @output.join
 
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
@@ -90,6 +95,6 @@ class GamesController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:player_one_id, :player_two_id, :round_count)
+    params.require(:game).permit(:player_one_id, :player_two_id, :player_one_code)
   end
 end

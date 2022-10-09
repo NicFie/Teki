@@ -6,26 +6,37 @@ TheAnswer = Challenge.create(
   name: 'TheAnswer',
   description: 'type 42',
   language: 'Ruby',
-  tests: 'blank'
+  tests: {
+    42 => 42
+  },
+  method_template: 'def type_42\n\nend'
 )
 
 NotEvenOdd = Challenge.create(
   name: 'Not even odd',
   description: 'Write a function taking a number as an argument. The function should return "even steven" if the number is even and "that was odd..." if the number is odd',
   language: 'Ruby',
-  tests: 'blank'
+  tests: {
+    4 => 'even steven',
+    5 => 'that was odd...'
+  },
+  method_template: 'def not_even_odd(number)\n\nend'
 )
 
 ArrayArrayArray = Challenge.create(
   name: 'Array Array Array',
-  description: 'You are given an initial 2-value array (x). You will use this to calculate a score.
-  If both values in (x) are numbers, the score is the sum of the two. If only one is a number, the score is that number.
+  description: 'You are given an initial 2-value array. You will use this to calculate a score.
+  If both values in (array) are numbers, the score is the sum of the two. If only one is a number, the score is that number.
   If neither is a number, return "Void!".
   Once you have your score, you must return an array of arrays. Each sub array will be the same as (x) and the number
   of sub arrays should be equal to the score.
-  For example: if (x) == ["a", 3] you should return [["a", 3], ["a", 3], ["a", 3]].',
+  For example: if (array) == ["a", 3] you should return [["a", 3], ["a", 3], ["a", 3]].',
   language: 'Ruby',
-  tests: 'blank'
+  tests: {
+    ['a', 3] => [['a', 3], ['a', 3], ['a', 3]],
+    [2, 4] => [[2, 4], [2, 4], [2, 4], [2, 4], [2, 4], [2, 4]]
+  },
+  method_template: 'def array_array_array(array)\n\nend'
 )
 
 PrintedErrors = Challenge.create(
@@ -38,10 +49,14 @@ PrintedErrors = Challenge.create(
   Sometimes there are problems: lack of colors, technical malfunction and a "bad" control string is produced e.g.
   aaaxbbbbyyhwawiwjjjwwm with letters not from a to m.
   You have to write a function printer_error which given a string will return the error rate of the printer as a string
-  representing a rational whose numerator is the number of errors and the denominator the length of the control string. Do not reduce this fraction to a simpler expression.
-  The string has a length greater or equal to one and contains only letters from ato z.',
+  representing a rational whose numerator is the number of errors and the denominator the length of the control string. e.g. "1/15" (1 error, 15 control string length) Do not reduce this fraction to a simpler expression.
+  The string has a length greater or equal to one and contains only letters from a to z.',
   language: 'Ruby',
-  tests: 'blank'
+  tests: {
+    'aaabbbbhaijjjm' => '0/14',
+    'aaaxbbbbyyhwawiwjjjwwm' => '8/22'
+  },
+  method_template: 'def printer_error(string)\n\nend'
 )
 
 Arrays = Challenge.create(
@@ -54,20 +69,25 @@ Arrays = Challenge.create(
   [160, 3, 1719, 19, 11, 13, -21]
   Should return: 160 (the only even number)',
   language: 'Ruby',
-  tests: 'blank'
+  tests: {
+    [2, 4, 0, 100, 4, 11, 2602, 36] => 11,
+    [160, 3, 1719, 19, 11, 13, -21] => 160
+  },
+  method_template: 'def find_the_outlier(array)\n\nend'
 )
 
 SortNumbers = Challenge.create(
   name: 'Sort numbers',
-  description: 'You are given an array of integers. Your task is to sort odd numbers within the array in ascending order
-  , and even numbers in descending order.
+  description: 'You are given an array of integers. Your task is to sort odd numbers within the array in ascending order, and even numbers in descending order.
   Note that zero is an even number. If you have an empty array, you need to return it.
   For example:
-  [5, 3, 2, 8, 1, 4]  -->  [1, 3, 8, 4, 5, 2]
-  odd numbers ascending:   [1, 3,       5   ]
-  even numbers descending: [      8, 4,    2]',
+  [5, 3, 2, 8, 1, 4]  -->  [1, 3, 5, 8, 4, 2]',
   language: 'Ruby',
-  tests: 'blank'
+  tests: {
+    [5, 3, 2, 8, 1, 4] => [1, 3, 5, 8, 4, 2],
+    [21, 7, 35, 1, 8, 12, 2, 0] => [1, 7, 21, 35, 12, 8, 2, 0]
+  },
+  method_template: 'def up_and_down(array)\n\nend'
 )
 
 DescendingOrder = Challenge.create(
@@ -79,7 +99,12 @@ DescendingOrder = Challenge.create(
   Input: 145263 Output: 654321
   Input: 123456789 Output: 987654321',
   language: 'Ruby',
-  tests: 'blank'
+  tests: {
+    42145 => 54421,
+    145263 => 654321,
+    123456789 => 987654321
+  },
+  method_template: 'def descending_order(number)\n\nend'
 )
 
 puts "Creating Users"
