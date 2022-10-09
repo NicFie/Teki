@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   root to: "pages#home"
+  get '/dashboard', to: 'pages#dashboard', as: 'dashboard'
 
   resources :challenges, only: %i[new create]
 
@@ -20,5 +21,5 @@ Rails.application.routes.draw do
       resources :challenges, only: %i[show]
     end
   end
-  
+
 end
