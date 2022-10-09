@@ -13,13 +13,17 @@
       <th>User</th>
       <th>Score</th>
     </tr>
-    <tr>
-      <td>#<%= count %></td>
-      <td>
-        <div>picture</div>
-        <div><%= user.username %></div>
-      </td>
-      <td><%= user.score %></td>
-    </tr>
+    <% count = 1 %>
+    <% User.all.each do |user| %>
+      <tr>
+        <td>#<%= count %></td>
+        <td>
+          <div><%= image_tag(user.avatar) %></div>
+          <div><%= user.username %></div>
+        </td>
+        <td><%= user.score %></td>
+      </tr>
+    <% count += 1 %>
+    <% end  %>
   </tbody>
 </table>
