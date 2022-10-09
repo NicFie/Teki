@@ -5,6 +5,6 @@ class PagesController < ApplicationController
   end
 
   def dashboard
-
+    @users_ordered_by_score = User.order('score DESC').all
   end
 end

@@ -1,11 +1,6 @@
-<h1>Hello</h1>
+<h1>Dashboard</h1>
 
-<ul>
-  <% User.all.each do |user| %>
-    <li><%= user.username%></li>
-  <% end %>
-</ul>
-
+<h2>Leaderboard</h2>
 <table>
   <tbody>
     <tr>
@@ -14,11 +9,11 @@
       <th>Score</th>
     </tr>
     <% count = 1 %>
-    <% User.all.each do |user| %>
+    <% @users_ordered_by_score.each do |user| %>
       <tr>
         <td>#<%= count %></td>
         <td>
-          <div><%= image_tag(user.avatar) %></div>
+          <div><%= image_tag(user.avatar, height: '40') %></div>
           <div><%= user.username %></div>
         </td>
         <td><%= user.score %></td>
@@ -27,3 +22,5 @@
     <% end  %>
   </tbody>
 </table>
+
+<%= link_to "Start game",  new_user_game_path(current_user), class: "btn btn-main" %>

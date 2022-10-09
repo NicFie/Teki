@@ -2,5 +2,5 @@
 
 <%= simple_form_for [current_user, @game] do |f| %>
     <%= f.input :round_count, as: :integer %>
-    <%= f.submit "Save" %>
+    <%= f.submit "Save", class: 'btn btn-main' %>
 <% end %>
