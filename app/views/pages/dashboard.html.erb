@@ -1,5 +1,6 @@
 <h1>Dashboard</h1>
-
+<div class="d-flex">
+<div class="dashboard_leaderboard">
 <h2>Leaderboard</h2>
 <table>
   <tbody>
@@ -24,3 +25,30 @@
 </table>
 
 <%= link_to "Start game",  new_user_game_path(current_user), class: "btn btn-main" %>
+</div>
+<div class="dashboard_friendslist">
+<h2>Friendslist</h2>
+<table>
+  <tbody>
+    <tr>
+      <th>N°</th>
+      <th>Username</th>
+      <th>Avatar</th>
+    </tr>
+    <% count = 1 %>
+    <% @friendships.each do |f| %>
+      <tr>
+        <td>#<%= count %></td>
+        <td>
+
+          <div><%= f.receiver.username %></div>
+        </td>
+        <td>
+        <%= link_to image_tag(f.receiver.avatar, height: '40'), user_path(f.receiver)%></td>
+      </tr>
+    <% count += 1 %>
+    <% end  %>
+  </tbody>
+</table>
+</div>
+</div>
