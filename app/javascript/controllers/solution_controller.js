@@ -3,7 +3,10 @@ const codemirror = require("../codemirror/codemirror");
 
 // Connects to data-controller="solution"
 export default class extends Controller {
-  static values = { gameId: Number }
+  static values = {
+    gameRoundMethod: String,
+    gameId: Number
+  }
   static targets = ["editorone", "editortwo", "output"]
 
   initialize() {
@@ -23,7 +26,9 @@ export default class extends Controller {
       }
     );
 
-    // const initialDefaultMethod = this.editor_one.getValue()
+    this.editor_one.setValue(this.gameRoundMethodValue);
+    console.log(this.gameRoundMethodValue);
+    this.editor_two.setValue("def descending_order(number)\n\nend");
 
   }
 
@@ -39,11 +44,11 @@ export default class extends Controller {
   }
 
   clearPlayerOneSubmission(){
-    this.editor_one.getDoc().setValue("initialDefaultMethod");
+    this.editor_one.setValue(this.gameRoundMethodValue);
   }
 
   clearPlayerTwoSubmission(){
-    this.editor_two.getDoc().setValue("initialDefaultMethod");
+    this.editor_two.setValue(this.gameRoundMethodValue);
   }
 
   sendCode(code) {

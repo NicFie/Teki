@@ -7,10 +7,9 @@
      data-game-subscription-player-two-id-value="<%= @game.player_two.id %>"
      data-game-subscription-update-url="<%= game_path(@game) %>">
 
-  <div class="game-show-container" data-controller="solution" data-solution-game-id-value="<%= @game.id %>">
-
+  <div class="game-show-container" data-controller="solution" data-solution-game-round-method-value="<%= @game.game_rounds.first.challenge.method_template %>" data-solution-game-id-value="<%= @game.id %>">
     <div class="user-codebox">
-      <textarea data-solution-target="editorone"><%= @game.game_rounds.first.challenge.method_template  %></textarea>
+      <textarea data-solution-target="editorone"></textarea>
       <div class="code-submit-buttons">
         <button id="playerTwoClear" class="code-submit" data-action="click->solution#clearPlayerOneSubmission">Clear</button>
         <div class="right-buttons">
@@ -30,7 +29,7 @@
     </div>
 
     <div class="user-codebox">
-      <textarea data-solution-target="editortwo"><%= @game.game_rounds.first.challenge.method_template  %></textarea>
+      <textarea data-solution-target="editortwo"></textarea>
       <div class="code-submit-buttons">
         <button id="playerTwoClear" class="code-submit" data-action="click->solution#clearPlayerTwoSubmission">Clear</button>
         <div class="right-buttons">
