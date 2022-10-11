@@ -1,13 +1,12 @@
 .sidebar{
-  position: fixed;
+  position: sticky;
   left: 0;
-  height: 100%;
+  top: 0;
   width: 80px;
+  height: 100%;
   background-color: $dark-blue;
-  padding: 6px 14px;
+  padding: 0 14px;
   transition: all 0.5s ease;
-
-  z-index: 1;
 
   ul {
     padding-left: 0;
@@ -85,6 +84,3 @@
   }
 }
 
-.push-right{
-  margin: 0 0 0 80px;
-}
