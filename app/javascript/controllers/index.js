@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import DashtabsController from "./dashtabs_controller"
+application.register("dashtabs", DashtabsController)
+
 import GameSubscriptionController from "./game_subscription_controller"
 application.register("game-subscription", GameSubscriptionController)
 
