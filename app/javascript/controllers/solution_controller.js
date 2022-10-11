@@ -26,9 +26,8 @@ export default class extends Controller {
       }
     );
 
-    this.editor_one.setValue(this.gameRoundMethodValue);
-    console.log(this.gameRoundMethodValue);
-    this.editor_two.setValue("def descending_order(number)\n\nend");
+    this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
+    this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
 
   }
 

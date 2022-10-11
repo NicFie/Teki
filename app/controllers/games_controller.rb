@@ -63,6 +63,7 @@ class GamesController < ApplicationController
     submission = eval(params[:player_one_code])
     @output = []
     # tests variable needs modifying to return not just first test but sequentially after round is won
+    # below method also needs to consider if the method has 0, 1 or more parameters 
     tests = eval(@game.game_rounds.first.challenge.tests)
     tests.each do |k, v|
       call = method(submission).call(k)
@@ -95,6 +96,6 @@ class GamesController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:player_one_id, :player_two_id, :player_one_code)
+    params.require(:game).permit(:player_one_id, :player_two_id, :player_one_code, :round_count)
   end
 end
