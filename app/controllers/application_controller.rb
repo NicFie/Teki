@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   after_action :verify_authorized, except: :index, unless: :skip_pundit?
   after_action :verify_policy_scoped, only: :index, unless: :skip_pundit?
 
-    # Uncomment by the end of the project, we need pundit error msgs atm!
+  # Uncomment by the end of the project, we need pundit error msgs atm!
 
   # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   # def user_not_authorized
