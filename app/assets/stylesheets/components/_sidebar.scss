@@ -1,12 +1,13 @@
 .sidebar{
-  position: sticky;
+  position: fixed;
   left: 0;
   top: 0;
   width: 80px;
-  height: 100%;
+  min-height: 100%;
   background-color: $dark-blue;
-  padding: 0 14px;
+  padding: 14px;
   transition: all 0.5s ease;
+  z-index: 1;
 
   ul {
     padding-left: 0;
@@ -29,7 +30,6 @@
 
   .nav-list{
     margin-top: 20px;
-    height: 100%;
   }
 
   li a{
@@ -83,4 +83,3 @@
 
   }
 }
-

@@ -1,8 +1,8 @@
 <div class="dashboard-wrapper">
   <h1>Dashboard</h1>
-  <div data-controller="dashtabs" class="mb-5 pb-5">
+  <div data-controller="dashtabs">
     <div>
-      <ul class="list-inline tabs-underlined mb-5" >
+      <ul class="list-inline tabs-underlined" >
         <li data-action="click->dashtabs#changeTab" data-dashtabs-target="dashtablink" class="tabs-underlined active" id="leaderboard">
           <span>Leaderboard</span>
         </li>
@@ -66,6 +66,6 @@
           <%= link_to "Start game",  new_user_game_path(current_user), class: "btn btn-main" %>
         </div>
       </div>
-  </div>
+    </div>
   </div>
 </div>
