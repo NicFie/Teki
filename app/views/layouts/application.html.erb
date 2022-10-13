@@ -21,9 +21,11 @@
       <%= yield %>
     <% else %>
       <%= render "shared/navbar" %>
-      <div class="page-wrapper">
+      <div class="page_wrapper">
         <%= render "shared/sidebar" %>
-        <%= yield %>
+        <div class="push-right">
+          <%= yield %>
+        </div>
       </div>
     <% end %>
     <%= render "shared/flashes" %>

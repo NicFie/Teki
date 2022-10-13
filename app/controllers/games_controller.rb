@@ -11,7 +11,7 @@ class GamesController < ApplicationController
     authorize @game
     user = current_user
     @game.player_one = user
-    @game.player_two = user
+    @game.player_two = User.find(2)
     @game.save!
     add_rounds_and_challenges(@game.id)
   end
@@ -63,7 +63,7 @@ class GamesController < ApplicationController
     submission = eval(params[:player_one_code])
     @output = []
     # tests variable needs modifying to return not just first test but sequentially after round is won
-    # below method also needs to consider if the method has 0, 1 or more parameters 
+    # below method also needs to consider if the method has 0, 1 or more parameters
     tests = eval(@game.game_rounds.first.challenge.tests)
     tests.each do |k, v|
       call = method(submission).call(k)

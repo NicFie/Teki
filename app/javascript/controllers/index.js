@@ -7,6 +7,9 @@ import { application } from "./application"
 import DashtabsController from "./dashtabs_controller"
 application.register("dashtabs", DashtabsController)
 
+import ChallengeInstructionsController from "./challenge_instructions_controller"
+application.register("challenge-instructions", ChallengeInstructionsController)
+
 import GameSubscriptionController from "./game_subscription_controller"
 application.register("game-subscription", GameSubscriptionController)
 

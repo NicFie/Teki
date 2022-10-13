@@ -1,15 +1,14 @@
-body{
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+body {
+  margin: 0 !important;
 }
-.page-wrapper {
-  display:flex;
-  width: 100%;
-  height: calc(100% - 81px);
-  overflow: auto;
+.page_wrapper{
+  // display: flex;
+  height: 100%;
+  position: relative;
 }
-
+.push-right {
+  margin-left: 80px;
+}
 // Graphical variables
 @import "config/fonts";
 @import "config/colors";
@@ -24,3 +23,4 @@ body{
 @import "pages/index";
 @import "config/codemirror";
 @import "config/dracula";
+@import "config/dracula_blurred";
