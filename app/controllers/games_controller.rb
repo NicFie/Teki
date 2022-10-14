@@ -37,7 +37,7 @@ class GamesController < ApplicationController
 
     GameChannel.broadcast_to(
       @game,
-      "HHHEEEELLLOOOO"
+      "HHHEEEELLLOOOO#{ActionCable.server.connections}"
     )
   end
 
@@ -70,7 +70,7 @@ class GamesController < ApplicationController
       if call == v
         @output << "Test passed.\nWhen given #{k}, method successfully returned #{v}.\n\n"
       else
-        @output << "Test failed. Given #{k}, expected #{v}, got #{
+        @output << "Test failed.\n Given: #{k}. Expected: #{v}. Got: #{
           if call.nil?
             "nil"
           elsif call.class == String
@@ -80,7 +80,7 @@ class GamesController < ApplicationController
           else
             call
           end
-        }\n"
+        }.\n\n"
       end
     end
     @output = @output.join
