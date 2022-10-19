@@ -60,27 +60,33 @@ class GamesController < ApplicationController
   def game_test
     # lots of dangerous eval, look into ruby taints for possible safer alternative
     @game = Game.find(params[:id])
+    begin
     submission = eval(params[:player_one_code])
-    @output = []
+    rescue SyntaxError => err
+      @output = "ERROR: #{err.inspect}"
     # tests variable needs modifying to return not just first test but sequentially after round is won
     # below method also needs to consider if the method has 0, 1 or more parameters
     tests = eval(@game.game_rounds.first.challenge.tests)
+    else
+      @output = []
+
     tests.each do |k, v|
-      call = method(submission).call(k)
-      if call == v
-        @output << "Test passed.\nWhen given #{k}, method successfully returned #{v}.\n\n"
-      else
-        @output << "Test failed.\n Given: #{k}. Expected: #{v}. Got: #{
-          if call.nil?
-            "nil"
-          elsif call.class == String
-            "'#{call}'"
-          elsif call.class == Symbol
-            ":#{call}"
-          else
-            call
-          end
-        }.\n\n"
+        call = method(submission).call(k)
+        if call == v
+          @output << "Test passed.\nWhen given #{k}, method successfully returned #{v}.\n\n"
+        elsif
+          @output << "Test failed.\n Given: #{k}. Expected: #{v}. Got: #{
+            if call.nil?
+              "nil"
+            elsif call.class == String
+              "'#{call}'"
+            elsif call.class == Symbol
+              ":#{call}"
+            else
+              call
+            end
+          }.\n\n"
+        end
       end
     end
     @output = @output.join
