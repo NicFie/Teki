@@ -61,35 +61,44 @@ class GamesController < ApplicationController
     # lots of dangerous eval, look into ruby taints for possible safer alternative
     @game = Game.find(params[:id])
     begin
-    submission = eval(params[:player_one_code])
+      submission = eval(params[:player_one_code])
     rescue SyntaxError => err
       @output = "ERROR: #{err.inspect}"
+      @output.gsub!(/(#|<|>)/, "")
     # tests variable needs modifying to return not just first test but sequentially after round is won
     # below method also needs to consider if the method has 0, 1 or more parameters
-    tests = eval(@game.game_rounds.first.challenge.tests)
     else
+      tests = eval(@game.game_rounds.first.challenge.tests)
       @output = []
 
-    tests.each do |k, v|
-        call = method(submission).call(k)
-        if call == v
-          @output << "Test passed.\nWhen given #{k}, method successfully returned #{v}.\n\n"
-        elsif
-          @output << "Test failed.\n Given: #{k}. Expected: #{v}. Got: #{
-            if call.nil?
-              "nil"
-            elsif call.class == String
-              "'#{call}'"
-            elsif call.class == Symbol
-              ":#{call}"
-            else
-              call
-            end
-          }.\n\n"
+      tests.each do |k, v|
+        begin
+          call = method(submission).call(k)
+        rescue StandardError => err
+          @output << "ERROR: #{err.message}\n\n"
+        rescue ScriptError => err
+          @output << "ERROR: #{err.message}\n\n"
+        else
+          if call == v
+            @output << "Test passed.\nWhen given #{k}, method successfully returned #{v}.\n\n"
+          else
+            @output << "Test failed.\n Given: #{k}. Expected: #{v}. Got: #{
+              if call.nil?
+                "nil"
+              elsif call.class == String
+                "'#{call}'"
+              elsif call.class == Symbol
+                ":#{call}"
+              else
+                call
+              end
+            }.\n\n"
+          end
         end
       end
+      @output = @output.join
     end
-    @output = @output.join
+    @output.gsub!(/for #<\w+:\w+>\s+\w+\s+\^+/, "")
 
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
