@@ -5,12 +5,21 @@ export default class extends Controller {
     "content",
     "button",
     "description",
-    "tests"
+    "tests",
+    "testsButton"
   ];
   connect() {}
 
+  showTests(event) {
+    this.descriptionTarget.classList.add("d-none");
+    this.testsTarget.classList.remove("d-none");
+    this.buttonTargets.forEach(button =>
+      button.classList.remove("active")
+    );
+    this.testsButtonTarget.classList.add("active");
+  }
+
   changeTab(event) {
-    console.log(event.currentTarget);
     this.contentTargets.forEach(content =>
       content.classList.add("d-none")
       );

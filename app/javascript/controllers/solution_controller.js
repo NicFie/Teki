@@ -12,14 +12,17 @@ export default class extends Controller {
   }
   static targets = ["editorone", "editortwo", "output"]
 
+  connect() {
+  }
+
   initialize() {
-    console.log(`player one user:${this.gamePlayerOneValue}`);
-    console.log(`player two user:${this.gamePlayerTwoValue}`);
-    console.log(`current user:${this.userIdValue}`);
+    // console.log(`player one user:${this.gamePlayerOneValue}`);
+    // console.log(`player two user:${this.gamePlayerTwoValue}`);
+    // console.log(`current user:${this.userIdValue}`);
 
-    let playerOneTheme = 0
-    let playerTwoTheme = 0
-
+    // defining the theme of codemirror depending on user
+    let playerOneTheme = ''
+    let playerTwoTheme = ''
     if(this.gamePlayerOneValue == this.userIdValue) {
       playerOneTheme = "dracula";
       playerTwoTheme = "dracula_blurred";
@@ -27,7 +30,7 @@ export default class extends Controller {
       playerOneTheme = "dracula_blurred";
       playerTwoTheme = "dracula";
     }
-
+    // Generating codemirror windows
     this.editor_one = codemirror.fromTextArea(
       this.editoroneTarget, {
         mode: "ruby",
@@ -35,7 +38,6 @@ export default class extends Controller {
         lineNumbers: true
       }
     );
-
     this.editor_two = codemirror.fromTextArea(
       this.editortwoTarget, {
         mode: "ruby",
@@ -43,29 +45,24 @@ export default class extends Controller {
         lineNumbers: true
       }
     );
-
+    // setting the challenge default method in codemirror windows
     this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
     this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
 
-
   }
-
-  connect() {
-  }
-
-  playerOneSubmission() {
-    this.sendCode(this.editor_one.getValue());
-  }
-
-  playerTwoSubmission() {
-    this.sendCode(this.editor_two.getValue());
-  }
-
+  // codemirror buttons
   clearPlayerOneSubmission(){
     this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
   }
   clearPlayerTwoSubmission(){
     this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
+  }
+
+  playerOneSubmission() {
+    this.sendCode(this.editor_one.getValue());
+  }
+  playerTwoSubmission() {
+    this.sendCode(this.editor_two.getValue());
   }
 
   sendCode(code) {
@@ -81,7 +78,7 @@ export default class extends Controller {
       body: JSON.stringify({ player_one_code: code }),
     })
     .then((response) => response.json())
-    .then((data) => this.outputTarget.innerHTML = data)
+    .then(data => this.outputTarget.innerText = data)
   }
 
 }
