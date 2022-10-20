@@ -1,6 +1,17 @@
 class GamesController < ApplicationController
   # skip_authorization only: [:game_test]
 
+  def waiting_room
+    @game = Game.where("player_two_id = player_one_id")
+    if @game.exists?
+      redirect_to game_path(@game[0].id)
+    else
+      user = current_user
+      redirect_to new_user_game_path(user)
+    end
+    skip_authorization
+  end
+
   def new
     @game = Game.new
     authorize @game
@@ -11,7 +22,7 @@ class GamesController < ApplicationController
     authorize @game
     user = current_user
     @game.player_one = user
-    @game.player_two = User.find(2)
+    @game.player_two_id = 1
     @game.save!
     add_rounds_and_challenges(@game.id)
   end

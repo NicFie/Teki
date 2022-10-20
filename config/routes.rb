@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   devise_for :users
   #root to: "pages#home"
   get '/dashboard', to: 'pages#dashboard', as: 'dashboard'
-
+  get '/waiting_room', to: 'games#waiting_room', as: 'waiting'
+  
   devise_scope :user do
     authenticated :user do
       get '/', to: 'pages#dashboard', as: 'authenticated_root'
