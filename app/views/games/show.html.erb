@@ -14,6 +14,15 @@
   data-solution-game-player-two-value="<%= @game.player_two.id %>"
   data-solution-user-id-value="<%= current_user.id %>">
   <h3> <%= @action_users_connected %> </h3>
+
+  <div data-solution-target="roundWinnerModal" id="roundWinnerModal" class="round-winner-modal">
+    <div class="round-winner-modal-content">
+      <span class="round-winner-modal-close">&times;</span>
+      <p data-solution-target="roundWinner"></p>
+      <button>Next Round</button>
+    </div>
+  </div>
+
   <div class="user-codebox" id="user-codebox-1">
     <div class="user-details">
       <div><%= image_tag(@game.player_one.avatar, class: "user-avatar") %></div>

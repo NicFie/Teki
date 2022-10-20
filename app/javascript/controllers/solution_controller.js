@@ -10,9 +10,22 @@ export default class extends Controller {
     gamePlayerTwo: Number,
     userId: Number
   }
-  static targets = ["editorone", "editortwo", "output"]
+  static targets = ["editorone", "editortwo", "output", "roundWinner", "roundWinnerModal"]
+
+
 
   connect() {
+    // modal stuff
+    const modal = document.getElementById("roundWinnerModal");
+    const span = document.getElementsByClassName("round-winner-modal-close")[0];
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
   }
 
   initialize() {
@@ -59,13 +72,13 @@ export default class extends Controller {
   }
 
   playerOneSubmission() {
-    this.sendCode(this.editor_one.getValue());
+    this.sendCode(this.editor_one.getValue(), this.userIdValue);
   }
   playerTwoSubmission() {
-    this.sendCode(this.editor_two.getValue());
+    this.sendCode(this.editor_two.getValue(), this.userIdValue);
   }
 
-  sendCode(code) {
+  sendCode(code, user_id) {
     const token = document.getElementsByName("csrf-token")[0].content
     fetch(`/games/${this.gameIdValue}/game_test`, {
       method: "POST",
@@ -75,10 +88,16 @@ export default class extends Controller {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify({ player_one_code: code }),
+      body: JSON.stringify({ player_one_code: code, user_id: user_id }),
     })
     .then((response) => response.json())
-    .then(data => this.outputTarget.innerText = data)
+    .then(data => {
+      this.outputTarget.innerText = data.results;
+      this.roundWinnerTarget.innerText = data.round_winner;
+      if(data.round_winner.includes('wins')){
+        this.roundWinnerModalTarget.style.display = "block";
+      }
+    })
   }
 
 }

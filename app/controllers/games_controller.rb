@@ -1,5 +1,6 @@
 class GamesController < ApplicationController
   # skip_authorization only: [:game_test]
+  attr_accessor :winner
 
   def waiting_room
     @game = Game.where("player_two_id = player_one_id")
@@ -22,7 +23,7 @@ class GamesController < ApplicationController
     authorize @game
     user = current_user
     @game.player_one = user
-    @game.player_two_id = 1
+    @game.player_two_id = 2
     @game.save!
     add_rounds_and_challenges(@game.id)
   end
@@ -48,7 +49,7 @@ class GamesController < ApplicationController
 
     GameChannel.broadcast_to(
       @game,
-      "HHHEEEELLLOOOO#{ActionCable.server.connections}"
+      "HHHEEEELLLOOOO"
     )
   end
 
@@ -69,7 +70,6 @@ class GamesController < ApplicationController
   end
 
   def game_test
-    # lots of dangerous eval, look into ruby taints for possible safer alternative
     @game = Game.find(params[:id])
     begin
       submission = eval(params[:player_one_code])
@@ -77,12 +77,14 @@ class GamesController < ApplicationController
       @output = "ERROR: #{err.inspect}"
       @output.gsub!(/(#|<|>)/, "")
     # tests variable needs modifying to return not just first test but sequentially after round is won
-    # below method also needs to consider if the method has 0, 1 or more parameters
     else
       tests = eval(@game.game_rounds.first.challenge.tests)
       @output = []
+      count = 0
+      all_passed = []
 
       tests.each do |k, v|
+        count += 1
         begin
           call = method(submission).call(k)
         rescue StandardError => err
@@ -91,9 +93,11 @@ class GamesController < ApplicationController
           @output << "ERROR: #{err.message}\n\n"
         else
           if call == v
-            @output << "Test passed.\nWhen given #{k}, method successfully returned #{v}.\n\n"
+            all_passed << true
+            @output << "#{count}. Test passed.\nWhen given #{k}, method successfully returned #{v}.\n\n"
           else
-            @output << "Test failed.\n Given: #{k}. Expected: #{v}. Got: #{
+            all_passed << false
+            @output << "#{count}. Test failed.\n Given: #{k}. Expected: #{v.class == String ? "'#{v}'" : v}. Got: #{
               if call.nil?
                 "nil"
               elsif call.class == String
@@ -111,9 +115,13 @@ class GamesController < ApplicationController
     end
     @output.gsub!(/for #<\w+:\w+>\s+\w+\s+\^+/, "")
 
+    p "User #{params[:user_id]} test results:#{all_passed}"
+    # This can be used to assign a winner to game_round and launch modal to start the next round
+    p all_passed.include?(false) ? "User #{params[:user_id]} failed." : @winner = "User #{params[:user_id]} wins!"
+
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
-      format.json { render json: @output.to_json }
+      format.json { render json: { results: @output, round_winner: @winner } }
     end
 
     skip_authorization
