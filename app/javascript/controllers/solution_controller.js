@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 const codemirror = require("../codemirror/codemirror");
+import { createConsumer } from "@rails/actioncable"
 
 // Connects to data-controller="solution"
 export default class extends Controller {
@@ -13,6 +14,10 @@ export default class extends Controller {
   static targets = ["editorone", "editortwo", "output"]
 
   connect() {
+    // this.channel = createConsumer().subscriptions.create(
+    //   { channel: "GameChannel", id: this.gameIdValue },
+    //   { received: data =>  { if(data == "update page") { this.playerOneTyping() } } }
+    // )
   }
 
   initialize() {
@@ -79,6 +84,21 @@ export default class extends Controller {
     })
     .then((response) => response.json())
     .then(data => this.outputTarget.innerText = data)
+  }
+
+  //This bit gets whatever the user types!
+
+  playerOneTyping() {
+    console.log(this.editor_one.getValue())
+
+  }
+
+  test() {
+    console.log("websocket connected")
+  }
+
+  playerTwoTyping() {
+    console.log(this.editor_two.getValue())
   }
 
 }
