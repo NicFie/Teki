@@ -3,8 +3,12 @@ class GamesController < ApplicationController
   attr_accessor :winner
 
   def waiting_room
-    @game = Game.where("player_two_id = player_one_id")
+    @game = Game.where("player_two_id = 1")
     if @game.exists?
+      # GameChannel.broadcast_to(
+      #   @game,
+      #   "HHHEEEELLLOOOO"
+      # )
       redirect_to game_path(@game[0].id)
     else
       user = current_user
@@ -21,9 +25,8 @@ class GamesController < ApplicationController
   def create
     @game = Game.new(game_params)
     authorize @game
-    user = current_user
-    @game.player_one = user
-    @game.player_two_id = 2
+    @game.player_one_id = 1
+    @game.player_two_id = 1
     @game.save!
     add_rounds_and_challenges(@game.id)
   end
@@ -45,12 +48,11 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
-    authorize @game
-
     GameChannel.broadcast_to(
       @game,
-      "HHHEEEELLLOOOO"
+      "update page"
     )
+    authorize @game
   end
 
   def edit

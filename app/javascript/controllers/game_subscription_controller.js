@@ -3,13 +3,13 @@ import { end } from "@popperjs/core"
 import { createConsumer } from "@rails/actioncable"
 
 export default class extends Controller {
-  static values = { gameId: Number, userId: Number, playerOneId: Number, playerTwoId: Number }
+  static values = { gameId: Number, userId: Number, playerOneId: Number, playerTwoId: Number, loaded: Boolean }
   static targets = ["solutions"]
 
   connect() {
     this.channel = createConsumer().subscriptions.create(
       { channel: "GameChannel", id: this.gameIdValue },
-      { received: data => console.log(data) }
+      { received: data => { if(data == "update page") { this.updatePlayerOnePage() } } }
     )
     console.log(`Subscribe to the chatroom with the id ${this.gameIdValue}.`);
     console.log(`The current user is ${this.userIdValue}`);
@@ -17,11 +17,12 @@ export default class extends Controller {
     console.log(`Player two's current Id is ${this.playerTwoIdValue}`)
     //Checks default value of the game then updates
     //the game with correct user id's for player one and player two.
-    if (this.playerOneIdValue === 1)
+
+    if (this.playerOneIdValue === 1) {
       this.updatePlayerOneId()
-    else {
+    } else if (this.playerOneIdValue !== this.userIdValue && this.playerTwoIdValue !== this.userIdValue ) {
       this.updatePlayerTwoId()
-    };
+    }
   }
 
   updatePlayerOneId() {
@@ -47,6 +48,7 @@ export default class extends Controller {
     })
 
     // console.log(`Player one's new id is ${this.playerOneIdValue}`)
+    this.updatePage()
   }
 
   updatePlayerTwoId() {
@@ -71,6 +73,23 @@ export default class extends Controller {
       }
     })
 
+    this.updatePage()
+
     // console.log(`Player two's new id is ${this.playerTwoIdValue}`)
   }
+
+  updatePage() {
+    location.reload()
+    // this.data.get("loaded") = true
+  }
+
+  updatePlayerOnePage() {
+    console.log(this.loadedValue)
+    if(this.loadedValue === false) {
+      location.reload()
+      this.loadedValue = true
+    }
+    console.log(this.loadedValue)
+  }
+
 }
