@@ -1,6 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 import { end } from "@popperjs/core"
 import { createConsumer } from "@rails/actioncable"
+import { codeEditorOne } from "solution_controller"
+
 
 export default class extends Controller {
   static values = { gameId: Number, userId: Number, playerOneId: Number, playerTwoId: Number, loaded: Boolean }
@@ -23,6 +25,10 @@ export default class extends Controller {
     } else if (this.playerOneIdValue !== this.userIdValue && this.playerTwoIdValue !== this.userIdValue ) {
       this.updatePlayerTwoId()
     }
+
+    codeEditorOne();
+
+    this.updatePlaterOneEditor()
   }
 
   updatePlayerOneId() {
@@ -90,6 +96,16 @@ export default class extends Controller {
       this.loadedValue = true
     }
     console.log(this.loadedValue)
+  }
+
+  updatePlaterOneEditor() {
+    window.onload = (event) => {
+      // let editor_one = document.getElementsByClassName('cm-s-codeMirrorEditorOne').item(0).innerText;
+      // console.log(window.CodeMirror)
+      // console.log(editor_one)
+      console.log(document.getElementsByClassName('cm-s-codeMirrorEditorOne'))
+
+    };
   }
 
 }

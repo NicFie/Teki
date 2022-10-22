@@ -78,6 +78,7 @@ class GamesController < ApplicationController
     rescue SyntaxError => err
       @output = "ERROR: #{err.inspect}"
       @output.gsub!(/(#|<|>)/, "")
+      all_passed = []
     # tests variable needs modifying to return not just first test but sequentially after round is won
     else
       tests = eval(@game.game_rounds.first.challenge.tests)
@@ -116,10 +117,9 @@ class GamesController < ApplicationController
       @output = @output.join
     end
     @output.gsub!(/for #<\w+:\w+>\s+\w+\s+\^+/, "")
-
     p "User #{params[:user_id]} test results:#{all_passed}"
     # This can be used to assign a winner to game_round and launch modal to start the next round
-    p all_passed.include?(false) ? "User #{params[:user_id]} failed." : @winner = "User #{params[:user_id]} wins!"
+    p (all_passed.include?(false) || all_passed.empty?) ? "User #{params[:user_id]} failed." : @winner = "User #{params[:user_id]} wins!"
 
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.

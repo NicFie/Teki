@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 const codemirror = require("../codemirror/codemirror");
 
+
 // Connects to data-controller="solution"
 export default class extends Controller {
   static values = {
@@ -29,19 +30,15 @@ export default class extends Controller {
   }
 
   initialize() {
-    // console.log(`player one user:${this.gamePlayerOneValue}`);
-    // console.log(`player two user:${this.gamePlayerTwoValue}`);
-    // console.log(`current user:${this.userIdValue}`);
-
     // defining the theme of codemirror depending on user
     let playerOneTheme = ''
     let playerTwoTheme = ''
     if(this.gamePlayerOneValue == this.userIdValue) {
-      playerOneTheme = "dracula";
-      playerTwoTheme = "dracula_blurred";
+      playerOneTheme = "dracula codeMirrorEditorOne";
+      playerTwoTheme = "dracula_blurred codeMirrorEditorTwo";
     } else if(this.gamePlayerTwoValue == this.userIdValue) {
-      playerOneTheme = "dracula_blurred";
-      playerTwoTheme = "dracula";
+      playerOneTheme = "dracula_blurred codeMirrorEditorOne";
+      playerTwoTheme = "dracula codeMirrorEditorTwo";
     }
     // Generating codemirror windows
     this.editor_one = codemirror.fromTextArea(
@@ -62,6 +59,7 @@ export default class extends Controller {
     this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
     this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
 
+    const editorOne = this.editor_one
   }
   // codemirror buttons
   clearPlayerOneSubmission(){
@@ -99,5 +97,4 @@ export default class extends Controller {
       }
     })
   }
-
 }
