@@ -1,12 +1,19 @@
 import { Controller } from "@hotwired/stimulus"
 import { end } from "@popperjs/core"
+const codemirror = require("../codemirror/codemirror");
 import { createConsumer } from "@rails/actioncable"
 import { codeEditorOne } from "solution_controller"
 
 
 export default class extends Controller {
-  static values = { gameId: Number, userId: Number, playerOneId: Number, playerTwoId: Number, loaded: Boolean }
-  static targets = ["solutions"]
+  static values = {
+    gameId: Number,
+    userId: Number,
+    playerOneId: Number,
+    playerTwoId: Number,
+    loaded: Boolean,
+    gameRoundMethod: String }
+  static targets = ["editorone", "editortwo", "output", "solutions"]
 
   connect() {
     this.channel = createConsumer().subscriptions.create(
@@ -25,10 +32,44 @@ export default class extends Controller {
     } else if (this.playerOneIdValue !== this.userIdValue && this.playerTwoIdValue !== this.userIdValue ) {
       this.updatePlayerTwoId()
     }
+    this.editorOneRefresh()
+  }
 
-    codeEditorOne();
+  initialize() {
+    // console.log(`player one user:${this.gamePlayerOneValue}`);
+    // console.log(`player two user:${this.gamePlayerTwoValue}`);
+    // console.log(`current user:${this.userIdValue}`);
 
-    this.updatePlaterOneEditor()
+    // defining the theme of codemirror depending on user
+    let playerOneTheme = ''
+    let playerTwoTheme = ''
+    this.editor_one_code = ''
+    if(this.playerOneIdValue == this.userIdValue) {
+      playerOneTheme = "dracula";
+      playerTwoTheme = "dracula_blurred";
+    } else if(this.playerTwoIdValue == this.userIdValue) {
+      playerOneTheme = "dracula_blurred";
+      playerTwoTheme = "dracula";
+    }
+    // Generating codemirror windows
+    this.editor_one = codemirror.fromTextArea(
+      this.editoroneTarget, {
+        mode: "ruby",
+        theme: playerOneTheme,
+        lineNumbers: true
+      }
+    );
+    this.editor_two = codemirror.fromTextArea(
+      this.editortwoTarget, {
+        mode: "ruby",
+        theme: playerTwoTheme,
+        lineNumbers: true
+      }
+    );
+    // setting the challenge default method in codemirror windows
+    this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
+    this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
+
   }
 
   updatePlayerOneId() {
@@ -90,22 +131,86 @@ export default class extends Controller {
   }
 
   updatePlayerOnePage() {
-    console.log(this.loadedValue)
+    // console.log(this.loadedValue)
     if(this.loadedValue === false) {
       location.reload()
       this.loadedValue = true
     }
-    console.log(this.loadedValue)
+
+
+    // console.log(this.loadedValue)
+    console.log(this.editor_one.getValue())
   }
 
-  updatePlaterOneEditor() {
-    window.onload = (event) => {
-      // let editor_one = document.getElementsByClassName('cm-s-codeMirrorEditorOne').item(0).innerText;
-      // console.log(window.CodeMirror)
-      // console.log(editor_one)
-      console.log(document.getElementsByClassName('cm-s-codeMirrorEditorOne'))
-
-    };
+  clearPlayerOneSubmission(){
+    this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
   }
+  clearPlayerTwoSubmission(){
+    this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
+  }
+
+  playerOneSubmission() {
+    this.sendCode(this.editor_one.getValue());
+  }
+  playerTwoSubmission() {
+    this.sendCode(this.editor_two.getValue());
+  }
+
+  sendCode(code) {
+    const token = document.getElementsByName("csrf-token")[0].content
+    fetch(`/games/${this.gameIdValue}/game_test`, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-CSRF-Token": token,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({ player_one_code: code }),
+    })
+    .then((response) => response.json())
+    .then(data => this.outputTarget.innerText = data)
+  }
+
+  //This bit gets whatever the user types!
+
+  editorOneRefresh(data) {
+    setTimeout(() => {
+      this.editor_one.refresh()
+      this.editor_one.setValue(data)
+      console.log("refreshing")
+    }, 100);
+    // this.editor_one.setValue(data)
+}
+
+  playerOneTyping() {
+    // console.log(this.editor_one.getValue())
+    const token = document.getElementsByName("csrf-token")[0].content
+    fetch(`/games/${this.gameIdValue}/update_display`, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-CSRF-Token": token,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({ player_one_code: this.editor_one.getValue() }),
+    })
+    .then((response) => response.json())
+    .then(data => editorOneRefresh(data))
+  }
+
+  // { if (this.userIdValue !== this.playerOneIdValue) {this.editor_one.setValue(data) }}
+
+
+
+  test() {
+    console.log("websocket connected")
+  }
+
+  playerTwoTyping() {
+    console.log(this.editor_two.getValue())
+  }
+
 
 }
