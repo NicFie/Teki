@@ -30,6 +30,7 @@ export default class extends Controller {
     } else if (this.playerOneIdValue !== this.userIdValue && this.playerTwoIdValue !== this.userIdValue ) {
       this.updatePlayerTwoId()
     }
+    this.editorOneRefresh()
   }
 
   initialize() {
@@ -40,6 +41,7 @@ export default class extends Controller {
     // defining the theme of codemirror depending on user
     let playerOneTheme = ''
     let playerTwoTheme = ''
+    this.editor_one_code = ''
     if(this.playerOneIdValue == this.userIdValue) {
       playerOneTheme = "dracula";
       playerTwoTheme = "dracula_blurred";
@@ -170,9 +172,35 @@ export default class extends Controller {
 
   //This bit gets whatever the user types!
 
+  editorOneRefresh(data) {
+    setTimeout(() => {
+      this.editor_one.refresh()
+      this.editor_one.setValue(data)
+      console.log("refreshing")
+    }, 100);
+    // this.editor_one.setValue(data)
+}
+
   playerOneTyping() {
-    console.log(this.editor_one.getValue())
+    // console.log(this.editor_one.getValue())
+    const token = document.getElementsByName("csrf-token")[0].content
+    fetch(`/games/${this.gameIdValue}/update_display`, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-CSRF-Token": token,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({ player_one_code: this.editor_one.getValue() }),
+    })
+    .then((response) => response.json())
+    .then(data => editorOneRefresh(data))
   }
+
+  // { if (this.userIdValue !== this.playerOneIdValue) {this.editor_one.setValue(data) }}
+
+
 
   test() {
     console.log("websocket connected")

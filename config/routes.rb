@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   #root to: "pages#home"
   get '/dashboard', to: 'pages#dashboard', as: 'dashboard'
   get '/waiting_room', to: 'games#waiting_room', as: 'waiting'
-  
+
   devise_scope :user do
     authenticated :user do
       get '/', to: 'pages#dashboard', as: 'authenticated_root'
@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resources :games, only: %i[show edit update] do
     member do
       post :game_test
+      post :update_display
     end
     resources :game_rounds, only: %i[new create] do
       resources :challenges, only: %i[show]

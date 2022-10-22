@@ -11,20 +11,22 @@
 
   data-game-subscription-game-round-method-value="<%= @game.game_rounds.first.challenge.method_template %>">
   <h3> <%= @action_users_connected %> </h3>
-  <div class="user-codebox" id="user-codebox-1" data-action="keyup->game-subscription#playerOneTyping">
-    <div class="user-details">
-      <div><%= image_tag(@game.player_one.avatar, class: "user-avatar") %></div>
-      <h2 class="user-name"><%= @game.player_one.username %></h2>
-    </div>
-    <textarea data-game-subscription-target="editorone"></textarea>
-    <div class="code-submit-buttons">
-      <button id="playerOneClear" class="code-submit" data-action="click->game-subscription#clearPlayerOneSubmission">Clear</button>
-      <div class="right-buttons">
-        <button id="playerOneTest" class="code-submit">Test</button>
-        <button id="playerOneSubmit" class="code-submit" data-action="click->game-subscription#playerOneSubmission click->challenge-instructions#showTests">Submit</button>
+
+    <div class="user-codebox" id="user-codebox-1" data-action="keyup->game-subscription#playerOneTyping">
+      <div class="user-details">
+        <div><%= image_tag(@game.player_one.avatar, class: "user-avatar") %></div>
+        <h2 class="user-name"><%= @game.player_one.username %></h2>
+      </div>
+      <textarea data-game-subscription-target="editorone"></textarea>
+      <div class="code-submit-buttons">
+        <button id="playerOneClear" class="code-submit" data-action="click->game-subscription#clearPlayerOneSubmission">Clear</button>
+        <div class="right-buttons">
+          <button id="playerOneTest" class="code-submit">Test</button>
+          <button id="playerOneSubmit" class="code-submit" data-action="click->game-subscription#playerOneSubmission click->challenge-instructions#showTests">Submit</button>
+        </div>
       </div>
     </div>
-  </div>
+
 
   <div class="game-round-instructions-and-tests-boxes">
     <div class="buttons-group">
