@@ -49,7 +49,6 @@ export default class extends Controller {
     this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
 
     setInterval(() => {
-      console.log("refreshing")
       const token = document.getElementsByName("csrf-token")[0].content
       fetch(`/games/${this.gameIdValue}/user_code`, {
         method: "POST",
@@ -61,7 +60,7 @@ export default class extends Controller {
         },
       })
       .then((response) => response.json())
-      .then(data => console.log(data))
+      .then(data => this.updatePlayerOneEditor(data))
     }, 2000);
   }
 
@@ -151,10 +150,6 @@ export default class extends Controller {
       location.reload()
       this.loadedValue = true
     }
-
-
-    // console.log(this.loadedValue)
-    console.log(this.editor_one.getValue())
   }
 
   clearPlayerOneSubmission(){
@@ -187,7 +182,7 @@ export default class extends Controller {
     .then(data => this.outputTarget.innerText = data)
   }
 
-  //This bit gets whatever the user types!
+  //This may not be needed, we could maybe just use playerOneTyping.
 
   editorOneRefresh(data) {
     let playerOneCodeForm = new FormData()
@@ -226,9 +221,13 @@ export default class extends Controller {
     .then(data => this.editorOneRefresh(data))
   }
 
-  // { if (this.userIdValue !== this.playerOneIdValue) {this.editor_one.setValue(data) }}
+  updatePlayerOneEditor(data) {
 
-  // playerTwoTyping() {
-  //   console.log(this.editor_two.getValue())
-  // }
+    if(this.userIdValue === this.playerTwoIdValue) {
+      this.editor_one.setValue(data)
+    } else {
+      this.editor_two.setValue(data)
+    }
+
+  }
 }

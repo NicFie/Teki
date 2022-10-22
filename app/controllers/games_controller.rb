@@ -121,6 +121,7 @@ class GamesController < ApplicationController
     skip_authorization
   end
 
+  # not sure if this is needed 
   def update_display
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
