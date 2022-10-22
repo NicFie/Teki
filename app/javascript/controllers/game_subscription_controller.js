@@ -13,26 +13,6 @@ export default class extends Controller {
     gameRoundMethod: String }
   static targets = ["editorone", "editortwo", "output", "solutions"]
 
-  connect() {
-    this.channel = createConsumer().subscriptions.create(
-      { channel: "GameChannel", id: this.gameIdValue },
-      { received: data => { if(data == "update page") { this.updatePlayerOnePage() } } }
-    )
-    console.log(`Subscribe to the chatroom with the id ${this.gameIdValue}.`);
-    console.log(`The current user is ${this.userIdValue}`);
-    console.log(`Player one's current Id is ${this.playerOneIdValue}`)
-    console.log(`Player two's current Id is ${this.playerTwoIdValue}`)
-    //Checks default value of the game then updates
-    //the game with correct user id's for player one and player two.
-
-    if (this.playerOneIdValue === 1) {
-      this.updatePlayerOneId()
-    } else if (this.playerOneIdValue !== this.userIdValue && this.playerTwoIdValue !== this.userIdValue ) {
-      this.updatePlayerTwoId()
-    }
-    this.editorOneRefresh()
-  }
-
   initialize() {
     // console.log(`player one user:${this.gamePlayerOneValue}`);
     // console.log(`player two user:${this.gamePlayerTwoValue}`);
@@ -68,7 +48,44 @@ export default class extends Controller {
     this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
     this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
 
+    setInterval(() => {
+      console.log("refreshing")
+      const token = document.getElementsByName("csrf-token")[0].content
+      fetch(`/games/${this.gameIdValue}/user_code`, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "X-CSRF-Token": token,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+      })
+      .then((response) => response.json())
+      .then(data => console.log(data))
+    }, 2000);
   }
+
+  connect() {
+    this.channel = createConsumer().subscriptions.create(
+      { channel: "GameChannel", id: this.gameIdValue },
+      { received: data => { if(data == "update page") { this.updatePlayerOnePage() } } }
+    )
+    console.log(`Subscribe to the chatroom with the id ${this.gameIdValue}.`);
+    console.log(`The current user is ${this.userIdValue}`);
+    console.log(`Player one's current Id is ${this.playerOneIdValue}`)
+    console.log(`Player two's current Id is ${this.playerTwoIdValue}`)
+    //Checks default value of the game then updates
+    //the game with correct user id's for player one and player two.
+
+    if (this.playerOneIdValue === 1) {
+      this.updatePlayerOneId()
+    } else if (this.playerOneIdValue !== this.userIdValue && this.playerTwoIdValue !== this.userIdValue ) {
+      this.updatePlayerTwoId()
+    }
+    // this.editorOneRefresh()
+  }
+
+
 
   updatePlayerOneId() {
     //Creates a form and sends it to to the server to update the game,
@@ -173,13 +190,24 @@ export default class extends Controller {
   //This bit gets whatever the user types!
 
   editorOneRefresh(data) {
-    setTimeout(() => {
-      this.editor_one.refresh()
-      this.editor_one.setValue(data)
-      console.log("refreshing")
-    }, 100);
-    // this.editor_one.setValue(data)
-}
+    let playerOneCodeForm = new FormData()
+    playerOneCodeForm.append("game[player_one_code]", data)
+    const token = document.getElementsByName("csrf-token")[0].content
+
+    fetch(this.data.get("update-url"), {
+      body: playerOneCodeForm,
+      method: 'PATCH',
+      credentials: "include",
+      dataType: "script",
+      headers: {
+              "X-CSRF-Token": token
+       },
+    }).then(function(response) {
+      if (response.status != 204) {
+          console.log("This worked")
+      }
+    })
+  }
 
   playerOneTyping() {
     // console.log(this.editor_one.getValue())
@@ -195,20 +223,12 @@ export default class extends Controller {
       body: JSON.stringify({ player_one_code: this.editor_one.getValue() }),
     })
     .then((response) => response.json())
-    .then(data => editorOneRefresh(data))
+    .then(data => this.editorOneRefresh(data))
   }
 
   // { if (this.userIdValue !== this.playerOneIdValue) {this.editor_one.setValue(data) }}
 
-
-
-  test() {
-    console.log("websocket connected")
-  }
-
-  playerTwoTyping() {
-    console.log(this.editor_two.getValue())
-  }
-
-
+  // playerTwoTyping() {
+  //   console.log(this.editor_two.getValue())
+  // }
 }

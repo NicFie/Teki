@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   #root to: "pages#home"
   get '/dashboard', to: 'pages#dashboard', as: 'dashboard'
   get '/waiting_room', to: 'games#waiting_room', as: 'waiting'
+  # get '/user_code', to: 'games#user_code', as: 'user_code'
 
   devise_scope :user do
     authenticated :user do
@@ -27,6 +28,7 @@ Rails.application.routes.draw do
     member do
       post :game_test
       post :update_display
+      post :user_code
     end
     resources :game_rounds, only: %i[new create] do
       resources :challenges, only: %i[show]

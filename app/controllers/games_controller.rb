@@ -130,6 +130,16 @@ class GamesController < ApplicationController
     skip_authorization
   end
 
+  def user_code
+    @game = Game.find(params[:id])
+    respond_to do |format|
+      format.js #add this at the beginning to make sure the form is populated.
+      format.json { render json: @game.player_one_code.to_json }
+    end
+
+    skip_authorization
+  end
+
   private
 
   def game_params
