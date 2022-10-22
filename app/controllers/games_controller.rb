@@ -128,6 +128,7 @@ class GamesController < ApplicationController
     skip_authorization
   end
 
+  # not sure if this is needed 
   def update_display
 
 
@@ -147,6 +148,16 @@ class GamesController < ApplicationController
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
       format.json { render json: params[:player_one_live_code].to_json }
+    end
+
+    skip_authorization
+  end
+
+  def user_code
+    @game = Game.find(params[:id])
+    respond_to do |format|
+      format.js #add this at the beginning to make sure the form is populated.
+      format.json { render json: @game.player_one_code.to_json }
     end
 
     skip_authorization

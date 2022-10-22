@@ -106,8 +106,9 @@ export default class extends Controller {
   //This bit gets whatever the user types!
 
   playerOneTyping() {
-    console.log(this.editor_one.getValue())
-
+    fetch(`/games/${this.gameIdValue}/`)
+    .then((response) => response.json())
+    .then((data) => console.log(data));
   }
 
   test() {
