@@ -22,8 +22,7 @@ application.register("lp-cards", LpCardsController)
 import SidebarController from "./sidebar_controller"
 application.register("sidebar", SidebarController)
 
-import SolutionController from "./solution_controller"
-application.register("solution", SolutionController)
+
 
 import TypedJsController from "./typed_js_controller"
 application.register("typed-js", TypedJsController)

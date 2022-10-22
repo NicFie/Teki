@@ -1,6 +1,6 @@
 <%# Gets all the info from the game model to update in game_subscription stimulus %>
 <div class="game-show-container"
-  data-controller="game-subscription solution challenge-instructions"
+  data-controller="game-subscription challenge-instructions"
 
   data-game-subscription-game-id-value="<%= @game.id %>"
   data-game-subscription-user-id-value="<%= current_user.id %>"
@@ -9,26 +9,24 @@
   data-game-subscription-update-url="<%= game_path(@game) %>"
   data-game-subscription-loaded-value="<%= false %>"
 
-  data-solution-game-round-method-value="<%= @game.game_rounds.first.challenge.method_template %>"
-  data-solution-game-id-value="<%= @game.id %>"
-  data-solution-game-player-one-value="<%= @game.player_one.id %>"
-  data-solution-game-player-two-value="<%= @game.player_two.id %>"
-  data-solution-user-id-value="<%= current_user.id %>">
+  data-game-subscription-game-round-method-value="<%= @game.game_rounds.first.challenge.method_template %>">
   <h3> <%= @action_users_connected %> </h3>
-  <div class="user-codebox" id="user-codebox-1">
-    <div class="user-details">
-      <div><%= image_tag(@game.player_one.avatar, class: "user-avatar") %></div>
-      <h2 class="user-name"><%= @game.player_one.username %></h2>
-    </div>
-    <textarea data-solution-target="editorone"></textarea>
-    <div class="code-submit-buttons">
-      <button id="playerOneClear" class="code-submit" data-action="click->solution#clearPlayerOneSubmission">Clear</button>
-      <div class="right-buttons">
-        <button id="playerOneTest" class="code-submit">Test</button>
-        <button id="playerOneSubmit" class="code-submit" data-action="click->solution#playerOneSubmission click->challenge-instructions#showTests">Submit</button>
+
+    <div class="user-codebox" id="user-codebox-1" data-action="keyup->game-subscription#playerOneTyping">
+      <div class="user-details">
+        <div><%= image_tag(@game.player_one.avatar, class: "user-avatar") %></div>
+        <h2 class="user-name"><%= @game.player_one.username %></h2>
+      </div>
+      <textarea data-game-subscription-target="editorone"></textarea>
+      <div class="code-submit-buttons">
+        <button id="playerOneClear" class="code-submit" data-action="click->game-subscription#clearPlayerOneSubmission">Clear</button>
+        <div class="right-buttons">
+          <button id="playerOneTest" class="code-submit">Test</button>
+          <button id="playerOneSubmit" class="code-submit" data-action="click->game-subscription#playerOneSubmission click->challenge-instructions#showTests">Submit</button>
+        </div>
       </div>
     </div>
-  </div>
+
 
   <div class="game-round-instructions-and-tests-boxes">
     <div class="buttons-group">
@@ -39,7 +37,7 @@
       <p><%= @game.game_rounds.first.challenge.description %></p>
     </div>
     <div class="game-round-tests d-none" data-challenge-instructions-target="tests content">
-      <p data-solution-target="output">Awaiting code submission</p>
+      <p data-game-subscription-target="output">Awaiting code submission</p>
     </div>
   </div>
 
@@ -48,12 +46,12 @@
       <div><%= image_tag(@game.player_two.avatar, class: "user-avatar") %></div>
       <h2 class="user-name"><%= @game.player_two.username %></h2>
     </div>
-    <textarea data-solution-target="editortwo"></textarea>
+    <textarea data-game-subscription-target="editortwo"></textarea>
     <div class="code-submit-buttons">
-      <button id="playerTwoClear" class="code-submit" data-action="click->solution#clearPlayerTwoSubmission">Clear</button>
+      <button id="playerTwoClear" class="code-submit" data-action="click->game-subscription#clearPlayerTwoSubmission">Clear</button>
       <div class="right-buttons">
         <button id="playerTwoTest" class="code-submit">Test</button>
-        <button id="playerTwoSubmit" class="code-submit" data-action="click->solution#playerTwoSubmission click->challenge-instructions#showTests">Submit</button>
+        <button id="playerTwoSubmit" class="code-submit" data-action="click->game-subscription#playerTwoSubmission click->challenge-instructions#showTests">Submit</button>
       </div>
     </div>
   </div>
