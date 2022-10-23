@@ -4,10 +4,6 @@ class GamesController < ApplicationController
   def waiting_room
     @game = Game.where("player_two_id = 1")
     if @game.exists?
-      # GameChannel.broadcast_to(
-      #   @game,
-      #   "HHHEEEELLLOOOO"
-      # )
       redirect_to game_path(@game[0].id)
     else
       user = current_user
@@ -121,7 +117,7 @@ class GamesController < ApplicationController
     skip_authorization
   end
 
-  # not sure if this is needed 
+  # not sure if this is needed
   def update_display
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.

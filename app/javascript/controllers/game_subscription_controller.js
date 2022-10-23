@@ -135,7 +135,6 @@ export default class extends Controller {
     })
 
     this.updatePage()
-
     // console.log(`Player two's new id is ${this.playerTwoIdValue}`)
   }
 
@@ -164,6 +163,14 @@ export default class extends Controller {
   }
   playerTwoSubmission() {
     this.sendCode(this.editor_two.getValue());
+  }
+
+  playerOneOrTwo() {
+    (this.userIdValue === this.playerOneIdValue) ? "one" : "two"
+  }
+
+  editorOneOrTwo() {
+    return ((this.userIdValue === this.playerOneIdValue) ? this.editor_one : this.editor_two)
   }
 
   sendCode(code) {
@@ -215,19 +222,15 @@ export default class extends Controller {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify({ player_one_code: this.editor_one.getValue() }),
+      body: JSON.stringify({ player_one_code: this.editorOneOrTwo().getValue() }),
     })
     .then((response) => response.json())
     .then(data => this.editorOneRefresh(data))
   }
 
   updatePlayerOneEditor(data) {
-
     if(this.userIdValue === this.playerTwoIdValue) {
       this.editor_one.setValue(data)
-    } else {
-      this.editor_two.setValue(data)
     }
-
   }
 }
