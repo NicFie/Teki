@@ -30,9 +30,9 @@ export default class extends Controller {
     this.editor_one_code = ''
     if(this.playerOneIdValue == this.userIdValue) {
       playerOneTheme = "dracula";
-      playerTwoTheme = "dracula_blurred";
+      playerTwoTheme = "dracula";
     } else if(this.playerTwoIdValue == this.userIdValue) {
-      playerOneTheme = "dracula_blurred";
+      playerOneTheme = "dracula";
       playerTwoTheme = "dracula";
     }
     // Generating codemirror windows
@@ -102,7 +102,13 @@ export default class extends Controller {
     // this.editorOneRefresh()
   }
 
-
+  currentUsersEditor() {
+    if(this.userIdValue == this.playerOneIdValue) {
+      return this.editor_one
+    } else {
+      return this.editor_two
+    }
+  }
 
   updatePlayerOneId() {
     let playerOnesForm = new FormData()
@@ -170,6 +176,9 @@ export default class extends Controller {
     // console.log(this.editor_one.getValue())
   }
 
+
+
+
   //This may not be needed, we could maybe just use playerOneTyping.
 
   editorOneRefresh(data) {
@@ -187,7 +196,7 @@ export default class extends Controller {
        },
     }).then(function(response) {
       if (response.status != 204) {
-          console.log("This worked")
+        console.log("This worked")
       }
     })
   }
@@ -202,13 +211,11 @@ export default class extends Controller {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify({ player_one_live_code: this.editor_one.getValue() }),
+      body: JSON.stringify({ player_one_code: this.editor_one.getValue() }),
     })
     .then((response) => response.json())
     .then(data => this.editorOneRefresh(data))
   }
-
-
 
   // Code submissions and sendCode function
     clearPlayerOneSubmission(){
@@ -247,13 +254,12 @@ export default class extends Controller {
       })
     }
 
-  test() {
+  updatePlayerOneEditor(data) {
     console.log("websocket connected")
     if(this.userIdValue === this.playerTwoIdValue) {
       this.editor_one.setValue(data)
-    } else {
-      this.editor_two.setValue(data)
     }
-
   }
+
+
 }

@@ -128,26 +128,11 @@ class GamesController < ApplicationController
     skip_authorization
   end
 
-  # not sure if this is needed 
+  # not sure if this is needed
   def update_display
-
-
-    # @game = Game.find(params[:id])
-    # GameChannel.broadcast_to(
-    #   @game,
-    #   params[:player_one_live_code]
-    # )
-    # authorize @game
-    # if @message.save
-    #   ChatroomChannel.broadcast_to(
-    #     @chatroom,
-    #     render_to_string(partial: "message", locals: {message: @message})
-    #   )
-    #   head :ok
-
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
-      format.json { render json: params[:player_one_live_code].to_json }
+      format.json { render json: params[:player_one_code].to_json }
     end
 
     skip_authorization
@@ -166,6 +151,6 @@ class GamesController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:player_one_id, :player_two_id, :player_one_code, :round_count, :player_one_live_code)
+    params.require(:game).permit(:player_one_id, :player_two_id, :player_one_code, :round_count)
   end
 end
