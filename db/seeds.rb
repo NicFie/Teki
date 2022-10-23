@@ -109,11 +109,12 @@ DescendingOrder = Challenge.create(
 )
 
 puts "Creating Users"
-user0 = User.create!(username: "4ar0n", email: "aaron@mail.com", password: '123456', avatar: "cool-emote.png", score: rand(1..100))
-user1 = User.create!(username: "Ch4r1y", email: "charly@mail.com", password: '123456', avatar: "cool-doge.png", score: rand(1..100))
-user2 = User.create!(username: "W1ll", email: "william@mail.com", password: '123456', avatar: "cool-cactus", score: rand(1..100))
-user3 = User.create!(username: "N1c0l4", email: "nicola@mail.com", password: '123456', avatar: "cool-duck.png", score: rand(1..100))
-user4 = User.create!(username: "UltimateRival", email: "DuncanMcLeod@mail.com", admin: true, password: 'Highlander', avatar: "coolest-duck.jpg", score: rand(1..100))
+User.create!(username: "Waiting for Opponent...", email: "opponent@mail.com", password: '123456', avatar: "ninja.png", score: rand(1..100))
+User.create!(username: "4ar0n", email: "aaron@mail.com", password: '123456', avatar: "cool-emote.png", score: rand(1..100))
+User.create!(username: "Ch4r1y", email: "charly@mail.com", password: '123456', avatar: "cool-doge.png", score: rand(1..100))
+User.create!(username: "W1ll", email: "william@mail.com", password: '123456', avatar: "cool-cactus", score: rand(1..100))
+User.create!(username: "N1c0l4", email: "nicola@mail.com", password: '123456', avatar: "cool-duck.png", score: rand(1..100))
+User.create!(username: "UltimateRival", email: "DuncanMcLeod@mail.com", admin: true, password: 'Highlander', avatar: "coolest-duck.jpg", score: rand(1..100))
 
 
 puts  "

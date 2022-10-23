@@ -12,6 +12,14 @@
   data-game-subscription-game-round-method-value="<%= @game.game_rounds.first.challenge.method_template %>">
   <h3> <%= @action_users_connected %> </h3>
 
+  <div data-game-subscription-target="roundWinnerModal" id="roundWinnerModal" class="round-winner-modal">
+    <div class="round-winner-modal-content">
+      <span class="round-winner-modal-close">&times;</span>
+      <p data-game-subscription-target="roundWinner"></p>
+      <button>Next Round</button>
+    </div>
+  </div>
+  
     <div class="user-codebox" id="user-codebox-1" data-action="keyup->game-subscription#playerOneTyping">
       <div class="user-details">
         <div><%= image_tag(@game.player_one.avatar, class: "user-avatar") %></div>
