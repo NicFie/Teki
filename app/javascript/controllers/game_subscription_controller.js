@@ -1,7 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 import { end } from "@popperjs/core"
-const codemirror = require("../codemirror/codemirror");
 import { createConsumer } from "@rails/actioncable"
+const codemirror = require("../codemirror/codemirror");
+
 
 export default class extends Controller {
   static values = {
@@ -10,23 +11,28 @@ export default class extends Controller {
     playerOneId: Number,
     playerTwoId: Number,
     loaded: Boolean,
-    gameRoundMethod: String }
-  static targets = ["editorone", "editortwo", "output", "solutions"]
+    gameRoundMethod: String
+  }
+
+  static targets = [
+    "editorone",
+    "editortwo",
+    "output",
+    "solutions",
+    "roundWinner",
+    "roundWinnerModal"
+  ]
 
   initialize() {
-    // console.log(`player one user:${this.gamePlayerOneValue}`);
-    // console.log(`player two user:${this.gamePlayerTwoValue}`);
-    // console.log(`current user:${this.userIdValue}`);
-
     // defining the theme of codemirror depending on user
     let playerOneTheme = ''
     let playerTwoTheme = ''
     this.editor_one_code = ''
     if(this.playerOneIdValue == this.userIdValue) {
       playerOneTheme = "dracula";
-      playerTwoTheme = "dracula_blurred";
+      playerTwoTheme = "dracula";
     } else if(this.playerTwoIdValue == this.userIdValue) {
-      playerOneTheme = "dracula_blurred";
+      playerOneTheme = "dracula";
       playerTwoTheme = "dracula";
     }
     // Generating codemirror windows
@@ -73,9 +79,21 @@ export default class extends Controller {
     console.log(`The current user is ${this.userIdValue}`);
     console.log(`Player one's current Id is ${this.playerOneIdValue}`)
     console.log(`Player two's current Id is ${this.playerTwoIdValue}`)
+
+    // modal stuff
+    const modal = document.getElementById("roundWinnerModal");
+    const span = document.getElementsByClassName("round-winner-modal-close")[0];
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
     //Checks default value of the game then updates
     //the game with correct user id's for player one and player two.
-
     if (this.playerOneIdValue === 1) {
       this.updatePlayerOneId()
     } else if (this.playerOneIdValue !== this.userIdValue && this.playerTwoIdValue !== this.userIdValue ) {
@@ -84,12 +102,15 @@ export default class extends Controller {
     // this.editorOneRefresh()
   }
 
-
+  currentUsersEditor() {
+    if(this.userIdValue == this.playerOneIdValue) {
+      return this.editor_one
+    } else {
+      return this.editor_two
+    }
+  }
 
   updatePlayerOneId() {
-    //Creates a form and sends it to to the server to update the game,
-    //changing player_one_id from the default 1 to the id of the first user
-
     let playerOnesForm = new FormData()
     playerOnesForm.append("game[player_one_id]", this.userIdValue)
     const token = document.getElementsByName("csrf-token")[0].content
@@ -112,10 +133,9 @@ export default class extends Controller {
     this.updatePage()
   }
 
+  //Creates a form and sends it to to the server to update the game,
+  //changing player_two_id from the default 1 to the id of the second user
   updatePlayerTwoId() {
-    //Creates a form and sends it to to the server to update the game,
-    //changing player_two_id from the default 1 to the id of the second user
-
     let playerTwosForm = new FormData()
     playerTwosForm.append("game[player_two_id]", this.userIdValue)
     const token = document.getElementsByName("csrf-token")[0].content
@@ -149,21 +169,12 @@ export default class extends Controller {
       location.reload()
       this.loadedValue = true
     }
+
+
+    // console.log(this.loadedValue)
+    // console.log(this.editor_one.getValue())
   }
 
-  clearPlayerOneSubmission(){
-    this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
-  }
-  clearPlayerTwoSubmission(){
-    this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
-  }
-
-  playerOneSubmission() {
-    this.sendCode(this.editor_one.getValue());
-  }
-  playerTwoSubmission() {
-    this.sendCode(this.editor_two.getValue());
-  }
 
   playerOneOrTwo() {
     (this.userIdValue === this.playerOneIdValue) ? "one" : "two"
@@ -173,21 +184,6 @@ export default class extends Controller {
     return ((this.userIdValue === this.playerOneIdValue) ? this.editor_one : this.editor_two)
   }
 
-  sendCode(code) {
-    const token = document.getElementsByName("csrf-token")[0].content
-    fetch(`/games/${this.gameIdValue}/game_test`, {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-        "X-CSRF-Token": token,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify({ player_one_code: code }),
-    })
-    .then((response) => response.json())
-    .then(data => this.outputTarget.innerText = data)
-  }
 
   //This may not be needed, we could maybe just use playerOneTyping.
 
@@ -206,13 +202,12 @@ export default class extends Controller {
        },
     }).then(function(response) {
       if (response.status != 204) {
-          console.log("This worked")
+        console.log("This worked")
       }
     })
   }
 
   playerOneTyping() {
-    // console.log(this.editor_one.getValue())
     const token = document.getElementsByName("csrf-token")[0].content
     fetch(`/games/${this.gameIdValue}/update_display`, {
       method: "POST",
@@ -228,9 +223,48 @@ export default class extends Controller {
     .then(data => this.editorOneRefresh(data))
   }
 
+  // Code submissions and sendCode function
+    clearPlayerOneSubmission(){
+      this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
+    }
+    clearPlayerTwoSubmission(){
+      this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
+    }
+
+    playerOneSubmission() {
+      this.sendCode(this.editor_one.getValue(), this.userIdValue);
+    }
+    playerTwoSubmission() {
+      this.sendCode(this.editor_two.getValue(), this.userIdValue);
+    }
+
+    sendCode(code, user_id) {
+      const token = document.getElementsByName("csrf-token")[0].content
+      fetch(`/games/${this.gameIdValue}/game_test`, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "X-CSRF-Token": token,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({ player_one_code: code, user_id: user_id }),
+      })
+      .then((response) => response.json())
+      .then(data => {
+        this.outputTarget.innerText = data.results;
+        this.roundWinnerTarget.innerText = data.round_winner;
+        if(data.round_winner.includes('wins')){
+          this.roundWinnerModalTarget.style.display = "block";
+        }
+      })
+    }
+
   updatePlayerOneEditor(data) {
     if(this.userIdValue === this.playerTwoIdValue) {
       this.editor_one.setValue(data)
     }
   }
+
+
 }
