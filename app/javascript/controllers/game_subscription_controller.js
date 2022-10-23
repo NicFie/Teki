@@ -155,7 +155,6 @@ export default class extends Controller {
     })
 
     this.updatePage()
-
     // console.log(`Player two's new id is ${this.playerTwoIdValue}`)
   }
 
@@ -177,6 +176,13 @@ export default class extends Controller {
   }
 
 
+  playerOneOrTwo() {
+    (this.userIdValue === this.playerOneIdValue) ? "one" : "two"
+  }
+
+  editorOneOrTwo() {
+    return ((this.userIdValue === this.playerOneIdValue) ? this.editor_one : this.editor_two)
+  }
 
 
   //This may not be needed, we could maybe just use playerOneTyping.
@@ -211,7 +217,7 @@ export default class extends Controller {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify({ player_one_code: this.editor_one.getValue() }),
+      body: JSON.stringify({ player_one_code: this.editorOneOrTwo().getValue() }),
     })
     .then((response) => response.json())
     .then(data => this.editorOneRefresh(data))
@@ -255,7 +261,6 @@ export default class extends Controller {
     }
 
   updatePlayerOneEditor(data) {
-    console.log("websocket connected")
     if(this.userIdValue === this.playerTwoIdValue) {
       this.editor_one.setValue(data)
     }

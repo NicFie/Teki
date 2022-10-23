@@ -4,10 +4,6 @@ class GamesController < ApplicationController
   def waiting_room
     @game = Game.where("player_two_id = 1")
     if @game.exists?
-      # GameChannel.broadcast_to(
-      #   @game,
-      #   "HHHEEEELLLOOOO"
-      # )
       redirect_to game_path(@game[0].id)
     else
       user = current_user
