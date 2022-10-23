@@ -67,7 +67,7 @@ export default class extends Controller {
       })
       .then((response) => response.json())
       .then(data => this.updatePlayerOneEditor(data))
-    }, 2000);
+    }, 10000);
   }
 
   connect() {
@@ -248,7 +248,7 @@ export default class extends Controller {
           "Content-Type": "application/json",
           "Accept": "application/json"
         },
-        body: JSON.stringify({ player_one_code: code, user_id: user_id }),
+        body: JSON.stringify({ player_two_code: code, user_id: user_id }),
       })
       .then((response) => response.json())
       .then(data => {
@@ -264,6 +264,10 @@ export default class extends Controller {
     if(this.userIdValue === this.playerTwoIdValue) {
       this.editor_one.setValue(data)
     }
+  }
+
+  nextRound() {
+    this.updatePage();
   }
 
 

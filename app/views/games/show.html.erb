@@ -8,18 +8,19 @@
   data-game-subscription-player-two-id-value="<%= @game.player_two.id %>"
   data-game-subscription-update-url="<%= game_path(@game) %>"
   data-game-subscription-loaded-value="<%= false %>"
-
-  data-game-subscription-game-round-method-value="<%= @game.game_rounds.first.challenge.method_template %>">
+  data-game-subscription-rounds-value="<%= @rounds %>"
+<%# method template needs to be dynamic with round change %>
+  data-game-subscription-game-round-method-value="<%= @rounds_left.challenge.method_template %>">
   <h3> <%= @action_users_connected %> </h3>
 
   <div data-game-subscription-target="roundWinnerModal" id="roundWinnerModal" class="round-winner-modal">
     <div class="round-winner-modal-content">
       <span class="round-winner-modal-close">&times;</span>
       <p data-game-subscription-target="roundWinner"></p>
-      <button>Next Round</button>
+      <button data-action="click->game-subscription#nextRound">Next Round</button>
     </div>
   </div>
-  
+
     <div class="user-codebox" id="user-codebox-1" data-action="keyup->game-subscription#playerOneTyping">
       <div class="user-details">
         <div><%= image_tag(@game.player_one.avatar, class: "user-avatar") %></div>
@@ -42,7 +43,8 @@
       <button id="tests" data-challenge-instructions-target="button testsButton" data-action="click->challenge-instructions#changeTab">Tests</button>
     </div>
     <div class="game-round-instructions" data-challenge-instructions-target="description content">
-      <p><%= @game.game_rounds.first.challenge.description %></p>
+    <%# game round description also needs to be dynamic %>
+      <p><%= @rounds_left.challenge.description %></p>
     </div>
     <div class="game-round-tests d-none" data-challenge-instructions-target="tests content">
       <p data-game-subscription-target="output">Awaiting code submission</p>

@@ -3,15 +3,6 @@ Challenge.destroy_all
 User.destroy_all
 
 puts "creating Katas erm... Challenges !"
-TheAnswer = Challenge.create(
-  name: 'TheAnswer',
-  description: 'type 42',
-  language: 'Ruby',
-  tests: {
-    42 => 42
-  },
-  method_template: 'def type_42\n\nend'
-)
 
 NotEvenOdd = Challenge.create(
   name: 'Not even odd',

@@ -33,7 +33,7 @@ class GamesController < ApplicationController
 
     while rounds.positive?
       challenge = all_challenges[rand(0..all_challenges.size - 1)]
-      GameRound.create!(game_id: game.id, challenge_id: challenge.id, winner: current_user)
+      GameRound.create!(game_id: game.id, challenge_id: challenge.id, winner: User.find(1))
       all_challenges.delete_at(all_challenges.index(challenge))
       rounds -= 1
     end
@@ -47,6 +47,8 @@ class GamesController < ApplicationController
       @game,
       "update page"
     )
+    @rounds = @game.game_rounds
+    @rounds_left = @rounds.where('winner_id = 1').first
     authorize @game
   end
 
@@ -57,32 +59,33 @@ class GamesController < ApplicationController
 
   def update
     @game = Game.find(params[:id])
-    authorize @game
     @game.update(game_params)
     @game.save
 
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
     end
+    authorize @game
   end
 
   def game_test
     @game = Game.find(params[:id])
     begin
-      submission = eval(params[:player_one_code])
+      submission = eval(params[:player_two_code])
     rescue SyntaxError => err
       @output = "ERROR: #{err.inspect}"
       @output.gsub!(/(#|<|>)/, "")
       all_passed = []
     # tests variable needs modifying to return not just first test but sequentially after round is won
     else
-      tests = eval(@game.game_rounds.first.challenge.tests)
+      tests = eval(@game.game_rounds.where('winner_id = 1').first.challenge.tests)
       @output = []
       count = 0
       all_passed = []
 
       tests.each do |k, v|
         count += 1
+        p "test key: #{k} test value:  #{v}"
         begin
           call = method(submission).call(k)
         rescue StandardError => err
@@ -113,8 +116,17 @@ class GamesController < ApplicationController
     end
     @output.gsub!(/for #<\w+:\w+>\s+\w+\s+\^+/, "")
     p "User #{params[:user_id]} test results:#{all_passed}"
-    # This can be used to assign a winner to game_round and launch modal to start the next round
-    p (all_passed.include?(false) || all_passed.empty?) ? "User #{params[:user_id]} failed." : @winner = "User #{params[:user_id]} wins!"
+    (all_passed.include?(false) || all_passed.empty?) ? "User #{params[:user_id]} failed." : @winner = "User #{params[:user_id]} wins!"
+
+    # starting the next round code
+    @is_a_winner = false
+    @is_a_winner = true if (!all_passed.include?(false) && !all_passed.empty?)
+    if @is_a_winner == true
+      @game_round = @game.game_rounds.where('winner_id = 1').first
+      @game_round.winner_id = params[:user_id]
+      @game_round.save!
+      skip_authorization
+    end
 
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
