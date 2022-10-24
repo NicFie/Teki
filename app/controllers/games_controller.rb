@@ -79,9 +79,9 @@ class GamesController < ApplicationController
       @output << "ERROR: #{err.inspect}"
     # tests variable needs modifying to return not just first test but sequentially after round is won
     else
-      ran = @game.game_rounds.where('winner_id = 1').first.challenge.tests
-      tests = eval(ran)
-      random = eval(ran).keys
+      game_tests = @game.game_rounds.where('winner_id = 1').first.challenge.tests
+      tests = eval(game_tests)
+      display_keys = eval(game_tests).keys
 
       count = 0
 
@@ -98,10 +98,10 @@ class GamesController < ApplicationController
         else
           if call == v
             all_passed << true
-            @output << "#{count}. Test passed.\nWhen given #{random[count - 1]}, method successfully returned #{v}.\n\n"
+            @output << "#{count}. Test passed.\nWhen given #{display_keys[count - 1]}, method successfully returned #{v}.\n\n"
           else
             all_passed << false
-            @output << "#{count}. Test failed.\n Given: #{random[count - 1]}. Expected: #{v.class == String ? "'#{v}'" : v}. Got: #{
+            @output << "#{count}. Test failed.\n Given: #{display_keys[count - 1]}. Expected: #{v.class == String ? "'#{v}'" : v}. Got: #{
               if call.nil?
                 "nil"
               elsif call.class == String
