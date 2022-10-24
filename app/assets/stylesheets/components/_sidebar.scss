@@ -4,10 +4,16 @@
   top: 0;
   width: 80px;
   min-height: 100%;
-  background-color: $dark-blue;
+  background-color: $dark-green;
   padding: 14px;
   transition: all 0.5s ease;
   z-index: 1;
+
+  .sidebar-logo img {
+    height: 50px;
+    padding: 0 !important;
+    // margin: 0 0 0 80px !important;
+  }
 
   ul {
     padding-left: 0;
