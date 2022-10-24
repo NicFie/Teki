@@ -35,9 +35,9 @@ export default class extends Controller {
     this.editor_one_code = ''
     if(this.playerOneIdValue == this.userIdValue) {
       playerOneTheme = "dracula";
-      playerTwoTheme = "dracula";
+      playerTwoTheme = "dracula_blurred";
     } else if(this.playerTwoIdValue == this.userIdValue) {
-      playerOneTheme = "dracula";
+      playerOneTheme = "dracula_blurred";
       playerTwoTheme = "dracula";
     }
     // Generating codemirror windows
@@ -71,8 +71,8 @@ export default class extends Controller {
         },
       })
       .then((response) => response.json())
-      .then(data => this.updatePlayerOneEditor(data))
-    }, 10000);
+      .then(data => this.updatePlayerEditor(data))
+    }, 2000);
   }
 
   connect() {
@@ -180,25 +180,23 @@ export default class extends Controller {
     // console.log(this.editor_one.getValue())
   }
 
-
   playerOneOrTwo() {
-    (this.userIdValue === this.playerOneIdValue) ? "one" : "two"
+    return ((this.userIdValue === this.playerOneIdValue) ? "one" : "two")
   }
 
   editorOneOrTwo() {
     return ((this.userIdValue === this.playerOneIdValue) ? this.editor_one : this.editor_two)
   }
 
-
   //This may not be needed, we could maybe just use playerOneTyping.
 
-  editorOneRefresh(data) {
-    let playerOneCodeForm = new FormData()
-    playerOneCodeForm.append("game[player_one_code]", data)
+  playerTyping() {
+    let playerCodeForm = new FormData()
+    playerCodeForm.append(`game[player_${this.playerOneOrTwo()}_code]`, this.editorOneOrTwo().getValue())
     const token = document.getElementsByName("csrf-token")[0].content
 
     fetch(this.data.get("update-url"), {
-      body: playerOneCodeForm,
+      body: playerCodeForm,
       method: 'PATCH',
       credentials: "include",
       dataType: "script",
@@ -212,9 +210,24 @@ export default class extends Controller {
     })
   }
 
-  playerOneTyping() {
+  // Code submissions and sendCode function
+  clearPlayerOneSubmission(){
+    this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
+  }
+  clearPlayerTwoSubmission(){
+    this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
+  }
+
+  playerOneSubmission() {
+    this.sendCode(this.editor_one.getValue(), this.userIdValue);
+  }
+  playerTwoSubmission() {
+    this.sendCode(this.editor_two.getValue(), this.userIdValue);
+  }
+
+  sendCode(code, user_id) {
     const token = document.getElementsByName("csrf-token")[0].content
-    fetch(`/games/${this.gameIdValue}/update_display`, {
+    fetch(`/games/${this.gameIdValue}/game_test`, {
       method: "POST",
       credentials: "same-origin",
       headers: {
@@ -222,41 +235,10 @@ export default class extends Controller {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify({ player_one_code: this.editorOneOrTwo().getValue() }),
+      body: JSON.stringify({ submission_code: code, user_id: user_id }),
     })
     .then((response) => response.json())
-    .then(data => this.editorOneRefresh(data))
-  }
-
-  // Code submissions and sendCode function
-    clearPlayerOneSubmission(){
-      this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
-    }
-    clearPlayerTwoSubmission(){
-      this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
-    }
-
-    playerOneSubmission() {
-      this.sendCode(this.editor_one.getValue(), this.userIdValue);
-    }
-    playerTwoSubmission() {
-      this.sendCode(this.editor_two.getValue(), this.userIdValue);
-    }
-
-    sendCode(code, user_id) {
-      const token = document.getElementsByName("csrf-token")[0].content
-      fetch(`/games/${this.gameIdValue}/game_test`, {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-          "X-CSRF-Token": token,
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify({ player_two_code: code, user_id: user_id }),
-      })
-      .then((response) => response.json())
-      .then(data => {
+    .then(data => {
         console.log(data);
         this.outputTarget.innerText = data.results;
         this.roundWinnerTarget.innerText = data.round_winner;
@@ -268,19 +250,19 @@ export default class extends Controller {
       })
     }
 
-  updatePlayerOneEditor(data) {
+  updatePlayerEditor(data) {
+    console.log(data)
     if(this.userIdValue === this.playerTwoIdValue) {
-      this.editor_one.setValue(data)
+      this.editor_one.setValue(data.player_one)
+    } else if (this.userIdValue === this.playerOneIdValue) {
+      this.editor_two.setValue(data.player_two)
     }
   }
 
   nextRound() {
     this.updatePage();
   }
-
+  
   endGame() {
 
   }
-
-
-}

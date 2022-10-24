@@ -37,8 +37,8 @@
       <button data-action="click->game-subscription#endGame">Back to Dashboard</button>
     </div>
   </div>
-
-    <div class="user-codebox" id="user-codebox-1" data-action="keyup->game-subscription#playerOneTyping">
+  
+    <div class="user-codebox" id="user-codebox-1" data-action="keyup->game-subscription#playerTyping">
       <div class="user-details">
         <div><%= image_tag(@game.player_one.avatar, class: "user-avatar") %></div>
         <h2 class="user-name"><%= @game.player_one.username %></h2>
@@ -67,7 +67,7 @@
     </div>
   </div>
 
-  <div class="user-codebox" id="user-codebox-2">
+  <div class="user-codebox" id="user-codebox-2" data-action="keyup->game-subscription#playerTyping">
     <div class="user-details">
       <div><%= image_tag(@game.player_two.avatar, class: "user-avatar") %></div>
       <h2 class="user-name"><%= @game.player_two.username %></h2>
