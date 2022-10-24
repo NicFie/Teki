@@ -71,7 +71,7 @@ class GamesController < ApplicationController
   def game_test
     @game = Game.find(params[:id])
     begin
-      submission = eval(params[:player_two_code])
+      submission = eval(params[:submission_code])
     rescue SyntaxError => err
       @output = "ERROR: #{err.inspect}"
       @output.gsub!(/(#|<|>)/, "")
@@ -150,7 +150,7 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
-      format.json { render json: @game.player_one_code.to_json }
+      format.json { render json: { player_one: @game.player_one_code, player_two: @game.player_two_code } }
     end
 
     skip_authorization
@@ -159,6 +159,6 @@ class GamesController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:player_one_id, :player_two_id, :player_one_code, :round_count)
+    params.require(:game).permit(:player_one_id, :player_two_id, :player_one_code, :player_two_code, :round_count, :submission_code)
   end
 end
