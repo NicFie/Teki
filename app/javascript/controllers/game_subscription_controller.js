@@ -27,29 +27,39 @@ export default class extends Controller {
     // defining the theme of codemirror depending on user
     let playerOneTheme = ''
     let playerTwoTheme = ''
+    let playerOneRead = ''
+    let playerTwoRead = ''
+
     this.editor_one_code = ''
     if(this.playerOneIdValue == this.userIdValue) {
       playerOneTheme = "dracula";
       playerTwoTheme = "dracula_blurred";
+      playerTwoRead = "nocursor";
     } else if(this.playerTwoIdValue == this.userIdValue) {
       playerOneTheme = "dracula_blurred";
       playerTwoTheme = "dracula";
+      playerOneRead = "nocursor";
     }
     // Generating codemirror windows
     this.editor_one = codemirror.fromTextArea(
       this.editoroneTarget, {
         mode: "ruby",
         theme: playerOneTheme,
-        lineNumbers: true
+        lineNumbers: true,
+        readOnly: playerOneRead
       }
     );
     this.editor_two = codemirror.fromTextArea(
       this.editortwoTarget, {
         mode: "ruby",
         theme: playerTwoTheme,
-        lineNumbers: true
+        lineNumbers: true,
+        readOnly: playerTwoRead,
       }
     );
+
+    console.log(this.editor_one)
+
     // setting the challenge default method in codemirror windows
     this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
     this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
@@ -99,7 +109,6 @@ export default class extends Controller {
     } else if (this.playerOneIdValue !== this.userIdValue && this.playerTwoIdValue !== this.userIdValue ) {
       this.updatePlayerTwoId()
     }
-    // this.editorOneRefresh()
   }
 
   currentUsersEditor() {
@@ -110,6 +119,8 @@ export default class extends Controller {
     }
   }
 
+  //Creates a form and sends it to to the server to update the game,
+  //changing players from the default 1 to the id of the player_one or player_two
   updatePlayerOneId() {
     let playerOnesForm = new FormData()
     playerOnesForm.append("game[player_one_id]", this.userIdValue)
@@ -129,12 +140,9 @@ export default class extends Controller {
       }
     })
 
-    // console.log(`Player one's new id is ${this.playerOneIdValue}`)
     this.updatePage()
   }
 
-  //Creates a form and sends it to to the server to update the game,
-  //changing player_two_id from the default 1 to the id of the second user
   updatePlayerTwoId() {
     let playerTwosForm = new FormData()
     playerTwosForm.append("game[player_two_id]", this.userIdValue)
@@ -155,26 +163,20 @@ export default class extends Controller {
     })
 
     this.updatePage()
-    // console.log(`Player two's new id is ${this.playerTwoIdValue}`)
   }
 
   updatePage() {
     location.reload()
-    // this.data.get("loaded") = true
   }
 
   updatePlayerOnePage() {
-    // console.log(this.loadedValue)
     if(this.loadedValue === false) {
       location.reload()
       this.loadedValue = true
     }
-
-
-    // console.log(this.loadedValue)
-    // console.log(this.editor_one.getValue())
   }
 
+  //updates code on the database as a player types then updates the view of player.
   playerOneOrTwo() {
     return ((this.userIdValue === this.playerOneIdValue) ? "one" : "two")
   }
@@ -182,8 +184,6 @@ export default class extends Controller {
   editorOneOrTwo() {
     return ((this.userIdValue === this.playerOneIdValue) ? this.editor_one : this.editor_two)
   }
-
-  //This may not be needed, we could maybe just use playerOneTyping.
 
   playerTyping() {
     let playerCodeForm = new FormData()
@@ -198,11 +198,15 @@ export default class extends Controller {
       headers: {
               "X-CSRF-Token": token
        },
-    }).then(function(response) {
-      if (response.status != 204) {
-        console.log("This worked")
-      }
     })
+  }
+
+  updatePlayerEditor(data) {
+    if(this.userIdValue === this.playerTwoIdValue) {
+      this.editor_one.setValue(data.player_one)
+    } else if (this.userIdValue === this.playerOneIdValue) {
+      this.editor_two.setValue(data.player_two)
+    }
   }
 
   // Code submissions and sendCode function
@@ -240,15 +244,6 @@ export default class extends Controller {
         this.roundWinnerModalTarget.style.display = "block";
       }
     })
-  }
-
-  updatePlayerEditor(data) {
-    console.log(data)
-    if(this.userIdValue === this.playerTwoIdValue) {
-      this.editor_one.setValue(data.player_one)
-    } else if (this.userIdValue === this.playerOneIdValue) {
-      this.editor_two.setValue(data.player_two)
-    }
   }
 
   nextRound() {
