@@ -1,70 +1,77 @@
 <div class="dashboard-wrapper">
-  <h1>Dashboard</h1>
-  <div data-controller="dashtabs">
-    <div>
-      <ul class="list-inline tabs-underlined" >
-        <li data-action="click->dashtabs#changeTab" data-dashtabs-target="dashtablink" class="tabs-underlined active" id="leaderboard">
-          <span>Leaderboard</span>
-        </li>
-        <li data-action="click->dashtabs#changeTab" data-dashtabs-target="dashtablink" class="tabs-underlined" id="friendslist">
-          <span>Friends</span>
-        </li>
-      </ul>
+  <div class="page-section dashboard-information">
+    <div class="d-flex">
+      <%= image_tag(current_user.avatar, height: '100') %>
+      <h2><%= current_user.username %></h2>
+    </div>
+    <div class="dashboard-data">
+      <h6>Score </h6>
+      <span><%= current_user.score %></span>
+    </div>
+    <div class="dashboard-data">
+      <h6>Total games </h6>
+      <span><%= current_user.games_as_player_one.count + current_user.games_as_player_two.count %></span>
 
-      <div data-dashtabs-target="dashtabcontent friendslist" data-find-friends-target="findfriendstabcontent friendslist">
-        <div class="dashboard_friendslist">
-          <h2>Friendslist</h2>
-          <table>
-            <tbody>
+    </div>
+  </div>
+  <div class="dashboard-buttons">
+    <%= link_to "Train in ghost mode", dashboard_path, class: "btn btn-main" %>
+    <%= link_to "Battle to earn points",  waiting_path, class: "btn btn-main" %>
+  </div>
+
+  <div class="dashboard-lower">
+    <div class="page-section ">
+      <h2>Leaderboard</h2>
+      <table class="leaderboard">
+        <tbody>
+          <tr>
+            <th>Position</th>
+            <th>Player</th>
+            <th>Score</th>
+          </tr>
+          <% count = 1 %>
+          <% @users_ordered_by_score.each do |user| %>
+            <tr class="leaderboard-user">
+              <td>#<%= count %></td>
+              <td>
+              <%= image_tag(user.avatar, height: '40') %>
+              <%= user.username %>
+              </td>
+              <td><%= user.score %></td>
+            </tr>
+            <% count += 1 %>
+          <% end  %>
+        </tbody>
+      </table>
+    </div>
+    <div class="dashboard-lower-right">
+      <div class="page-section">
+        <h2>Friendslist</h2>
+        <table>
+          <tbody>
+            <tr>
+              <th>N°</th>
+              <th>Username</th>
+              <th>Avatar</th>
+            </tr>
+            <% count = 1 %>
+            <% @friendships.each do |f| %>
               <tr>
-                <th>N°</th>
-                <th>Username</th>
-                <th>Avatar</th>
+                <td>#<%= count %></td>
+                <td>
+                  <div><%= f.receiver.username %></div>
+                </td>
+                <td>
+                  <%= link_to image_tag(f.receiver.avatar, height: '40'), user_path(f.receiver)%>
+                </td>
               </tr>
-              <% count = 1 %>
-              <% @friendships.each do |f| %>
-                <tr>
-                  <td>#<%= count %></td>
-                  <td>
-                    <div><%= f.receiver.username %></div>
-                  </td>
-                  <td>
-                    <%= link_to image_tag(f.receiver.avatar, height: '40'), user_path(f.receiver)%>
-                  </td>
-                </tr>
-                <% count += 1 %>
-              <% end  %>
-            </tbody>
-          </table>
-        </div>
+              <% count += 1 %>
+            <% end  %>
+          </tbody>
+        </table>
       </div>
-
-      <div data-dashtabs-target="dashtabcontent leaderboard" data-find-friends-target="findfriendstabcontent friendslist">
-        <div class="dashboard_leaderboard">
-          <h2>Leaderboard</h2>
-          <table>
-            <tbody>
-              <tr>
-                <th>Position</th>
-                <th>User</th>
-                <th>Score</th>
-              </tr>
-              <% count = 1 %>
-              <% @users_ordered_by_score.each do |user| %>
-                <tr>
-                  <td>#<%= count %></td>
-                  <td>
-                  <div><%= image_tag(user.avatar, height: '40') %></div>
-                  <div><%= user.username %></div>
-                  </td>
-                  <td><%= user.score %></td>
-                </tr>
-                <% count += 1 %>
-              <% end  %>
-            </tbody>
-          </table>
-          <%= link_to "Join Game",  waiting_path, class: "btn btn-main" %>
-        </div>
+      <div class="page-section">
+        <h2>Latest battles</h2>
       </div>
     </div>
   </div>

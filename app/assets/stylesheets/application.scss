@@ -1,14 +1,3 @@
-body {
-  margin: 0 !important;
-}
-.page_wrapper{
-  // display: flex;
-  height: 100%;
-  position: relative;
-}
-.push-right {
-  margin-left: 80px;
-}
 // Graphical variables
 @import "config/fonts";
 @import "config/colors";
@@ -24,3 +13,16 @@ body {
 @import "config/codemirror";
 @import "config/dracula";
 @import "config/dracula_blurred";
+
+body {
+  margin: 0 !important;
+  background-color: $black;
+}
+.page_wrapper{
+  // display: flex;
+  height: 100%;
+  position: relative;
+}
+.push-right {
+  margin-left: 80px;
+}

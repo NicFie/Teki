@@ -1,4 +1,7 @@
 <div class="sidebar" data-controller="sidebar" data-sidebar-target="sidebar" data-action="mouseover->sidebar#open mouseout->sidebar#close">
+  <%= link_to "/", class: "sidebar-logo" do %>
+    <%= image_tag "logos/teki writing blank.png" %>
+  <% end %>
   <ul class="nav-list">
     <li>
       <%= link_to "/" do %>
