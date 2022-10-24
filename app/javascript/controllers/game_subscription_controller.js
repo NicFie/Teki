@@ -34,6 +34,7 @@ export default class extends Controller {
     let playerTwoTheme = ''
     let playerOneRead = ''
     let playerTwoRead = ''
+    this.token = document.getElementsByName("csrf-token")[0].content
 
     this.editor_one_code = ''
     if(this.playerOneIdValue == this.userIdValue) {
@@ -63,19 +64,16 @@ export default class extends Controller {
       }
     );
 
-    console.log(this.editor_one)
-
     // setting the challenge default method in codemirror windows
     this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
     this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
 
     setInterval(() => {
-      const token = document.getElementsByName("csrf-token")[0].content
       fetch(`/games/${this.gameIdValue}/user_code`, {
         method: "POST",
         credentials: "same-origin",
         headers: {
-          "X-CSRF-Token": token,
+          "X-CSRF-Token": this.token,
           "Content-Type": "application/json",
           "Accept": "application/json"
         },
@@ -126,47 +124,30 @@ export default class extends Controller {
 
   //Creates a form and sends it to to the server to update the game,
   //changing players from the default 1 to the id of the player_one or player_two
-  updatePlayerOneId() {
-    let playerOnesForm = new FormData()
-    playerOnesForm.append("game[player_one_id]", this.userIdValue)
-    const token = document.getElementsByName("csrf-token")[0].content
 
+  patchForm(form) {
     fetch(this.data.get("update-url"), {
-      body: playerOnesForm,
+      body: form,
       method: 'PATCH',
       credentials: "include",
       dataType: "script",
       headers: {
-              "X-CSRF-Token": token
+              "X-CSRF-Token": this.token
        },
-    }).then(function(response) {
-      if (response.status != 204) {
-          console.log("This worked")
-      }
     })
+  }
 
+  updatePlayerOneId() {
+    let playerOnesForm = new FormData()
+    playerOnesForm.append("game[player_one_id]", this.userIdValue)
+    this.patchForm(playerOnesForm)
     this.updatePage()
   }
 
   updatePlayerTwoId() {
     let playerTwosForm = new FormData()
     playerTwosForm.append("game[player_two_id]", this.userIdValue)
-    const token = document.getElementsByName("csrf-token")[0].content
-
-    fetch(this.data.get("update-url"), {
-      body: playerTwosForm,
-      method: 'PATCH',
-      credentials: "include",
-      dataType: "script",
-      headers: {
-              "X-CSRF-Token": token
-       },
-    }).then(function(response) {
-      if (response.status != 204) {
-          console.log("This worked")
-      }
-    })
-
+    this.patchForm(playerTwosForm)
     this.updatePage()
   }
 
@@ -193,17 +174,7 @@ export default class extends Controller {
   playerTyping() {
     let playerCodeForm = new FormData()
     playerCodeForm.append(`game[player_${this.playerOneOrTwo()}_code]`, this.editorOneOrTwo().getValue())
-    const token = document.getElementsByName("csrf-token")[0].content
-
-    fetch(this.data.get("update-url"), {
-      body: playerCodeForm,
-      method: 'PATCH',
-      credentials: "include",
-      dataType: "script",
-      headers: {
-              "X-CSRF-Token": token
-       },
-    })
+    this.patchForm(playerCodeForm)
   }
 
   updatePlayerEditor(data) {
@@ -215,13 +186,10 @@ export default class extends Controller {
   }
 
   // Code submissions and sendCode function
-  clearPlayerOneSubmission(){
-    this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
+  clearPlayerSubmission(){
+    this.editorOneOrTwo().setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
   }
-  clearPlayerTwoSubmission(){
-    this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
-  }
-
+ 
   playerOneSubmission() {
     this.sendCode(this.editor_one.getValue(), this.userIdValue);
   }
@@ -230,12 +198,11 @@ export default class extends Controller {
   }
 
   sendCode(code, user_id) {
-    const token = document.getElementsByName("csrf-token")[0].content
     fetch(`/games/${this.gameIdValue}/game_test`, {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "X-CSRF-Token": token,
+        "X-CSRF-Token": this.token,
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
