@@ -20,7 +20,12 @@ export default class extends Controller {
     "output",
     "solutions",
     "roundWinner",
-    "roundWinnerModal"
+    "roundWinnerModal",
+    "roundWinnerModalContent",
+    "roundWinnerCountp1",
+    "roundWinnerCountp2",
+    "gameWinner",
+    "gameWinnerModal"
   ]
 
   initialize() {
@@ -252,9 +257,12 @@ export default class extends Controller {
       })
       .then((response) => response.json())
       .then(data => {
+        console.log(data);
         this.outputTarget.innerText = data.results;
         this.roundWinnerTarget.innerText = data.round_winner;
         if(data.round_winner.includes('wins')){
+          this.roundWinnerCountp1Target.innerText = `${data.round_winner_count1}`
+          this.roundWinnerCountp2Target.innerText = `${data.round_winner_count2}`
           this.roundWinnerModalTarget.style.display = "block";
         }
       })
@@ -268,6 +276,10 @@ export default class extends Controller {
 
   nextRound() {
     this.updatePage();
+  }
+
+  endGame() {
+
   }
 
 

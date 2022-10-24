@@ -9,15 +9,32 @@
   data-game-subscription-update-url="<%= game_path(@game) %>"
   data-game-subscription-loaded-value="<%= false %>"
   data-game-subscription-rounds-value="<%= @rounds %>"
-<%# method template needs to be dynamic with round change %>
   data-game-subscription-game-round-method-value="<%= @rounds_left.challenge.method_template %>">
   <h3> <%= @action_users_connected %> </h3>
 
   <div data-game-subscription-target="roundWinnerModal" id="roundWinnerModal" class="round-winner-modal">
-    <div class="round-winner-modal-content">
+    <div data-game-subscription-target="roundWinnerModalContent" class="round-winner-modal-content">
       <span class="round-winner-modal-close">&times;</span>
       <p data-game-subscription-target="roundWinner"></p>
+      <div class="tally-container">
+        <div>
+          <p ><%= @game.player_one.username %> Wins:</p>
+          <p data-game-subscription-target="roundWinnerCountp1"></p>
+        </div>
+        <div>
+          <p><%= @game.player_two.username %> Wins:</p>
+          <p data-game-subscription-target="roundWinnerCountp2"></p>
+        </div>
+      </div>
       <button data-action="click->game-subscription#nextRound">Next Round</button>
+    </div>
+  </div>
+
+  <div data-game-subscription-target="gameWinnerModal" id="gameWinnerModal" class="game-winner-modal">
+    <div class="game-winner-modal-content">
+      <span class="game-winner-modal-close">&times;</span>
+      <p data-game-subscription-target="gameWinner"></p>
+      <button data-action="click->game-subscription#endGame">Back to Dashboard</button>
     </div>
   </div>
 
@@ -43,7 +60,6 @@
       <button id="tests" data-challenge-instructions-target="button testsButton" data-action="click->challenge-instructions#changeTab">Tests</button>
     </div>
     <div class="game-round-instructions" data-challenge-instructions-target="description content">
-    <%# game round description also needs to be dynamic %>
       <p><%= @rounds_left.challenge.description %></p>
     </div>
     <div class="game-round-tests d-none" data-challenge-instructions-target="tests content">

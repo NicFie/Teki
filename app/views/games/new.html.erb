@@ -1,6 +1,6 @@
 <p>THIS WORKS</p>
 
 <%= simple_form_for [current_user, @game] do |f| %>
-    <%= f.input :round_count, as: :integer %>
+    <%= f.input :round_count, as: :radio_buttons, collection: [[1, '1'], ['3', '3'], [5, '5']], label_method: :second, value_method: :first %>
     <%= f.submit "Save", class: 'btn btn-main' %>
 <% end %>
