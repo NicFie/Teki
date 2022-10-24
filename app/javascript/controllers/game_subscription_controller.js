@@ -257,7 +257,8 @@ export default class extends Controller {
   nextRound() {
     this.updatePage();
   }
-  
+
   endGame() {
 
   }
+}
