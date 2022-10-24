@@ -71,14 +71,16 @@ class GamesController < ApplicationController
 
   def game_test
     @game = Game.find(params[:id])
-    @output = []
-    all_passed = []
+
     begin
       submission = eval(params[:submission_code])
     rescue SyntaxError => err
-      @output << "ERROR: #{err.inspect}"
+      @output = "ERROR: #{err.inspect}"
+      all_passed = []
     # tests variable needs modifying to return not just first test but sequentially after round is won
     else
+      @output = []
+      all_passed = []
       game_tests = @game.game_rounds.where('winner_id = 1').first.challenge.tests
       tests = eval(game_tests)
       display_keys = eval(game_tests).keys
@@ -86,7 +88,6 @@ class GamesController < ApplicationController
       count = 0
 
       tests.each do |k, v|
-        key = k
         count += 1
         p "test key: #{k} test value:  #{v}"
         begin
