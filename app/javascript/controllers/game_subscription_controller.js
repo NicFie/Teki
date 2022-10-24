@@ -66,7 +66,7 @@ export default class extends Controller {
         },
       })
       .then((response) => response.json())
-      .then(data => this.updatePlayerOneEditor(data))
+      .then(data => this.updatePlayerEditor(data))
     }, 2000);
   }
 
@@ -185,13 +185,13 @@ export default class extends Controller {
 
   //This may not be needed, we could maybe just use playerOneTyping.
 
-  playerOneTyping() {
-    let playerOneCodeForm = new FormData()
-    playerOneCodeForm.append(`game[player_${this.playerOneOrTwo()}_code]`, this.editorOneOrTwo().getValue())
+  playerTyping() {
+    let playerCodeForm = new FormData()
+    playerCodeForm.append(`game[player_${this.playerOneOrTwo()}_code]`, this.editorOneOrTwo().getValue())
     const token = document.getElementsByName("csrf-token")[0].content
 
     fetch(this.data.get("update-url"), {
-      body: playerOneCodeForm,
+      body: playerCodeForm,
       method: 'PATCH',
       credentials: "include",
       dataType: "script",
@@ -230,7 +230,7 @@ export default class extends Controller {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify({ player_two_code: code, user_id: user_id }),
+      body: JSON.stringify({ submission_code: code, user_id: user_id }),
     })
     .then((response) => response.json())
     .then(data => {
@@ -242,9 +242,12 @@ export default class extends Controller {
     })
   }
 
-  updatePlayerOneEditor(data) {
+  updatePlayerEditor(data) {
+    console.log(data)
     if(this.userIdValue === this.playerTwoIdValue) {
-      this.editor_one.setValue(data)
+      this.editor_one.setValue(data.player_one)
+    } else if (this.userIdValue === this.playerOneIdValue) {
+      this.editor_two.setValue(data.player_two)
     }
   }
 
