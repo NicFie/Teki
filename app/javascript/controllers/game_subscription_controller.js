@@ -186,15 +186,12 @@ export default class extends Controller {
   }
 
   // Code submissions and sendCode function
-  clearPlayerSubmission(){
+  clearPlayerSubmission() {
     this.editorOneOrTwo().setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
   }
- 
-  playerOneSubmission() {
-    this.sendCode(this.editor_one.getValue(), this.userIdValue);
-  }
-  playerTwoSubmission() {
-    this.sendCode(this.editor_two.getValue(), this.userIdValue);
+
+  playerSubmission() {
+    this.sendCode(this.editorOneOrTwo().getValue(), this.userIdValue);
   }
 
   sendCode(code, user_id) {
