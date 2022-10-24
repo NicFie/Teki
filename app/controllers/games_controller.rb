@@ -49,6 +49,7 @@ class GamesController < ApplicationController
     )
     @rounds = @game.game_rounds
     @rounds_left = @rounds.where('winner_id = 1').first
+    redirect_to dashboard_path if @rounds_left == nil
     authorize @game
   end
 
@@ -74,7 +75,6 @@ class GamesController < ApplicationController
       submission = eval(params[:submission_code])
     rescue SyntaxError => err
       @output = "ERROR: #{err.inspect}"
-      @output.gsub!(/(#|<|>)/, "")
       all_passed = []
     # tests variable needs modifying to return not just first test but sequentially after round is won
     else
@@ -114,10 +114,12 @@ class GamesController < ApplicationController
       end
       @output = @output.join
     end
-    @output.gsub!(/for #<\w+:\w+>\s+\w+\s+\^+/, "")
+    @output.gsub!(/(for #<\w+:\w+>\s+\w+\s+\^+|for #<\w+:\w+>)/, "")
+    @output.gsub!(/(#|<|>)/, "")
     p "User #{params[:user_id]} test results:#{all_passed}"
-    (all_passed.include?(false) || all_passed.empty?) ? "User #{params[:user_id]} failed." : @winner = "User #{params[:user_id]} wins!"
-
+    (all_passed.include?(false) || all_passed.empty?) ? "User #{params[:user_id]} failed." : @winner = "User #{User.find(params[:user_id]).username} wins!"
+    @p1_count = 0
+    @p2_count = 0
     # starting the next round code
     @is_a_winner = false
     @is_a_winner = true if (!all_passed.include?(false) && !all_passed.empty?)
@@ -126,11 +128,19 @@ class GamesController < ApplicationController
       @game_round.winner_id = params[:user_id]
       @game_round.save!
       skip_authorization
+
+      @p1_count = @game.game_rounds.where("winner_id =#{@game.player_one.id}").to_a.size
+      @p2_count = @game.game_rounds.where("winner_id =#{@game.player_two.id}").to_a.size
     end
 
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
-      format.json { render json: { results: @output, round_winner: @winner } }
+      format.json { render json: {
+         results: @output,
+         round_winner: @winner,
+         round_winner_count1:  @p1_count,
+         round_winner_count2:  @p2_count
+         } }
     end
 
     skip_authorization
