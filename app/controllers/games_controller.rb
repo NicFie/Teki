@@ -71,19 +71,22 @@ class GamesController < ApplicationController
 
   def game_test
     @game = Game.find(params[:id])
+    @output = []
+    all_passed = []
     begin
       submission = eval(params[:submission_code])
     rescue SyntaxError => err
-      @output = "ERROR: #{err.inspect}"
-      all_passed = []
+      @output << "ERROR: #{err.inspect}"
     # tests variable needs modifying to return not just first test but sequentially after round is won
     else
-      tests = eval(@game.game_rounds.where('winner_id = 1').first.challenge.tests)
-      @output = []
+      ran = @game.game_rounds.where('winner_id = 1').first.challenge.tests
+      tests = eval(ran)
+      random = eval(ran).keys
+
       count = 0
-      all_passed = []
 
       tests.each do |k, v|
+        key = k
         count += 1
         p "test key: #{k} test value:  #{v}"
         begin
@@ -95,10 +98,10 @@ class GamesController < ApplicationController
         else
           if call == v
             all_passed << true
-            @output << "#{count}. Test passed.\nWhen given #{k}, method successfully returned #{v}.\n\n"
+            @output << "#{count}. Test passed.\nWhen given #{random[count - 1]}, method successfully returned #{v}.\n\n"
           else
             all_passed << false
-            @output << "#{count}. Test failed.\n Given: #{k}. Expected: #{v.class == String ? "'#{v}'" : v}. Got: #{
+            @output << "#{count}. Test failed.\n Given: #{random[count - 1]}. Expected: #{v.class == String ? "'#{v}'" : v}. Got: #{
               if call.nil?
                 "nil"
               elsif call.class == String
