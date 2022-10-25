@@ -1,9 +1,33 @@
 .game-show-container {
-  height:80vh;
-  width:100%;
-  padding: 10px;
   display:flex;
-  justify-content: center;
+  margin: 20px 120px;
+  min-height: 740px;
+  gap: 10px;
+
+  h4 {
+    text-decoration: underline;
+    text-decoration-color: $dark-green;
+  }
+}
+
+.game-information {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  span {
+    font-size: 100px;
+    color: $light-green;
+    vertical-align: middle;
+    margin: 0px 50px;
+  }
+}
+
+.challenge-instructions {
+  flex-grow: 1;
+}
+
+.challenge-tests {
+  min-height: 25%;
 }
 
 .user-codebox {
@@ -11,82 +35,31 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  width: 35%;
-  background-color: rgb(50, 50, 50);
+  background-color: $dark-gray;
+  border-radius: 5px;
+  height: 370px;
 
 // codemirror style for game page.
   .CodeMirror{
     height: 60%;
     width:100%;
+    font-size: 15px;
   }
 }
 
-#user-codebox-1{
-  border-radius: 10px 0 0 10px;
+#user-codebox-1 {
+  border: 5px solid $light-green;
 }
-#user-codebox-2{
-  border-radius: 0 10px 10px 0;
-}
+
 
 .code-submit-buttons{
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 100%;
-}
-
-.right-buttons{
-  display: flex;
-  justify-content: center;
-}
-
-.code-submit{
-  height: 40px;
-  background-color: rgb(130, 130, 130);
-  color: white;
-}
-
-#playerOneClear{
-  border-radius: 0 0 0 10px;
-}
-
-#playerTwoSubmit{
-  border-radius: 0 0 10px 0;
-}
-
-
-.game-round-instructions-and-tests-boxes {
-  display:flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width:30%;
-  background-color: rgb(50, 50, 50);
-}
-.game-round-instructions{
-  width: 100%;
-  height:100%;
-  background-color: rgb(130, 130, 130);
-  color: white;
-  overflow-y: scroll;
-  word-wrap: break-word;
-  padding: 10px;
-}
-.game-round-tests{
-  width: 100%;
-  height:100%;
-  background-color: rgb(130, 130, 130);
-  color: white;
-  overflow-y: scroll;
   padding: 10px;
 }
 
-.buttons-group {
-  display:flex;
-  width:100%;
-  background-color: rgb(130, 130, 130);
-}
+
 
 .user-details{
   display:flex;
@@ -96,8 +69,27 @@
   height: 40px;
   margin: 0 10px;
 }
+
+.user-avatar-big {
+  height: 100px;
+}
+
 .user-name {
   color: $white;
   height: 40px;
   margin: 0 10px;
+}
+
+.game-show-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 45%;
+}
+
+.game-show-right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
 }
