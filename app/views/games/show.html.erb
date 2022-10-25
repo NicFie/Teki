@@ -34,6 +34,16 @@
     <div class="game-winner-modal-content">
       <span class="game-winner-modal-close">&times;</span>
       <p data-game-subscription-target="gameWinner"></p>
+      <div class="tally-container">
+        <div>
+          <p ><%= @game.player_one.username %> Wins:</p>
+          <p data-game-subscription-target="gameWinnerCountp1"></p>
+        </div>
+        <div>
+          <p><%= @game.player_two.username %> Wins:</p>
+          <p data-game-subscription-target="gameWinnerCountp2"></p>
+        </div>
+      </div>
       <button data-action="click->game-subscription#endGame">Back to Dashboard</button>
     </div>
   </div>

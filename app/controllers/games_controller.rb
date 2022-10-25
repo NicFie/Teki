@@ -45,7 +45,7 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
     GameChannel.broadcast_to(
       @game,
-      "update page"
+      {command: "update page"}
     )
     @rounds = @game.game_rounds
     @rounds_left = @rounds.where('winner_id = 1').first
@@ -127,24 +127,45 @@ class GamesController < ApplicationController
     # starting the next round code
     @is_a_winner = false
     @is_a_winner = true if (!all_passed.include?(false) && !all_passed.empty?)
+
+
     if @is_a_winner == true
       @game_round = @game.game_rounds.where('winner_id = 1').first
       @game_round.winner_id = params[:user_id]
       @game_round.save!
       skip_authorization
-
-      @p1_count = @game.game_rounds.where("winner_id =#{@game.player_one.id}").to_a.size
-      @p2_count = @game.game_rounds.where("winner_id =#{@game.player_two.id}").to_a.size
+      p "game rounds where winner id is 1 quantity::::#{@game.game_rounds.where('winner_id = 1').to_a.size}"
+      if @game.game_rounds.where('winner_id = 1').to_a.size == 0
+        @game_winner = @game.game_rounds.where("winner_id =#{@game.player_one.id}").to_a.size > @game.game_rounds.where("winner_id =#{@game.player_two.id}").to_a.size
+        GameChannel.broadcast_to(
+          @game,
+          {
+            command: "update game winner modal",
+            round_winner: @winner,
+            p1_count: @game.game_rounds.where("winner_id =#{@game.player_one.id}").to_a.size,
+            p2_count: @game.game_rounds.where("winner_id =#{@game.player_two.id}").to_a.size,
+            game_winner: @game_winner ? @game.player_one.username : @game.player_two.username
+          }
+        )
+      else
+        GameChannel.broadcast_to(
+          @game,
+          {
+            command: "update round winner modal",
+            round_winner: @winner,
+            p1_count: @game.game_rounds.where("winner_id =#{@game.player_one.id}").to_a.size,
+            p2_count: @game.game_rounds.where("winner_id =#{@game.player_two.id}").to_a.size
+          }
+        )
+      end
     end
+
+    @access_this = @game.game_rounds.where('winner_id = 12')
+    raise
 
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
-      format.json { render json: {
-         results: @output,
-         round_winner: @winner,
-         round_winner_count1:  @p1_count,
-         round_winner_count2:  @p2_count
-         } }
+      format.json { render json: { results: @output } }
     end
 
     skip_authorization

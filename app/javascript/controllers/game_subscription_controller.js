@@ -25,7 +25,10 @@ export default class extends Controller {
     "roundWinnerCountp1",
     "roundWinnerCountp2",
     "gameWinner",
-    "gameWinnerModal"
+    "gameWinnerModal",
+    "roundWinnerModalContent",
+    "gameWinnerCountp1",
+    "gameWinnerCountp2"
   ]
 
   initialize() {
@@ -86,7 +89,12 @@ export default class extends Controller {
   connect() {
     this.channel = createConsumer().subscriptions.create(
       { channel: "GameChannel", id: this.gameIdValue },
-      { received: data => { if(data == "update page") { this.updatePlayerOnePage() } } }
+      { received: data => {
+        console.log(data);
+        if(data.command == "update page") { this.updatePlayerOnePage() };
+        if(data.command == "update round winner modal") { this.roundWinnerModalUpdate(data) };
+        if(data.command == "update game winner modal") { this.gameWinnerModalUpdate(data) };
+      } }
     )
     console.log(`Subscribe to the chatroom with the id ${this.gameIdValue}.`);
     console.log(`The current user is ${this.userIdValue}`);
@@ -94,14 +102,24 @@ export default class extends Controller {
     console.log(`Player two's current Id is ${this.playerTwoIdValue}`)
 
     // modal stuff
-    const modal = document.getElementById("roundWinnerModal");
-    const span = document.getElementsByClassName("round-winner-modal-close")[0];
-    span.onclick = function() {
-      modal.style.display = "none";
+    const roundWinnerModal = document.getElementById("roundWinnerModal");
+    const roundWinnerspan = document.getElementsByClassName("round-winner-modal-close")[0];
+    roundWinnerspan.onclick = function() {
+      roundWinnerModal.style.display = "none";
     }
     window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
+      if (event.target == roundWinnerModal) {
+        roundWinnerModal.style.display = "none";
+      }
+    }
+    const gameWinnerModal = document.getElementById("gameWinnerModal");
+    const gameWinnerspan = document.getElementsByClassName("game-winner-modal-close")[0];
+    gameWinnerspan.onclick = function() {
+      gameWinnerModal.style.display = "none";
+    }
+    window.onclick = function(event) {
+      if (event.target == gameWinnerModal) {
+        gameWinnerModal.style.display = "none";
       }
     }
 
@@ -206,23 +224,33 @@ export default class extends Controller {
       body: JSON.stringify({ submission_code: code, user_id: user_id }),
     })
     .then((response) => response.json())
-    .then(data => {
-        console.log(data);
-        this.outputTarget.innerText = data.results;
-        this.roundWinnerTarget.innerText = data.round_winner;
-        if(data.round_winner.includes('wins')){
-          this.roundWinnerCountp1Target.innerText = `${data.round_winner_count1}`
-          this.roundWinnerCountp2Target.innerText = `${data.round_winner_count2}`
-          this.roundWinnerModalTarget.style.display = "block";
-        }
-      })
+    .then(data => this.outputTarget.innerText = data.results)
+  }
+
+
+    roundWinnerModalUpdate(data) {
+    if(data.round_winner.includes('wins')){
+    this.roundWinnerTarget.innerText = data.round_winner;
+    this.roundWinnerCountp1Target.innerText = `${data.p1_count}`;
+    this.roundWinnerCountp2Target.innerText = `${data.p2_count}`;
+    this.roundWinnerModalTarget.style.display = "block";
     }
+  }
 
   nextRound() {
     this.updatePage();
   }
 
-  endGame() {
+  gameWinnerModalUpdate(data) {
+    if(data.round_winner.includes('wins')){
+    this.gameWinnerTarget.innerText = `${data.game_winner} wins the game!!!`;
+    this.gameWinnerCountp1Target.innerText = `${data.p1_count}`;
+    this.gameWinnerCountp2Target.innerText = `${data.p2_count}`;
+    this.gameWinnerModalTarget.style.display = "block";
+    }
+  }
 
+  endGame() {
+    this.updatePage()
   }
 }
