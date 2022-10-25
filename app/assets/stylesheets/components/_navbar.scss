@@ -4,11 +4,11 @@
   border-bottom: $dark-green 5px solid;
 
   a {
-    color: $white;
+    color: $white !important;
   }
 
   a:hover {
-    color: $white;
+    color: $white !important;
   }
 }
 
