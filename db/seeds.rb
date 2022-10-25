@@ -12,7 +12,7 @@ NotEvenOdd = Challenge.create(
     4 => 'even steven',
     5 => 'that was odd...'
   },
-  method_template: 'def not_even_odd(number)\n\nend'
+  method_template: 'def not_even_odd(number)\n  \nend'
 )
 
 ArrayArrayArray = Challenge.create(
@@ -28,7 +28,7 @@ ArrayArrayArray = Challenge.create(
     ['a', 3] => [['a', 3], ['a', 3], ['a', 3]],
     [2, 4] => [[2, 4], [2, 4], [2, 4], [2, 4], [2, 4], [2, 4]]
   },
-  method_template: 'def array_array_array(array)\n\nend'
+  method_template: 'def array_array_array(array)\n  \nend'
 )
 
 PrintedErrors = Challenge.create(
@@ -48,7 +48,7 @@ PrintedErrors = Challenge.create(
     'aaabbbbhaijjjm' => '0/14',
     'aaaxbbbbyyhwawiwjjjwwm' => '8/22'
   },
-  method_template: 'def printer_error(string)\n\nend'
+  method_template: 'def printer_error(string)\n  \nend'
 )
 
 Arrays = Challenge.create(
@@ -65,7 +65,7 @@ Arrays = Challenge.create(
     [2, 4, 0, 100, 4, 11, 2602, 36] => 11,
     [160, 3, 1719, 19, 11, 13, -21] => 160
   },
-  method_template: 'def find_the_outlier(array)\n\nend'
+  method_template: 'def find_the_outlier(array)\n  \nend'
 )
 
 SortNumbers = Challenge.create(
@@ -79,7 +79,7 @@ SortNumbers = Challenge.create(
     [5, 3, 2, 8, 1, 4] => [1, 3, 5, 8, 4, 2],
     [21, 7, 35, 1, 8, 12, 2, 0] => [1, 7, 21, 35, 12, 8, 2, 0]
   },
-  method_template: 'def up_and_down(array)\n\nend'
+  method_template: 'def up_and_down(array)\n  \nend'
 )
 
 DescendingOrder = Challenge.create(
@@ -96,7 +96,7 @@ DescendingOrder = Challenge.create(
     145263 => 654321,
     123456789 => 987654321
   },
-  method_template: 'def descending_order(number)\n\nend'
+  method_template: 'def descending_order(number)\n  \nend'
 )
 
 puts "Creating Users"

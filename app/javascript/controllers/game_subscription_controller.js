@@ -159,14 +159,20 @@ export default class extends Controller {
     let playerOnesForm = new FormData()
     playerOnesForm.append("game[player_one_id]", this.userIdValue)
     this.patchForm(playerOnesForm)
-    this.updatePage()
+    // maybe use broadcast instead
+    setTimeout(() => {
+      this.updatePage()
+    }, 300);
   }
 
   updatePlayerTwoId() {
     let playerTwosForm = new FormData()
     playerTwosForm.append("game[player_two_id]", this.userIdValue)
     this.patchForm(playerTwosForm)
-    this.updatePage()
+    // maybe use broadcast instead
+    setTimeout(() => {
+      this.updatePage()
+    }, 300);
   }
 
   updatePage() {

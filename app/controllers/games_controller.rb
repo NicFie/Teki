@@ -18,12 +18,18 @@ class GamesController < ApplicationController
   end
 
   def create
-    @game = Game.new(game_params)
-    authorize @game
-    @game.player_one_id = 1
-    @game.player_two_id = 1
-    @game.save!
-    add_rounds_and_challenges(@game.id)
+    @check_game = Game.where("player_two_id = 1")
+    if @check_game.exists?
+      redirect_to game_path(@check_game[0].id)
+      authorize @check_game
+    else
+      @game = Game.new(game_params)
+      authorize @game
+      @game.player_one_id = 1
+      @game.player_two_id = 1
+      @game.save!
+      add_rounds_and_challenges(@game.id)
+    end
   end
 
   def add_rounds_and_challenges(id)
