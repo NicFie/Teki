@@ -259,4 +259,9 @@ export default class extends Controller {
   endGame() {
     this.updatePage()
   }
+
+  disconnect() {
+    console.log("Unsubscribed from the chatroom")
+    this.channel.unsubscribe()
+  }
 }
