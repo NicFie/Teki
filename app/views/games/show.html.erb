@@ -49,7 +49,7 @@
 
   <div class="game-show-left">
     <div class="page-section game-information">
-      <h3>Round 1 / <%= @game.round_count %></h3>
+      <h3> <%=  (@game.game_rounds.where('winner_id != 1').size + 1) %> / <%= @game.round_count %></h3>
       <div>
         <%= image_tag(@game.player_one.avatar, class: "user-avatar-big") %> <span>V</span> <%= image_tag(@game.player_two.avatar, class: "user-avatar-big") %>
       </div>
@@ -66,8 +66,8 @@
     </div>
   </div>
 
-  <div class="game-show-right">
-    <div class="user-codebox" id="user-codebox-1" data-action="keyup->game-subscription#playerTyping">
+  <div class="game-show-right <%= "game-show-right-reversed" if current_user == @game.player_two %>">
+    <div class="user-codebox <%= "current-player-codebox" if current_user == @game.player_one %>" id="user-codebox-1" data-action="keyup->game-subscription#playerTyping">
       <div class="user-details">
         <div><%= image_tag(@game.player_one.avatar, class: "user-avatar") %></div>
         <h2 class="user-name"><%= @game.player_one.username %></h2>
@@ -82,7 +82,7 @@
       <% end %>
     </div>
 
-    <div class="user-codebox" id="user-codebox-2" data-action="keyup->game-subscription#playerTyping">
+    <div class="user-codebox <%= "current-player-codebox" if current_user == @game.player_two %>" id="user-codebox-2" data-action="keyup->game-subscription#playerTyping">
       <div class="user-details">
         <div><%= image_tag(@game.player_two.avatar, class: "user-avatar") %></div>
         <h2 class="user-name"><%= @game.player_two.username %></h2>

@@ -140,9 +140,15 @@ class GamesController < ApplicationController
       @game_round.winner_id = params[:user_id]
       @game_round.save!
       skip_authorization
-      p "game rounds where winner id is 1 quantity::::#{@game.game_rounds.where('winner_id = 1').to_a.size}"
+
       if @game.game_rounds.where('winner_id = 1').to_a.size == 0
         @game_winner = @game.game_rounds.where("winner_id =#{@game.player_one.id}").to_a.size > @game.game_rounds.where("winner_id =#{@game.player_two.id}").to_a.size
+        if @game_winner
+          @game.game_winner = @game.player_one.id
+        else
+          @game.game_winner = @game.player_two.id
+        end
+        @game.save!
         GameChannel.broadcast_to(
           @game,
           {
@@ -153,6 +159,24 @@ class GamesController < ApplicationController
             game_winner: @game_winner ? @game.player_one.username : @game.player_two.username
           }
         )
+        # setting scores.
+        winner = User.find(@game.game_winner)
+        loser = User.find(winner.id == @game.player_one.id ? @game.player_two.id : @game.player_one.id)
+        rounds_won = @game.game_rounds.where("winner_id =#{winner.id}").to_a.size
+        game_won = 3
+        rounds_lost = @game.game_rounds.where("winner_id !=#{winner.id}").to_a.size
+        bonus = loser.score / 20
+        if (bonus >= 0 && bonus < 50)
+          winner.score = (winner.score + rounds_won + game_won + bonus) - rounds_lost
+          loser.score = (loser.score - bonus - rounds_won)
+        else
+          winner.score = (winner.score + rounds_won + game_won + 50) - rounds_lost
+          loser.score = (loser.score - 50 - rounds_won)
+        end
+        loser.score = 0 if loser.score.negative?
+        winner.save!
+        loser.save!
+
       else
         GameChannel.broadcast_to(
           @game,
@@ -167,7 +191,6 @@ class GamesController < ApplicationController
     end
 
     @access_this = @game.game_rounds.where('winner_id = 12')
-
 
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
