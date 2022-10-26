@@ -167,7 +167,6 @@ class GamesController < ApplicationController
     end
 
     @access_this = @game.game_rounds.where('winner_id = 12')
-    raise
 
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.

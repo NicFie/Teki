@@ -24,6 +24,7 @@
 
 .challenge-instructions {
   flex-grow: 1;
+  overflow-y: auto;
 }
 
 .challenge-tests {
@@ -38,6 +39,7 @@
   background-color: $dark-gray;
   border-radius: 5px;
   height: 370px;
+  max-width: 826px;
 
 // codemirror style for game page.
   .CodeMirror{
@@ -47,7 +49,7 @@
   }
 }
 
-#user-codebox-1 {
+.current-player-codebox {
   border: 5px solid $light-green;
 }
 
@@ -92,4 +94,8 @@
   flex-direction: column;
   gap: 10px;
   flex-grow: 1;
+}
+
+.game-show-right-reversed {
+  flex-direction: column-reverse;
 }
