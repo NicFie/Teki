@@ -69,7 +69,9 @@ class GamesController < ApplicationController
     begin
       submission = eval(params[:submission_code])
     rescue SyntaxError => err
-      @output = "ERROR: #{err.inspect}"
+      @output = "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{err.message.gsub!('(eval):3:', '')}"
+      # @output
+      # @output.gsub!(/(#|<|>)/, "")
       all_passed = []
     # tests variable needs modifying to return not just first test but sequentially after round is won
     else
@@ -87,16 +89,16 @@ class GamesController < ApplicationController
         begin
           call = method(submission).call(k)
         rescue StandardError => err
-          @output << "ERROR: #{err.message}\n\n"
+          @output << "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{err.message.gsub!(/(for #<\w+:\w+>\s+\w+\s+\^+|for #<\w+:\w+>)/, '')}<br><br>"
         rescue ScriptError => err
-          @output << "ERROR: #{err.message}\n\n"
+          @output << "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{err.message.gsub!(/(for #<\w+:\w+>\s+\w+\s+\^+|for #<\w+:\w+>)/, '')}<br><br>"
         else
           if call == v
             all_passed << true
-            @output << "#{count}. <span style=\"color: green; font-weight: bold;\">Test passed</span>.<br>When given #{display_keys[count - 1]}, method successfully returned #{v}.<br><br>"
+            @output << "#{count}. <span style=\"color: green; font-weight: bold;\">Test passed:</span><br>When given #{display_keys[count - 1]}, method successfully returned #{v}.<br><br>"
           else
             all_passed << false
-            @output << "#{count}. <span style=\"color: red; font-weight: bold;\">Test failed.</span><br> Given: #{display_keys[count - 1]}. Expected: #{v.class == String ? "'#{v}'" : v}. Got: #{
+            @output << "#{count}. <span style=\"color: #ff6346; font-weight: bold;\">Test failed:</span><br> Given: #{display_keys[count - 1]}. Expected: #{v.class == String ? "'#{v}'" : v}. Got: #{
               if call.nil?
                 "nil"
               elsif call.class == String
