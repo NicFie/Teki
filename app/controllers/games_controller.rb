@@ -166,7 +166,7 @@ class GamesController < ApplicationController
         game_won = 3
         rounds_lost = @game.game_rounds.where("winner_id !=#{winner.id}").to_a.size
         bonus = loser.score / 20
-        if (bonus >= 0 && bonus < 50)
+        if bonus >= 0 && bonus < 50
           winner.score = (winner.score + rounds_won + game_won + bonus) - rounds_lost
           loser.score = (loser.score - bonus - rounds_won)
           @game.winner_score = (rounds_won + game_won + bonus) - rounds_lost

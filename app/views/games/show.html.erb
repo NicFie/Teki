@@ -11,41 +11,6 @@
   data-game-subscription-game-round-method-value="<%= @rounds_left.challenge.method_template %>">
   <h3> <%= @action_users_connected %> </h3>
 
-  <div data-game-subscription-target="roundWinnerModal" id="roundWinnerModal" class="round-winner-modal">
-    <div data-game-subscription-target="roundWinnerModalContent" class="round-winner-modal-content">
-      <span class="round-winner-modal-close">&times;</span>
-      <p data-game-subscription-target="roundWinner"></p>
-      <div class="tally-container">
-        <div>
-          <p ><%= @game.player_one.username %> Wins:</p>
-          <p data-game-subscription-target="roundWinnerCountp1"></p>
-        </div>
-        <div>
-          <p><%= @game.player_two.username %> Wins:</p>
-          <p data-game-subscription-target="roundWinnerCountp2"></p>
-        </div>
-      </div>
-      <button data-action="click->game-subscription#nextRound">Next Round</button>
-    </div>
-  </div>
-
-  <div data-game-subscription-target="gameWinnerModal" id="gameWinnerModal" class="game-winner-modal">
-    <div class="game-winner-modal-content">
-      <span class="game-winner-modal-close">&times;</span>
-      <p data-game-subscription-target="gameWinner"></p>
-      <div class="tally-container">
-        <div>
-          <p ><%= @game.player_one.username %> Wins:</p>
-          <p data-game-subscription-target="gameWinnerCountp1"></p>
-        </div>
-        <div>
-          <p><%= @game.player_two.username %> Wins:</p>
-          <p data-game-subscription-target="gameWinnerCountp2"></p>
-        </div>
-      </div>
-      <button data-action="click->game-subscription#endGame">Back to Dashboard</button>
-    </div>
-  </div>
 
   <div class="game-show-left">
     <div class="page-section game-information">
@@ -97,4 +62,43 @@
       <% end %>
     </div>
   </div>
+
+  <%# MODALS %>
+
+  <div data-game-subscription-target="roundWinnerModal" id="roundWinnerModal" class="round-winner-modal">
+    <div data-game-subscription-target="roundWinnerModalContent" class="round-winner-modal-content">
+      <span class="round-winner-modal-close">&times;</span>
+      <p data-game-subscription-target="roundWinner"></p>
+      <div class="tally-container">
+        <div>
+          <p ><%= @game.player_one.username %> Wins:</p>
+          <p data-game-subscription-target="roundWinnerCountp1"></p>
+        </div>
+        <div>
+          <p><%= @game.player_two.username %> Wins:</p>
+          <p data-game-subscription-target="roundWinnerCountp2"></p>
+        </div>
+      </div>
+      <button data-action="click->game-subscription#nextRound">Next Round</button>
+    </div>
+  </div>
+
+  <div data-game-subscription-target="gameWinnerModal" id="gameWinnerModal" class="game-winner-modal">
+    <div class="game-winner-modal-content">
+      <span class="game-winner-modal-close">&times;</span>
+      <p data-game-subscription-target="gameWinner"></p>
+      <div class="tally-container">
+        <div>
+          <p ><%= @game.player_one.username %> Wins:</p>
+          <p data-game-subscription-target="gameWinnerCountp1"></p>
+        </div>
+        <div>
+          <p><%= @game.player_two.username %> Wins:</p>
+          <p data-game-subscription-target="gameWinnerCountp2"></p>
+        </div>
+      </div>
+      <button data-action="click->game-subscription#endGame">Back to Dashboard</button>
+    </div>
+  </div>
+
 </div>
