@@ -107,23 +107,7 @@
               <th>Rounds Won</th>
               <th>Points</th>
             </tr>
-            <% @latest_battles.each do |b| %>
-              <tr>
-                <td>
-                  <% if b.game_winner == b.player_one_id && b.game_winner == current_user.id %>
-                    <%= image_tag(b.player_one.avatar, height: '40') %> V <%= link_to image_tag(b.player_two.avatar, height: '40'), user_path(b.player_two)%>
-                  <% elsif b.game_winner == b.player_two_id %>
-                    <%= link_to image_tag(b.player_two.avatar, height: '40'), user_path(b.player_two)%> V <%= image_tag(b.player_one.avatar, height: '40') %>
-                  <% end %>
-                </td>
-                <td>
-                  <div><%= b.game_rounds.where(winner_id: current_user.id).length %>/<%= b.game_rounds.length %></div>
-                </td>
-                <td>
-                  <div>Put Points Here</div>
-                </td>
-              </tr>
-            <% end %>
+            <%= render "shared/latest_battles_table", battles: @latest_battles%>
           </tbody>
         </table>
       </div>
