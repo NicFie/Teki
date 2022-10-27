@@ -1,17 +1,5 @@
 class GamesController < ApplicationController
   # skip_authorization only: [:game_test]
-
-  def waiting_room
-    @game = Game.where("player_two_id = 1 and round_count = ?", params[:round_count])
-    if @game.exists?
-      redirect_to game_path(@game[0].id)
-    else
-      user = current_user
-      redirect_to new_user_game_path(user)
-    end
-    skip_authorization
-  end
-
   def new
     @game = Game.new
     authorize @game
@@ -227,12 +215,12 @@ class GamesController < ApplicationController
         player_two: @game.player_two_code
       }
     )
-    # respond_to do |format|
-    #   format.js #add this at the beginning to make sure the form is populated.
-    #   format.json { render json: { player_one: @game.player_one_code, player_two: @game.player_two_code } }
-    # end
 
     skip_authorization
+  end
+
+  def disconnect_all_users
+
   end
 
   private

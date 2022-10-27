@@ -70,6 +70,8 @@ export default class extends Controller {
     // setting the challenge default method in codemirror windows
     this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
     this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
+
+    this.playerTyping()
   }
 
   connect() {
@@ -239,10 +241,10 @@ export default class extends Controller {
 
     roundWinnerModalUpdate(data) {
     if(data.round_winner.includes('wins')){
-    this.roundWinnerTarget.innerText = data.round_winner;
-    this.roundWinnerCountp1Target.innerText = `${data.p1_count}`;
-    this.roundWinnerCountp2Target.innerText = `${data.p2_count}`;
-    this.roundWinnerModalTarget.style.display = "block";
+      this.roundWinnerTarget.innerText = data.round_winner;
+      this.roundWinnerCountp1Target.innerText = `${data.p1_count}`;
+      this.roundWinnerCountp2Target.innerText = `${data.p2_count}`;
+      this.roundWinnerModalTarget.style.display = "block";
     }
   }
 
@@ -252,10 +254,10 @@ export default class extends Controller {
 
   gameWinnerModalUpdate(data) {
     if(data.round_winner.includes('wins')){
-    this.gameWinnerTarget.innerText = `${data.game_winner} wins the game!!!`;
-    this.gameWinnerCountp1Target.innerText = `${data.p1_count}`;
-    this.gameWinnerCountp2Target.innerText = `${data.p2_count}`;
-    this.gameWinnerModalTarget.style.display = "block";
+      this.gameWinnerTarget.innerText = `${data.game_winner} wins the game!!!`;
+      this.gameWinnerCountp1Target.innerText = `${data.p1_count}`;
+      this.gameWinnerCountp2Target.innerText = `${data.p2_count}`;
+      this.gameWinnerModalTarget.style.display = "block";
     }
   }
 
@@ -264,8 +266,7 @@ export default class extends Controller {
   }
 
   disconnect() {
-    console.log("Unsubscribed from the chatroom")
-    clearInterval(this.intervalID)
     this.channel.unsubscribe()
+    WebSocket.CLOSED()
   }
 }

@@ -1,4 +1,4 @@
-<div class="dashboard-wrapper">
+<div class="dashboard-wrapper" data-controller="dashboard">
   <div class="page-section dashboard-information">
     <div class="d-flex">
       <%= image_tag(current_user.avatar, height: '100') %>
@@ -36,11 +36,11 @@
           </button>
         </div>
         <div class="modal-body round-choice">
-            <%= simple_form_for [current_user, @game] do |f| %>
+            <%= simple_form_for [current_user, @game], html: { autocomplete: "off" } do |f| %>
                 <%= f.input :round_count, as: :radio_buttons, collection: [[1, '1'], [3, '3'], [5, '5']], label_method: :second, value_method: :first, label: '', class: 'form-check-inline' %>
         </div>
         <div class="modal-footer">
-          <%= f.submit "Battle!", class: 'btn btn-main' %>
+          <%= f.submit "Battle!",  data: { disable_with: "<i class='fa fa-spinner fa-spin'></i>" }, class: 'btn btn-main' %>
           <% end %>
         </div>
       </div>
