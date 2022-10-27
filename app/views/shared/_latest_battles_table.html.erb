@@ -13,10 +13,11 @@
       </div>
     </td>
     <td>
-      <divs tyle='color: <%= b.game_winner == current_user.id ? 'green' : 'red' %>>
+      <divs style='color: <%= b.game_winner == current_user.id ? 'green' : 'red' %>'>
         <% if b.game_winner == current_user.id %>
-          <%= b.game_winner_points %>
-
+          <%= b.winner_score %>
+        <% else %>
+          - <%= b.loser_score %>
         <% end %>
       </div>
     </td>
