@@ -169,13 +169,19 @@ class GamesController < ApplicationController
         if (bonus >= 0 && bonus < 50)
           winner.score = (winner.score + rounds_won + game_won + bonus) - rounds_lost
           loser.score = (loser.score - bonus - rounds_won)
+          @game.winner_score = (rounds_won + game_won + bonus) - rounds_lost
+          @game.loser_score = bonus + rounds_won
         else
           winner.score = (winner.score + rounds_won + game_won + 50) - rounds_lost
           loser.score = (loser.score - 50 - rounds_won)
+          @game.winner_score = (rounds_won + game_won + 50) - rounds_lost
+          @game.loser_score = 50 + rounds_won
         end
+        @game.loser_score = @game.loser_score - loser.score.abs if loser.score.negative?
         loser.score = 0 if loser.score.negative?
         winner.save!
         loser.save!
+        @game.save!
 
       else
         GameChannel.broadcast_to(
