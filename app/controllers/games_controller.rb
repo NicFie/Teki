@@ -221,10 +221,6 @@ class GamesController < ApplicationController
     skip_authorization
   end
 
-  def disconnect_all_users
-
-  end
-
   private
 
   def game_params
