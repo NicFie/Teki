@@ -100,6 +100,16 @@
       </div>
       <div class="page-section">
         <h2>Latest battles</h2>
+        <table class="leaderboard">
+          <tbody>
+            <tr>
+              <th>Game</th>
+              <th>Rounds Won</th>
+              <th>Points</th>
+            </tr>
+            <%= render "shared/latest_battles_table", battles: @latest_battles%>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

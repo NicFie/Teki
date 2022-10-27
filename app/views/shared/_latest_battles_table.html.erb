@@ -1,0 +1,25 @@
+<% battles[0..4].each do |b| %>
+  <tr>
+    <td>
+      <% if b.player_one == current_user %>
+        <%= link_to image_tag(b.player_two.avatar, height: '40'), user_path(b.player_two)%> <%= b.player_two.username %>
+      <% elsif b.player_two == current_user %>
+        <%= link_to image_tag(b.player_one.avatar, height: '40'), user_path(b.player_one)%> <%= b.player_one.username %>
+      <% end %>
+    </td>
+    <td>
+      <div style='color: <%= b.game_winner == current_user.id ? 'green' : 'red' %>;'>
+        <%= b.game_rounds.where(winner_id: current_user.id).length %>/<%= b.game_rounds.length %>
+      </div>
+    </td>
+    <td>
+      <divs style='color: <%= b.game_winner == current_user.id ? 'green' : 'red' %>'>
+        <% if b.game_winner == current_user.id %>
+          <%= b.winner_score %>
+        <% else %>
+          - <%= b.loser_score %>
+        <% end %>
+      </div>
+    </td>
+  </tr>
+<% end %>
