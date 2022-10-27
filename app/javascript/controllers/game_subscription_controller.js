@@ -104,24 +104,24 @@ export default class extends Controller {
     // modal stuff
     const roundWinnerModal = document.getElementById("roundWinnerModal");
     const roundWinnerspan = document.getElementsByClassName("round-winner-modal-close")[0];
-    roundWinnerspan.onclick = function() {
-      roundWinnerModal.style.display = "none";
-    }
-    window.onclick = function(event) {
-      if (event.target == roundWinnerModal) {
-        roundWinnerModal.style.display = "none";
-      }
-    }
+    // roundWinnerspan.onclick = function() {
+    //   roundWinnerModal.style.display = "none";
+    // }
+    // window.onclick = function(event) {
+    //   if (event.target == roundWinnerModal) {
+    //     roundWinnerModal.style.display = "none";
+    //   }
+    // }
     const gameWinnerModal = document.getElementById("gameWinnerModal");
     const gameWinnerspan = document.getElementsByClassName("game-winner-modal-close")[0];
-    gameWinnerspan.onclick = function() {
-      gameWinnerModal.style.display = "none";
-    }
-    window.onclick = function(event) {
-      if (event.target == gameWinnerModal) {
-        gameWinnerModal.style.display = "none";
-      }
-    }
+    // gameWinnerspan.onclick = function() {
+    //   gameWinnerModal.style.display = "none";
+    // }
+    // window.onclick = function(event) {
+    //   if (event.target == gameWinnerModal) {
+    //     gameWinnerModal.style.display = "none";
+    //   }
+    // }
 
     //Checks default value of the game then updates
     //the game with correct user id's for player one and player two.
