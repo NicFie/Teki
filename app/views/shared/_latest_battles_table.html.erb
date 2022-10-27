@@ -1,4 +1,4 @@
-<% battles.each do |b| %>
+<% battles[0..4].each do |b| %>
   <tr>
     <td>
       <% if b.player_one == current_user %>
@@ -8,10 +8,12 @@
       <% end %>
     </td>
     <td>
-      <div><%= b.game_rounds.where(winner_id: current_user.id).length %>/<%= b.game_rounds.length %></div>
+      <div style='color: <%= b.game_winner == current_user.id ? 'green' : 'red' %>;'>
+        <%= b.game_rounds.where(winner_id: current_user.id).length %>/<%= b.game_rounds.length %>
+      </div>
     </td>
     <td>
-      <div>Put Points Here</div>
+      <div>Put points here</div>
     </td>
   </tr>
 <% end %>
