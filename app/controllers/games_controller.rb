@@ -2,7 +2,7 @@ class GamesController < ApplicationController
   # skip_authorization only: [:game_test]
 
   def waiting_room
-    @game = Game.where("player_two_id = 1")
+    @game = Game.where("player_two_id = 1 and round_count = ?", params[:round_count])
     if @game.exists?
       redirect_to game_path(@game[0].id)
     else
@@ -18,7 +18,7 @@ class GamesController < ApplicationController
   end
 
   def create
-    @check_game = Game.where("player_two_id = 1")
+    @check_game =Game.where("player_two_id = 1 and round_count = ?", params[:round_count])
     if @check_game.exists?
       redirect_to game_path(@check_game[0].id)
       authorize @check_game
