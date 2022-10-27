@@ -218,10 +218,19 @@ class GamesController < ApplicationController
 
   def user_code
     @game = Game.find(params[:id])
-    respond_to do |format|
-      format.js #add this at the beginning to make sure the form is populated.
-      format.json { render json: { player_one: @game.player_one_code, player_two: @game.player_two_code } }
-    end
+    GameChannel.broadcast_to(
+      @game,
+      {
+        command: "update editors",
+        round_winner: @winner,
+        player_one: @game.player_one_code,
+        player_two: @game.player_two_code
+      }
+    )
+    # respond_to do |format|
+    #   format.js #add this at the beginning to make sure the form is populated.
+    #   format.json { render json: { player_one: @game.player_one_code, player_two: @game.player_two_code } }
+    # end
 
     skip_authorization
   end

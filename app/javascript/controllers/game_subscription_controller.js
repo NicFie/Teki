@@ -70,20 +70,6 @@ export default class extends Controller {
     // setting the challenge default method in codemirror windows
     this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
     this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
-
-    this.intervalID = setInterval(() => {
-      fetch(`/games/${this.gameIdValue}/user_code`, {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-          "X-CSRF-Token": this.token,
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-      })
-      .then((response) => response.json())
-      .then(data => this.updatePlayerEditor(data))
-    }, 2000);
   }
 
   connect() {
@@ -94,6 +80,7 @@ export default class extends Controller {
         if(data.command == "update page") { this.updatePlayerOnePage() };
         if(data.command == "update round winner modal") { this.roundWinnerModalUpdate(data) };
         if(data.command == "update game winner modal") { this.gameWinnerModalUpdate(data) };
+        if(data.command == "update editors") { this.updatePlayerEditor(data) };
       } }
     )
     console.log(`Subscribe to the chatroom with the id ${this.gameIdValue}.`);
@@ -199,6 +186,22 @@ export default class extends Controller {
     let playerCodeForm = new FormData()
     playerCodeForm.append(`game[player_${this.playerOneOrTwo()}_code]`, this.editorOneOrTwo().getValue())
     this.patchForm(playerCodeForm)
+    this.getPlayerCode()
+  }
+
+  getPlayerCode() {
+    // console.log("arrives in player code")
+    fetch(`/games/${this.gameIdValue}/user_code`, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-CSRF-Token": this.token,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+    })
+    .then((response) => response.json())
+    // .then(data => this.updatePlayerEditor(data))
   }
 
   updatePlayerEditor(data) {
