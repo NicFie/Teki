@@ -13,7 +13,12 @@
       </div>
     </td>
     <td>
-      <div>Put points here</div>
+      <divs tyle='color: <%= b.game_winner == current_user.id ? 'green' : 'red' %>>
+        <% if b.game_winner == current_user.id %>
+          <%= b.game_winner_points %>
+
+        <% end %>
+      </div>
     </td>
   </tr>
 <% end %>
