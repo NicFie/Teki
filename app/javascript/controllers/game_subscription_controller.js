@@ -235,11 +235,11 @@ export default class extends Controller {
       body: JSON.stringify({ submission_code: code, user_id: user_id }),
     })
     .then((response) => response.json())
-    .then(data => this.outputTarget.innerText = data.results)
+    .then(data => this.outputTarget.innerHTML = data.results)
   }
 
 
-    roundWinnerModalUpdate(data) {
+  roundWinnerModalUpdate(data) {
     if(data.round_winner.includes('wins')){
       this.roundWinnerTarget.innerText = data.round_winner;
       this.roundWinnerCountp1Target.innerText = `${data.p1_count}`;

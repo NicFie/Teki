@@ -93,10 +93,10 @@ class GamesController < ApplicationController
         else
           if call == v
             all_passed << true
-            @output << "#{count}. Test passed.\nWhen given #{display_keys[count - 1]}, method successfully returned #{v}.\n\n"
+            @output << "#{count}. <span style=\"color: green; font-weight: bold;\">Test passed</span>.<br>When given #{display_keys[count - 1]}, method successfully returned #{v}.<br><br>"
           else
             all_passed << false
-            @output << "#{count}. Test failed.\n Given: #{display_keys[count - 1]}. Expected: #{v.class == String ? "'#{v}'" : v}. Got: #{
+            @output << "#{count}. <span style=\"color: red; font-weight: bold;\">Test failed.</span><br> Given: #{display_keys[count - 1]}. Expected: #{v.class == String ? "'#{v}'" : v}. Got: #{
               if call.nil?
                 "nil"
               elsif call.class == String
@@ -106,14 +106,14 @@ class GamesController < ApplicationController
               else
                 call
               end
-            }.\n\n"
+            }.<br><br>"
           end
         end
       end
       @output = @output.join
     end
-    @output.gsub!(/(for #<\w+:\w+>\s+\w+\s+\^+|for #<\w+:\w+>)/, "")
-    @output.gsub!(/(#|<|>)/, "")
+    # @output.gsub!(/(for #<\w+:\w+>\s+\w+\s+\^+|for #<\w+:\w+>)/, "")
+    # @output.gsub!(/(#|<|>)/, "")
     p "User #{params[:user_id]} test results:#{all_passed}"
     (all_passed.include?(false) || all_passed.empty?) ? "User #{params[:user_id]} failed." : @winner = "User #{User.find(params[:user_id]).username} wins!"
     @p1_count = 0
