@@ -18,7 +18,7 @@ class GamesController < ApplicationController
   end
 
   def create
-    @check_game =Game.where("player_two_id = 1 and round_count = ?", params[:round_count])
+    @check_game = Game.where("player_two_id = ? and round_count = ?", 1, params["game"]["round_count"].to_i)
     if @check_game.exists?
       redirect_to game_path(@check_game[0].id)
       authorize @check_game
