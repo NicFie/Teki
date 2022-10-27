@@ -71,7 +71,7 @@ export default class extends Controller {
     this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
     this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
 
-    setInterval(() => {
+    this.intervalID = setInterval(() => {
       fetch(`/games/${this.gameIdValue}/user_code`, {
         method: "POST",
         credentials: "same-origin",
@@ -262,6 +262,7 @@ export default class extends Controller {
 
   disconnect() {
     console.log("Unsubscribed from the chatroom")
+    clearInterval(this.intervalID)
     this.channel.unsubscribe()
   }
 }
