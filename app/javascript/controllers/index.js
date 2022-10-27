@@ -4,11 +4,11 @@
 
 import { application } from "./application"
 
-import DashtabsController from "./dashtabs_controller"
-application.register("dashtabs", DashtabsController)
-
 import ChallengeInstructionsController from "./challenge_instructions_controller"
 application.register("challenge-instructions", ChallengeInstructionsController)
+
+import DashtabsController from "./dashtabs_controller"
+application.register("dashtabs", DashtabsController)
 
 import GameSubscriptionController from "./game_subscription_controller"
 application.register("game-subscription", GameSubscriptionController)
@@ -22,7 +22,8 @@ application.register("lp-cards", LpCardsController)
 import SidebarController from "./sidebar_controller"
 application.register("sidebar", SidebarController)
 
-
+import SolutionController from "./solution_controller"
+application.register("solution", SolutionController)
 
 import TypedJsController from "./typed_js_controller"
 application.register("typed-js", TypedJsController)

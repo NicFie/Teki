@@ -1,24 +1,12 @@
 class GamesController < ApplicationController
   # skip_authorization only: [:game_test]
-
-  def waiting_room
-    @game = Game.where("player_two_id = 1 and round_count = ?", params[:round_count])
-    if @game.exists?
-      redirect_to game_path(@game[0].id)
-    else
-      user = current_user
-      redirect_to new_user_game_path(user)
-    end
-    skip_authorization
-  end
-
   def new
     @game = Game.new
     authorize @game
   end
 
   def create
-    @check_game =Game.where("player_two_id = 1 and round_count = ?", params[:round_count])
+    @check_game = Game.where("player_two_id = ? and round_count = ?", 1, params["game"]["round_count"].to_i)
     if @check_game.exists?
       redirect_to game_path(@check_game[0].id)
       authorize @check_game
@@ -218,12 +206,21 @@ class GamesController < ApplicationController
 
   def user_code
     @game = Game.find(params[:id])
-    respond_to do |format|
-      format.js #add this at the beginning to make sure the form is populated.
-      format.json { render json: { player_one: @game.player_one_code, player_two: @game.player_two_code } }
-    end
+    GameChannel.broadcast_to(
+      @game,
+      {
+        command: "update editors",
+        round_winner: @winner,
+        player_one: @game.player_one_code,
+        player_two: @game.player_two_code
+      }
+    )
 
     skip_authorization
+  end
+
+  def disconnect_all_users
+
   end
 
   private
