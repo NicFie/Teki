@@ -29,6 +29,7 @@
       <% puts "We love animals" %>
       <%= yield %>
     <% else %>
+      <%= render "shared/pre_game_modal" %>
       <%= render "shared/navbar" %>
       <div class="page_wrapper">
         <%= render "shared/sidebar" %>

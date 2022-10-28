@@ -1,5 +1,6 @@
 .round-winner-modal {
   background-color: rgba(0,0,0,0.7);
+  backdrop-filter: blur(10px);
 }
 
 .round-winner-modal-content, .round-choice-modal-content {
@@ -11,6 +12,7 @@
 
 .round-winner-modal-header, .round-choice-modal-header {
   border-bottom: 0px;
+  backdrop-filter: blur(5px);
   text-align: center;
   display: flex;
   justify-content: center;

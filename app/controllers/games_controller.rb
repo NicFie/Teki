@@ -40,6 +40,8 @@ class GamesController < ApplicationController
     @rounds = @game.game_rounds
     @rounds_left = @rounds.where('winner_id = 1').first
     redirect_to dashboard_path if @rounds_left.nil?
+
+
     authorize @game
   end
 
@@ -51,8 +53,18 @@ class GamesController < ApplicationController
   def update
     @game = Game.find(params[:id])
     @game.update(game_params)
-    @game.save
+    @game.save!
 
+    GameChannel.broadcast_to(
+      @game,
+      {
+        command: "start game",
+        player_one: @game.player_one.id,
+        player_two: @game.player_two.id,
+        player_two_username: @game.player_two.username,
+        player_two_avatar: @game.player_two.avatar
+      }
+    )
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
     end
@@ -152,7 +164,7 @@ class GamesController < ApplicationController
         game_won = 3
         rounds_lost = @game.game_rounds.where("winner_id !=#{winner.id}").to_a.size
         bonus = loser.score / 20
-        if (bonus >= 0 && bonus < 50)
+        if bonus >= 0 && bonus < 50
           winner.score = (winner.score + rounds_won + game_won + bonus) - rounds_lost
           loser.score = (loser.score - bonus - rounds_won)
           @game.winner_score = (rounds_won + game_won + bonus) - rounds_lost
@@ -181,8 +193,6 @@ class GamesController < ApplicationController
         )
       end
     end
-
-    @access_this = @game.game_rounds.where('winner_id = 12')
 
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
