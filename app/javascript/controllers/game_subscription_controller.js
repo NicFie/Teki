@@ -53,19 +53,19 @@ export default class extends Controller {
 
     this.editor_one_code = ''
     if(this.playerOneIdValue == this.userIdValue) {
-      playerOneTheme = "dracula";
-      playerTwoTheme = "dracula_blurred";
+      // playerOneTheme = "dracula";
+      // playerTwoTheme = "dracula";
       playerTwoRead = "nocursor";
     } else if(this.playerTwoIdValue == this.userIdValue) {
-      playerOneTheme = "dracula_blurred";
-      playerTwoTheme = "dracula";
+      // playerOneTheme = "dracula";
+      // playerTwoTheme = "dracula";
       playerOneRead = "nocursor";
     }
     // Generating codemirror windows
     this.editor_one = codemirror.fromTextArea(
       this.editoroneTarget, {
         mode: "ruby",
-        theme: playerOneTheme,
+        theme: "dracula",
         lineNumbers: true,
         readOnly: playerOneRead
       }
@@ -73,7 +73,7 @@ export default class extends Controller {
     this.editor_two = codemirror.fromTextArea(
       this.editortwoTarget, {
         mode: "ruby",
-        theme: playerTwoTheme,
+        theme: "dracula",
         lineNumbers: true,
         readOnly: playerTwoRead,
       }
