@@ -316,6 +316,6 @@ export default class extends Controller {
       playerOnesForm.append("game[player_one_id]", 1)
       this.patchForm(playerOnesForm)
     }
-    WebSocket.CLOSED()
+      WebSocket.CLOSED()
   }
 }
