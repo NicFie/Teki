@@ -107,7 +107,9 @@
               <th>Rounds Won</th>
               <th>Points</th>
             </tr>
+            <% if @latest_battles != nil %>
             <%= render "shared/latest_battles_table", battles: @latest_battles%>
+            <% end %>
           </tbody>
         </table>
       </div>

@@ -15,7 +15,7 @@
     <td>
       <divs style='color: <%= b.game_winner == current_user.id ? 'green' : 'red' %>'>
         <% if b.game_winner == current_user.id %>
-          <%= b.winner_score %>
+          + <%= b.winner_score %>
         <% else %>
           - <%= b.loser_score %>
         <% end %>

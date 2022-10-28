@@ -83,13 +83,8 @@
   }
 }
 
-
 .loading-animation{
-  display:none;
-}
-
-.opponent-found{
-  display:none;
+  display: block;
 }
 
 
@@ -106,7 +101,7 @@
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-/* Modal Content/Box */
+// /* Modal Content/Box */ 1
 .pre-game-modal-content {
   background-color: #555555;
   margin: 5% auto; /* 5% from the top and centered */
@@ -118,6 +113,33 @@
   justify-content: center;
   align-items: center;
 }
+
+// 2
+.pre-game-modal-message-content{
+  background-color: #555555;
+  margin: 5% auto; /* 5% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 90%; /* Could be more or less, depending on screen size */
+  height: 90%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+// 3
+.opponent-found{
+  background-color: #555555;
+  margin: 5% auto; /* 5% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 90%; /* Could be more or less, depending on screen size */
+  height: 90%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
 
 /* The Close Button */
 .pre-game-modal-close {
