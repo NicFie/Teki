@@ -65,6 +65,21 @@
 
   <%# MODALS %>
 
+
+  <div data-game-subscription-target="preGameModal" id="preGameModal" class="pre-game-modal">
+    <div data-game-subscription-target="preGameWaitingContent" class="pre-game-modal-content">
+      <div class="loading-animation">
+        <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      </div>
+      <p data-game-subscription-target="preGame"></p>
+    </div>
+    <div data-game-subscription-target="preGamePlayerFoundContent" class="opponent-found">
+      <div><%= @game.player_two.avatar %></div>
+      <h4><%= @game.player_two.username %></h4>
+    </div>
+  </div>
+
+
   <div data-game-subscription-target="roundWinnerModal" id="roundWinnerModal" class="round-winner-modal">
     <div data-game-subscription-target="roundWinnerModalContent" class="round-winner-modal-content">
       <span class="round-winner-modal-close">&times;</span>

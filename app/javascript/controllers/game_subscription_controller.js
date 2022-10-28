@@ -28,7 +28,10 @@ export default class extends Controller {
     "gameWinnerModal",
     "roundWinnerModalContent",
     "gameWinnerCountp1",
-    "gameWinnerCountp2"
+    "gameWinnerCountp2",
+    "preGameModal",
+    "preGameWaitingContent",
+    "preGamePlayerFoundContent"
   ]
 
   initialize() {
@@ -70,6 +73,18 @@ export default class extends Controller {
     // setting the challenge default method in codemirror windows
     this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
     this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
+
+    // Modal js
+
+    if(this.playerTwoIdValue == 1){
+      this.preGameWaitingContentTarget.style.display = "block";
+      this.preGamePlayerFoundContentTarget.style.display = "none";
+    }
+    else {
+      // this.preGameWaitingContentTarget.style.display = "none";
+      // this.preGamePlayerFoundContentTarget.style.display = "block";
+      this.preGameModalTarget.style.display = "none";
+    }
 
     setInterval(() => {
       fetch(`/games/${this.gameIdValue}/user_code`, {
@@ -258,6 +273,10 @@ export default class extends Controller {
 
   endGame() {
     this.updatePage()
+  }
+
+  preGameModal(){
+
   }
 
   disconnect() {
