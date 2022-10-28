@@ -41,6 +41,16 @@ class GamesController < ApplicationController
     @rounds_left = @rounds.where('winner_id = 1').first
     redirect_to dashboard_path if @rounds_left.nil?
 
+    GameChannel.broadcast_to(
+      @game,
+      {
+        command: "start game",
+        player_one: @game.player_one.id,
+        player_two: @game.player_two.id,
+        player_two_username: @game.player_two.username,
+        player_two_avatar: @game.player_two.avatar
+      }
+    )
 
     authorize @game
   end
@@ -55,16 +65,6 @@ class GamesController < ApplicationController
     @game.update(game_params)
     @game.save!
 
-    GameChannel.broadcast_to(
-      @game,
-      {
-        command: "start game",
-        player_one: @game.player_one.id,
-        player_two: @game.player_two.id,
-        player_two_username: @game.player_two.username,
-        player_two_avatar: @game.player_two.avatar
-      }
-    )
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
     end
