@@ -87,16 +87,19 @@ export default class extends Controller {
   }
 
   connect() {
+
+    this.playerFoundMessageTarget.style.display = "none"
+    this.preGameModalTarget.style.display = "none";
+
     this.channel = createConsumer().subscriptions.create(
       { channel: "GameChannel", id: this.gameIdValue },
       { received: data => {
-        console.log(`broadcast data: ${data}`);
+        // console.log(`broadcast data: ${data}`);
         if(data.command == "update page") { this.updatePlayerOnePage() };
         if(data.command == "update round winner modal") { this.roundWinnerModalUpdate(data) };
         if(data.command == "update game winner modal") { this.gameWinnerModalUpdate(data) };
         if(data.command == "update editors") { this.updatePlayerEditor(data) };
-        if(data.command == "start game") { this.startGameUserUpdate(data) };
-      } }
+        if(data.command == "start game") { this.startGameUserUpdate(); }}}
     )
     console.log(`Subscribe to the chatroom with the id ${this.gameIdValue}.`);
     console.log(`The current user is ${this.userIdValue}`);
@@ -109,13 +112,16 @@ export default class extends Controller {
       this.updatePlayerOneId()
     } else if (this.playerOneIdValue !== this.userIdValue && this.playerTwoIdValue !== this.userIdValue ) {
       this.updatePlayerTwoId()
+      this.startGameUserUpdate()
+    }
+
+    if (this.playerTwoIdValue === 1) {
+      this.preGameModalTarget.style.display = "block";
     }
   }
 
-  startGameUserUpdate(data) {
-    if(data.player_two != 1){ //if there is now a player two show player found
-      this.playerTwoUsernameTargets.forEach (t => t.innerText = data.player_two_username)
-      this.playerTwoAvatarTargets.forEach (t => t.src = `../../assets/images/${data.player_two_avatar}.png`)
+  startGameUserUpdate() {
+    // if(data.player_two != 1){ //if there is now a player two show player found
       this.preGameWaitingContentTarget.style.display = "none"
       this.playerFoundMessageTarget.style.display = "flex"
       setTimeout(() => { // switch to head to head details
@@ -136,8 +142,9 @@ export default class extends Controller {
       setTimeout(() => { //remove
         this.playerFoundMessageTarget.style.display = "none"
         this.preGameModalTarget.style.display = "none";
+        this.updatePage()
       }, 7000);
-    }
+    // }
   }
 
   currentUsersEditor() {
@@ -177,20 +184,6 @@ export default class extends Controller {
     let playerTwosForm = new FormData()
     playerTwosForm.append("game[player_two_id]", this.userIdValue)
     this.patchForm(playerTwosForm)
-
-    // maybe use broadcast instead
-    fetch(`/games/${this.gameIdValue}/update_display`, {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-        "X-CSRF-Token": this.token,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-    })
-    .then((response) => response.json())
-
-    this.updatePage()
   }
 
   updatePage() {
