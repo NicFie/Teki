@@ -160,8 +160,17 @@ export default class extends Controller {
     this.patchForm(playerTwosForm)
     // maybe use broadcast instead
     setTimeout(() => {
-      this.updatePage()
+      fetch(`/games/${this.gameIdValue}/update_display`, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "X-CSRF-Token": this.token,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+      })
     }, 300);
+    this.updatePage()
   }
 
   updatePage() {
@@ -169,10 +178,7 @@ export default class extends Controller {
   }
 
   updatePlayerOnePage() {
-    if(this.loadedValue === false) {
-      location.reload()
-      this.loadedValue = true
-    }
+    location.reload()
   }
 
   //updates code on the database as a player types then updates the view of player.
