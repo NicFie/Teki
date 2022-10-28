@@ -37,13 +37,9 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
-    GameChannel.broadcast_to(
-      @game,
-      {command: "update page"}
-    )
     @rounds = @game.game_rounds
     @rounds_left = @rounds.where('winner_id = 1').first
-    redirect_to dashboard_path if @rounds_left == nil
+    redirect_to dashboard_path if @rounds_left.nil?
     authorize @game
   end
 
@@ -198,11 +194,11 @@ class GamesController < ApplicationController
 
   # not sure if this is needed
   def update_display
-    respond_to do |format|
-      format.js #add this at the beginning to make sure the form is populated.
-      format.json { render json: params[:player_one_code].to_json }
-    end
-
+    @game = Game.find(params[:id])
+    GameChannel.broadcast_to(
+      @game,
+      { command: "update page" }
+    )
     skip_authorization
   end
 
