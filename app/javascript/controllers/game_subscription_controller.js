@@ -86,19 +86,7 @@ export default class extends Controller {
       this.preGameModalTarget.style.display = "none";
     }
 
-    setInterval(() => {
-      fetch(`/games/${this.gameIdValue}/user_code`, {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-          "X-CSRF-Token": this.token,
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-      })
-      .then((response) => response.json())
-      .then(data => this.updatePlayerEditor(data))
-    }, 2000);
+    this.playerTyping()
   }
 
   connect() {
@@ -109,6 +97,7 @@ export default class extends Controller {
         if(data.command == "update page") { this.updatePlayerOnePage() };
         if(data.command == "update round winner modal") { this.roundWinnerModalUpdate(data) };
         if(data.command == "update game winner modal") { this.gameWinnerModalUpdate(data) };
+        if(data.command == "update editors") { this.updatePlayerEditor(data) };
       } }
     )
     console.log(`Subscribe to the chatroom with the id ${this.gameIdValue}.`);
@@ -119,24 +108,24 @@ export default class extends Controller {
     // modal stuff
     const roundWinnerModal = document.getElementById("roundWinnerModal");
     const roundWinnerspan = document.getElementsByClassName("round-winner-modal-close")[0];
-    roundWinnerspan.onclick = function() {
-      roundWinnerModal.style.display = "none";
-    }
-    window.onclick = function(event) {
-      if (event.target == roundWinnerModal) {
-        roundWinnerModal.style.display = "none";
-      }
-    }
+    // roundWinnerspan.onclick = function() {
+    //   roundWinnerModal.style.display = "none";
+    // }
+    // window.onclick = function(event) {
+    //   if (event.target == roundWinnerModal) {
+    //     roundWinnerModal.style.display = "none";
+    //   }
+    // }
     const gameWinnerModal = document.getElementById("gameWinnerModal");
     const gameWinnerspan = document.getElementsByClassName("game-winner-modal-close")[0];
-    gameWinnerspan.onclick = function() {
-      gameWinnerModal.style.display = "none";
-    }
-    window.onclick = function(event) {
-      if (event.target == gameWinnerModal) {
-        gameWinnerModal.style.display = "none";
-      }
-    }
+    // gameWinnerspan.onclick = function() {
+    //   gameWinnerModal.style.display = "none";
+    // }
+    // window.onclick = function(event) {
+    //   if (event.target == gameWinnerModal) {
+    //     gameWinnerModal.style.display = "none";
+    //   }
+    // }
 
     //Checks default value of the game then updates
     //the game with correct user id's for player one and player two.
@@ -214,6 +203,22 @@ export default class extends Controller {
     let playerCodeForm = new FormData()
     playerCodeForm.append(`game[player_${this.playerOneOrTwo()}_code]`, this.editorOneOrTwo().getValue())
     this.patchForm(playerCodeForm)
+    this.getPlayerCode()
+  }
+
+  getPlayerCode() {
+    // console.log("arrives in player code")
+    fetch(`/games/${this.gameIdValue}/user_code`, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-CSRF-Token": this.token,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+    })
+    .then((response) => response.json())
+    // .then(data => this.updatePlayerEditor(data))
   }
 
   updatePlayerEditor(data) {
@@ -245,16 +250,16 @@ export default class extends Controller {
       body: JSON.stringify({ submission_code: code, user_id: user_id }),
     })
     .then((response) => response.json())
-    .then(data => this.outputTarget.innerText = data.results)
+    .then(data => this.outputTarget.innerHTML = data.results)
   }
 
 
-    roundWinnerModalUpdate(data) {
+  roundWinnerModalUpdate(data) {
     if(data.round_winner.includes('wins')){
-    this.roundWinnerTarget.innerText = data.round_winner;
-    this.roundWinnerCountp1Target.innerText = `${data.p1_count}`;
-    this.roundWinnerCountp2Target.innerText = `${data.p2_count}`;
-    this.roundWinnerModalTarget.style.display = "block";
+      this.roundWinnerTarget.innerText = data.round_winner;
+      this.roundWinnerCountp1Target.innerText = `${data.p1_count}`;
+      this.roundWinnerCountp2Target.innerText = `${data.p2_count}`;
+      this.roundWinnerModalTarget.style.display = "block";
     }
   }
 
@@ -264,10 +269,10 @@ export default class extends Controller {
 
   gameWinnerModalUpdate(data) {
     if(data.round_winner.includes('wins')){
-    this.gameWinnerTarget.innerText = `${data.game_winner} wins the game!!!`;
-    this.gameWinnerCountp1Target.innerText = `${data.p1_count}`;
-    this.gameWinnerCountp2Target.innerText = `${data.p2_count}`;
-    this.gameWinnerModalTarget.style.display = "block";
+      this.gameWinnerTarget.innerText = `${data.game_winner} wins the game!!!`;
+      this.gameWinnerCountp1Target.innerText = `${data.p1_count}`;
+      this.gameWinnerCountp2Target.innerText = `${data.p2_count}`;
+      this.gameWinnerModalTarget.style.display = "block";
     }
   }
 
@@ -280,7 +285,13 @@ export default class extends Controller {
   }
 
   disconnect() {
-    console.log("Unsubscribed from the chatroom")
     this.channel.unsubscribe()
+    console.log(this.playerTwoIdValue)
+    if (this.playerTwoIdValue === 1) {
+      let playerOnesForm = new FormData()
+      playerOnesForm.append("game[player_one_id]", 1)
+      this.patchForm(playerOnesForm)
+    }
+    WebSocket.CLOSED()
   }
 }
