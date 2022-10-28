@@ -267,6 +267,12 @@ export default class extends Controller {
 
   disconnect() {
     this.channel.unsubscribe()
+    console.log(this.playerTwoIdValue)
+    if (this.playerTwoIdValue === 1) {
+      let playerOnesForm = new FormData()
+      playerOnesForm.append("game[player_one_id]", 1)
+      this.patchForm(playerOnesForm)
+    }
     WebSocket.CLOSED()
   }
 }
