@@ -158,18 +158,19 @@ export default class extends Controller {
     let playerTwosForm = new FormData()
     playerTwosForm.append("game[player_two_id]", this.userIdValue)
     this.patchForm(playerTwosForm)
+
     // maybe use broadcast instead
-    setTimeout(() => {
-      fetch(`/games/${this.gameIdValue}/update_display`, {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-          "X-CSRF-Token": this.token,
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-      })
-    }, 300);
+    fetch(`/games/${this.gameIdValue}/update_display`, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-CSRF-Token": this.token,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+    })
+    .then((response) => response.json())
+
     this.updatePage()
   }
 

@@ -194,6 +194,7 @@ class GamesController < ApplicationController
 
   # not sure if this is needed
   def update_display
+    @game = Game.find(params[:id])
     GameChannel.broadcast_to(
       @game,
       { command: "update page" }
