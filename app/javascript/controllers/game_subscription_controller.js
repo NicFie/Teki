@@ -54,7 +54,7 @@ export default class extends Controller {
         if(data.command == "update game winner modal") { this.gameWinnerModalUpdate(data) };
         // if(data.command == "update editors") { this.updatePlayerEditor(data) };
         if(data.command == "start game") { this.startGameUserUpdate(); }
-        if(data.command == "next round") { this.startGameUserUpdate(); }}}
+        if(data.command == "next round") { this.nextRoundStatus(data); }}}
     )
     console.log(`Subscribe to the chatroom with the id ${this.gameIdValue}.`);
     console.log(`The current user is ${this.userIdValue}`);
@@ -162,7 +162,7 @@ export default class extends Controller {
     }
   }
 
-  postReadyStatus(player_ready_status) {
+  postReadyStatus(player_one_ready, player_two_ready) {
     fetch(`/games/${this.gameIdValue}/user_ready_next_round`, {
       method: "POST",
       credentials: "same-origin",
@@ -175,20 +175,6 @@ export default class extends Controller {
     })
   }
 
-  nextRoundStatus(data){
-    if(data.player_one_ready == true){
-      this.playerOneReadyTarget.innerText = 'yes'
-    }
-    if(data.player_two_ready == true){
-      this.playerTwoReadyTarget.innerText = 'yes'
-    }
-    if(data.player_one_ready == true && data.player_two_ready == true){
-      setTimeout(() => {
-        this.updatePage();
-      }, 2000);
-    }
-  }
-
   nextRound() {
     if(this.userIdValue == this.playerOneIdValue){
       this.playerOneReadyValue = true
@@ -198,6 +184,22 @@ export default class extends Controller {
       this.playerTwoReadyValue = true
       this.postReadyStatus(this.playerOneReadyValue, this.playerTwoReadyValue)
     };
+  }
+
+  nextRoundStatus(data){
+    if(data.player_one_ready == true){
+      this.playerOneReadyTarget.innerText = 'yes'
+      this.playerOneReadyValue = true;
+    }
+    if(data.player_two_ready == true){
+      this.playerTwoReadyTarget.innerText = 'yes'
+      this.playerTwoReadyValue = true;
+    }
+    if(data.player_one_ready == true && data.player_two_ready == true){
+      setTimeout(() => {
+        this.updatePage();
+      }, 2000);
+    }
   }
 
   gameWinnerModalUpdate(data) {
