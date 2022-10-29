@@ -1,5 +1,5 @@
 <%# Gets all the info from the game model to update in game_subscription stimulus %>
-<div class="game-show-container"
+<div
   data-controller="game-subscription challenge-instructions"
   data-game-subscription-game-id-value="<%= @game.id %>"
   data-game-subscription-user-id-value="<%= current_user.id %>"
@@ -11,58 +11,64 @@
   data-game-subscription-game-round-method-value="<%= @rounds_left.challenge.method_template %>">
   <h3> <%= @action_users_connected %> </h3>
 
+  <div class="game-show-container" data-controller="code"
+      data-code-game-id-value="<%= @game.id %>"
+      data-code-user-id-value="<%= current_user.id %>"
+      data-code-player-one-id-value="<%= @game.player_one.id %>"
+      data-code-player-two-id-value="<%= @game.player_two.id %>"
+      data-code-update-url="<%= game_path(@game) %>"
+      data-code-game-round-method-value="<%= @rounds_left.challenge.method_template %>">
+    <div class="game-show-left">
+      <div class="page-section game-information">
+        <h3> <%=  (@game.game_rounds.where('winner_id != 1').size + 1) %> / <%= @game.round_count %></h3>
+        <div>
+          <%= image_tag(@game.player_one.avatar, class: "user-avatar-big") %> <span>V</span> <%= image_tag(@game.player_two.avatar, class: "user-avatar-big", data: {'game-subscription-target' => 'playerTwoAvatar'}) %>
+        </div>
+      </div>
 
-  <div class="game-show-left">
-    <div class="page-section game-information">
-      <h3> <%=  (@game.game_rounds.where('winner_id != 1').size + 1) %> / <%= @game.round_count %></h3>
-      <div>
-        <%= image_tag(@game.player_one.avatar, class: "user-avatar-big") %> <span>V</span> <%= image_tag(@game.player_two.avatar, class: "user-avatar-big", data: {'game-subscription-target' => 'playerTwoAvatar'}) %>
+      <div class="page-section challenge-instructions">
+        <h4>Instructions</h4>
+        <p><%= @rounds_left.challenge.description %></p>
+      </div>
+
+      <div class="page-section challenge-tests">
+        <h4>Test results</h4>
+        <p data-code-target="output">Awaiting code submission</p>
       </div>
     </div>
 
-    <div class="page-section challenge-instructions">
-      <h4>Instructions</h4>
-      <p><%= @rounds_left.challenge.description %></p>
-    </div>
+    <div class="game-show-right <%= "game-show-right-reversed" if current_user == @game.player_two %>">
+      <div class="user-codebox <%= "current-player-codebox" if current_user == @game.player_one %>" id="user-codebox-1" data-action="keyup->code#playerTyping">
+        <div class="user-details">
+          <div><%= image_tag(@game.player_one.avatar, class: "user-avatar") %></div>
+          <h2 class="user-name"><%= @game.player_one.username %></h2>
+        </div>
+        <textarea data-code-target="editorone"></textarea>
+        <% if @game.player_one == current_user %>
+          <div class="code-submit-buttons">
+            <button id="playerOneClear" class="btn btn-second" data-action="click->code#clearPlayerSubmission">Clear</button>
+            <button id="playerOneTest" class="btn btn-main" data-action="click->code#playerSubmission">Submit</button>
+            <button id="playerOneSubmit" class="btn btn-second">😀😠🎉</button>
+          </div>
+        <% end %>
+      </div>
 
-    <div class="page-section challenge-tests">
-      <h4>Test results</h4>
-      <p data-game-subscription-target="output">Awaiting code submission</p>
+      <div class="user-codebox <%= "current-player-codebox" if current_user == @game.player_two %>" id="user-codebox-2" data-action="keyup->code#playerTyping">
+        <div class="user-details">
+          <div><%= image_tag(@game.player_two.avatar, class: "user-avatar") %></div>
+          <h2 class="user-name"><%= @game.player_two.username %></h2>
+        </div>
+        <textarea data-code-target="editortwo"></textarea>
+        <% if @game.player_two == current_user %>
+          <div class="code-submit-buttons">
+            <button id="playerTwoClear" class="btn btn-second" data-action="click->code#clearPlayerSubmission">Clear</button>
+            <button id="playerTwoTest" class="btn btn-main"  data-action="click->code#playerSubmission">Submit</button>
+            <button id="playerTwoSubmit" class="btn btn-second">😀😠🎉</button>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
-
-  <div class="game-show-right <%= "game-show-right-reversed" if current_user == @game.player_two %>">
-    <div class="user-codebox <%= "current-player-codebox" if current_user == @game.player_one %>" id="user-codebox-1" data-action="keyup->game-subscription#playerTyping">
-      <div class="user-details">
-        <div><%= image_tag(@game.player_one.avatar, class: "user-avatar") %></div>
-        <h2 class="user-name"><%= @game.player_one.username %></h2>
-      </div>
-      <textarea data-game-subscription-target="editorone"></textarea>
-      <% if @game.player_one == current_user %>
-        <div class="code-submit-buttons">
-          <button id="playerOneClear" class="btn btn-second" data-action="click->game-subscription#clearPlayerSubmission">Clear</button>
-          <button id="playerOneTest" class="btn btn-main" data-action="click->game-subscription#playerSubmission click->challenge-instructions#showTests">Submit</button>
-          <button id="playerOneSubmit" class="btn btn-second">😀😠🎉</button>
-        </div>
-      <% end %>
-    </div>
-
-    <div class="user-codebox <%= "current-player-codebox" if current_user == @game.player_two %>" id="user-codebox-2" data-action="keyup->game-subscription#playerTyping">
-      <div class="user-details">
-        <div><%= image_tag(@game.player_two.avatar, class: "user-avatar", data: {'game-subscription-target' => 'playerTwoAvatar'}) %></div>
-        <h2 data-game-subscription-target="playerTwoUsername" class="user-name"><%= @game.player_two.username %></h2>
-      </div>
-      <textarea data-game-subscription-target="editortwo"></textarea>
-      <% if @game.player_two == current_user %>
-        <div class="code-submit-buttons">
-          <button id="playerTwoClear" class="btn btn-second" data-action="click->game-subscription#clearPlayerSubmission">Clear</button>
-          <button id="playerTwoTest" class="btn btn-main"  data-action="click->game-subscription#playerSubmission click->challenge-instructions#showTests">Submit</button>
-          <button id="playerTwoSubmit" class="btn btn-second">😀😠🎉</button>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
   <%# MODALS %>
 
 

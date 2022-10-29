@@ -78,8 +78,6 @@ class GamesController < ApplicationController
       submission = eval(params[:submission_code])
     rescue SyntaxError => err
       @output = "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{err.message.gsub!('(eval):3:', '')}"
-      # @output
-      # @output.gsub!(/(#|<|>)/, "")
       all_passed = []
     # tests variable needs modifying to return not just first test but sequentially after round is won
     else
@@ -131,7 +129,6 @@ class GamesController < ApplicationController
     # starting the next round code
     @is_a_winner = false
     @is_a_winner = true if (!all_passed.include?(false) && !all_passed.empty?)
-
 
     if @is_a_winner == true
       @game_round = @game.game_rounds.where('winner_id = 1').first
@@ -199,16 +196,6 @@ class GamesController < ApplicationController
       format.json { render json: { results: @output } }
     end
 
-    skip_authorization
-  end
-
-  # not sure if this is needed
-  def update_display
-    @game = Game.find(params[:id])
-    GameChannel.broadcast_to(
-      @game,
-      { command: "update page" }
-    )
     skip_authorization
   end
 
