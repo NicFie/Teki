@@ -87,10 +87,6 @@ export default class extends Controller {
   }
 
   connect() {
-
-    this.playerFoundMessageTarget.style.display = "none"
-    this.preGameModalTarget.style.display = "none";
-
     this.channel = createConsumer().subscriptions.create(
       { channel: "GameChannel", id: this.gameIdValue },
       { received: data => {
@@ -108,6 +104,11 @@ export default class extends Controller {
 
     //Checks default value of the game then updates
     //the game with correct user id's for player one and player two.
+    if (this.playerTwoIdValue === 1) {
+      this.preGameModalTarget.style.display = "block";
+    }
+
+
     if (this.playerOneIdValue === 1) {
       this.updatePlayerOneId()
     } else if (this.playerOneIdValue !== this.userIdValue && this.playerTwoIdValue !== this.userIdValue ) {
@@ -115,9 +116,6 @@ export default class extends Controller {
       this.startGameUserUpdate()
     }
 
-    if (this.playerTwoIdValue === 1) {
-      this.preGameModalTarget.style.display = "block";
-    }
   }
 
   startGameUserUpdate() {
