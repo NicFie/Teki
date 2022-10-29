@@ -1,81 +1,44 @@
-/* The Modal (background) */
 .round-winner-modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background-color: rgba(0,0,0,0.7);
+  backdrop-filter: blur(10px);
 }
 
-/* Modal Content/Box */
-.round-winner-modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+.round-winner-modal-content, .round-choice-modal-content {
+  background-color: $black;
+  color: $white;
+  text-align: center;
+  border: 2px solid $light-green;
 }
 
-/* The Close Button */
-.round-winner-modal-close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+.round-winner-modal-header, .round-choice-modal-header {
+  border-bottom: 0px;
+  backdrop-filter: blur(5px);
+  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
-.round-winner-modal-close:hover,
-.round-winner-modal-close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+.round-winner-modal-footer, .round-choice-modal-footer {
+  border-top: 0px;
 }
-
-
-/* The Modal (background) */
-.game-winner-modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content/Box */
-.game-winner-modal-content {
-  background-color: #f79494;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
-}
-
-/* The Close Button */
-.game-winner-modal-close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.game-winner-modal-close:hover,
-.game-winner-modal-close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
 
 .tally-container {
   display:flex;
+  justify-content: space-between;
+  align-items: center;
+
+  div {
+    width: 120px;
+    height: 120px;
+
+    p {
+      font-size: 50px;
+    }
+  }
+  span {
+    font-size: 100px;
+    color: $light-green;
+    vertical-align: middle;
+    margin: 0px 50px;
+  }
 }

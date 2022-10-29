@@ -5,6 +5,7 @@ class GameChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    # Any cleanup needed when channel is unsubscribed
+    game = Game.find(params[:id])
+    stop_stream_from game
   end
 end

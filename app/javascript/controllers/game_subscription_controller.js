@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import { end } from "@popperjs/core"
 import { createConsumer } from "@rails/actioncable"
+import Typed from "typed.js"
 const codemirror = require("../codemirror/codemirror");
 
 
@@ -28,10 +29,21 @@ export default class extends Controller {
     "gameWinnerModal",
     "roundWinnerModalContent",
     "gameWinnerCountp1",
-    "gameWinnerCountp2"
+    "gameWinnerCountp2",
+    "preGameModal",
+    "preGameWaitingContent",
+    "playerFoundMessage",
+    "preGamePlayerFoundContent",
+    "playerOneReady",
+    "playerTwoReady",
+    "playerTwoUsername",
+    "playerTwoAvatar"
   ]
 
   initialize() {
+    // variables for next round function
+    let playerOneReady = false
+    let playerTwoReady = false
     // defining the theme of codemirror depending on user
     let playerOneTheme = ''
     let playerTwoTheme = ''
@@ -71,57 +83,28 @@ export default class extends Controller {
     this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
     this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
 
-    setInterval(() => {
-      fetch(`/games/${this.gameIdValue}/user_code`, {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-          "X-CSRF-Token": this.token,
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-      })
-      .then((response) => response.json())
-      .then(data => this.updatePlayerEditor(data))
-    }, 2000);
+    this.playerTyping()
   }
 
   connect() {
+
+    this.playerFoundMessageTarget.style.display = "none"
+    this.preGameModalTarget.style.display = "none";
+
     this.channel = createConsumer().subscriptions.create(
       { channel: "GameChannel", id: this.gameIdValue },
       { received: data => {
-        console.log(data);
+        // console.log(`broadcast data: ${data}`);
         if(data.command == "update page") { this.updatePlayerOnePage() };
         if(data.command == "update round winner modal") { this.roundWinnerModalUpdate(data) };
         if(data.command == "update game winner modal") { this.gameWinnerModalUpdate(data) };
-      } }
+        if(data.command == "update editors") { this.updatePlayerEditor(data) };
+        if(data.command == "start game") { this.startGameUserUpdate(); }}}
     )
     console.log(`Subscribe to the chatroom with the id ${this.gameIdValue}.`);
     console.log(`The current user is ${this.userIdValue}`);
     console.log(`Player one's current Id is ${this.playerOneIdValue}`)
     console.log(`Player two's current Id is ${this.playerTwoIdValue}`)
-
-    // modal stuff
-    const roundWinnerModal = document.getElementById("roundWinnerModal");
-    const roundWinnerspan = document.getElementsByClassName("round-winner-modal-close")[0];
-    roundWinnerspan.onclick = function() {
-      roundWinnerModal.style.display = "none";
-    }
-    window.onclick = function(event) {
-      if (event.target == roundWinnerModal) {
-        roundWinnerModal.style.display = "none";
-      }
-    }
-    const gameWinnerModal = document.getElementById("gameWinnerModal");
-    const gameWinnerspan = document.getElementsByClassName("game-winner-modal-close")[0];
-    gameWinnerspan.onclick = function() {
-      gameWinnerModal.style.display = "none";
-    }
-    window.onclick = function(event) {
-      if (event.target == gameWinnerModal) {
-        gameWinnerModal.style.display = "none";
-      }
-    }
 
     //Checks default value of the game then updates
     //the game with correct user id's for player one and player two.
@@ -129,7 +112,39 @@ export default class extends Controller {
       this.updatePlayerOneId()
     } else if (this.playerOneIdValue !== this.userIdValue && this.playerTwoIdValue !== this.userIdValue ) {
       this.updatePlayerTwoId()
+      this.startGameUserUpdate()
     }
+
+    if (this.playerTwoIdValue === 1) {
+      this.preGameModalTarget.style.display = "block";
+    }
+  }
+
+  startGameUserUpdate() {
+    // if(data.player_two != 1){ //if there is now a player two show player found
+      this.preGameWaitingContentTarget.style.display = "none"
+      this.playerFoundMessageTarget.style.display = "flex"
+      setTimeout(() => { // switch to head to head details
+        this.playerFoundMessageTarget.style.display = "none"
+        this.preGamePlayerFoundContentTarget.style.display = "flex";
+      }, 2000);
+      setTimeout(() => { // countdown
+        this.preGamePlayerFoundContentTarget.style.display = "none";
+        this.playerFoundMessageTarget.style.display = "flex"
+        this.playerFoundMessageTarget.innerHTML = "3"
+      }, 4000);
+      setTimeout(() => { // countdown
+        this.playerFoundMessageTarget.innerHTML = "2"
+      }, 5000);
+      setTimeout(() => { // countdown
+        this.playerFoundMessageTarget.innerHTML = "1"
+      }, 6000);
+      setTimeout(() => { //remove
+        this.playerFoundMessageTarget.style.display = "none"
+        this.preGameModalTarget.style.display = "none";
+        this.updatePage()
+      }, 7000);
+    // }
   }
 
   currentUsersEditor() {
@@ -169,10 +184,6 @@ export default class extends Controller {
     let playerTwosForm = new FormData()
     playerTwosForm.append("game[player_two_id]", this.userIdValue)
     this.patchForm(playerTwosForm)
-    // maybe use broadcast instead
-    setTimeout(() => {
-      this.updatePage()
-    }, 300);
   }
 
   updatePage() {
@@ -180,10 +191,7 @@ export default class extends Controller {
   }
 
   updatePlayerOnePage() {
-    if(this.loadedValue === false) {
-      location.reload()
-      this.loadedValue = true
-    }
+    location.reload()
   }
 
   //updates code on the database as a player types then updates the view of player.
@@ -199,6 +207,22 @@ export default class extends Controller {
     let playerCodeForm = new FormData()
     playerCodeForm.append(`game[player_${this.playerOneOrTwo()}_code]`, this.editorOneOrTwo().getValue())
     this.patchForm(playerCodeForm)
+    this.getPlayerCode()
+  }
+
+  getPlayerCode() {
+    // console.log("arrives in player code")
+    fetch(`/games/${this.gameIdValue}/user_code`, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-CSRF-Token": this.token,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+    })
+    .then((response) => response.json())
+    // .then(data => this.updatePlayerEditor(data))
   }
 
   updatePlayerEditor(data) {
@@ -230,33 +254,61 @@ export default class extends Controller {
       body: JSON.stringify({ submission_code: code, user_id: user_id }),
     })
     .then((response) => response.json())
-    .then(data => this.outputTarget.innerText = data.results)
+    .then(data => this.outputTarget.innerHTML = data.results)
   }
 
 
-    roundWinnerModalUpdate(data) {
+  roundWinnerModalUpdate(data) {
     if(data.round_winner.includes('wins')){
-    this.roundWinnerTarget.innerText = data.round_winner;
-    this.roundWinnerCountp1Target.innerText = `${data.p1_count}`;
-    this.roundWinnerCountp2Target.innerText = `${data.p2_count}`;
-    this.roundWinnerModalTarget.style.display = "block";
+      this.roundWinnerTarget.innerText = data.round_winner;
+      this.roundWinnerCountp1Target.innerText = `${data.p1_count}`;
+      this.roundWinnerCountp2Target.innerText = `${data.p2_count}`;
+      this.roundWinnerModalTarget.style.display = "block";
     }
   }
 
   nextRound() {
-    this.updatePage();
+    if(this.userIdValue == this.playerOneIdValue){
+      this.playerOneReady = true
+      this.playerOneReadyTarget.innerText = 'yes'
+    };
+    if(this.userIdValue == this.playerTwoIdValue){
+      this.playerTwoReady = true
+      this.playerTwoReadyTarget.innerText = 'yes'
+    };
+    let nextRoundInterval = setInterval(() => {
+      if (this.playerOneReady == true && this.playerTwoReady == true){
+        clearInterval(nextRoundInterval);
+        this.updatePage();
+      }
+    }, 1000);
   }
 
   gameWinnerModalUpdate(data) {
     if(data.round_winner.includes('wins')){
-    this.gameWinnerTarget.innerText = `${data.game_winner} wins the game!!!`;
-    this.gameWinnerCountp1Target.innerText = `${data.p1_count}`;
-    this.gameWinnerCountp2Target.innerText = `${data.p2_count}`;
-    this.gameWinnerModalTarget.style.display = "block";
+      this.gameWinnerTarget.innerText = `${data.game_winner} wins the game!!!`;
+      this.gameWinnerCountp1Target.innerText = `${data.p1_count}`;
+      this.gameWinnerCountp2Target.innerText = `${data.p2_count}`;
+      this.gameWinnerModalTarget.style.display = "block";
     }
   }
 
   endGame() {
     this.updatePage()
+  }
+
+  preGameModal(){
+
+  }
+
+  disconnect() {
+    this.channel.unsubscribe()
+    console.log(this.playerTwoIdValue)
+    if (this.playerTwoIdValue === 1) {
+      let playerOnesForm = new FormData()
+      playerOnesForm.append("game[player_one_id]", 1)
+      this.patchForm(playerOnesForm)
+    }
+      WebSocket.CLOSED()
   }
 }

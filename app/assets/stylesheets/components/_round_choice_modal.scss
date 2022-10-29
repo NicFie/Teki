@@ -1,11 +1,18 @@
 .round-choice {
+  color: $black;
+
   fieldset {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     margin-top: 1rem;
 
     legend {
       display: none;
+    }
+
+    .form-check {
+      width: 30%;
+      padding-left: 0px;
     }
   }
   input[type="radio"] {
@@ -16,12 +23,16 @@
 
   label {
       display: inline-block;
-      background-color: $white;
+      background-color: $dark-gray;
       cursor: pointer;
-      padding: 10px 20px;
+      padding: 10px 5px;
       font-size: 30px;
-      border: 2px solid $black;
+      border: 2px solid $light-green;
       border-radius: 5px;
+      width: 100%;
+      letter-spacing: -20px;
+      text-align: center;
+      padding-right: 20px;
   }
 
   label:hover {
@@ -35,5 +46,15 @@
   input[type="radio"]:checked + label {
       background-color: $light-green;
       border-color: $dark-gray;
+  }
+}
+
+.round-choice-modal-header {
+  button {
+    opacity: 1;
+  }
+  span {
+    text-shadow: none;
+    color: $white;
   }
 }
