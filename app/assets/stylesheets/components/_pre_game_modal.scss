@@ -85,11 +85,18 @@
 
 .loading-animation{
   display: block;
+  position: absolute;
+  top: 50px;
+}
+
+.typed-loading{
+  position: absolute;
+  bottom: 30px;
 }
 
 
 .pre-game-modal {
-  display: block; /* Hidden by default */
+  display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 10; /* Sit on top */
   left: 0;
@@ -154,4 +161,28 @@
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+
+
+
+// specific to pregame
+
+#preGameModal{
+  display:none;
+}
+
+#preGameLoading{
+  display: flex;
+  height: 250px;
+  width: 500px;
+  align-items: center;
+}
+
+#playerFoundMessage, #matchDetailsAndCountdown{
+  display: none;
+  height: 250px;
+  width: 500px;
+  align-items: center;
+  justify-content: center;
 }
