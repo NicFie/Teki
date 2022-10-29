@@ -1,7 +1,7 @@
 <div class="dashboard-wrapper" data-controller="dashboard">
   <div class="page-section dashboard-information">
     <div class="d-flex">
-      <%= image_tag(current_user.avatar, height: '100') %>
+      <%= image_tag current_user.avatar, height: '100' %>
       <h2><%= current_user.username %></h2>
     </div>
     <div class="dashboard-data">
@@ -62,7 +62,7 @@
             <tr class="leaderboard-user">
               <td>#<%= count %></td>
               <td>
-              <%= image_tag(user.avatar, height: '40') || image_tag("#{user.avatar}.png", height: '40')%>
+              <%= image_tag user.avatar, height: '40' %>
               <%= user.username %>
               </td>
               <td><%= user.score %></td>
@@ -90,7 +90,7 @@
                   <div><%= f.receiver.username %></div>
                 </td>
                 <td>
-                  <%= image_tag(f.receiver.avatar, height: '40') || image_tag("#{f.receiver.avatar}.png", height: '40') %>
+                  <%= image_tag f.receiver.avatar, height: '40' %>
                 </td>
               </tr>
               <% count += 1 %>
