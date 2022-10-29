@@ -12,7 +12,10 @@ export default class extends Controller {
     playerOneId: Number,
     playerTwoId: Number,
     loaded: Boolean,
-    gameRoundMethod: String
+    gameRoundMethod: String,
+    gameRoundNumber: Number,
+    playerOneReady: Boolean,
+    playerTwoReady: Boolean
   }
 
   static targets = [
@@ -28,12 +31,12 @@ export default class extends Controller {
     "gameWinnerCountp1",
     "gameWinnerCountp2",
     "preGameModal",
-    "preGameWaitingContent",
+    "preGameLoadingContent",
     "playerFoundMessage",
-    "preGamePlayerFoundContent",
+    "matchDetailsAndCountdown",
     "playerOneReady",
     "playerTwoReady",
-    "playerTwoUsername",
+    "playerTwoDetails",
     "playerTwoAvatar"
   ]
 
@@ -50,7 +53,8 @@ export default class extends Controller {
         if(data.command == "update round winner modal") { this.roundWinnerModalUpdate(data) };
         if(data.command == "update game winner modal") { this.gameWinnerModalUpdate(data) };
         // if(data.command == "update editors") { this.updatePlayerEditor(data) };
-        if(data.command == "start game") { this.startGameUserUpdate(); }}}
+        if(data.command == "start game") { this.startGameUserUpdate(); }
+        if(data.command == "next round") { this.startGameUserUpdate(); }}}
     )
     console.log(`Subscribe to the chatroom with the id ${this.gameIdValue}.`);
     console.log(`The current user is ${this.userIdValue}`);
@@ -60,46 +64,54 @@ export default class extends Controller {
     //Checks default value of the game then updates
     //the game with correct user id's for player one and player two.
     if (this.playerTwoIdValue === 1) {
-      this.preGameModalTarget.style.display = "block";
+      this.preGameModalTarget.style.display = "flex";
+      document.querySelectorAll('#typed').forEach(function(el) {
+        new Typed(el, {
+        stringsElement: el.previousElementSibling,
+        loop: true,
+        typeSpeed: 50,
+        showCursor: false,
+      })
+    });
     }
-
 
     if (this.playerOneIdValue === 1) {
       this.updatePlayerOneId()
+      this.preGameModalTarget.style.display = "flex";
     } else if (this.playerOneIdValue !== this.userIdValue && this.playerTwoIdValue !== this.userIdValue ) {
       this.updatePlayerTwoId()
       this.startGameUserUpdate()
     }
-
   }
 
   startGameUserUpdate() {
-    // if(data.player_two != 1){ //if there is now a player two show player found
-      this.preGameWaitingContentTarget.style.display = "none"
+    this.preGameLoadingContentTarget.style.display = "none"
+    this.playerFoundMessageTarget.style.display = "flex"
+    // setTimeout(() => { // switch to head to head details
+    //   this.playerFoundMessageTarget.style.display = "none"
+    //   this.matchDetailsAndCountdownTarget.style.display = "flex";
+    // }, 2000);
+    setTimeout(() => { // countdown
+      this.matchDetailsAndCountdownTarget.style.display = "none";
       this.playerFoundMessageTarget.style.display = "flex"
-      setTimeout(() => { // switch to head to head details
-        this.playerFoundMessageTarget.style.display = "none"
-        this.preGamePlayerFoundContentTarget.style.display = "flex";
-      }, 2000);
-      setTimeout(() => { // countdown
-        this.preGamePlayerFoundContentTarget.style.display = "none";
-        this.playerFoundMessageTarget.style.display = "flex"
-        this.playerFoundMessageTarget.innerHTML = "3"
-      }, 4000);
-      setTimeout(() => { // countdown
-        this.playerFoundMessageTarget.innerHTML = "2"
-      }, 5000);
-      setTimeout(() => { // countdown
-        this.playerFoundMessageTarget.innerHTML = "1"
-      }, 6000);
-      setTimeout(() => { //remove
-        this.playerFoundMessageTarget.style.display = "none"
-        this.preGameModalTarget.style.display = "none";
-        if(this.playerOneIdValue === 1 || this.playerTwoIdValue === 1) {
-          this.updatePage()
-        }
-      }, 7000);
-    // }
+      this.playerFoundMessageTarget.innerHTML = `<h1>Round ${this.gameRoundNumberValue + 1}</h1><br><h1 class="number-animation">3</h1>`
+    }, 3000);
+    setTimeout(() => { // countdown
+      this.playerFoundMessageTarget.innerHTML = `<h1>Round ${this.gameRoundNumberValue + 1}</h1><br><h1 class="number-animation">2</h1>`
+    }, 4000);
+    setTimeout(() => { // countdown
+      this.playerFoundMessageTarget.innerHTML = `<h1>Round ${this.gameRoundNumberValue + 1}</h1><br><h1 class="number-animation">1</h1>`
+    }, 5000);
+    setTimeout(() => { // countdown
+      this.playerFoundMessageTarget.innerHTML = `<h1>Round ${this.gameRoundNumberValue + 1}</h1><br><h1 class="number-animation">Go!</h1>`
+    }, 6000);
+    setTimeout(() => { //remove
+      this.playerFoundMessageTarget.style.display = "none"
+      this.preGameModalTarget.style.display = "none";
+      if(this.playerOneIdValue === 1 || this.playerTwoIdValue === 1) {
+        this.updatePage()
+      }
+    }, 7000);
   }
 
   //Creates a form and sends it to to the server to update the game,
@@ -150,21 +162,42 @@ export default class extends Controller {
     }
   }
 
+  postReadyStatus(player_ready_status) {
+    fetch(`/games/${this.gameIdValue}/user_ready_next_round`, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-CSRF-Token": this.token,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({ player_one_ready: player_one_ready, player_two_ready: player_two_ready }),
+    })
+  }
+
+  nextRoundStatus(data){
+    if(data.player_one_ready == true){
+      this.playerOneReadyTarget.innerText = 'yes'
+    }
+    if(data.player_two_ready == true){
+      this.playerTwoReadyTarget.innerText = 'yes'
+    }
+    if(data.player_one_ready == true && data.player_two_ready == true){
+      setTimeout(() => {
+        this.updatePage();
+      }, 2000);
+    }
+  }
+
   nextRound() {
     if(this.userIdValue == this.playerOneIdValue){
-      this.playerOneReady = true
-      this.playerOneReadyTarget.innerText = 'yes'
+      this.playerOneReadyValue = true
+      this.postReadyStatus(this.playerOneReadyValue, this.playerTwoReadyValue)
     };
     if(this.userIdValue == this.playerTwoIdValue){
-      this.playerTwoReady = true
-      this.playerTwoReadyTarget.innerText = 'yes'
+      this.playerTwoReadyValue = true
+      this.postReadyStatus(this.playerOneReadyValue, this.playerTwoReadyValue)
     };
-    let nextRoundInterval = setInterval(() => {
-      if (this.playerOneReady == true && this.playerTwoReady == true){
-        clearInterval(nextRoundInterval);
-        this.updatePage();
-      }
-    }, 1000);
   }
 
   gameWinnerModalUpdate(data) {

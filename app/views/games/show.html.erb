@@ -8,7 +8,11 @@
   data-game-subscription-update-url="<%= game_path(@game) %>"
   data-game-subscription-loaded-value="<%= false %>"
   data-game-subscription-rounds-value="<%= @rounds %>"
-  data-game-subscription-game-round-method-value="<%= @rounds_left.challenge.method_template %>">
+  data-game-subscription-game-round-method-value="<%= @rounds_left.challenge.method_template %>"
+  data-game-subscription-game-round-number="<%= @game.game_rounds.where('winner_id != 1').size %>"
+  data-game-subscription-player-one-ready-value="<%= false %>"
+  data-game-subscription-player-two-ready-value="<%= false %>"
+  >
   <h3> <%= @action_users_connected %> </h3>
 
   <div class="game-show-container" data-controller="code"
@@ -69,34 +73,40 @@
       </div>
     </div>
   </div>
+
   <%# MODALS %>
 
 
-  <div data-game-subscription-target="preGameModal" id="preGameModal" class="pre-game-modal">
-    <div data-game-subscription-target="preGameWaitingContent" class="pre-game-modal-content">
-      <div class="loading-animation">
-        <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+  <div data-game-subscription-target="preGameModal" id="preGameModal" class="modal fade show round-winner-modal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div data-game-subscription-target="preGameLoadingContent" class="modal-content round-winner-modal-content" id="preGameLoading">
+        <div class="loading-animation">
+          <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </div>
+        <div id="typed-strings">
+        <h1>Looking for opponent...<h1>
+        </div>
+        <h1 class="typed-loading" id="typed"></h1>
       </div>
-      <h1 data-controller="typed-js"></h1>
-      <p data-game-subscription-target="preGame"></p>
-    </div>
-    <div data-game-subscription-target="playerFoundMessage" class="pre-game-modal-message-content">
-      <h1>Player Found!</h1>
-    </div>
-    <div data-game-subscription-target="preGamePlayerFoundContent" class="opponent-found">
-      <div class="tally-container">
-            <div class="page-section">
-              <h6><%= @game.player_one.username %></h6>
-              <%= image_tag(@game.player_one.avatar, class: "user-avatar") %>
-            </div>
-            <span>V</span>
-            <div class="page-section">
-              <h6 data-game-subscription-target="playerTwoUsername"><%= @game.player_two.username %></h6>
-              <%= image_tag(@game.player_two.avatar, class: "user-avatar", data: {'game-subscription-target' => 'playerTwoAvatar'}) %>
-            </div>
+      <div data-game-subscription-target="playerFoundMessage" id ="playerFoundMessage" class="modal-content round-winner-modal-content">
+        <h1>Player Found!</h1>
+      </div>
+      <div data-game-subscription-target="matchDetailsAndCountdown" id="matchDetailsAndCountdown" class="modal-content round-winner-modal-content">
+        <div class="tally-container">
+          <div class="page-section">
+            <h6><%= @game.player_one.username %></h6>
+            <%= image_tag(@game.player_one.avatar, class: "user-avatar") %>
           </div>
+          <span>V</span>
+          <div data-game-subscription-target="playerTwoUsername" class="page-section">
+            <h6><%= @game.player_two.username %></h6>
+            <%= image_tag(@game.player_two.avatar, class: "user-avatar", data: {'game-subscription-target' => 'playerTwoAvatar'}) %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
 
 
   <div data-game-subscription-target="roundWinnerModal" id="roundWinnerModal" class="modal fade show round-winner-modal">

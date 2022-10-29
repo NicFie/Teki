@@ -214,6 +214,20 @@ class GamesController < ApplicationController
     skip_authorization
   end
 
+  def user_ready_next_round
+    @game = Game.find(params[:id])
+    GameChannel.broadcast_to(
+      @game,
+      {
+        command: "next round",
+        player_one_ready: params[:player_one_ready],
+        player_two_ready: params[:player_two_ready]
+      }
+    )
+
+    skip_authorization
+  end
+
   private
 
   def game_params
