@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import { end } from "@popperjs/core"
 import { createConsumer } from "@rails/actioncable"
 import Typed from "typed.js"
-const codemirror = require("../codemirror/codemirror");
+// const codemirror = require("../codemirror/codemirror");
 
 
 export default class extends Controller {
@@ -16,9 +16,6 @@ export default class extends Controller {
   }
 
   static targets = [
-    "editorone",
-    "editortwo",
-    "output",
     "solutions",
     "roundWinner",
     "roundWinnerModal",
@@ -41,49 +38,7 @@ export default class extends Controller {
   ]
 
   initialize() {
-    // variables for next round function
-    let playerOneReady = false
-    let playerTwoReady = false
-    // defining the theme of codemirror depending on user
-    let playerOneTheme = ''
-    let playerTwoTheme = ''
-    let playerOneRead = ''
-    let playerTwoRead = ''
     this.token = document.getElementsByName("csrf-token")[0].content
-
-    this.editor_one_code = ''
-    if(this.playerOneIdValue == this.userIdValue) {
-      playerOneTheme = "dracula";
-      playerTwoTheme = "dracula_blurred";
-      playerTwoRead = "nocursor";
-    } else if(this.playerTwoIdValue == this.userIdValue) {
-      playerOneTheme = "dracula_blurred";
-      playerTwoTheme = "dracula";
-      playerOneRead = "nocursor";
-    }
-    // Generating codemirror windows
-    this.editor_one = codemirror.fromTextArea(
-      this.editoroneTarget, {
-        mode: "ruby",
-        theme: playerOneTheme,
-        lineNumbers: true,
-        readOnly: playerOneRead
-      }
-    );
-    this.editor_two = codemirror.fromTextArea(
-      this.editortwoTarget, {
-        mode: "ruby",
-        theme: playerTwoTheme,
-        lineNumbers: true,
-        readOnly: playerTwoRead,
-      }
-    );
-
-    // setting the challenge default method in codemirror windows
-    this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
-    this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
-
-    this.playerTyping()
   }
 
   connect() {
@@ -94,7 +49,7 @@ export default class extends Controller {
         if(data.command == "update page") { this.updatePlayerOnePage() };
         if(data.command == "update round winner modal") { this.roundWinnerModalUpdate(data) };
         if(data.command == "update game winner modal") { this.gameWinnerModalUpdate(data) };
-        if(data.command == "update editors") { this.updatePlayerEditor(data) };
+        // if(data.command == "update editors") { this.updatePlayerEditor(data) };
         if(data.command == "start game") { this.startGameUserUpdate(); }}}
     )
     console.log(`Subscribe to the chatroom with the id ${this.gameIdValue}.`);
@@ -140,17 +95,11 @@ export default class extends Controller {
       setTimeout(() => { //remove
         this.playerFoundMessageTarget.style.display = "none"
         this.preGameModalTarget.style.display = "none";
-        this.updatePage()
+        if(this.playerOneIdValue === 1 || this.playerTwoIdValue === 1) {
+          this.updatePage()
+        }
       }, 7000);
     // }
-  }
-
-  currentUsersEditor() {
-    if(this.userIdValue == this.playerOneIdValue) {
-      return this.editor_one
-    } else {
-      return this.editor_two
-    }
   }
 
   //Creates a form and sends it to to the server to update the game,
@@ -191,70 +140,6 @@ export default class extends Controller {
   updatePlayerOnePage() {
     location.reload()
   }
-
-  //updates code on the database as a player types then updates the view of player.
-  playerOneOrTwo() {
-    return ((this.userIdValue === this.playerOneIdValue) ? "one" : "two")
-  }
-
-  editorOneOrTwo() {
-    return ((this.userIdValue === this.playerOneIdValue) ? this.editor_one : this.editor_two)
-  }
-
-  playerTyping() {
-    let playerCodeForm = new FormData()
-    playerCodeForm.append(`game[player_${this.playerOneOrTwo()}_code]`, this.editorOneOrTwo().getValue())
-    this.patchForm(playerCodeForm)
-    this.getPlayerCode()
-  }
-
-  getPlayerCode() {
-    // console.log("arrives in player code")
-    fetch(`/games/${this.gameIdValue}/user_code`, {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-        "X-CSRF-Token": this.token,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-    })
-    .then((response) => response.json())
-    // .then(data => this.updatePlayerEditor(data))
-  }
-
-  updatePlayerEditor(data) {
-    if(this.userIdValue === this.playerTwoIdValue) {
-      this.editor_one.setValue(data.player_one)
-    } else if (this.userIdValue === this.playerOneIdValue) {
-      this.editor_two.setValue(data.player_two)
-    }
-  }
-
-  // Code submissions and sendCode function
-  clearPlayerSubmission() {
-    this.editorOneOrTwo().setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
-  }
-
-  playerSubmission() {
-    this.sendCode(this.editorOneOrTwo().getValue(), this.userIdValue);
-  }
-
-  sendCode(code, user_id) {
-    fetch(`/games/${this.gameIdValue}/game_test`, {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-        "X-CSRF-Token": this.token,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify({ submission_code: code, user_id: user_id }),
-    })
-    .then((response) => response.json())
-    .then(data => this.outputTarget.innerHTML = data.results)
-  }
-
 
   roundWinnerModalUpdate(data) {
     if(data.round_winner.includes('wins')){
@@ -301,12 +186,10 @@ export default class extends Controller {
 
   disconnect() {
     this.channel.unsubscribe()
-    console.log(this.playerTwoIdValue)
     if (this.playerTwoIdValue === 1) {
       let playerOnesForm = new FormData()
       playerOnesForm.append("game[player_one_id]", 1)
       this.patchForm(playerOnesForm)
     }
-      WebSocket.CLOSED()
   }
 }
