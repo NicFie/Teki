@@ -45,11 +45,12 @@
     align-items: center;
     text-decoration: none;
     transition: all 0.4s ease;
-    background: #FAF9F9;
+    background: $white;
+    border-radius: 5px;
   }
 
   li a:hover{
-    background: rgb(0, 0, 0);
+    background: $dark-gray;
   }
 
   li a .path_links{
@@ -88,4 +89,11 @@
     pointer-events: auto;
 
   }
+}
+
+.sidebar-lists {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 92vh;
 }

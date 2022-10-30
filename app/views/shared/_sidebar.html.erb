@@ -2,30 +2,47 @@
   <%= link_to "/", class: "sidebar-logo" do %>
     <%= image_tag "logos/teki writing blank.png" %>
   <% end %>
-  <ul class="nav-list">
-    <li>
-      <%= link_to "/" do %>
-        <i class="fa-solid fa-computer"></i>
-        <span class="path_links">Link 1</span>
-      <% end %>
-    </li>
-    <li>
-      <%= link_to "/" do %>
-        <i class="fa-solid fa-computer"></i>
-        <span class="path_links">Link 2</span>
-      <% end %>
-    </li>
-    <li>
-      <%= link_to "/" do %>
-        <i class="fa-solid fa-computer"></i>
-        <span class="path_links">Link 3</span>
-      <% end %>
-    </li>
-    <li>
-      <%= link_to "/" do %>
-        <i class="fa-solid fa-computer"></i>
-        <span class="path_links">Link 4</span>
-      <% end %>
-    </li>
-  </ul>
+  <div class="sidebar-lists">
+    <ul class="nav-list">
+      <li>
+        <%= link_to "/" do %>
+          <i class="fa-solid fa-users-rectangle"></i>
+          <span class="path_links">Leagues</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to "/" do %>
+          <i class="fa-solid fa-plus"></i>
+          <span class="path_links">Submit a challenge</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to "/" do %>
+          <i class="fa-solid fa-comments"></i>
+          <span class="path_links">Messages</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to "/" do %>
+          <i class="fa-solid fa-people-group"></i>
+          <span class="path_links">Teki community</span>
+        <% end %>
+      </li>
+    </ul>
+
+    <ul class="nav-list">
+      <li>
+        <%= link_to "/" do %>
+          <i class="fa-solid fa-book-open"></i>
+          <span class="path_links">Legals</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to "/" do %>
+          <i class="fa-solid fa-phone"></i>
+          <span class="path_links">Contact us</span>
+        <% end %>
+      </li>
+    </ul>
+  </div>
 </div>
