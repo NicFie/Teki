@@ -175,15 +175,38 @@ export default class extends Controller {
     })
   }
 
-  nextRound() {
-    if(this.userIdValue == this.playerOneIdValue){
-      this.playerOneReadyValue = true
-      this.postReadyStatus(this.playerOneReadyValue, this.playerTwoReadyValue)
-    };
-    if(this.userIdValue == this.playerTwoIdValue){
-      this.playerTwoReadyValue = true
-      this.postReadyStatus(this.playerOneReadyValue, this.playerTwoReadyValue)
-    };
+  nextRoundStatus(data){
+    if(data.player_one_ready == true){
+      this.playerOneReadyTarget.innerText = '✅'
+      this.playerOneReadyValue = true;
+    }
+    if(data.player_two_ready == true){
+      this.playerTwoReadyTarget.innerText = '✅'
+      this.playerTwoReadyValue = true;
+    }
+    if(data.player_one_ready == true && data.player_two_ready == true){
+      setTimeout(() => { // countdown
+        this.roundWinnerModalTarget.style.display = "none";
+        this.preGameLoadingContentTarget.style.display = "none";
+        this.preGameModalTarget.style.display = "flex";
+        this.playerFoundMessageTarget.style.display = "flex";
+        this.playerFoundMessageTarget.innerHTML = `<h1>Round ${this.gameRoundNumberValue + 2}</h1><br><h1 class="number-animation">3</h1>`
+      }, 1000);
+      setTimeout(() => { // countdown
+        this.playerFoundMessageTarget.innerHTML = `<h1>Round ${this.gameRoundNumberValue + 2}</h1><br><h1 class="number-animation">2</h1>`
+      }, 2000);
+      setTimeout(() => { // countdown
+        this.playerFoundMessageTarget.innerHTML = `<h1>Round ${this.gameRoundNumberValue + 2}</h1><br><h1 class="number-animation">1</h1>`
+      }, 3000);
+      setTimeout(() => { // countdown
+        this.playerFoundMessageTarget.innerHTML = `<h1>Round ${this.gameRoundNumberValue + 2}</h1><br><h1 class="number-animation">Go!</h1>`
+      }, 4000);
+      setTimeout(() => { //remove
+        this.playerFoundMessageTarget.style.display = "none"
+        this.preGameModalTarget.style.display = "none";
+        this.updatePage()
+      }, 5000);
+    }
   }
 
   nextRoundStatus(data){
@@ -215,9 +238,6 @@ export default class extends Controller {
     this.updatePage()
   }
 
-  preGameModal(){
-
-  }
 
   disconnect() {
     this.channel.unsubscribe()
