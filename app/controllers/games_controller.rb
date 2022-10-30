@@ -123,7 +123,7 @@ class GamesController < ApplicationController
     # @output.gsub!(/(for #<\w+:\w+>\s+\w+\s+\^+|for #<\w+:\w+>)/, "")
     # @output.gsub!(/(#|<|>)/, "")
     p "User #{params[:user_id]} test results:#{all_passed}"
-    (all_passed.include?(false) || all_passed.empty?) ? "User #{params[:user_id]} failed." : @winner = "User #{User.find(params[:user_id]).username} wins!"
+    (all_passed.include?(false) || all_passed.empty?) ? "User #{params[:user_id]} failed." : @winner = "#{User.find(params[:user_id]).username} wins!"
     @p1_count = 0
     @p2_count = 0
     # starting the next round code

@@ -175,6 +175,19 @@ export default class extends Controller {
     })
   }
 
+  postReadyStatus(player_one_ready, player_two_ready) {
+    fetch(`/games/${this.gameIdValue}/user_ready_next_round`, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-CSRF-Token": this.token,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({ player_one_ready: player_one_ready, player_two_ready: player_two_ready }),
+    })
+  }
+
   nextRound() {
     if(this.userIdValue == this.playerOneIdValue){
       this.playerOneReadyValue = true
@@ -188,17 +201,35 @@ export default class extends Controller {
 
   nextRoundStatus(data){
     if(data.player_one_ready == true){
-      this.playerOneReadyTarget.innerText = 'yes'
+      this.playerOneReadyTarget.innerText = '✅'
       this.playerOneReadyValue = true;
     }
     if(data.player_two_ready == true){
-      this.playerTwoReadyTarget.innerText = 'yes'
+      this.playerTwoReadyTarget.innerText = '✅'
       this.playerTwoReadyValue = true;
     }
     if(data.player_one_ready == true && data.player_two_ready == true){
-      setTimeout(() => {
-        this.updatePage();
+      setTimeout(() => { // countdown
+        this.roundWinnerModalTarget.style.display = "none";
+        this.preGameLoadingContentTarget.style.display = "none";
+        this.preGameModalTarget.style.display = "flex";
+        this.playerFoundMessageTarget.style.display = "flex";
+        this.playerFoundMessageTarget.innerHTML = `<h1>Round ${this.gameRoundNumberValue + 2}</h1><br><h1 class="number-animation">3</h1>`
+      }, 1000);
+      setTimeout(() => { // countdown
+        this.playerFoundMessageTarget.innerHTML = `<h1>Round ${this.gameRoundNumberValue + 2}</h1><br><h1 class="number-animation">2</h1>`
       }, 2000);
+      setTimeout(() => { // countdown
+        this.playerFoundMessageTarget.innerHTML = `<h1>Round ${this.gameRoundNumberValue + 2}</h1><br><h1 class="number-animation">1</h1>`
+      }, 3000);
+      setTimeout(() => { // countdown
+        this.playerFoundMessageTarget.innerHTML = `<h1>Round ${this.gameRoundNumberValue + 2}</h1><br><h1 class="number-animation">Go!</h1>`
+      }, 4000);
+      setTimeout(() => { //remove
+        this.playerFoundMessageTarget.style.display = "none"
+        this.preGameModalTarget.style.display = "none";
+        this.updatePage()
+      }, 5000);
     }
   }
 
@@ -215,9 +246,6 @@ export default class extends Controller {
     this.updatePage()
   }
 
-  preGameModal(){
-
-  }
 
   disconnect() {
     this.channel.unsubscribe()
