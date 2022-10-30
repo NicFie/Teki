@@ -23,17 +23,23 @@ export default class extends Controller {
 
     let playerOneRead = ""
     let playerTwoRead = ""
+    let playerOneTheme = ""
+    let playerTwoTheme = ""
     if (this.playerOneIdValue == this.userIdValue) {
       playerTwoRead = "nocursor"
+      playerOneTheme = "dracula"
+      playerTwoTheme = "dracula_blurred"
     } else {
       playerOneRead = "nocursor";
+      playerOneTheme = "dracula_blurred"
+      playerTwoTheme = "dracula"
     }
 
     // Generating codemirror windows
     this.editor_one = codemirror.fromTextArea(
       this.editoroneTarget, {
         mode: "ruby",
-        theme: "dracula",
+        theme: playerOneTheme,
         lineNumbers: true,
         readOnly: playerOneRead
       }
@@ -42,7 +48,7 @@ export default class extends Controller {
     this.editor_two = codemirror.fromTextArea(
       this.editortwoTarget, {
         mode: "ruby",
-        theme: "dracula",
+        theme: playerTwoTheme,
         lineNumbers: true,
         readOnly: playerTwoRead,
       }
