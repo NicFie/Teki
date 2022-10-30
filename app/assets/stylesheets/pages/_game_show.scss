@@ -1,7 +1,7 @@
 .game-show-container {
   display:flex;
   margin: 20px 120px;
-  min-height: 740px;
+  height: 82vh;
   gap: 10px;
 
   h4 {
@@ -15,7 +15,7 @@
   flex-direction: column;
   align-items: center;
   span {
-    font-size: 100px;
+    font-size: 50px;
     color: $light-green;
     vertical-align: middle;
     margin: 0px 50px;
@@ -29,6 +29,7 @@
 
 .challenge-tests {
   min-height: 25%;
+  overflow-y: auto;
 }
 
 .user-codebox {
@@ -38,7 +39,7 @@
   justify-content: center;
   background-color: $dark-gray;
   border-radius: 5px;
-  height: 370px;
+  height: 40%;
   max-width: 826px;
 
 // codemirror style for game page.
@@ -51,6 +52,7 @@
 
 .current-player-codebox {
   border: 5px solid $light-green;
+  height: 60%;
 }
 
 
@@ -65,7 +67,7 @@
 
 .user-details{
   display:flex;
-  margin: 10px 0;
+  margin: 5px 0;
 }
 .user-avatar{
   height: 40px;
@@ -73,7 +75,7 @@
 }
 
 .user-avatar-big {
-  height: 100px;
+  height: 12vh;
 }
 
 .user-name {
