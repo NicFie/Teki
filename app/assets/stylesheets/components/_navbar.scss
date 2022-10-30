@@ -10,6 +10,24 @@
   a:hover {
     color: $white !important;
   }
+
+  .nav-item {
+    color: $white;
+    display: flex;
+    align-items: center;
+    font-size: 25px;
+  }
+
+  ul {
+    gap: 20px;
+
+    span {
+      font-size: 15px;
+      border: 1px solid $dark-green;
+      padding: 2px;
+      border-radius: 5px;
+    }
+  }
 }
 
 .navbar-lewagon .navbar-collapse {
@@ -35,4 +53,9 @@
 
 .dropdown-menu-end {
   background-color: $dark-gray;
+  padding: 0px;
+}
+
+.dropdown-item:hover {
+  background-color: #3a3b41;
 }
