@@ -3,6 +3,12 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  h2 {
+    margin-bottom: 20px;
+    text-decoration: underline;
+    text-decoration-color: $dark-green;
+  }
 }
 
 .dashboard-information {
@@ -13,7 +19,7 @@
     margin-right: 20px;
   }
 
-  h2 {
+  h1 {
     align-self: center;
     font-size: 50px;
   }
@@ -40,8 +46,8 @@
   display: flex;
   gap: 10px;
 
-  div {
-    flex-grow: 1;
+  &>div {
+    width: 50%;
   }
 
   .dashboard-lower-right {
@@ -59,5 +65,25 @@
 
   .leaderboard-user img{
     margin: 7px 0px;
+  }
+}
+
+.friendlist {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid $light-green;
+    border-radius: 5px;
+    padding: 10px;
+
+    img {
+      margin: 20px;
+    }
   }
 }

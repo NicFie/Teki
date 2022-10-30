@@ -2,7 +2,7 @@
   <div class="page-section dashboard-information">
     <div class="d-flex">
       <%= image_tag current_user.avatar, height: '100' %>
-      <h2><%= current_user.username %></h2>
+      <h1><%= current_user.username %></h1>
     </div>
     <div class="dashboard-data">
       <h6>Score </h6>
@@ -75,28 +75,15 @@
     <div class="dashboard-lower-right">
       <div class="page-section">
         <h2>Friendslist</h2>
-        <table>
-          <tbody>
-            <tr>
-              <th>N°</th>
-              <th>Username</th>
-              <th>Avatar</th>
-            </tr>
-            <% count = 1 %>
+          <ul class="friendlist">
             <% @friendships.each do |f| %>
-              <tr>
-                <td>#<%= count %></td>
-                <td>
-                  <div><%= f.receiver.username %></div>
-                </td>
-                <td>
-                  <%= image_tag f.receiver.avatar, height: '40' %>
-                </td>
-              </tr>
-              <% count += 1 %>
+              <li>
+                <div><%= f.receiver.username %></div>
+                <%= image_tag f.receiver.avatar, height: '40' %>
+                <button class="btn btn-second">Battle</button>
+              </li>
             <% end  %>
-          </tbody>
-        </table>
+          </ul>
       </div>
       <div class="page-section">
         <h2>Latest battles</h2>
