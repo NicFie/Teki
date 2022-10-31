@@ -13,7 +13,7 @@
 
 .dashboard-information {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 
   img {
     margin-right: 20px;
@@ -71,8 +71,10 @@
 .friendlist {
   list-style: none;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  gap: 5px;
+  padding: 5px;
+  overflow-x: scroll;
+
 
   li {
     display: flex;
@@ -86,4 +88,10 @@
       margin: 20px;
     }
   }
+}
+
+
+.username-table{
+  align-self:center;
+  margin: 0 10px;
 }

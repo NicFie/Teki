@@ -1,28 +1,28 @@
 <div class="dashboard-wrapper" data-controller="dashboard">
   <div class="page-section dashboard-information">
     <div class="d-flex">
-      <%= image_tag current_user.avatar, height: '100' %>
+      <%= image_tag current_user.avatar, height: '80' %>
       <h1><%= current_user.username %></h1>
     </div>
     <div class="dashboard-data">
-      <h6>Score </h6>
+      <h6>Score</h6>
       <span><%= current_user.score %></span>
     </div>
     <div class="dashboard-data">
-      <h6>Total games </h6>
+      <h6>Total games</h6>
       <span><%= current_user.games_as_player_one.count + current_user.games_as_player_two.count %></span>
 
     </div>
   </div>
   <div class="dashboard-buttons">
-    <%= link_to "Train in ghost mode", dashboard_path, class: "btn btn-main" %>
-
     <%# Below is the original button to go to the waiting path in case you need to use it instead of modal %>
 
     <%# <%= link_to "Battle to earn points",  waiting_path, class: "btn btn-main" %>
     <button type="button" class="btn btn-main" data-toggle="modal" data-target="#exampleModalCenter">
-      Battle to earn points
+      Play
     </button>
+    <%# <%= link_to "Play Solo", dashboard_path, class: "btn btn-main" %>
+
   </div>
 
   <!-- Modal -->
@@ -74,7 +74,7 @@
     </div>
     <div class="dashboard-lower-right">
       <div class="page-section">
-        <h2>Friendslist</h2>
+        <h2>Friends</h2>
           <ul class="friendlist">
             <% @friendships.each do |f| %>
               <li>
@@ -86,11 +86,11 @@
           </ul>
       </div>
       <div class="page-section">
-        <h2>Latest battles</h2>
+        <h2>Latest Battles</h2>
         <table class="leaderboard">
           <tbody>
             <tr>
-              <th>Game</th>
+              <th>Opponent</th>
               <th>Rounds Won</th>
               <th>Points</th>
             </tr>

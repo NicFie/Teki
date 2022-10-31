@@ -24,7 +24,7 @@
     span {
       font-size: 15px;
       border: 1px solid $dark-green;
-      padding: 2px;
+      padding: 4px;
       border-radius: 5px;
     }
   }
@@ -44,7 +44,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 20px 200px 0px;
+  padding: 10px 20px;
 
   img {
     width: 100px;
@@ -58,4 +58,8 @@
 
 .dropdown-item:hover {
   background-color: #3a3b41;
+}
+
+.default-cursor{
+  cursor:default;
 }

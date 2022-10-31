@@ -45,11 +45,15 @@
   }
 
   .lp-text-left {
-    padding: 2rem 3rem 0 3rem;
+    padding: 0 3rem;
+    display: flex;
+    align-items: center;
   }
 
   .lp-text-right {
-    padding: 2rem 3rem 0 3rem;
+    padding: 0 3rem;
+    display: flex;
+    align-items: center;
   }
 
   .lp-card-container-image {
@@ -91,4 +95,8 @@
 
 .inView {
   opacity: 1 !important;
+}
+
+#lp-main-content {
+  margin-top: 200px;
 }

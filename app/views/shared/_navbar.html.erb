@@ -16,7 +16,7 @@
             <i class="fa-solid fa-envelope"></i>
           </li>
           <li class="nav-item">
-             <span> <%= current_user.score %> points</span>
+             <span class="default-cursor"> <%= current_user.score %> points</span>
           </li>
           <li class="nav-item dropdown">
             <%= image_tag "#{current_user.avatar}", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
