@@ -12,7 +12,7 @@
                 input_html: { autocomplete: "username" }%>
     <%= f.input :avatar,
                 required: true,
-                collection: [["Coool Cactus", "cool-cactus.png"], ["DOGE", "cool-doge.png"], ["Funky Duck", "cool-duck.png"], ["Coolest duck", "coolest-duck.png"]]%>
+                :collection => [["Cooool Cactus", "cool-cactus.png"], ["DOGE", "cool-doge.png"], ["Funky Duck", "cool-duck.png"], ["Coolest duck", "coolest-duck.png"]]%>
                 <%# collection: [ "cool-emote.png", "cool-doge.png", "cool-cactus.png", "cool-duck.png"]%>
     <%= f.input :email,
                 required: true,
