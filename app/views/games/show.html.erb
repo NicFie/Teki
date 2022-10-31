@@ -47,7 +47,7 @@
           <div><%= image_tag(@game.player_one.avatar, class: "user-avatar") %></div>
           <h2 class="user-name"><%= @game.player_one.username %></h2>
         </div>
-        <textarea data-code-target="editorone"></textarea>
+        <div class="code-box <%= "blur-code-box" if current_user == @game.player_two %>"><textarea data-code-target="editorone"></textarea></div>
         <% if @game.player_one == current_user %>
           <div class="code-submit-buttons">
             <button id="playerOneClear" class="btn btn-second" data-action="click->code#clearPlayerSubmission">Clear</button>
@@ -62,7 +62,7 @@
           <div><%= image_tag(@game.player_two.avatar, class: "user-avatar") %></div>
           <h2 class="user-name"><%= @game.player_two.username %></h2>
         </div>
-        <textarea data-code-target="editortwo"></textarea>
+        <div class="code-box <%= "blur-code-box" if current_user == @game.player_one %>"><textarea data-code-target="editortwo"></textarea></div>
         <% if @game.player_two == current_user %>
           <div class="code-submit-buttons">
             <button id="playerTwoClear" class="btn btn-second" data-action="click->code#clearPlayerSubmission">Clear</button>

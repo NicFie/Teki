@@ -44,7 +44,7 @@
 
 // codemirror style for game page.
   .CodeMirror{
-    height: 60%;
+    height: 100%;
     width:100%;
     font-size: 15px;
   }
@@ -100,4 +100,15 @@
 
 .game-show-right-reversed {
   flex-direction: column-reverse;
+}
+
+.code-box {
+  height: 100%;
+  width: 100%;
+}
+
+.blur-code-box {
+  filter: blur(0.2rem);
+  height: 100%;
+  width: 100%;
 }
