@@ -10,6 +10,9 @@
                 required: true,
                 autofocus: true,
                 input_html: { autocomplete: "username" }%>
+    <%= f.input :avatar,
+                required: true,
+                :collection => ["cool-emote.png", "cool-doge.png", "cool-cactus.png", "cool-duck.png"]%>
     <%= f.input :email,
                 required: true,
                 autofocus: true,
