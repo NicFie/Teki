@@ -58,7 +58,7 @@
             <th>Score</th>
           </tr>
           <% count = 1 %>
-          <% @users_ordered_by_score.each do |user| %>
+          <% @users_ordered_by_score[0...10].each do |user| %>
             <tr class="leaderboard-user">
               <td>#<%= count %></td>
               <td>
