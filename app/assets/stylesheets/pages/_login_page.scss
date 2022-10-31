@@ -1,0 +1,40 @@
+.login-page {
+  width: 300px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: $dark-gray;
+  color: $white;
+  border: 2px solid $light-green;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.login-wrapper {
+  width:100%;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $black;
+}
+
+.extras-login {
+  margin: 10px 0;
+  width: 200px;
+}
+
+.form-actions {
+  width: 200px;
+  input {
+    color: $white;
+    border: 2px solid $light-gray;
+    background: $dark-green;
+  }
+  input:hover{
+    color: $black !important;
+    border: 2px solid $light-gray !important;
+    background: $light-green !important;
+  }
+}

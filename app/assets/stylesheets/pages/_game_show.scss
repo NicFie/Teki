@@ -1,7 +1,8 @@
 .game-show-container {
   display:flex;
-  margin: 20px 120px;
-  height: 82vh;
+  margin: 20px;
+  height: calc(100vh - 101px);
+  width: calc(100vw - 118px);
   gap: 10px;
 
   h4 {
@@ -40,15 +41,16 @@
   background-color: $dark-gray;
   border-radius: 5px;
   height: 40%;
-  max-width: 826px;
+  // max-width: 826px;
 
-// codemirror style for game page.
+  // codemirror style for game page.
   .CodeMirror{
     height: 60%;
     width:100%;
     font-size: 15px;
   }
 }
+
 
 .current-player-codebox {
   border: 5px solid $light-green;
@@ -88,14 +90,14 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 45%;
+  width: 40%;
 }
 
 .game-show-right {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  flex-grow: 1;
+  width: 60%;
 }
 
 .game-show-right-reversed {

@@ -9,6 +9,13 @@
   transition: all 0.5s ease;
   z-index: 1;
 
+
+  .sidebar-logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
   .sidebar-logo img {
     height: 50px;
     padding: 0 !important;
@@ -83,6 +90,8 @@
 
 .sidebar.open{
   width: 250px;
+
+
 
   li a .path_links{
     opacity: 1;

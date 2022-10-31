@@ -1,3 +1,5 @@
+<div class="login-wrapper">
+<div class="login-page">
 <h2>Sign up</h2>
 
 <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), data: { turbo: :false }) do |f| %>
@@ -26,4 +28,8 @@
   </div>
 <% end %>
 
+<div class="extras-login">
 <%= render "devise/shared/links" %>
+</div>
+</div>
+</div>
