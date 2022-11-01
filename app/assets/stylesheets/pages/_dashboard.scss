@@ -73,7 +73,8 @@
   display: flex;
   gap: 5px;
   padding: 5px;
-  overflow-x: scroll;
+  overflow-x: hidden;
+  margin-bottom: 5px;
 
 
   li {
@@ -88,6 +89,11 @@
       margin: 20px;
     }
   }
+}
+
+.friendlist:hover{
+  margin-bottom: 0px;
+  overflow-x: scroll;
 }
 
 

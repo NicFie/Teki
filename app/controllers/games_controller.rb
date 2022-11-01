@@ -216,12 +216,15 @@ class GamesController < ApplicationController
 
   def user_ready_next_round
     @game = Game.find(params[:id])
+    @round_number = @game.game_rounds.where('winner_id != 1').size + 1
+    p @round_number
     GameChannel.broadcast_to(
       @game,
       {
         command: "next round",
         player_one_ready: params[:player_one_ready],
-        player_two_ready: params[:player_two_ready]
+        player_two_ready: params[:player_two_ready],
+        round_number: @round_number
       }
     )
 
