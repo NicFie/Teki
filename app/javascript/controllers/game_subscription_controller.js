@@ -214,16 +214,16 @@ export default class extends Controller {
         this.preGameLoadingContentTarget.style.display = "none";
         this.preGameModalTarget.style.display = "flex";
         this.playerFoundMessageTarget.style.display = "flex";
-        this.playerFoundMessageTarget.innerHTML = `<h1 class="countdown-title">Round ${this.gameRoundNumberValue + 2}</h1><br><h1 class="number-animation">3</h1>`
+        this.playerFoundMessageTarget.innerHTML = `<h1 class="countdown-title">Round ${data.round_number}</h1><br><h1 class="number-animation">3</h1>`
       }, 1000);
       setTimeout(() => { // countdown
-        this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${this.gameRoundNumberValue + 2}</h1><br><h1 class="number-animation">2</h1>`
+        this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${data.round_number}</h1><br><h1 class="number-animation">2</h1>`
       }, 2000);
       setTimeout(() => { // countdown
-        this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${this.gameRoundNumberValue + 2}</h1><br><h1 class="number-animation">1</h1>`
+        this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${data.round_number}</h1><br><h1 class="number-animation">1</h1>`
       }, 3000);
       setTimeout(() => { // countdown
-        this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${this.gameRoundNumberValue + 2}</h1><br><h1 class="number-animation">Go!</h1>`
+        this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${data.round_number}</h1><br><h1 class="number-animation">Go!</h1>`
       }, 4000);
       setTimeout(() => { //remove
         this.playerFoundMessageTarget.style.display = "none"

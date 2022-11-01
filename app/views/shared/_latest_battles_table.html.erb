@@ -14,12 +14,17 @@
       <% end %>
     </td>
     <td>
-      <div style='color: <%= b.game_winner == current_user.id ? 'green' : 'red' %>;'>
+      <div>
+        <%= b.created_at.strftime('%m/%d/%y') %>
+      </div>
+    </td>
+    <td>
+      <div style='color: <%= b.game_winner == current_user.id ? '#20F596;' : 'red' %>;'>
         <%= b.game_rounds.where(winner_id: current_user.id).length %>/<%= b.game_rounds.length %>
       </div>
     </td>
     <td>
-      <divs style='color: <%= b.game_winner == current_user.id ? 'green' : 'red' %>'>
+      <divs style='color: <%= b.game_winner == current_user.id ? '#20F596;' : 'red;' %>'>
         <% if b.game_winner == current_user.id %>
           + <%= b.winner_score %>
         <% else %>

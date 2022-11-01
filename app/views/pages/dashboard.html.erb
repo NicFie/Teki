@@ -18,7 +18,7 @@
     <%# Below is the original button to go to the waiting path in case you need to use it instead of modal %>
 
     <%# <%= link_to "Battle to earn points",  waiting_path, class: "btn btn-main" %>
-    <button type="button" class="btn btn-main" data-toggle="modal" data-target="#exampleModalCenter">
+    <button type="button" style="font-size:20px;" class="btn btn-main" data-toggle="modal" data-target="#exampleModalCenter">
       Play
     </button>
     <%# <%= link_to "Play Solo", dashboard_path, class: "btn btn-main" %>
@@ -37,11 +37,9 @@
         </div>
         <div class="modal-body round-choice round-choice-modal-body">
             <%= simple_form_for [current_user, @game] do |f| %>
-                <%= f.input :round_count, as: :radio_buttons, collection: [[1, '🥷🏻'], [3, "🥷🏻🥷🏻🥷🏻"], [5, "🥷🏻🥷🏻🥷🏻🥷🏻🥷🏻"]], label_method: :second, value_method: :first, label: '', class: 'form-check-inline' %>
-        </div>
-        <div class="modal-footer round-choice-modal-footer">
-          <%= f.submit "Battle!", class: 'btn btn-main' %>
-          <% end %>
+              <%= f.input :round_count, as: :radio_buttons, collection: [[1, '🥷🏻'], [3, "🥷🏻🥷🏻🥷🏻"], [5, "🥷🏻🥷🏻🥷🏻🥷🏻🥷🏻"]], label_method: :second, value_method: :first, label: '', class: 'form-check-inline' %>
+              <%= f.submit "Battle!", class: 'btn btn-main'%>
+            <% end %>
         </div>
       </div>
     </div>
@@ -74,23 +72,24 @@
     </div>
     <div class="dashboard-lower-right">
       <div class="page-section">
-        <h2>Friends</h2>
-          <ul class="friendlist">
+        <h2 class="friends-title">Friends</h2>
+          <div class="friendlist">
             <% @friendships.each do |f| %>
-              <li>
+              <div class="friend-div">
                 <div><%= f.receiver.username %></div>
                 <%= image_tag f.receiver.avatar, height: '40' %>
-                <button class="btn btn-second">Battle</button>
-              </li>
+                <button class="btn btn-main btn-sm">Battle</button>
+              </div>
             <% end  %>
-          </ul>
+          </div>
       </div>
       <div class="page-section">
-        <h2>Latest Battles</h2>
+        <h2>Your Battles</h2>
         <table class="leaderboard">
           <tbody>
             <tr>
               <th>Opponent</th>
+              <th>Date</th>
               <th>Rounds Won</th>
               <th>Points</th>
             </tr>

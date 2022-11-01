@@ -25,8 +25,7 @@
 
   <body>
 
-    <% if current_page?(unauthenticated_root_path) && !user_signed_in? %>
-      <% puts "We love animals" %>
+    <% if (current_page?(unauthenticated_root_path) && !user_signed_in?) || !user_signed_in? %>
       <%= yield %>
     <% else %>
       <%= render "shared/pre_game_modal" %>

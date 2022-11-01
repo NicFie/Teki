@@ -5,7 +5,7 @@
   gap: 10px;
 
   h2 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     text-decoration: underline;
     text-decoration-color: $dark-green;
   }
@@ -39,7 +39,9 @@
 .dashboard-buttons {
   display: flex;
   justify-content: space-around;
-  margin: 20px;
+    button{
+      width:50%;
+    }
 }
 
 .dashboard-lower {
@@ -72,26 +74,47 @@
   list-style: none;
   display: flex;
   gap: 5px;
-  padding: 5px;
-  overflow-x: scroll;
+  padding: 5px 0;
+  overflow-x: hidden;
+  margin-bottom: 5px;
+  justify-content: space-between;
 
 
-  li {
+  .friend-div {
+    background-color: $black;
     display: flex;
     flex-direction: column;
     align-items: center;
     border: 2px solid $light-green;
     border-radius: 5px;
-    padding: 10px;
+    min-width: 110px !important;
+
+    div {
+      padding: 2px 5px;
+    }
 
     img {
       margin: 20px;
     }
+
+    button {
+      width: 100%;
+      border-radius: 0 !important;
+    }
   }
+}
+
+.friendlist:hover{
+  margin-bottom: 0px;
+  overflow-x: scroll;
 }
 
 
 .username-table{
   align-self:center;
   margin: 0 10px;
+}
+
+.friends-title{
+  margin-bottom: 5px !important;
 }
