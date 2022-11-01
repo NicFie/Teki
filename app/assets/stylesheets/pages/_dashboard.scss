@@ -13,27 +13,49 @@
 
 .dashboard-information {
   display: flex;
-  justify-content: space-around;
-
-  img {
-    margin-right: 20px;
-  }
-
-  h1 {
-    align-self: center;
-    font-size: 50px;
-  }
-
-  .dashboard-data {
+  justify-content: space-between;
+  .play-box{
     display: flex;
-    flex-direction: column;
-    text-align: center;
-
-    span {
-      font-size: 40px;
-      color: $light-green;
+    justify-content: center;
+    width:30%;
+    button{
+      height:50%;
+      align-self: center;
     }
   }
+
+  .right-side-user-info{
+
+    display:flex;
+    justify-content: space-between;
+    width: 70%;
+    background: $black;
+    padding: 15px;
+    border-radius: 5px;
+    border: solid 1px $white;
+    img {
+      margin-right: 20px;
+    }
+
+    h1 {
+      align-self: center;
+      font-size: 50px;
+    }
+
+    .dashboard-data {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+
+      span {
+        font-size: 40px;
+        color: $light-green;
+      }
+    }
+
+  }
+
+
 }
 
 .dashboard-buttons {
