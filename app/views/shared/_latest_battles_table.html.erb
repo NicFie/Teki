@@ -14,6 +14,11 @@
       <% end %>
     </td>
     <td>
+      <div>
+        <%= b.created_at.strftime('%m/%d/%y') %>
+      </div>
+    </td>
+    <td>
       <div style='color: <%= b.game_winner == current_user.id ? 'green' : 'red' %>;'>
         <%= b.game_rounds.where(winner_id: current_user.id).length %>/<%= b.game_rounds.length %>
       </div>

@@ -20,10 +20,18 @@ data-game-subscription-player-two-ready-value="<%= false %>">
       data-code-game-round-method-value="<%= @rounds_left.challenge.method_template %>">
     <div class="game-show-left">
       <div class="page-section game-information">
-        <h3> <%=  (@game.game_rounds.where('winner_id != 1').size + 1) %> / <%= @game.round_count %></h3>
-        <div>
-          <%= image_tag(@game.player_one.avatar, class: "user-avatar-big") %> <span>V</span> <%= image_tag(@game.player_two.avatar, class: "user-avatar-big", data: {'game-subscription-target' => 'playerTwoAvatar'}) %>
-        </div>
+        <h3>Round <%= (@game.game_rounds.where('winner_id != 1').size + 1)%>/<%=@game.round_count%></h3>
+        <%# <div class="d-flex">
+          <div class="d-flex flex-column align-items-center">
+            <%= image_tag(@game.player_one.avatar, class: "user-avatar")
+            <h5 class="mt-2"><%= @game.player_one.username %><%# </h5>
+          <%# </div>
+          <span>V</span>
+          <div class="d-flex flex-column align-items-center">
+            <%= image_tag(@game.player_two.avatar, class: "user-avatar", data: {'game-subscription-target' => 'playerTwoAvatar'}) %>
+            <%# <h5 class="mt-2"><%= @game.player_two.username %><%# </h5>
+          <%# </div>
+        </div> %>
       </div>
 
       <div class="page-section challenge-instructions">
@@ -40,30 +48,30 @@ data-game-subscription-player-two-ready-value="<%= false %>">
     <div class="game-show-right <%= "game-show-right-reversed" if current_user == @game.player_two %>">
       <div class="user-codebox <%= "current-player-codebox" if current_user == @game.player_one %>" id="user-codebox-1" data-action="keyup->code#playerTyping">
         <div class="user-details">
-          <div><%= image_tag(@game.player_one.avatar, class: "user-avatar") %></div>
-          <h2 class="user-name"><%= @game.player_one.username %></h2>
+          <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
+          <h4 class="user-name"><%= @game.player_one.username %></h4>
         </div>
         <textarea data-code-target="editorone"></textarea>
         <% if @game.player_one == current_user %>
           <div class="code-submit-buttons">
             <button id="playerOneClear" class="btn btn-second" data-action="click->code#clearPlayerSubmission">Clear</button>
             <button id="playerOneTest" class="btn btn-main" data-action="click->code#playerSubmission">Submit</button>
-            <button id="playerOneSubmit" class="btn btn-second">😀😠🎉</button>
+            <%# <button id="playerOneSubmit" class="btn btn-second">😀😠🎉</button> %>
           </div>
         <% end %>
       </div>
 
       <div class="user-codebox <%= "current-player-codebox" if current_user == @game.player_two %>" id="user-codebox-2" data-action="keyup->code#playerTyping">
         <div class="user-details">
-          <div><%= image_tag(@game.player_two.avatar, class: "user-avatar") %></div>
-          <h2 class="user-name"><%= @game.player_two.username %></h2>
+          <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
+          <h4 class="user-name"><%= @game.player_two.username %></h4>
         </div>
         <textarea data-code-target="editortwo"></textarea>
         <% if @game.player_two == current_user %>
           <div class="code-submit-buttons">
             <button id="playerTwoClear" class="btn btn-second" data-action="click->code#clearPlayerSubmission">Clear</button>
             <button id="playerTwoTest" class="btn btn-main"  data-action="click->code#playerSubmission">Submit</button>
-            <button id="playerTwoSubmit" class="btn btn-second">😀😠🎉</button>
+            <%# <button id="playerTwoSubmit" class="btn btn-second">😀😠🎉</button> %>
           </div>
         <% end %>
       </div>

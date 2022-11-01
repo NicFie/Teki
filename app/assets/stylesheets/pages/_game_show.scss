@@ -21,6 +21,9 @@
     vertical-align: middle;
     margin: 0px 50px;
   }
+  h3{
+    margin-bottom: 0 !important;
+  }
 }
 
 .challenge-instructions {
@@ -60,16 +63,17 @@
 
 .code-submit-buttons{
   display: flex;
-  justify-content: space-around;
+  justify-content: end;
   width: 100%;
-  padding: 10px;
+  // padding: 10px;
 }
 
 
 
 .user-details{
   display:flex;
-  margin: 5px 0;
+  margin: 10px 0;
+  align-items: center;
 }
 .user-avatar{
   height: 40px;
@@ -79,10 +83,12 @@
 .user-avatar-big {
   height: 12vh;
 }
+.user-avatar-small {
+  height: 30px;
+}
 
 .user-name {
   color: $white;
-  height: 40px;
   margin: 0 10px;
 }
 
@@ -102,4 +108,9 @@
 
 .game-show-right-reversed {
   flex-direction: column-reverse;
+}
+
+#playerOneClear, #playerTwoClear, #playerTwoTest, #playerOneTest {
+  border-radius: 0px !important;
+  border: none;
 }
