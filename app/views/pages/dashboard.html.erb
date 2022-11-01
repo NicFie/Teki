@@ -37,11 +37,9 @@
         </div>
         <div class="modal-body round-choice round-choice-modal-body">
             <%= simple_form_for [current_user, @game] do |f| %>
-                <%= f.input :round_count, as: :radio_buttons, collection: [[1, '🥷🏻'], [3, "🥷🏻🥷🏻🥷🏻"], [5, "🥷🏻🥷🏻🥷🏻🥷🏻🥷🏻"]], label_method: :second, value_method: :first, label: '', class: 'form-check-inline' %>
-        </div>
-        <div class="modal-footer round-choice-modal-footer">
-          <%= f.submit "Battle!", class: 'btn btn-main' %>
-          <% end %>
+              <%= f.input :round_count, as: :radio_buttons, collection: [[1, '🥷🏻'], [3, "🥷🏻🥷🏻🥷🏻"], [5, "🥷🏻🥷🏻🥷🏻🥷🏻🥷🏻"]], label_method: :second, value_method: :first, label: '', class: 'form-check-inline' %>
+              <%= f.submit "Battle!", class: 'btn btn-main'%>
+            <% end %>
         </div>
       </div>
     </div>

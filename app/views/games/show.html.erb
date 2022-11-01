@@ -36,7 +36,7 @@ data-game-subscription-player-two-ready-value="<%= false %>">
 
       <div class="page-section challenge-instructions">
         <h4>Instructions</h4>
-        <p><%= @rounds_left.challenge.description %></p>
+        <p><%= simple_format @rounds_left.challenge.description %></p>
       </div>
 
       <div class="page-section challenge-tests">
