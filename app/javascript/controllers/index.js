@@ -22,6 +22,9 @@ application.register("hello", HelloController)
 import LpCardsController from "./lp_cards_controller"
 application.register("lp-cards", LpCardsController)
 
+import NinjaformController from "./ninjaform_controller"
+application.register("ninjaform", NinjaformController)
+
 import SidebarController from "./sidebar_controller"
 application.register("sidebar", SidebarController)
 

@@ -35,10 +35,9 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body round-choice round-choice-modal-body">
-            <%= simple_form_for [current_user, @game] do |f| %>
-              <%= f.input :round_count, as: :radio_buttons, collection: [[1, '🥷🏻'], [3, "🥷🏻🥷🏻🥷🏻"], [5, "🥷🏻🥷🏻🥷🏻🥷🏻🥷🏻"]], label_method: :second, value_method: :first, label: '', class: 'form-check-inline' %>
-              <%= f.submit "Battle!", class: 'btn btn-main'%>
+        <div class="modal-body round-choice round-choice-modal-body" data-controller="ninjaform">
+            <%= simple_form_for [current_user, @game], :html => {:"data-ninjaform-target" => "form"} do |f| %>
+              <%= f.input :round_count, as: :radio_buttons, collection: [[1, '⚔️'], [3, "⚔️⚔️⚔️"], [5, "⚔️⚔️⚔️⚔️⚔️"]], label_method: :second, value_method: :first, label: '', class: 'form-check-inline', :input_html => { :"data-action" => "change->ninjaform#submitForm"} %>
             <% end %>
         </div>
       </div>
