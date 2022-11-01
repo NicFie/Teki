@@ -1,29 +1,35 @@
 <div class="dashboard-wrapper" data-controller="dashboard">
   <div class="page-section dashboard-information">
-    <div class="d-flex">
-      <%= image_tag current_user.avatar, height: '80' %>
-      <h1><%= current_user.username %></h1>
+    <div class="play-box">
+      <button type="button" style="font-size:20px;" class="btn btn-main" data-toggle="modal" data-target="#exampleModalCenter">
+        Play
+      </button>
     </div>
-    <div class="dashboard-data">
-      <h6>Score</h6>
-      <span><%= current_user.score %></span>
-    </div>
-    <div class="dashboard-data">
-      <h6>Total games</h6>
-      <span><%= current_user.games_as_player_one.count + current_user.games_as_player_two.count %></span>
-
+    <div class="right-side-user-info">
+      <div class="d-flex">
+        <%= image_tag current_user.avatar, height: '80' %>
+        <h1><%= current_user.username %></h1>
+      </div>
+      <div class="dashboard-data">
+        <h6>Score</h6>
+        <span><%= current_user.score %></span>
+      </div>
+      <div class="dashboard-data">
+        <h6>Total games</h6>
+        <span><%= current_user.games_as_player_one.count + current_user.games_as_player_two.count %></span>
+      </div>
     </div>
   </div>
-  <div class="dashboard-buttons">
+  <%# <div class="dashboard-buttons"> %>
     <%# Below is the original button to go to the waiting path in case you need to use it instead of modal %>
 
     <%# <%= link_to "Battle to earn points",  waiting_path, class: "btn btn-main" %>
-    <button type="button" style="font-size:20px;" class="btn btn-main" data-toggle="modal" data-target="#exampleModalCenter">
+    <%# <button type="button" style="font-size:20px;" class="btn btn-main" data-toggle="modal" data-target="#exampleModalCenter">
       Play
-    </button>
+    </button> %>
     <%# <%= link_to "Play Solo", dashboard_path, class: "btn btn-main" %>
 
-  </div>
+  <%# </div> %>
 
   <!-- Modal -->
   <div class="modal fade round-choice-modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -73,15 +79,23 @@
     <div class="dashboard-lower-right">
       <div class="page-section">
         <h2 class="friends-title">Friends</h2>
-          <div class="friendlist">
-            <% @friendships.each do |f| %>
-              <div class="friend-div">
-                <div><%= f.receiver.username %></div>
-                <%= image_tag f.receiver.avatar, height: '40' %>
-                <button class="btn btn-main btn-sm">Battle</button>
-              </div>
-            <% end  %>
-          </div>
+        <div class="friendlist">
+          <% @friendships.each do |f| %>
+              <% if f.receiver.username == current_user.username %>
+                <div class="friend-div">
+                  <div><%= f.asker.username %></div>
+                  <%= image_tag f.asker.avatar, height: '40' %>
+                  <button class="btn btn-main btn-sm">Battle</button>
+                </div>
+                <% else %>
+                <div class="friend-div">
+                  <div><%= f.receiver.username %></div>
+                  <%= image_tag f.receiver.avatar, height: '40' %>
+                  <button class="btn btn-main btn-sm">Battle</button>
+                </div>
+            <% end %>
+          <% end  %>
+        </div>
       </div>
       <div class="page-section">
         <h2>Your Battles</h2>
