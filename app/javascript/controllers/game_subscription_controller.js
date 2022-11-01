@@ -134,9 +134,9 @@ export default class extends Controller {
     playerOnesForm.append("game[player_one_id]", this.userIdValue)
     this.patchForm(playerOnesForm)
     // maybe use broadcast instead
-    setTimeout(() => {
-      this.updatePage()
-    }, 300);
+    // setTimeout(() => {
+    //   this.updatePage()
+    // }, 300);
   }
 
   updatePlayerTwoId() {
