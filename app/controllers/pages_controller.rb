@@ -13,4 +13,8 @@ class PagesController < ApplicationController
 
     @game = Game.new
   end
+
+  def user_settings
+
+  end
 end

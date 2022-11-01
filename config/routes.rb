@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   #root to: "pages#home"
   get '/dashboard', to: 'pages#dashboard', as: 'dashboard'
+  get '/user-settings', to: 'pages#user-settings', as: 'user_settings'
   get '/waiting_room', to: 'games#waiting_room', as: 'waiting'
   # get '/user_code', to: 'games#user_code', as: 'user_code'
 
