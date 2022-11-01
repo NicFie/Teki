@@ -65,7 +65,7 @@
             <tr class="leaderboard-user">
               <td>#<%= count %></td>
               <td>
-              <%= image_tag user.avatar, height: '40' %>
+              <%= link_to image_tag(user.avatar, height: '40'), user_path(user) %>
               <%= user.username %>
               </td>
               <td><%= user.score %></td>
