@@ -1,6 +1,8 @@
 <div data-controller="game-subscription challenge-instructions"
 data-game-subscription-game-id-value="<%= @game.id %>"
 data-game-subscription-user-id-value="<%= current_user.id %>"
+data-game-subscription-current-user-username-value="<%= current_user.username %>"
+data-game-subscription-player-two-username-value="<%= @game.player_two.username %>"
 data-game-subscription-player-one-id-value="<%= @game.player_one.id %>"
 data-game-subscription-player-two-id-value="<%= @game.player_two.id %>"
 data-game-subscription-update-url="<%= game_path(@game) %>"
@@ -117,16 +119,16 @@ data-game-subscription-player-two-ready-value="<%= false %>">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div data-game-subscription-target="roundWinnerModalContent" class="modal-content round-winner-modal-content">
         <div class="modal-header round-winner-modal-header">
-          <h4 data-game-subscription-target="roundWinner"></h4>
+          <div data-game-subscription-target="roundWinner"></div>
         </div>
         <div class="modal-body round-winner-modal-body">
           <div class="tally-container">
-            <div class="page-section">
+            <div class="page-section" id="player_one_box">
               <h6><%= @game.player_one.username %></h6>
               <p data-game-subscription-target="roundWinnerCountp1"></p>
             </div>
             <span>V</span>
-            <div class="page-section">
+            <div class="page-section" id="player_two_box">
               <h6 data-game-subscription-target="playerTwoUsername"><%= @game.player_two.username %></h6>
               <p data-game-subscription-target="roundWinnerCountp2"></p>
             </div>
@@ -147,16 +149,16 @@ data-game-subscription-player-two-ready-value="<%= false %>">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content round-winner-modal-content">
         <div class="modal-header round-winner-modal-header">
-          <h4 data-game-subscription-target="gameWinner"></h4>
+          <div data-game-subscription-target="gameWinner"></div>
         </div>
         <div class="modal-body round-winner-modal-body">
           <div class="tally-container">
-            <div class="page-section">
+            <div class="page-section" id="playerOneBox">
               <h6><%= @game.player_one.username %></h6>
               <p data-game-subscription-target="gameWinnerCountp1"></p>
             </div>
             <span>V</span>
-            <div class="page-section">
+            <div class="page-section" id="playerTwoBox">
               <h6 data-game-subscription-target="playerTwoUsername"><%= @game.player_two.username %></h6>
               <p data-game-subscription-target="gameWinnerCountp2"></p>
             </div>
