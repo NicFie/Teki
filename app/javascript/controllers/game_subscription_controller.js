@@ -160,7 +160,7 @@ export default class extends Controller {
     const playerTwoBox = document.getElementById("player_two_box")
     if(data.round_winner.includes('wins')){
       this.roundWinnerTarget.innerHTML = `<h1 style='color: ${data.round_winner.includes(this.currentUserUsernameValue) ? '#20F596;' : 'white;'}'>${data.round_winner.includes(this.currentUserUsernameValue) ? 'You Win!' : 'You Lose!'}</h1>`;
-      if(data.round_winner.includes(`${this.currentUserUsernameValue}`) && this.currentUserUsernameValue == this.playerTwoUsernameValue) {
+      if(data.round_winner.includes(`${this.playerTwoUsernameValue}`)) {
         console.log("player two wins")
         playerTwoBox.style.border = '2px solid #20F596'
       } else {
@@ -248,7 +248,7 @@ export default class extends Controller {
     const playerOneBox = document.getElementById("playerOneBox")
     const playerTwoBox = document.getElementById("playerTwoBox")
     if(data.round_winner.includes('wins')){
-      this.gameWinnerTarget.innerHTML = `<h1 style='color: ${data.game_winner == this.currentUserUsernameValue ? '#20F596;' : 'red;'}'>${data.game_winner} wins the game!</h1>`;
+      this.gameWinnerTarget.innerHTML = `<h1 style='color: ${data.game_winner == this.currentUserUsernameValue ? '#20F596;' : 'white;'}'>${data.game_winner} wins the game!</h1>`;
       if(data.game_winner.includes == this.currentUserUsernameValue && this.currentUserUsernameValue == this.playerTwoUsernameValue) {
         playerTwoBox.style.border = '2px solid #20F596'
       } else {
