@@ -9,7 +9,8 @@ export default class extends Controller {
     userId: Number,
     playerOneId: Number,
     playerTwoId: Number,
-    gameRoundMethod: String
+    gameRoundMethod: String,
+    currentGameRound: Number
   }
 
   static targets = [
@@ -74,7 +75,7 @@ export default class extends Controller {
   }
 
   patchForm(form) {
-    fetch(this.data.get("update-url"), {
+    fetch(`/game_rounds/${this.currentGameRoundValue}`, {
       body: form,
       method: 'PATCH',
       credentials: "include",
@@ -95,7 +96,7 @@ export default class extends Controller {
 
   playerTyping() {
     let playerCodeForm = new FormData()
-    playerCodeForm.append(`game[player_${this.playerOneOrTwo()}_code]`, this.editorOneOrTwo().getValue())
+    playerCodeForm.append(`game_round[player_${this.playerOneOrTwo()}_code]`, this.editorOneOrTwo().getValue())
     this.patchForm(playerCodeForm)
     this.getPlayerCode()
   }

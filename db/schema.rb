@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_31_190438) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_03_105729) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -41,6 +41,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_31_190438) do
     t.datetime "updated_at", null: false
     t.bigint "winner_id", null: false
     t.bigint "challenge_id", null: false
+    t.string "player_one_code"
+    t.string "player_two_code"
     t.index ["challenge_id"], name: "index_game_rounds_on_challenge_id"
     t.index ["game_id"], name: "index_game_rounds_on_game_id"
     t.index ["winner_id"], name: "index_game_rounds_on_winner_id"
@@ -53,8 +55,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_31_190438) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "round_count"
-    t.string "player_one_code"
-    t.string "player_two_code"
     t.integer "winner_score"
     t.integer "loser_score"
     t.index ["player_one_id"], name: "index_games_on_player_one_id"
