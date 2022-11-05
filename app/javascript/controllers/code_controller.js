@@ -16,7 +16,22 @@ export default class extends Controller {
   static targets = [
     "editorone",
     "editortwo",
-    "output"
+    "output",
+    "roundOneEditorOne",
+    "roundOneEditorTwo",
+    "roundTwoEditorOne",
+    "roundTwoEditorTwo",
+    "roundThreeEditorOne",
+    "roundThreeEditorTwo",
+    "roundFourEditorOne",
+    "roundFourEditorTwo",
+    "roundFiveEditorOne",
+    "roundFiveEditorTwo",
+    "roundOneInstructions",
+    "roundTwoInstructions",
+    "roundThreeInstructions",
+    "roundFourInstructions",
+    "roundFiveInstructions"
   ]
 
   initialize() {
@@ -55,6 +70,92 @@ export default class extends Controller {
       }
     );
 
+    // Solutions modal code editors
+    this.round_one_editor_one = codemirror.fromTextArea(
+      this.roundOneEditorOneTarget, {
+        mode: "ruby",
+        theme: 'dracula',
+        lineNumbers: true,
+        readOnly: 'nocursor'
+      }
+    );
+    this.round_one_editor_two = codemirror.fromTextArea(
+      this.roundOneEditorTwoTarget, {
+        mode: "ruby",
+        theme: 'dracula',
+        lineNumbers: true,
+        readOnly: 'nocursor',
+      }
+    );
+
+    this.round_two_editor_one = codemirror.fromTextArea(
+      this.roundTwoEditorOneTarget, {
+        mode: "ruby",
+        theme: 'dracula',
+        lineNumbers: true,
+        readOnly: 'nocursor'
+      }
+    );
+    this.round_two_editor_two = codemirror.fromTextArea(
+      this.roundTwoEditorTwoTarget, {
+        mode: "ruby",
+        theme: 'dracula',
+        lineNumbers: true,
+        readOnly: 'nocursor',
+      }
+    );
+
+    this.round_Three_editor_one = codemirror.fromTextArea(
+      this.roundThreeEditorOneTarget, {
+        mode: "ruby",
+        theme: 'dracula',
+        lineNumbers: true,
+        readOnly: 'nocursor'
+      }
+    );
+    this.round_three_editor_two = codemirror.fromTextArea(
+      this.roundThreeEditorTwoTarget, {
+        mode: "ruby",
+        theme: 'dracula',
+        lineNumbers: true,
+        readOnly: 'nocursor',
+      }
+    );
+
+    this.round_four_editor_one = codemirror.fromTextArea(
+      this.roundFourEditorOneTarget, {
+        mode: "ruby",
+        theme: 'dracula',
+        lineNumbers: true,
+        readOnly: 'nocursor'
+      }
+    );
+    this.round_four_editor_two = codemirror.fromTextArea(
+      this.roundFourEditorTwoTarget, {
+        mode: "ruby",
+        theme: 'dracula',
+        lineNumbers: true,
+        readOnly: 'nocursor',
+      }
+    );
+
+    this.round_five_editor_one = codemirror.fromTextArea(
+      this.roundFiveEditorOneTarget, {
+        mode: "ruby",
+        theme: 'dracula',
+        lineNumbers: true,
+        readOnly: 'nocursor'
+      }
+    );
+    this.round_five_editor_two = codemirror.fromTextArea(
+      this.roundFiveEditorTwoTarget, {
+        mode: "ruby",
+        theme: 'dracula',
+        lineNumbers: true,
+        readOnly: 'nocursor',
+      }
+    );
+
     // setting the challenge default method in codemirror windows
     this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
     this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
@@ -70,6 +171,7 @@ export default class extends Controller {
       { channel: "GameChannel", id: this.gameIdValue },
       { received: data => {
         if(data.command == "update editors") { this.updatePlayerEditor(data) };
+        if(data.command == "update game winner modal") { this.setSolutionModal(data) };
       }}
     )
   }
@@ -144,4 +246,72 @@ export default class extends Controller {
     .then((response) => response.json())
     .then(data => this.outputTarget.innerHTML = data.results)
   }
+
+  showSolutionModal(){
+    document.getElementById("playerSolutionsModal").style.display = "flex"
+  }
+
+
+  expandRoundOne(data) {
+    let x = document.getElementById("round-one-hidden-details");
+    if (x.style.display === "none") {
+      x.style.display = "flex";
+      x.classList.add('active-round')
+    } else {
+      x.style.display = "none";
+      x.classList.add('active-round')
+    }
+  }
+  expandRoundTwo(data) {
+    let x = document.getElementById("round-two-hidden-details");
+    if (x.style.display === "none") {
+      x.style.display = "flex";
+    } else {
+      x.style.display = "none";
+    }
+  }
+  expandRoundThree(data) {
+    let x = document.getElementById("round-three-hidden-details");
+    if (x.style.display === "none") {
+      x.style.display = "flex";
+    } else {
+      x.style.display = "none";
+    }
+  }
+  expandRoundFour(data) {
+    let x = document.getElementById("round-four-hidden-details");
+    if (x.style.display === "none") {
+      x.style.display = "flex";
+    } else {
+      x.style.display = "none";
+    }
+  }
+  expandRoundFive(data) {
+    let x = document.getElementById("round-five-hidden-details");
+    if (x.style.display === "none") {
+      x.style.display = "flex";
+    } else {
+      x.style.display = "none";
+    }
+  }
+
+
+  setSolutionModal(data) {
+    this.round_one_editor_one.setValue(data.p1_r1_solution)
+    this.round_one_editor_two.setValue(data.p2_r1_solution)
+    this.roundOneInstructionsTarget.innerHTML = data.round_one_instructions
+    this.round_two_editor_one.setValue(data.p1_r2_solution)
+    this.round_two_editor_two.setValue(data.p2_r2_solution)
+    this.roundTwoInstructionsTarget.innerHTML = data.round_two_instructions
+    this.round_three_editor_one.setValue(data.p1_r3_solution)
+    this.round_three_editor_two.setValue(data.p2_r3_solution)
+    this.roundThreeInstructionsTarget.innerHTML = data.round_three_instructions
+    this.round_four_editor_one.setValue(data.p1_r4_solution)
+    this.round_four_editor_two.setValue(data.p2_r4_solution)
+    this.roundFourInstructionsTarget.innerHTML = data.round_four_instructions
+    this.round_five_editor_one.setValue(data.p1_r5_solution)
+    this.round_five_editor_two.setValue(data.p2_r5_solution)
+    this.roundFiveInstructionsTarget.innerHTML = data.round_five_instructions
+  }
+
 }

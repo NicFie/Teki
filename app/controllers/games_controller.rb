@@ -39,8 +39,10 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
     @rounds = @game.game_rounds
     @rounds_left = @rounds.where('winner_id = 1').first
-    @current_game_round_id = @game.game_rounds.where('winner_id = 1').first.id
     redirect_to dashboard_path if @rounds_left.nil?
+    if @rounds_left
+      @current_game_round_id = @game.game_rounds.where('winner_id = 1').first.id
+    end
 
     GameChannel.broadcast_to(
       @game,
