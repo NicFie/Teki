@@ -40,6 +40,9 @@ class GamesController < ApplicationController
     @rounds = @game.game_rounds
     @rounds_left = @rounds.where('winner_id = 1').first
     redirect_to dashboard_path if @rounds_left.nil?
+    if @rounds_left
+      @current_game_round_id = @game.game_rounds.where('winner_id = 1').first.id
+    end
 
     GameChannel.broadcast_to(
       @game,
@@ -120,9 +123,6 @@ class GamesController < ApplicationController
       end
       @output = @output.join
     end
-    # @output.gsub!(/(for #<\w+:\w+>\s+\w+\s+\^+|for #<\w+:\w+>)/, "")
-    # @output.gsub!(/(#|<|>)/, "")
-    p "User #{params[:user_id]} test results:#{all_passed}"
     (all_passed.include?(false) || all_passed.empty?) ? "User #{params[:user_id]} failed." : @winner = "#{User.find(params[:user_id]).username} wins!"
     @p1_count = 0
     @p2_count = 0
@@ -201,13 +201,13 @@ class GamesController < ApplicationController
 
   def user_code
     @game = Game.find(params[:id])
+    @current_game_round = @game.game_rounds.where('winner_id = 1').first
     GameChannel.broadcast_to(
       @game,
       {
         command: "update editors",
-        round_winner: @winner,
-        player_one: @game.player_one_code,
-        player_two: @game.player_two_code
+        player_one: @current_game_round.player_one_code,
+        player_two: @current_game_round.player_two_code
       }
     )
 
@@ -217,7 +217,6 @@ class GamesController < ApplicationController
   def user_ready_next_round
     @game = Game.find(params[:id])
     @round_number = @game.game_rounds.where('winner_id != 1').size + 1
-    p @round_number
     GameChannel.broadcast_to(
       @game,
       {
@@ -234,6 +233,6 @@ class GamesController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:player_one_id, :player_two_id, :player_one_code, :player_two_code, :round_count, :submission_code)
+    params.require(:game).permit(:player_one_id, :player_two_id, :round_count, :submission_code, game_rounds: [:player_one_code, :player_two_code])
   end
 end

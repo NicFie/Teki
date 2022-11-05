@@ -1,0 +1,68 @@
+#playerSolutionsModal{
+  display: none ;
+}
+
+#player-solutions-second-level{
+  width: 70% !important;
+  max-width: none !important;
+}
+
+#player-solutions-third-level-content{
+  max-height: 70%;
+  overflow-y: scroll;
+  width:100%;
+}
+
+.round-details{
+  border-bottom: 1px solid $dark-gray;
+  height: 100%;
+}
+
+.hidden-round-details{
+  display: none;
+  min-height: 100%;
+  height: 400px !important;
+  width: 100% !important;
+  -webkit-transition: height 0.5s linear;
+     -moz-transition: height 0.5s linear;
+      -ms-transition: height 0.5s linear;
+       -o-transition: height 0.5s linear;
+          transition: height 0.5s linear;
+}
+
+.round-title-div{
+  padding: 20px;
+  cursor: pointer;
+
+  .round-title{
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+.user-codebox-solutions {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: $dark-gray;
+  border-radius: 5px;
+  min-height: 100%;
+  width: 100%;
+
+  .CodeMirror{
+    height: 60%;
+    width:100%;
+    font-size: 15px;
+  }
+}
+
+.round-challenge-instructions{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $dark-gray;
+  border-radius: 5px;
+  min-height: 100%;
+  width: 100%;
+}

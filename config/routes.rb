@@ -37,4 +37,6 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :game_rounds, only: %i[update]
+
 end
