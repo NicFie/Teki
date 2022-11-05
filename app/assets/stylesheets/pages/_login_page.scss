@@ -48,9 +48,9 @@
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active  {
-  transition: background-color 5000s;
-  -webkit-text-fill-color: #fff !important;
-}
+    transition: background-color 5000s;
+    -webkit-text-fill-color: #fff !important;
+  }
 
   select {
     text-align: center;
@@ -70,7 +70,18 @@
     color: $white;
     box-shadow: none!important;
   }
+
+  input[type="checkbox"] {
+    background-color: white !important;
+    border-bottom: none;
+  }
+
+  .form-check-input:checked {
+    background-color: $dark-green !important;
+    border-bottom: none;
+  }
 }
+
 
 .form-actions {
   width: 200px;
