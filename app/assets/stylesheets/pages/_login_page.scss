@@ -27,16 +27,67 @@
   width: 200px;
 }
 
+.form-inputs {
+  input {
+    border-radius: 0px;
+    background: $dark-gray!important;
+    border: none;
+    border-bottom: 2px solid $white;
+    color: $white;
+  }
+
+
+  input:focus {
+    background: $dark-gray!important;
+    border-bottom: 2px solid $dark-green;
+    color: $white;
+    box-shadow: none!important;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active  {
+    transition: background-color 5000s;
+    -webkit-text-fill-color: #fff !important;
+  }
+
+  select {
+    text-align: center;
+    border-radius: 0px;
+    background: $dark-gray;
+    border: none;
+    border-bottom: 2px solid $white;
+    color: $white;
+  }
+
+  select:focus {
+    background: $dark-gray;
+    border-bottom: 2px solid $dark-green;
+    color: $white;
+    box-shadow: none!important;
+  }
+
+  input[type="checkbox"] {
+    background-color: white !important;
+    border-bottom: none;
+  }
+
+  .form-check-input:checked {
+    background-color: $dark-green !important;
+    border-bottom: none;
+  }
+}
+
+
 .form-actions {
   width: 200px;
   input {
     color: $white;
-    border: 2px solid $light-gray;
     background: $dark-green;
   }
   input:hover{
     color: $black !important;
-    border: 2px solid $light-gray !important;
     background: $light-green !important;
   }
 }
@@ -53,6 +104,12 @@
 }
 .back-button:hover{
   color:$white !important;
+}
+
+.extras-login {
+  a {
+    color: $white;
+  }
 }
 
 .teki-login-image{

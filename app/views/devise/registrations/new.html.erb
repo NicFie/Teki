@@ -15,7 +15,7 @@
                 required: true,
                 autofocus: true,
                 input_html: { autocomplete: "username" }%>
-    <%= f.input :avatar,
+    <%= f.input :avatar, as: :select,
                 required: true,
                 :collection => [["Cooool Cactus", "cool-cactus.png"], ["DOGE", "cool-doge.png"], ["Funky Duck", "cool-duck.png"], ["Coolest duck", "coolest-duck.png"]]%>
                 <%# collection: [ "cool-emote.png", "cool-doge.png", "cool-cactus.png", "cool-duck.png"]%>
