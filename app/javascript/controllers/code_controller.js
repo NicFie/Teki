@@ -252,7 +252,7 @@ export default class extends Controller {
   }
 
 
-  expandRoundOne(data) {
+  expandRoundOne() {
     let x = document.getElementById("round-one-hidden-details");
     if (x.style.display === "none") {
       x.style.display = "flex";
@@ -262,7 +262,7 @@ export default class extends Controller {
       x.classList.add('active-round')
     }
   }
-  expandRoundTwo(data) {
+  expandRoundTwo() {
     let x = document.getElementById("round-two-hidden-details");
     if (x.style.display === "none") {
       x.style.display = "flex";
@@ -270,7 +270,7 @@ export default class extends Controller {
       x.style.display = "none";
     }
   }
-  expandRoundThree(data) {
+  expandRoundThree() {
     let x = document.getElementById("round-three-hidden-details");
     if (x.style.display === "none") {
       x.style.display = "flex";
@@ -278,7 +278,7 @@ export default class extends Controller {
       x.style.display = "none";
     }
   }
-  expandRoundFour(data) {
+  expandRoundFour() {
     let x = document.getElementById("round-four-hidden-details");
     if (x.style.display === "none") {
       x.style.display = "flex";
@@ -286,7 +286,7 @@ export default class extends Controller {
       x.style.display = "none";
     }
   }
-  expandRoundFive(data) {
+  expandRoundFive() {
     let x = document.getElementById("round-five-hidden-details");
     if (x.style.display === "none") {
       x.style.display = "flex";
@@ -294,7 +294,6 @@ export default class extends Controller {
       x.style.display = "none";
     }
   }
-
 
   setSolutionModal(data) {
     this.round_one_editor_one.setValue(data.p1_r1_solution)

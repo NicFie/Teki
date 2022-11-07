@@ -48,12 +48,13 @@
   background-color: $dark-gray;
   border-radius: 5px;
   min-height: 100%;
-  width: 100%;
+  width: 35%;
 
   .CodeMirror{
     height: 60%;
     width:100%;
     font-size: 15px;
+    text-align: left;
   }
 }
 
@@ -64,5 +65,5 @@
   background-color: $dark-gray;
   border-radius: 5px;
   min-height: 100%;
-  width: 100%;
+  width: 30%;
 }
