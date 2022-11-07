@@ -99,7 +99,7 @@ FibonacciAlgorithm = Challenge.create(
   language: 'Ruby',
   tests: {
     10 => 34,
-    2 => 1
+    2 => 1,
     14 => 233
   },
   method_template: 'def fibonacci_algorithm(integer)\n  \nend'
