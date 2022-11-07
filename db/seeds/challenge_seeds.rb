@@ -1,4 +1,5 @@
 puts "Creating just challenge seeds..."
+puts "Creating 10 easy challenges"
 
 # These are some easy challenges
 
@@ -172,6 +173,9 @@ LastLetterSort = Challenge.create(
   },
   method_template: 'def multiply_numbers_in_a_string(string)\n  \nend'
 )
+puts "Finished creating 10 easy challenges"
+
+puts "Creating 10 medium challenges"
 
 # These are some medium challenges
 
@@ -374,3 +378,6 @@ NoYelling = Challenge.create(
   },
   method_template: 'def no_yelling(array)\n  \nend'
 )
+
+puts "Finished creating 10 medium level challenges"
+puts "Done!"
