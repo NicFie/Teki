@@ -1,5 +1,7 @@
-<% if @friendship %>
-        <%= button_to "Unfriend", friendship_path(@friendship),method: :delete, data: {turbo_confirm: "Are you sure you want" + " " + @user.username + " " + "to disapear from your life ?"}%>
-      <% else %>
-        <%= button_to "Friend", send_invitation_user_path, data: {turbo_method: :post}%>
-      <% end %>
+<%# <% if @friendship %>
+        <%# <%= button_to "Unfriend", friendship_path(@friendship),method: :delete, data: {turbo_confirm: "Are you sure you want" + " " + @user.username + " " + "to disapear from your life ?"}%>
+      <%# <% else %>
+        <%# <%= button_to "Friend", send_invitation_user_path, data: {turbo_method: :post}%>
+      <%# <% end %>
+
+<%= button_to "Friend", send_invitation_user_path, data: {turbo_method: :post}%>
