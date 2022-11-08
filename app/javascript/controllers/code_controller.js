@@ -31,7 +31,8 @@ export default class extends Controller {
     "roundTwoInstructions",
     "roundThreeInstructions",
     "roundFourInstructions",
-    "roundFiveInstructions"
+    "roundFiveInstructions",
+    "gameRoundCount"
   ]
 
   initialize() {
@@ -171,7 +172,7 @@ export default class extends Controller {
       { channel: "GameChannel", id: this.gameIdValue },
       { received: data => {
         if(data.command == "update editors") { this.updatePlayerEditor(data) };
-        if(data.command == "update game winner modal") { this.setSolutionModal(data) };
+        if(data.command == "game results") { this.setSolutionModal(data) };
       }}
     )
   }
@@ -296,21 +297,37 @@ export default class extends Controller {
   }
 
   setSolutionModal(data) {
-    this.round_one_editor_one.setValue(data.p1_r1_solution)
-    this.round_one_editor_two.setValue(data.p2_r1_solution)
-    this.roundOneInstructionsTarget.innerHTML = data.round_one_instructions
-    this.round_two_editor_one.setValue(data.p1_r2_solution)
-    this.round_two_editor_two.setValue(data.p2_r2_solution)
-    this.roundTwoInstructionsTarget.innerHTML = data.round_two_instructions
-    this.round_three_editor_one.setValue(data.p1_r3_solution)
-    this.round_three_editor_two.setValue(data.p2_r3_solution)
-    this.roundThreeInstructionsTarget.innerHTML = data.round_three_instructions
-    this.round_four_editor_one.setValue(data.p1_r4_solution)
-    this.round_four_editor_two.setValue(data.p2_r4_solution)
-    this.roundFourInstructionsTarget.innerHTML = data.round_four_instructions
-    this.round_five_editor_one.setValue(data.p1_r5_solution)
-    this.round_five_editor_two.setValue(data.p2_r5_solution)
-    this.roundFiveInstructionsTarget.innerHTML = data.round_five_instructions
+    if(this.gameRoundCountValue == 1){
+      this.round_one_editor_one.setValue(data.p1_r1_solution)
+      this.round_one_editor_two.setValue(data.p2_r1_solution)
+      this.roundOneInstructionsTarget.innerHTML = data.round_one_instructions
+    }else if(this.gameRoundCountValue == 3){
+      this.round_one_editor_one.setValue(data.p1_r1_solution)
+      this.round_one_editor_two.setValue(data.p2_r1_solution)
+      this.roundOneInstructionsTarget.innerHTML = data.round_one_instructions
+      this.round_two_editor_one.setValue(data.p1_r2_solution)
+      this.round_two_editor_two.setValue(data.p2_r2_solution)
+      this.roundTwoInstructionsTarget.innerHTML = data.round_two_instructions
+      this.round_three_editor_one.setValue(data.p1_r3_solution)
+      this.round_three_editor_two.setValue(data.p2_r3_solution)
+      this.roundThreeInstructionsTarget.innerHTML = data.round_three_instructions
+    }else if(this.gameRoundCountValue == 5){
+      this.round_one_editor_one.setValue(data.p1_r1_solution)
+      this.round_one_editor_two.setValue(data.p2_r1_solution)
+      this.roundOneInstructionsTarget.innerHTML = data.round_one_instructions
+      this.round_two_editor_one.setValue(data.p1_r2_solution)
+      this.round_two_editor_two.setValue(data.p2_r2_solution)
+      this.roundTwoInstructionsTarget.innerHTML = data.round_two_instructions
+      this.round_three_editor_one.setValue(data.p1_r3_solution)
+      this.round_three_editor_two.setValue(data.p2_r3_solution)
+      this.roundThreeInstructionsTarget.innerHTML = data.round_three_instructions
+      this.round_four_editor_one.setValue(data.p1_r4_solution)
+      this.round_four_editor_two.setValue(data.p2_r4_solution)
+      this.roundFourInstructionsTarget.innerHTML = data.round_four_instructions
+      this.round_five_editor_one.setValue(data.p1_r5_solution)
+      this.round_five_editor_two.setValue(data.p2_r5_solution)
+      this.roundFiveInstructionsTarget.innerHTML = data.round_five_instructions
+    }
   }
 
 }
