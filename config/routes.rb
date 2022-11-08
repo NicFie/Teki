@@ -21,7 +21,12 @@ Rails.application.routes.draw do
     resources :friendships, only: %i[new create destroy]
     resources :games, only: %i[new create]
     resources :game_rounds, only: %i[index]
+    member do
+      post :send_invitation
+    end
   end
+
+  # resources :users, only: %i[send_invitation]
 
   resources :friendships, only: %i[edit update index show destroy]
 

@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  # skip_authorization only: [:send_invitation]
   def index
     @current_user = current_user
     @users = policy_scope(User)
@@ -8,5 +9,15 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     authorize @user
     @friendship = current_user.friendship_with(@user)
+  end
+
+  def send_invitation
+    @invitation = current_user.send_invitation(User.find(params[:id]))
+    if @invitation.save!
+      redirect_to dashboard_path
+    else
+      raise
+    end
+    skip_authorization
   end
 end
