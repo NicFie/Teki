@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   #root to: "pages#home"
   get '/dashboard', to: 'pages#dashboard', as: 'dashboard'
   get '/user-settings', to: 'pages#user-settings', as: 'user_settings'
-  get '/waiting_room', to: 'games#waiting_room', as: 'waiting'
   # get '/user_code', to: 'games#user_code', as: 'user_code'
 
   devise_scope :user do
@@ -18,7 +17,6 @@ Rails.application.routes.draw do
   resources :challenges, only: %i[new create]
 
   resources :users do
-    resources :friendships, only: %i[new create destroy]
     resources :games, only: %i[new create]
     resources :game_rounds, only: %i[index]
     member do
@@ -26,10 +24,6 @@ Rails.application.routes.draw do
       post :accept_invitation
     end
   end
-
-  # resources :users, only: %i[send_invitation]
-
-  resources :friendships, only: %i[edit update index show destroy]
 
   resources :games, only: %i[show edit update] do
     member do
@@ -44,5 +38,4 @@ Rails.application.routes.draw do
   end
 
   resources :game_rounds, only: %i[update]
-
 end

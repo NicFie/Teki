@@ -4,4 +4,8 @@
         <%# <%= button_to "Friend", send_invitation_user_path, data: {turbo_method: :post}%>
       <%# <% end %>
 
-<%= button_to "Friend", send_invitation_user_path, data: {turbo_method: :post}%>
+<% if current_user.friend_with?(@user) %>
+  <p>You are friends with this person</p>
+<% else %>
+  <%= button_to "Friend", send_invitation_user_path, data: {turbo_method: :post}%>
+<% end %>
