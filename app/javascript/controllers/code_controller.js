@@ -10,7 +10,8 @@ export default class extends Controller {
     playerOneId: Number,
     playerTwoId: Number,
     gameRoundMethod: String,
-    currentGameRound: Number
+    currentGameRound: Number,
+    gameRoundCount: Number
   }
 
   static targets = [
@@ -106,7 +107,7 @@ export default class extends Controller {
       }
     );
 
-    this.round_Three_editor_one = codemirror.fromTextArea(
+    this.round_three_editor_one = codemirror.fromTextArea(
       this.roundThreeEditorOneTarget, {
         mode: "ruby",
         theme: 'dracula',
@@ -172,7 +173,7 @@ export default class extends Controller {
       { channel: "GameChannel", id: this.gameIdValue },
       { received: data => {
         if(data.command == "update editors") { this.updatePlayerEditor(data) };
-        if(data.command == "game results") { this.setSolutionModal(data) };
+        if(data.command == "update game winner modal") { this.setSolutionModal(data) };
       }}
     )
   }
@@ -250,6 +251,8 @@ export default class extends Controller {
 
   showSolutionModal(){
     document.getElementById("playerSolutionsModal").style.display = "flex"
+    this.round_one_editor_one.refresh()
+    this.round_one_editor_two.refresh()
   }
 
 
@@ -258,6 +261,8 @@ export default class extends Controller {
     if (x.style.display === "none") {
       x.style.display = "flex";
       x.classList.add('active-round')
+      this.round_one_editor_one.refresh()
+      this.round_one_editor_two.refresh()
     } else {
       x.style.display = "none";
       x.classList.add('active-round')
@@ -267,6 +272,8 @@ export default class extends Controller {
     let x = document.getElementById("round-two-hidden-details");
     if (x.style.display === "none") {
       x.style.display = "flex";
+      this.round_two_editor_one.refresh()
+      this.round_two_editor_two.refresh()
     } else {
       x.style.display = "none";
     }
@@ -275,6 +282,8 @@ export default class extends Controller {
     let x = document.getElementById("round-three-hidden-details");
     if (x.style.display === "none") {
       x.style.display = "flex";
+      this.round_three_editor_one.refresh()
+      this.round_three_editor_two.refresh()
     } else {
       x.style.display = "none";
     }
@@ -283,6 +292,8 @@ export default class extends Controller {
     let x = document.getElementById("round-four-hidden-details");
     if (x.style.display === "none") {
       x.style.display = "flex";
+      this.round_four_editor_one.refresh()
+      this.round_four_editor_two.refresh()
     } else {
       x.style.display = "none";
     }
@@ -291,6 +302,8 @@ export default class extends Controller {
     let x = document.getElementById("round-five-hidden-details");
     if (x.style.display === "none") {
       x.style.display = "flex";
+      this.round_five_editor_one.refresh()
+      this.round_five_editor_two.refresh()
     } else {
       x.style.display = "none";
     }
@@ -300,33 +313,40 @@ export default class extends Controller {
     if(this.gameRoundCountValue == 1){
       this.round_one_editor_one.setValue(data.p1_r1_solution)
       this.round_one_editor_two.setValue(data.p2_r1_solution)
-      this.roundOneInstructionsTarget.innerHTML = data.round_one_instructions
+      this.roundOneInstructionsTarget.innerText = `${data.round_one_instructions}`
+      document.getElementById("round-one-hidden-details").style.display = "flex"
+      document.getElementById("roundTwo").style.display = "none"
+      document.getElementById("roundThree").style.display = "none"
+      document.getElementById("roundFour").style.display = "none"
+      document.getElementById("roundFive").style.display = "none"
     }else if(this.gameRoundCountValue == 3){
       this.round_one_editor_one.setValue(data.p1_r1_solution)
       this.round_one_editor_two.setValue(data.p2_r1_solution)
-      this.roundOneInstructionsTarget.innerHTML = data.round_one_instructions
+      this.roundOneInstructionsTarget.innerText = `${data.round_one_instructions}`
       this.round_two_editor_one.setValue(data.p1_r2_solution)
       this.round_two_editor_two.setValue(data.p2_r2_solution)
-      this.roundTwoInstructionsTarget.innerHTML = data.round_two_instructions
+      this.roundTwoInstructionsTarget.innerText = `${data.round_two_instructions}`
       this.round_three_editor_one.setValue(data.p1_r3_solution)
       this.round_three_editor_two.setValue(data.p2_r3_solution)
-      this.roundThreeInstructionsTarget.innerHTML = data.round_three_instructions
+      this.roundThreeInstructionsTarget.innerText = `${data.round_three_instructions}`
+      document.getElementById("roundFour").style.display = "none"
+      document.getElementById("roundFive").style.display = "none"
     }else if(this.gameRoundCountValue == 5){
       this.round_one_editor_one.setValue(data.p1_r1_solution)
       this.round_one_editor_two.setValue(data.p2_r1_solution)
-      this.roundOneInstructionsTarget.innerHTML = data.round_one_instructions
+      this.roundOneInstructionsTarget.innerText = `${data.round_one_instructions}`
       this.round_two_editor_one.setValue(data.p1_r2_solution)
       this.round_two_editor_two.setValue(data.p2_r2_solution)
-      this.roundTwoInstructionsTarget.innerHTML = data.round_two_instructions
+      this.roundTwoInstructionsTarget.innerText = `${data.round_two_instructions}`
       this.round_three_editor_one.setValue(data.p1_r3_solution)
       this.round_three_editor_two.setValue(data.p2_r3_solution)
-      this.roundThreeInstructionsTarget.innerHTML = data.round_three_instructions
+      this.roundThreeInstructionsTarget.innerText = `${data.round_three_instructions}`
       this.round_four_editor_one.setValue(data.p1_r4_solution)
       this.round_four_editor_two.setValue(data.p2_r4_solution)
-      this.roundFourInstructionsTarget.innerHTML = data.round_four_instructions
+      this.roundFourInstructionsTarget.innerText = `${data.round_four_instructions}`
       this.round_five_editor_one.setValue(data.p1_r5_solution)
       this.round_five_editor_two.setValue(data.p2_r5_solution)
-      this.roundFiveInstructionsTarget.innerHTML = data.round_five_instructions
+      this.roundFiveInstructionsTarget.innerText = `${data.round_five_instructions}`
     }
   }
 

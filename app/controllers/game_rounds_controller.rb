@@ -16,11 +16,12 @@ class GameRoundsController < ApplicationController
     authorize @game_round
   end
 
+
   def update
     @game_round = GameRound.find(params[:id])
     @game_round.update(game_params)
     @game_round.save!
-    authorize @game_round
+    skip_authorization
 
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.

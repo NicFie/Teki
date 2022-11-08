@@ -144,16 +144,75 @@ class GamesController < ApplicationController
           @game.game_winner = @game.player_two.id
         end
         @game.save!
-        GameChannel.broadcast_to(
-          @game,
-          {
-            command: "update game winner modal",
-            round_winner: @winner,
-            p1_count: @game.game_rounds.where("winner_id =#{@game.player_one.id}").to_a.size,
-            p2_count: @game.game_rounds.where("winner_id =#{@game.player_two.id}").to_a.size,
-            game_winner: @game_winner ? @game.player_one.username : @game.player_two.username
-          }
-        )
+        if @game.round_count == 1
+          GameChannel.broadcast_to(
+            @game,
+            {
+              command: "update game winner modal",
+              round_winner: @winner,
+              p1_count: @game.game_rounds.where("winner_id =#{@game.player_one.id}").to_a.size,
+              p2_count: @game.game_rounds.where("winner_id =#{@game.player_two.id}").to_a.size,
+              game_winner: @game_winner ? @game.player_one.username : @game.player_two.username,
+              round_one_instructions: Challenge.find(@game.game_rounds[0].challenge_id).description,
+              p1_r1_solution: @game.game_rounds[0].player_one_code,
+              p2_r1_solution: @game.game_rounds[0].player_two_code
+            }
+          )
+        elsif @game.round_count == 3
+          GameChannel.broadcast_to(
+            @game,
+            {
+              command: "update game winner modal",
+              round_winner: @winner,
+              p1_count: @game.game_rounds.where("winner_id =#{@game.player_one.id}").to_a.size,
+              p2_count: @game.game_rounds.where("winner_id =#{@game.player_two.id}").to_a.size,
+              game_winner: @game_winner ? @game.player_one.username : @game.player_two.username,
+              round_one_winner: User.find(@game.game_rounds[0].winner_id).username,
+              round_one_instructions: Challenge.find(@game.game_rounds[0].challenge_id).description,
+              p1_r1_solution: @game.game_rounds[0].player_one_code,
+              p2_r1_solution: @game.game_rounds[0].player_two_code,
+              round_two_winner: User.find(@game.game_rounds[1].winner_id).username,
+              round_two_instructions: Challenge.find(@game.game_rounds[1].challenge_id).description,
+              p1_r2_solution: @game.game_rounds[1].player_one_code,
+              p2_r2_solution: @game.game_rounds[1].player_two_code,
+              round_three_winner: User.find(@game.game_rounds[2].winner_id).username,
+              round_three_instructions: Challenge.find(@game.game_rounds[2].challenge_id).description,
+              p1_r3_solution: @game.game_rounds[2].player_one_code,
+              p2_r3_solution: @game.game_rounds[2].player_two_code
+            }
+          )
+        elsif @game.round_count == 5
+          GameChannel.broadcast_to(
+            @game,
+            {
+              command: "update game winner modal",
+              round_winner: @winner,
+              p1_count: @game.game_rounds.where("winner_id =#{@game.player_one.id}").to_a.size,
+              p2_count: @game.game_rounds.where("winner_id =#{@game.player_two.id}").to_a.size,
+              game_winner: @game_winner ? @game.player_one.username : @game.player_two.username,
+              round_one_winner: User.find(@game.game_rounds[0].winner_id).username,
+              round_one_instructions: Challenge.find(@game.game_rounds[0].challenge_id).description,
+              p1_r1_solution: @game.game_rounds[0].player_one_code,
+              p2_r1_solution: @game.game_rounds[0].player_two_code,
+              round_two_winner: User.find(@game.game_rounds[1].winner_id).username,
+              round_two_instructions: Challenge.find(@game.game_rounds[1].challenge_id).description,
+              p1_r2_solution: @game.game_rounds[1].player_one_code,
+              p2_r2_solution: @game.game_rounds[1].player_two_code,
+              round_three_winner: User.find(@game.game_rounds[2].winner_id).username,
+              round_three_instructions: Challenge.find(@game.game_rounds[2].challenge_id).description,
+              p1_r3_solution: @game.game_rounds[2].player_one_code,
+              p2_r3_solution: @game.game_rounds[2].player_two_code,
+              round_four_winner: User.find(@game.game_rounds[3].winner_id).username,
+              round_four_instructions: Challenge.find(@game.game_rounds[3].challenge_id).description,
+              p1_r4_solution: @game.game_rounds[3].player_one_code,
+              p2_r4_solution: @game.game_rounds[3].player_two_code,
+              round_five_winner: User.find(@game.game_rounds[4].winner_id).username,
+              round_five_instructions: Challenge.find(@game.game_rounds[4].challenge_id).description,
+              p1_r5_solution: @game.game_rounds[4].player_one_code,
+              p2_r5_solution: @game.game_rounds[4].player_two_code
+            }
+          )
+        end
         # setting scores.
         winner = User.find(@game.game_winner)
         loser = User.find(winner.id == @game.player_one.id ? @game.player_two.id : @game.player_one.id)
@@ -230,68 +289,6 @@ class GamesController < ApplicationController
     skip_authorization
   end
 
-  def final_results
-    @game = Game.find(params[:id])
-    case @game.round_count
-    when 1
-      GameChannel.broadcast_to(
-        @game,
-        {
-          command: "game results",
-          round_one_winner: User.find(@game.game_rounds[0].winner_id).username,
-          round_one_instructions: Challenge.find(@game.game_rounds[0].challenge_id).description,
-          p1_r1_solution: @game.game_rounds[0].player_one_code,
-          p2_r1_solution: @game.game_rounds[0].player_two_code
-        }
-      )
-    when 3
-      GameChannel.broadcast_to(
-        @game,
-        {
-          command: "game results",
-          round_one_winner: User.find(@game.game_rounds[0].winner_id).username,
-          round_one_instructions: Challenge.find(@game.game_rounds[0].challenge_id).description,
-          p1_r1_solution: @game.game_rounds[0].player_one_code,
-          p2_r1_solution: @game.game_rounds[0].player_two_code,
-          round_two_winner: User.find(@game.game_rounds[1].winner_id).username,
-          round_two_instructions: Challenge.find(@game.game_rounds[1].challenge_id).description,
-          p1_r2_solution: @game.game_rounds[1].player_one_code,
-          p2_r2_solution: @game.game_rounds[1].player_two_code,
-          round_three_winner: User.find(@game.game_rounds[2].winner_id).username,
-          round_three_instructions: Challenge.find(@game.game_rounds[2].challenge_id).description,
-          p1_r3_solution: @game.game_rounds[2].player_one_code,
-          p2_r3_solution: @game.game_rounds[2].player_two_code
-        }
-      )
-    when 5
-    GameChannel.broadcast_to(
-        @game,
-        {
-          command: "game results",
-          round_one_winner: User.find(@game.game_rounds[0].winner_id).username,
-          round_one_instructions: Challenge.find(@game.game_rounds[0].challenge_id).description,
-          p1_r1_solution: @game.game_rounds[0].player_one_code,
-          p2_r1_solution: @game.game_rounds[0].player_two_code,
-          round_two_winner: User.find(@game.game_rounds[1].winner_id).username,
-          round_two_instructions: Challenge.find(@game.game_rounds[1].challenge_id).description,
-          p1_r2_solution: @game.game_rounds[1].player_one_code,
-          p2_r2_solution: @game.game_rounds[1].player_two_code,
-          round_three_winner: User.find(@game.game_rounds[2].winner_id).username,
-          round_three_instructions: Challenge.find(@game.game_rounds[2].challenge_id).description,
-          p1_r3_solution: @game.game_rounds[2].player_one_code,
-          p2_r3_solution: @game.game_rounds[2].player_two_code,
-          round_four_winner: User.find(@game.game_rounds[3].winner_id).username,
-          round_four_instructions: Challenge.find(@game.game_rounds[3].challenge_id).description,
-          p1_r4_solution: @game.game_rounds[3].player_one_code,
-          p2_r4_solution: @game.game_rounds[3].player_two_code,
-          round_five_winner: User.find(@game.game_rounds[4].winner_id).username,
-          round_five_instructions: Challenge.find(@game.game_rounds[4].challenge_id).description,
-          p1_r5_solution: @game.game_rounds[4].player_one_code,
-          p2_r5_solution: @game.game_rounds[4].player_two_code
-        }
-      )
-    end
-  end
 
   private
 
