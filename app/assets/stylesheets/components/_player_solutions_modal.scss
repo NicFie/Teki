@@ -46,14 +46,13 @@
   align-items: center;
   justify-content: center;
   background-color: $dark-gray;
-  border-radius: 5px;
   min-height: 100%;
-  width: 100%;
+  width: 35%;
 
   .CodeMirror{
-    height: 60%;
-    width:100%;
+    width: 100%;
     font-size: 15px;
+    text-align: left;
   }
 }
 
@@ -62,7 +61,11 @@
   flex-direction: column;
   align-items: center;
   background-color: $dark-gray;
-  border-radius: 5px;
   min-height: 100%;
-  width: 100%;
+  width: 30%;
+  p {
+    overflow-y: scroll;
+    text-align: left;
+    padding:10px;
+  }
 }
