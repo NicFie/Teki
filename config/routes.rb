@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     resources :game_rounds, only: %i[index]
     member do
       post :send_invitation
+      post :accept_invitation
     end
   end
 

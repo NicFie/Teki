@@ -20,4 +20,15 @@ class UsersController < ApplicationController
     end
     skip_authorization
   end
+
+  def accept_invitation
+    @invitation = Invitation.find(params[:id])
+    @invitation.confirmed = true
+    if @invitation.save!
+      redirect_to dashboard_path
+    else
+      raise
+    end
+    skip_authorization
+  end
 end

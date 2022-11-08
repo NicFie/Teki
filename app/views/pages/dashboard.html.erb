@@ -111,6 +111,7 @@
     <h3>Friend requests</h3>
     <% @requests.each do |request| %>
       <%= User.find(request.user_id).username %>
+      <%= link_to "Accept", accept_invitation_user_path(request), data: {turbo_method: :post}, class: 'btn btn-second' %>
       <% end %>
   </div>
 </div>
