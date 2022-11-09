@@ -84,13 +84,13 @@
                 <div class="friend-div">
                   <div><%= f.asker.username %></div>
                   <%= image_tag f.asker.avatar, height: '40' %>
-                  <button class="btn btn-main btn-sm">Battle</button>
+                  <button class="btn btn-main btn-sm" <%= "disabled" unless f.asker.online? %>>Battle</button>
                 </div>
                 <% else %>
                 <div class="friend-div">
                   <div><%= f.receiver.username %></div>
                   <%= image_tag f.receiver.avatar, height: '40' %>
-                  <button class="btn btn-main btn-sm">Battle</button>
+                  <button class="btn btn-main btn-sm" <%= "disabled" unless f.receiver.online? %>>Battle</button>
                 </div>
             <% end %>
           <% end  %>

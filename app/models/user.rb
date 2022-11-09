@@ -13,4 +13,8 @@ class User < ApplicationRecord
   def friendship_with(user)
     Friendship.find_by(asker: self, receiver: user) || Friendship.find_by(asker: user, receiver: self)
   end
+
+  def online?
+    updated_at > 1.minutes.ago
+  end
 end

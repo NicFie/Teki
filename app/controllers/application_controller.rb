@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   after_action :verify_authorized, except: :index, unless: :skip_pundit?
   after_action :verify_policy_scoped, only: :index, unless: :skip_pundit?
+  after_action :update_user_online, if: :user_signed_in?
 
   # Uncomment by the end of the project, we need pundit error msgs atm!
 
@@ -22,6 +23,10 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     dashboard_path
+  end
+
+  def update_user_online
+    current_user.try :touch
   end
 
   protected
