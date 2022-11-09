@@ -249,7 +249,7 @@ export default class extends Controller {
     const playerTwoBox = document.getElementById("playerTwoBox")
     if(data.round_winner.includes('wins')){
       this.gameWinnerTarget.innerHTML = `<h1 style='color: ${data.game_winner == this.currentUserUsernameValue ? '#20F596;' : 'white;'}'>${data.game_winner} wins the game!</h1>`;
-      if(data.game_winner.includes == this.currentUserUsernameValue && this.currentUserUsernameValue == this.playerTwoUsernameValue) {
+      if(data.game_winner == this.playerTwoUsernameValue) {
         playerTwoBox.style.border = '2px solid #20F596'
       } else {
         playerOneBox.style.border = '2px solid #20F596'
