@@ -10,5 +10,6 @@ export default class extends Controller {
   open() {
     this.dropdownTarget.classList.toggle("dropdownopen");
     console.log("opening dropdown")
+    console.log(this.dropdownTarget)
   }
 }

@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     member do
       post :send_invitation
       post :accept_invitation
+      delete :reject_invitation
     end
   end
 

@@ -40,6 +40,20 @@
   </div>
 
   <div class="notification-dropdown" data-notifications-target="dropdown">
-    <h2>notification dropdown</h2>
+    <h4>Notifications</h4>
+    <ul>
+      <% @requests.each do |request| %>
+        <li>
+          <div>
+            <%= image_tag User.find(request.user_id).avatar, class: "avatar-large" %>
+            <span><%= User.find(request.user_id).username %> wants to add you as a friend.</span>
+          </div>
+          <div class="request-buttons">
+            <%= link_to '<i class="fa-solid fa-check"></i>'.html_safe, accept_invitation_user_path(request), data: {turbo_method: :post}, class: 'request-button btn btn-main' %>
+            <%= link_to '<i class="fa-solid fa-xmark"></i>'.html_safe, reject_invitation_user_path(request), class: 'request-button btn btn-second', data: {turbo_method: :delete} %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
   </div>
 </div>
