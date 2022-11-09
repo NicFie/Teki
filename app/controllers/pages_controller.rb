@@ -15,9 +15,7 @@ class PagesController < ApplicationController
     @game = Game.new
   end
 
-
-  # keep this method below pls
   def user_settings
-
+    @requests = current_user.pending_invitations
   end
 end
