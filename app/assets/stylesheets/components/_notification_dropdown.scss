@@ -1,0 +1,17 @@
+.notification-dropdown {
+  h2 {
+    color: white;
+  }
+
+  position: fixed;
+  right: 10px;
+  top: 61px;
+  z-index: 1;
+  border-radius: 0px 0px 5px 5px;
+  background-color: $dark-green;
+  display: none;
+
+  .notification-dropdown.dropdownopen {
+    display: block;
+  }
+}

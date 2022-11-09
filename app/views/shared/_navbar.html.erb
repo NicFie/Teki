@@ -1,4 +1,4 @@
-<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
+<div class="navbar navbar-expand-sm navbar-light navbar-lewagon" data-controller="notifications">
   <div class="container-fluid">
     <div></div>
 
@@ -10,7 +10,11 @@
       <ul class="navbar-nav me-auto">
         <% if user_signed_in? %>
           <li class="nav-item active">
-            <i class="fa-solid fa-bell"></i>
+            <% if current_user.pending_invitations.size > 0 %>
+              <i class="fa-solid fa-bell notification" data-action="click->notifications#open"></i>
+            <% else %>
+              <i class="fa-solid fa-bell" data-action="click->notifications#open"></i>
+            <% end %>
           </li>
           <li class="nav-item active">
             <i class="fa-solid fa-envelope"></i>
@@ -33,5 +37,9 @@
         <% end %>
       </ul>
     </div>
+  </div>
+
+  <div class="notification-dropdown" data-notifications-target="dropdown">
+    <h2>notification dropdown</h2>
   </div>
 </div>
