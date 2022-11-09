@@ -79,20 +79,12 @@
       <div class="page-section">
         <h2 class="friends-title">Friends</h2>
         <div class="friendlist">
-          <% @friendships.each do |f| %>
-              <% if f.receiver.username == current_user.username %>
+          <% @friends.each do |f| %>
                 <div class="friend-div">
-                  <div><%= f.asker.username %></div>
-                  <%= image_tag f.asker.avatar, height: '40' %>
+                  <div><%= f.username %></div>
+                  <%= image_tag f.avatar, height: '40' %>
                   <button class="btn btn-main btn-sm">Battle</button>
                 </div>
-                <% else %>
-                <div class="friend-div">
-                  <div><%= f.receiver.username %></div>
-                  <%= image_tag f.receiver.avatar, height: '40' %>
-                  <button class="btn btn-main btn-sm">Battle</button>
-                </div>
-            <% end %>
           <% end  %>
         </div>
       </div>

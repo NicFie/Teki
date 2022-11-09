@@ -1,0 +1,38 @@
+.notification-dropdown {
+  color: $white;
+
+  position: fixed;
+  right: 10px;
+  top: 65px;
+  z-index: 1;
+  border-radius: 0px 0px 5px 5px;
+  background-color: $dark-gray;
+  border: $dark-green 2px solid;
+  display: none;
+  padding: 5px;
+
+  ul {
+    list-style-type: none;
+    padding: 0px;
+  }
+
+  li {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  span {
+    font-size: 15px;
+  }
+
+  .request-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+    height: 30px;
+  }
+
+}
+
+.notification-dropdown.dropdownopen {
+  display: block;
+}
