@@ -37,6 +37,7 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
+    @requests = current_user.pending_invitations
     @rounds = @game.game_rounds
     @rounds_left = @rounds.where('winner_id = 1').first
     redirect_to dashboard_path if @rounds_left.nil?

@@ -1,4 +1,4 @@
-<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
+<div class="navbar navbar-expand-sm navbar-light navbar-lewagon" data-controller="notifications">
   <div class="container-fluid">
     <div></div>
 
@@ -10,7 +10,11 @@
       <ul class="navbar-nav me-auto">
         <% if user_signed_in? %>
           <li class="nav-item active">
-            <i class="fa-solid fa-bell"></i>
+            <% if current_user.pending_invitations.size > 0 %>
+              <i class="fa-solid fa-bell notification" data-action="click->notifications#open"></i>
+            <% else %>
+              <i class="fa-solid fa-bell" data-action="click->notifications#open"></i>
+            <% end %>
           </li>
           <li class="nav-item active">
             <i class="fa-solid fa-envelope"></i>
@@ -33,5 +37,23 @@
         <% end %>
       </ul>
     </div>
+  </div>
+
+  <div class="notification-dropdown" data-notifications-target="dropdown">
+    <h4>Notifications</h4>
+    <ul>
+      <% @requests.each do |request| %>
+        <li>
+          <div>
+            <%= image_tag User.find(request.user_id).avatar, class: "avatar-large" %>
+            <span><%= User.find(request.user_id).username %> wants to add you as a friend.</span>
+          </div>
+          <div class="request-buttons">
+            <%= link_to '<i class="fa-solid fa-check"></i>'.html_safe, accept_invitation_user_path(request), data: {turbo_method: :post}, class: 'request-button btn btn-main' %>
+            <%= link_to '<i class="fa-solid fa-xmark"></i>'.html_safe, reject_invitation_user_path(request), class: 'request-button btn btn-second', data: {turbo_method: :delete} %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
   </div>
 </div>

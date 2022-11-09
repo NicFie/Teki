@@ -13,4 +13,8 @@ class UserPolicy < ApplicationPolicy
   def show?
     true
   end
+
+  def send_invitation?
+    true
+  end
 end

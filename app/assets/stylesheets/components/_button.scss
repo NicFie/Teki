@@ -27,9 +27,33 @@
   border: 2px $light-green solid;
 }
 
+
 .btn:disabled {
   opacity: 1 !important;
   background: gray !important;
   border-radius: 4px !important;
   border: none !important;
+
+.request-button {
+  color: $black;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 5px;
+  display: flex;
+  // height: 30px;
+
+
+  i {
+    width: 18px;
+    height: 18px;
+    text-align: center;
+  }
+}
+
+.btn-tick {
+  background-color: green;
+}
+
+.btn-cross {
+  background-color: red;
 }
