@@ -255,6 +255,10 @@ export default class extends Controller {
     this.round_one_editor_two.refresh()
   }
 
+  closeSolutionModal(){
+    document.getElementById("playerSolutionsModal").style.display = "none"
+  }
+
 
   expandRoundOne() {
     let x = document.getElementById("round-one-hidden-details");

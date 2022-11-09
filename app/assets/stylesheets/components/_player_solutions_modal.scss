@@ -1,5 +1,5 @@
 #playerSolutionsModal{
-  display: none ;
+  display: none;
 }
 
 #player-solutions-second-level{
@@ -68,4 +68,19 @@
     text-align: left;
     padding:10px;
   }
+}
+
+.fourth-layer {
+  width:100%;
+  height:100%;
+}
+
+.redX {
+  height: 200px;
+  right: -15px;
+  top: -15px;
+  position: absolute;
+  color: white;
+  z-index: 1000;
+  font-size: 25px;
 }
