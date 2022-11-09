@@ -27,6 +27,13 @@
   border: 2px $light-green solid;
 }
 
+
+.btn:disabled {
+  opacity: 1 !important;
+  background: gray !important;
+  border-radius: 4px !important;
+  border: none !important;
+
 .request-button {
   color: $black;
   border: 1px solid white;

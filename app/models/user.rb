@@ -31,4 +31,8 @@ class User < ApplicationRecord
   def send_invitation(user)
     invitations.create(friend_id: user.id)
   end
+
+  def online?
+    updated_at > 3.minutes.ago
+  end
 end
