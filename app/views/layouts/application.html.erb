@@ -28,7 +28,6 @@
     <% if (current_page?(unauthenticated_root_path) && !user_signed_in?) || !user_signed_in? %>
       <%= yield %>
     <% else %>
-      <%= render "shared/pre_game_modal" %>
       <%= render "shared/navbar" %>
       <div class="page_wrapper">
         <%= render "shared/sidebar" %>
