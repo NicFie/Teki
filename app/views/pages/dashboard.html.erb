@@ -80,10 +80,12 @@
         <h2 class="friends-title">Friends</h2>
         <div class="friendlist">
           <% @friends.each do |f| %>
-                <div class="friend-div">
+                <div class="friend-div" data-controller="friends"
+                data-friends-user-id-value="<%= f.id %>"
+                data-friends-user-name-value="<%= f.username %>">
                   <div><%= f.username %></div>
                   <%= image_tag f.avatar, height: '40' %>
-                  <button class="btn btn-main btn-sm" <%= "disabled" unless f.online? %>>Battle</button>
+                  <button class="btn btn-main btn-sm" <%= "disabled" unless f.online? %> data-action="click->friends#checking">Battle</button>
                 </div>
           <% end  %>
         </div>

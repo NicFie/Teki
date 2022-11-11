@@ -13,6 +13,9 @@ application.register("code", CodeController)
 import DashtabsController from "./dashtabs_controller"
 application.register("dashtabs", DashtabsController)
 
+import FriendsController from "./friends_controller"
+application.register("friends", FriendsController)
+
 import GameSubscriptionController from "./game_subscription_controller"
 application.register("game-subscription", GameSubscriptionController)
 

@@ -118,5 +118,4 @@ export default class extends Controller {
   playerTwoTyping() {
     console.log(this.editor_two.getValue())
   }
-
 }
