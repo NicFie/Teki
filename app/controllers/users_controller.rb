@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   end
 
   def send_game_invitation
-    user = User.find(4)
+    user = User.find(params[:id])
     FriendsChannel.broadcast_to(user, { command: 'checking' })
     skip_authorization
   end

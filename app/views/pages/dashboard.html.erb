@@ -1,4 +1,11 @@
 <div class="dashboard-wrapper" data-controller="dashboard">
+<div data-controller="friends"
+     data-friends-current-id-value="<%= current_user.id %>">
+     <%# <% @friends.each do |f| %>
+       <%# data-friends-user-id-value="<%= f.id %>
+     <%# <% end %>
+
+
   <div class="page-section dashboard-information">
     <div class="play-box">
       <button type="button" style="font-size:20px;" class="btn btn-main" data-toggle="modal" data-target="#exampleModalCenter">
@@ -80,12 +87,11 @@
         <h2 class="friends-title">Friends</h2>
         <div class="friendlist">
           <% @friends.each do |f| %>
-                <div class="friend-div" data-controller="friends"
-                data-friends-user-id-value="<%= f.id %>"
-                data-friends-user-name-value="<%= f.username %>">
+                <div class="friend-div">
                   <div><%= f.username %></div>
                   <%= image_tag f.avatar, height: '40' %>
-                  <button class="btn btn-main btn-sm" <%= "disabled" unless f.online? %> data-action="click->friends#checking">Battle</button>
+                  <button class="btn btn-main btn-sm" <%= "disabled" unless f.online? %>
+                  data-action="click->friends#checking" data-value="<%= f.id %>">Battle</button>
                 </div>
           <% end  %>
         </div>
@@ -107,5 +113,6 @@
         </table>
       </div>
     </div>
+  </div>
   </div>
 </div>

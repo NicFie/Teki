@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     resources :games, only: %i[new create]
     resources :game_rounds, only: %i[index]
     member do
-      post :send_game_invitation
+      get :send_game_invitation
       post :send_invitation
       post :accept_invitation
       delete :reject_invitation
