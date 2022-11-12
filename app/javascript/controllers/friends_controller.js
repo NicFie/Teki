@@ -12,11 +12,8 @@ export default class extends Controller {
   connect() {
     this.channel = createConsumer().subscriptions.create(
       { channel: "FriendsChannel", id: this.currentIdValue },
-      { received: data => { if(data.command == "checking") { console.log(`Sending a message to ${this.userNameValue}`) };}
-      }
+      { received: data => { console.log(data) } }
     )
-    console.log(`Current user is ${this.currentIdValue}`)
-    console.log(`Friend ID is ${this.userIdValue}`)
   }
 
   checking(event) {

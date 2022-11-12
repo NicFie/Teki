@@ -1,118 +1,115 @@
 <div class="dashboard-wrapper" data-controller="dashboard">
-<div data-controller="friends"
-     data-friends-current-id-value="<%= current_user.id %>">
-     <%# <% @friends.each do |f| %>
-       <%# data-friends-user-id-value="<%= f.id %>
-     <%# <% end %>
+  <div data-controller="friends"
+       data-friends-current-id-value="<%= current_user.id %>">
 
+    <div class="page-section dashboard-information">
+      <div class="play-box">
+        <button type="button" style="font-size:20px;" class="btn btn-main" data-toggle="modal" data-target="#exampleModalCenter">
+          Play
+        </button>
+      </div>
+      <div class="right-side-user-info">
+        <div class="d-flex">
+          <%= image_tag current_user.avatar, height: '80' %>
+          <h1><%= current_user.username %></h1>
+        </div>
+        <div class="dashboard-data">
+          <h6>Score</h6>
+          <span><%= current_user.score %></span>
+        </div>
+        <div class="dashboard-data">
+          <h6>Total games</h6>
+          <span><%= current_user.games_as_player_one.count + current_user.games_as_player_two.count %></span>
+        </div>
+      </div>
+    </div>
+    <%# <div class="dashboard-buttons"> %>
+      <%# Below is the original button to go to the waiting path in case you need to use it instead of modal %>
 
-  <div class="page-section dashboard-information">
-    <div class="play-box">
-      <button type="button" style="font-size:20px;" class="btn btn-main" data-toggle="modal" data-target="#exampleModalCenter">
+      <%# <%= link_to "Battle to earn points",  waiting_path, class: "btn btn-main" %>
+      <%# <button type="button" style="font-size:20px;" class="btn btn-main" data-toggle="modal" data-target="#exampleModalCenter">
         Play
-      </button>
-    </div>
-    <div class="right-side-user-info">
-      <div class="d-flex">
-        <%= image_tag current_user.avatar, height: '80' %>
-        <h1><%= current_user.username %></h1>
-      </div>
-      <div class="dashboard-data">
-        <h6>Score</h6>
-        <span><%= current_user.score %></span>
-      </div>
-      <div class="dashboard-data">
-        <h6>Total games</h6>
-        <span><%= current_user.games_as_player_one.count + current_user.games_as_player_two.count %></span>
-      </div>
-    </div>
-  </div>
-  <%# <div class="dashboard-buttons"> %>
-    <%# Below is the original button to go to the waiting path in case you need to use it instead of modal %>
+      </button> %>
+      <%# <%= link_to "Play Solo", dashboard_path, class: "btn btn-main" %>
 
-    <%# <%= link_to "Battle to earn points",  waiting_path, class: "btn btn-main" %>
-    <%# <button type="button" style="font-size:20px;" class="btn btn-main" data-toggle="modal" data-target="#exampleModalCenter">
-      Play
-    </button> %>
-    <%# <%= link_to "Play Solo", dashboard_path, class: "btn btn-main" %>
+    <%# </div> %>
 
-  <%# </div> %>
-
-  <!-- Modal -->
-  <div class="modal fade round-choice-modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content round-choice-modal-content">
-        <div class="modal-header round-choice-modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Number of rounds</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body round-choice round-choice-modal-body" data-controller="ninjaform">
-            <%= simple_form_for [current_user, @game], :html => {:"data-ninjaform-target" => "form"} do |f| %>
-              <%= f.input :round_count, as: :radio_buttons, collection: [[1, '⚔️'], [3, "⚔️ ⚔️ ⚔️"], [5, "⚔️ ⚔️ ⚔️ ⚔️ ⚔️"]], label_method: :second, value_method: :first, label: '', class: 'form-check-inline', :input_html => { :"data-action" => "change->ninjaform#submitForm"} %>
-            <% end %>
+    <!-- Modal -->
+    <div class="modal fade round-choice-modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content round-choice-modal-content">
+          <div class="modal-header round-choice-modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Number of rounds</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body round-choice round-choice-modal-body" data-controller="ninjaform">
+              <%= simple_form_for [current_user, @game], :html => {:"data-ninjaform-target" => "form"} do |f| %>
+                <%= f.input :round_count, as: :radio_buttons, collection: [[1, '⚔️'], [3, "⚔️ ⚔️ ⚔️"], [5, "⚔️ ⚔️ ⚔️ ⚔️ ⚔️"]], label_method: :second, value_method: :first, label: '', class: 'form-check-inline', :input_html => { :"data-action" => "change->ninjaform#submitForm"} %>
+              <% end %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="dashboard-lower">
-    <div class="page-section" id="leaderboard-section">
-      <h2>Leaderboard</h2>
-      <table class="leaderboard">
-        <tbody>
-          <tr>
-            <th>Position</th>
-            <th>Player</th>
-            <th>Score</th>
-          </tr>
-          <% count = 1 %>
-          <% @users_ordered_by_score[0...10].each do |user| %>
-            <tr class="leaderboard-user">
-              <td>#<%= count %></td>
-              <td>
-              <%= link_to image_tag(user.avatar, height: '40'), user_path(user) %>
-              <%= user.username %>
-              </td>
-              <td><%= user.score %></td>
-            </tr>
-            <% count += 1 %>
-          <% end  %>
-        </tbody>
-      </table>
-    </div>
-    <div class="dashboard-lower-right">
-      <div class="page-section">
-        <h2 class="friends-title">Friends</h2>
-        <div class="friendlist">
-          <% @friends.each do |f| %>
-                <div class="friend-div">
-                  <div><%= f.username %></div>
-                  <%= image_tag f.avatar, height: '40' %>
-                  <button class="btn btn-main btn-sm" <%= "disabled" unless f.online? %>
-                  data-action="click->friends#checking" data-value="<%= f.id %>">Battle</button>
-                </div>
-          <% end  %>
-        </div>
-      </div>
-      <div class="page-section">
-        <h2>Your Battles</h2>
+    <div class="dashboard-lower">
+      <div class="page-section" id="leaderboard-section">
+        <h2>Leaderboard</h2>
         <table class="leaderboard">
           <tbody>
             <tr>
-              <th>Opponent</th>
-              <th>Date</th>
-              <th>Rounds Won</th>
-              <th>Points</th>
+              <th>Position</th>
+              <th>Player</th>
+              <th>Score</th>
             </tr>
-            <% if @latest_battles != nil %>
-            <%= render "shared/latest_battles_table", battles: @latest_battles%>
-            <% end %>
+            <% count = 1 %>
+            <% @users_ordered_by_score[0...10].each do |user| %>
+              <tr class="leaderboard-user">
+                <td>#<%= count %></td>
+                <td>
+                <%= link_to image_tag(user.avatar, height: '40'), user_path(user) %>
+                <%= user.username %>
+                </td>
+                <td><%= user.score %></td>
+              </tr>
+              <% count += 1 %>
+            <% end  %>
           </tbody>
         </table>
       </div>
+
+      <div class="dashboard-lower-right">
+        <div class="page-section">
+          <h2 class="friends-title">Friends</h2>
+          <div class="friendlist">
+            <% @friends.each do |f| %>
+              <div class="friend-div">
+                <div><%= f.username %></div>
+                <%= image_tag f.avatar, height: '40' %>
+                <button class="btn btn-main btn-sm" <%= "disabled" unless f.online? %>
+                data-action="click->friends#checking" data-value="<%= f.id %>">Battle</button>
+              </div>
+            <% end  %>
+          </div>
+        </div>
+        <div class="page-section">
+          <h2>Your Battles</h2>
+          <table class="leaderboard">
+            <tbody>
+              <tr>
+                <th>Opponent</th>
+                <th>Date</th>
+                <th>Rounds Won</th>
+                <th>Points</th>
+              </tr>
+              <% if @latest_battles != nil %>
+                <%= render "shared/latest_battles_table", battles: @latest_battles%>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-  </div>
   </div>
 </div>
