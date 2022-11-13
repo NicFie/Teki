@@ -263,14 +263,4 @@ export default class extends Controller {
   endGame() {
     this.updatePage()
   }
-
-
-  disconnect() {
-    this.channel.unsubscribe()
-    if (this.playerTwoIdValue === 1) {
-      let playerOnesForm = new FormData()
-      playerOnesForm.append("game[player_one_id]", 1)
-      this.patchForm(playerOnesForm)
-    }
-  }
 }
