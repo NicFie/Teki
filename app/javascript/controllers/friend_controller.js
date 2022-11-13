@@ -1,13 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 import { createConsumer } from "@rails/actioncable"
 
-// Connects to data-controller="friends"
+// Connects to data-controller="friend"
 export default class extends Controller {
   static values = { currentUserId: Number }
-
-  initialize() {
-    this.token = document.getElementsByName("csrf-token")[0].content
-  }
 
   connect() {
     this.channel = createConsumer().subscriptions.create(
