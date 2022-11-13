@@ -13,8 +13,8 @@ application.register("code", CodeController)
 import DashtabsController from "./dashtabs_controller"
 application.register("dashtabs", DashtabsController)
 
-import FriendsController from "./friends_controller"
-application.register("friends", FriendsController)
+import FriendController from "./friend_controller"
+application.register("friend", FriendController)
 
 import GameSubscriptionController from "./game_subscription_controller"
 application.register("game-subscription", GameSubscriptionController)
