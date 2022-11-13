@@ -9,14 +9,12 @@ class GamesController < ApplicationController
     @check_game = Game.where("player_two_id = ? and round_count = ?", 1, params["game"]["round_count"].to_i)
     if @check_game.exists?
       redirect_to game_path(@check_game[0].id)
-      raise
       authorize @check_game
     else
       @game = Game.new(game_params)
       authorize @game
       @game.player_one_id = 1
       @game.player_two_id = 1
-      raise
       @game.save!
       add_rounds_and_challenges(@game.id)
     end
