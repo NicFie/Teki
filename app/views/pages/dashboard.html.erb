@@ -1,4 +1,6 @@
-<div class="dashboard-wrapper" data-controller="dashboard">
+<div class="dashboard-wrapper" data-controller="dashboard friend"
+                               data-friend-current-user-id-value="<%= current_user.id %>">
+
   <div class="page-section dashboard-information">
     <div class="play-box">
       <button type="button" style="font-size:20px;" class="btn btn-main" data-toggle="modal" data-target="#exampleModalCenter">
@@ -75,16 +77,18 @@
         </tbody>
       </table>
     </div>
+
     <div class="dashboard-lower-right">
       <div class="page-section">
         <h2 class="friends-title">Friends</h2>
         <div class="friendlist">
           <% @friends.each do |f| %>
-                <div class="friend-div">
-                  <div><%= f.username %></div>
-                  <%= image_tag f.avatar, height: '40' %>
-                  <button class="btn btn-main btn-sm" <%= "disabled" unless f.online? %>>Battle</button>
-                </div>
+            <div class="friend-div">
+              <div><%= f.username %></div>
+              <%= image_tag f.avatar, height: '40' %>
+              <button class="btn btn-main btn-sm" <%= "disabled" unless f.online? %>
+              data-action="click->friend#checking" data-value="<%= f.id %>">Battle</button>
+            </div>
           <% end  %>
         </div>
       </div>
@@ -99,7 +103,7 @@
               <th>Points</th>
             </tr>
             <% if @latest_battles != nil %>
-            <%= render "shared/latest_battles_table", battles: @latest_battles%>
+              <%= render "shared/latest_battles_table", battles: @latest_battles%>
             <% end %>
           </tbody>
         </table>
