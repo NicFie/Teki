@@ -6,6 +6,7 @@ class GameChannel < ApplicationCable::Channel
 
   def unsubscribed
     game = Game.find(params[:id])
+    game.destroy if game.player_two_id == 1
     stop_stream_from game
   end
 end
