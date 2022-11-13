@@ -7,7 +7,14 @@ class GamesController < ApplicationController
 
   def create
     @check_game = Game.where("player_two_id = ? and round_count = ?", 1, params["game"]["round_count"].to_i)
-    if @check_game.exists?
+    if params[:game][:player_one_id] && params[:game][:player_two_id]
+      @game = Game.new(game_params)
+      authorize @game
+      @game.player_one_id = params[:game][:player_one_id]
+      @game.player_two_id = params[:game][:player_two_id]
+      @game.save!
+      add_rounds_and_challenges(@game.id)
+    elsif @check_game.exists?
       redirect_to game_path(@check_game[0].id)
       authorize @check_game
     else
@@ -32,7 +39,13 @@ class GamesController < ApplicationController
       rounds -= 1
     end
 
-    redirect_to game_path(game)
+    if @game.player_two_id == 1
+      redirect_to game_path(game)
+    else
+      user = User.find(params[:game][:player_two_id])
+      FriendChannel.broadcast_to(user, { notification: "Sending a message to #{user.username}" })
+      redirect_to game_path(game)
+    end
   end
 
   def show
