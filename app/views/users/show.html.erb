@@ -1,5 +1,39 @@
-<% if Invitation.reacted?(current_user, @user) %>
-  <p>You are friends with this person or one have you have sent a request</p>
-<% else %>
-  <%= button_to "Friend", send_invitation_user_path, data: {turbo_method: :post}%>
-<% end %>
+<%# Change the class names!!! %>
+<div class="dashboard-wrapper">
+  <div class="page-section dashboard-information">
+    <div class="play-box">
+
+
+      <% if current_user.friend_with?(@user) %>
+        <button type="button" style="font-size:20px;" class="btn btn-main">
+          Battle
+        </button>
+      <% elsif @user == current_user %>
+        <button type="button" style="font-size:20px;" class="btn btn-main">
+          Settings
+        </button>
+      <% elsif Invitation.reacted?(current_user, @user) %>
+        <p class="mt-5">Friend request sent, waiting response</p>
+      <% else %>
+        <%= button_to "Friend +", send_invitation_user_path, data: {turbo_method: :post}, class: 'btn btn-main', style:'font-size:20px;'%>
+      <% end %>
+    </div>
+    <div class="right-side-user-info">
+      <div class="d-flex">
+        <%= image_tag @user.avatar, height: '80' %>
+        <h1><%= @user.username %></h1>
+      </div>
+      <div class="dashboard-data">
+        <h6>Score</h6>
+        <span><%= @user.score %></span>
+      </div>
+      <div class="dashboard-data">
+        <h6>Total games</h6>
+        <span><%= @user.games_as_player_one.count + @user.games_as_player_two.count %></span>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center mt-5">
+    <%= link_to "Back to dashboard", dashboard_path, class: 'btn btn-second' %>
+  </div>
+</div>
