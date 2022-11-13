@@ -12,7 +12,9 @@ class GamesController < ApplicationController
       authorize @check_game
     else
       @game = Game.new(game_params)
+      @with_friend = @game.with_friend
       authorize @game
+      raise
       @game.player_one_id = 1
       @game.player_two_id = 1
       @game.save!
@@ -294,6 +296,6 @@ class GamesController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:player_one_id, :player_two_id, :round_count, :submission_code, game_rounds: [:player_one_code, :player_two_code])
+    params.require(:game).permit(:with_friend, :player_one_id, :player_two_id, :round_count, :submission_code, game_rounds: [:player_one_code, :player_two_code])
   end
 end

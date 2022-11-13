@@ -1,4 +1,4 @@
-<div class="dashboard-wrapper" data-controller="dashboard">
+<div class="dashboard-wrapper" data-controller="dashboard ninjaform">
   <div class="page-section dashboard-information">
     <div class="play-box">
       <button type="button" style="font-size:20px;" class="btn btn-main" data-toggle="modal" data-target="#exampleModalCenter">
@@ -41,9 +41,30 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body round-choice round-choice-modal-body" data-controller="ninjaform">
+        <div class="modal-body round-choice round-choice-modal-body">
             <%= simple_form_for [current_user, @game], :html => {:"data-ninjaform-target" => "form"} do |f| %>
               <%= f.input :round_count, as: :radio_buttons, collection: [[1, '⚔️'], [3, "⚔️ ⚔️ ⚔️"], [5, "⚔️ ⚔️ ⚔️ ⚔️ ⚔️"]], label_method: :second, value_method: :first, label: '', class: 'form-check-inline', :input_html => { :"data-action" => "change->ninjaform#submitForm"} %>
+            <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# with friend modal %>
+  <div class="modal fade round-choice-modal" id="withFriendModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content round-choice-modal-content">
+        <div class="modal-header round-choice-modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Number of rounds</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="">
+            <%= simple_form_for [current_user, @game] do |f| %>
+              <%= f.input :round_count, as: :radio_buttons, collection: [[1, '⚔️'], [3, "⚔️ ⚔️ ⚔️"], [5, "⚔️ ⚔️ ⚔️ ⚔️ ⚔️"]], label_method: :second, value_method: :first %>
+              <%= f.input :with_friend, as: :select, collection: [['Yes',true], ['No',false]], required: true%>
+              <%= f.button :submit, class: "btn btn-primary", value: "submit" %>
             <% end %>
         </div>
       </div>
@@ -83,9 +104,9 @@
                 <div class="friend-div">
                   <div><%= f.username %></div>
                   <%= image_tag f.avatar, height: '40' %>
-                  <button class="btn btn-main btn-sm" <%= "disabled" unless f.online? %>>Battle</button>
+                  <button class="btn btn-main btn-sm" <%= "disabled" unless f.online? %> data-toggle="modal" data-target="#withFriendModal">Battle</button>
                 </div>
-          <% end  %>
+          <% end %>
         </div>
       </div>
       <div class="page-section">
