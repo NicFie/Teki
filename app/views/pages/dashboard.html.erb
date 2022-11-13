@@ -1,5 +1,4 @@
-<div class="dashboard-wrapper" data-controller="dashboard ninjaform"
-                               data-controller="dashboard friend"
+<div class="dashboard-wrapper" data-controller="dashboard ninjaform friend"
                                data-friend-current-user-id-value="<%= current_user.id %>">
 
   <div class="page-section dashboard-information">
@@ -64,12 +63,24 @@
           </button>
         </div>
         <div class="">
-            <%= simple_form_for [current_user, @game] do |f| %>
+            <%= simple_form_for [current_user, @game], input_html: { data-friend-target="friendForm"} do |f| %>
               <%= f.input :round_count, as: :radio_buttons, collection: [[1, '⚔️'], [3, "⚔️ ⚔️ ⚔️"], [5, "⚔️ ⚔️ ⚔️ ⚔️ ⚔️"]], label_method: :second, value_method: :first %>
               <%= f.input :with_friend, as: :select, collection: [['Yes',true], ['No',false]], required: true%>
               <%= f.button :submit, class: "btn btn-primary", value: "submit" %>
             <% end %>
         </div>
+      </div>
+    </div>
+  </div>
+
+
+  <%# invite modal %>
+  <div class="modal fade round-choice-modal invite-modal" data-friend-target="inviteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content round-choice-modal-content">
+        <h3 class="invite-content" data-friend-target="inviteContent"></h3>
+        <button>Accept</button>
+        <button>Decline</button>
       </div>
     </div>
   </div>
@@ -109,7 +120,7 @@
               <div><%= f.username %></div>
               <%= image_tag f.avatar, height: '40' %>
               <button class="btn btn-main btn-sm" <%= "disabled" unless f.online? %>
-              data-action="click->friend#checking" data-value="<%= f.id %>"
+              data-action="click->friend#checking" data-value="<%= {friend: f.id, current_user: current_user.id} %>"
               data-toggle="modal" data-target="#withFriendModal">Battle</button>
             </div>
           <% end  %>

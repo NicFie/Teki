@@ -8,13 +8,14 @@ class GamesController < ApplicationController
   def create
     @check_game = Game.where("player_two_id = ? and round_count = ?", 1, params["game"]["round_count"].to_i)
     if @check_game.exists?
+      raise
       redirect_to game_path(@check_game[0].id)
       authorize @check_game
     else
       @game = Game.new(game_params)
+      raise
       @with_friend = @game.with_friend
       authorize @game
-      raise
       @game.player_one_id = 1
       @game.player_two_id = 1
       @game.save!
