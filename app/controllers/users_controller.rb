@@ -14,15 +14,7 @@ class UsersController < ApplicationController
   end
 
   def send_game_invitation
-    hash = eval(params[:id])
-    inviter = User.find(hash[:current_user])
-    invited_user = User.find(hash[:friend])
-    FriendChannel.broadcast_to(invited_user, {
-      notification: "#{inviter.username} invited you (#{invited_user.username})",
-      inviter: inviter,
-      invited_user: invited_user
-      })
-    skip_authorization
+
   end
 
   def send_invitation

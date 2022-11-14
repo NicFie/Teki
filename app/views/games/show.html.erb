@@ -1,325 +1,323 @@
-<div data-controller="game-subscription challenge-instructions"
-data-game-subscription-game-id-value="<%= @game.id %>"
-data-game-subscription-user-id-value="<%= current_user.id %>"
-data-game-subscription-current-user-username-value="<%= current_user.username %>"
-data-game-subscription-player-two-username-value="<%= @game.player_two.username %>"
-data-game-subscription-player-one-id-value="<%= @game.player_one.id %>"
-data-game-subscription-player-two-id-value="<%= @game.player_two.id %>"
-data-game-subscription-update-url="<%= game_path(@game) %>"
-data-game-subscription-loaded-value="<%= false %>"
-data-game-subscription-rounds-value="<%= @rounds %>"
-data-game-subscription-game-round-method-value="<%= @rounds_left.challenge.method_template %>"
-data-game-subscription-game-round-number="<%= @game.game_rounds.where('winner_id != 1').size %>"
-data-game-subscription-player-one-ready-value="<%= false %>"
-data-game-subscription-player-two-ready-value="<%= false %>">
-
-  <div class="game-show-container" data-controller="code"
-      data-code-game-id-value="<%= @game.id %>"
-      data-code-game-round-count-value="<%= @game.round_count %>"
-      data-code-user-id-value="<%= current_user.id %>"
-      data-code-player-one-id-value="<%= @game.player_one.id %>"
-      data-code-player-two-id-value="<%= @game.player_two.id %>"
-      data-code-update-url="<%= game_path(@game) %>"
-      data-code-current-game-round-value="<%= @current_game_round_id %>"
-      data-code-game-round-method-value="<%= @rounds_left.challenge.method_template %>">
-    <div class="game-show-left">
-      <div class="page-section game-information">
-        <h3>Round <%= (@game.game_rounds.where('winner_id != 1').size + 1)%>/<%=@game.round_count%></h3>
-        <%# <div class="d-flex">
-          <div class="d-flex flex-column align-items-center">
-            <%= image_tag(@game.player_one.avatar, class: "user-avatar")
-            <h5 class="mt-2"><%= @game.player_one.username %><%# </h5>
-          <%# </div>
-          <span>V</span>
-          <div class="d-flex flex-column align-items-center">
-            <%= image_tag(@game.player_two.avatar, class: "user-avatar", data: {'game-subscription-target' => 'playerTwoAvatar'}) %>
-            <%# <h5 class="mt-2"><%= @game.player_two.username %><%# </h5>
-          <%# </div>
-        </div> %>
-      </div>
-
-      <div class="page-section challenge-instructions">
-        <h4>Instructions</h4>
-        <p><%= simple_format @rounds_left.challenge.description %></p>
-      </div>
-
-      <div class="page-section challenge-tests">
-        <h4>Test results</h4>
-        <p data-code-target="output">Awaiting code submission</p>
-      </div>
+<div class="game-show-container" data-controller="code game-subscription challenge-instructions friend"
+    data-code-game-id-value="<%= @game.id %>"
+    data-code-game-round-count-value="<%= @game.round_count %>"
+    data-code-user-id-value="<%= current_user.id %>"
+    data-code-player-one-id-value="<%= @game.player_one.id %>"
+    data-code-player-two-id-value="<%= @game.player_two.id %>"
+    data-code-update-url="<%= game_path(@game) %>"
+    data-code-current-game-round-value="<%= @current_game_round_id %>"
+    data-code-game-round-method-value="<%= @rounds_left.challenge.method_template %>"
+    data-game-subscription-game-id-value="<%= @game.id %>"
+    data-game-subscription-user-id-value="<%= current_user.id %>"
+    data-game-subscription-current-user-username-value="<%= current_user.username %>"
+    data-game-subscription-player-two-username-value="<%= @game.player_two.username %>"
+    data-game-subscription-player-one-id-value="<%= @game.player_one.id %>"
+    data-game-subscription-player-two-id-value="<%= @game.player_two.id %>"
+    data-game-subscription-update-url="<%= game_path(@game) %>"
+    data-game-subscription-loaded-value="<%= false %>"
+    data-game-subscription-rounds-value="<%= @rounds %>"
+    data-game-subscription-game-round-method-value="<%= @rounds_left.challenge.method_template %>"
+    data-game-subscription-game-round-number="<%= @game.game_rounds.where('winner_id != 1').size %>"
+    data-game-subscription-player-one-ready-value="<%= false %>"
+    data-game-subscription-player-two-ready-value="<%= false %>"
+    data-friend-game-round-number="<%= @game.game_rounds.where('winner_id != 1').size %>">
+  <div class="game-show-left">
+    <div class="page-section game-information">
+      <h3>Round <%= (@game.game_rounds.where('winner_id != 1').size + 1)%>/<%=@game.round_count%></h3>
+      <%# <div class="d-flex">
+        <div class="d-flex flex-column align-items-center">
+          <%= image_tag(@game.player_one.avatar, class: "user-avatar")
+          <h5 class="mt-2"><%= @game.player_one.username %><%# </h5>
+        <%# </div>
+        <span>V</span>
+        <div class="d-flex flex-column align-items-center">
+          <%= image_tag(@game.player_two.avatar, class: "user-avatar", data: {'game-subscription-target' => 'playerTwoAvatar'}) %>
+          <%# <h5 class="mt-2"><%= @game.player_two.username %><%# </h5>
+        <%# </div>
+      </div> %>
     </div>
 
-    <div class="game-show-right <%= "game-show-right-reversed" if current_user == @game.player_two %>">
-      <div class="user-codebox <%= "current-player-codebox" if current_user == @game.player_one %>" id="user-codebox-1" data-action="keyup->code#playerTyping">
-        <div class="user-details">
-          <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
-          <h4 class="user-name"><%= @game.player_one.username %></h4>
-        </div>
-        <textarea data-code-target="editorone"></textarea>
-        <% if @game.player_one == current_user %>
-          <div class="code-submit-buttons">
-            <button id="playerOneClear" class="btn btn-second" data-action="click->code#clearPlayerSubmission">Clear</button>
-            <button id="playerOneTest" class="btn btn-main" data-action="click->code#playerSubmission">Submit</button>
-            <%# <button id="playerOneSubmit" class="btn btn-second">😀😠🎉</button> %>
-          </div>
-        <% end %>
-      </div>
-
-      <div class="user-codebox <%= "current-player-codebox" if current_user == @game.player_two %>" id="user-codebox-2" data-action="keyup->code#playerTyping">
-        <div class="user-details">
-          <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
-          <h4 class="user-name"><%= @game.player_two.username %></h4>
-        </div>
-        <textarea data-code-target="editortwo"></textarea>
-        <% if @game.player_two == current_user %>
-          <div class="code-submit-buttons">
-            <button id="playerTwoClear" class="btn btn-second" data-action="click->code#clearPlayerSubmission">Clear</button>
-            <button id="playerTwoTest" class="btn btn-main"  data-action="click->code#playerSubmission">Submit</button>
-            <%# <button id="playerTwoSubmit" class="btn btn-second">😀😠🎉</button> %>
-          </div>
-        <% end %>
-      </div>
+    <div class="page-section challenge-instructions">
+      <h4>Instructions</h4>
+      <p><%= simple_format @rounds_left.challenge.description %></p>
     </div>
 
+    <div class="page-section challenge-tests">
+      <h4>Test results</h4>
+      <p data-code-target="output">Awaiting code submission</p>
+    </div>
+  </div>
 
-  <%# MODALS %>
-
-
-  <div data-game-subscription-target="preGameModal" id="preGameModal" class="modal fade show round-winner-modal">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div data-game-subscription-target="preGameLoadingContent" class="modal-content round-winner-modal-content" id="preGameLoading">
-        <div class="loading-animation">
-          <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-        </div>
-        <div id="typed-strings">
-        <h1>Looking for Opponent...<h1>
-        </div>
-        <h1 class="typed-loading" id="typed"></h1>
+  <div class="game-show-right <%= "game-show-right-reversed" if current_user == @game.player_two %>">
+    <div class="user-codebox <%= "current-player-codebox" if current_user == @game.player_one %>" id="user-codebox-1" data-action="keyup->code#playerTyping">
+      <div class="user-details">
+        <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
+        <h4 class="user-name"><%= @game.player_one.username %></h4>
       </div>
-      <div data-game-subscription-target="playerFoundMessage" id ="playerFoundMessage" class="modal-content round-winner-modal-content">
-        <h1>Player Found!</h1>
+      <textarea data-code-target="editorone"></textarea>
+      <% if @game.player_one == current_user %>
+        <div class="code-submit-buttons">
+          <button id="playerOneClear" class="btn btn-second" data-action="click->code#clearPlayerSubmission">Clear</button>
+          <button id="playerOneTest" class="btn btn-main" data-action="click->code#playerSubmission">Submit</button>
+          <%# <button id="playerOneSubmit" class="btn btn-second">😀😠🎉</button> %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="user-codebox <%= "current-player-codebox" if current_user == @game.player_two %>" id="user-codebox-2" data-action="keyup->code#playerTyping">
+      <div class="user-details">
+        <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
+        <h4 class="user-name"><%= @game.player_two.username %></h4>
       </div>
-      <div data-game-subscription-target="matchDetailsAndCountdown" id="matchDetailsAndCountdown" class="modal-content round-winner-modal-content">
+      <textarea data-code-target="editortwo"></textarea>
+      <% if @game.player_two == current_user %>
+        <div class="code-submit-buttons">
+          <button id="playerTwoClear" class="btn btn-second" data-action="click->code#clearPlayerSubmission">Clear</button>
+          <button id="playerTwoTest" class="btn btn-main"  data-action="click->code#playerSubmission">Submit</button>
+          <%# <button id="playerTwoSubmit" class="btn btn-second">😀😠🎉</button> %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+
+<%# MODALS %>
+
+
+<div data-game-subscription-target="preGameModal" data-friend-target="preGameModal" id="preGameModal" class="modal fade show round-winner-modal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div data-game-subscription-target="preGameLoadingContent" data-friend-target="preGameLoadingContent"class="modal-content round-winner-modal-content" id="preGameLoading">
+      <div class="loading-animation">
+        <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      </div>
+      <div id="typed-strings">
+      <h1 id="lookingForOpponent">Looking for Opponent...<h1>
+      </div>
+      <h1 class="typed-loading" id="typed"></h1>
+    </div>
+    <div data-game-subscription-target="playerFoundMessage" data-friend-target="playerFoundMessage" id ="playerFoundMessage" class="modal-content round-winner-modal-content">
+      <h1>Player Found!</h1>
+    </div>
+    <div data-game-subscription-target="matchDetailsAndCountdown" data-friend-target="matchDetailsAndCountdown" id="matchDetailsAndCountdown" class="modal-content round-winner-modal-content">
+      <div class="tally-container">
+        <div class="page-section">
+          <h6><%= @game.player_one.username %></h6>
+          <%= image_tag(@game.player_one.avatar, class: "user-avatar") %>
+        </div>
+        <span>V</span>
+        <div data-game-subscription-target="playerTwoUsername" class="page-section">
+          <h6><%= @game.player_two.username %></h6>
+          <%= image_tag(@game.player_two.avatar, class: "user-avatar", data: {'game-subscription-target' => 'playerTwoAvatar'}) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div data-game-subscription-target="roundWinnerModal" id="roundWinnerModal" class="modal fade show round-winner-modal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div data-game-subscription-target="roundWinnerModalContent" class="modal-content round-winner-modal-content">
+      <div class="modal-header round-winner-modal-header">
+        <div data-game-subscription-target="roundWinner"></div>
+      </div>
+      <div class="modal-body round-winner-modal-body">
         <div class="tally-container">
-          <div class="page-section">
+          <div class="page-section" id="player_one_box">
             <h6><%= @game.player_one.username %></h6>
-            <%= image_tag(@game.player_one.avatar, class: "user-avatar") %>
+            <p data-game-subscription-target="roundWinnerCountp1"></p>
           </div>
           <span>V</span>
-          <div data-game-subscription-target="playerTwoUsername" class="page-section">
-            <h6><%= @game.player_two.username %></h6>
-            <%= image_tag(@game.player_two.avatar, class: "user-avatar", data: {'game-subscription-target' => 'playerTwoAvatar'}) %>
+          <div class="page-section" id="player_two_box">
+            <h6 data-game-subscription-target="playerTwoUsername"><%= @game.player_two.username %></h6>
+            <p data-game-subscription-target="roundWinnerCountp2"></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-tickboxes">
+        <h1 id="left-tick" data-game-subscription-target="playerOneReady"></h1>
+        <h1 id="right-tick" data-game-subscription-target="playerTwoReady"></h1>
+      </div>
+      <div class="modal-footer round-winner-modal-footer">
+        <button data-action="click->game-subscription#nextRound" class="btn btn-second">Next Round <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-game-subscription-target="gameWinnerModal" id="gameWinnerModal" class="modal fade show round-winner-modal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content round-winner-modal-content">
+      <div class="modal-header round-winner-modal-header">
+        <div data-game-subscription-target="gameWinner"></div>
+      </div>
+      <div class="modal-body round-winner-modal-body">
+        <div class="tally-container">
+          <div class="page-section" id="playerOneBox">
+            <h6><%= @game.player_one.username %></h6>
+            <p data-game-subscription-target="gameWinnerCountp1"></p>
+          </div>
+          <span>V</span>
+          <div class="page-section" id="playerTwoBox">
+            <h6 data-game-subscription-target="playerTwoUsername"><%= @game.player_two.username %></h6>
+            <p data-game-subscription-target="gameWinnerCountp2"></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer round-winner-modal-footer">
+        <button data-action="click->game-subscription#endGame" class="btn btn-main">Back to Dashboard</button>
+        <button data-action="click->code#showSolutionModal" class="btn btn-second">See code</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%# player solutions code modal %>
+
+<div data-code-target="playerSolutionsModal" id="playerSolutionsModal" class="modal fade show round-winner-modal">
+<a class="back-button" data-action="click->code#closeSolutionModal" ><i class="fa-solid fa-arrow-left"></i> Back</a>
+  <div class="modal-dialog modal-dialog-centered" role="document" id="player-solutions-second-level">
+    <div class="modal-content round-winner-modal-content" id="player-solutions-third-level-content">
+      <div class="round-details" id="roundOne">
+        <div data-action="click->code#expandRoundOne" class="round-title-div" id="round-one-click">
+          <h3 class="round-title" id="round-one-title">Round 1</h3>
+        </div>
+        <div class="hidden-round-details" id="round-one-hidden-details">
+          <div class="user-codebox-solutions">
+            <div class="user-details">
+              <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
+              <h4 class="user-name"><%= @game.player_one.username %></h4>
+            </div>
+            <textarea data-code-target="roundOneEditorOne"></textarea>
+          </div>
+          <div class="round-challenge-instructions">
+            <div class="user-details">
+              <h4>Instructions</h4>
+            </div>
+            <p class="round-instructions" data-code-target='roundOneInstructions'>Content</p>
+          </div>
+          <div class="user-codebox-solutions">
+            <div class="user-details">
+              <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
+              <h4 class="user-name"><%= @game.player_two.username %></h4>
+            </div>
+            <textarea data-code-target="roundOneEditorTwo"></textarea>
+          </div>
+        </div>
+      </div>
+    <div class="round-details" id="roundTwo">
+        <div class="round-title-div" data-action="click->code#expandRoundTwo" id="round-two-click">
+          <h3 class="round-title" id="round-two-title" >Round 2</h3>
+        </div>
+        <div class="hidden-round-details" id="round-two-hidden-details">
+          <div class="user-codebox-solutions">
+            <div class="user-details">
+              <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
+              <h4 class="user-name"><%= @game.player_one.username %></h4>
+            </div>
+            <textarea data-code-target="roundTwoEditorOne"></textarea>
+          </div>
+          <div class="round-challenge-instructions">
+            <div class="user-details">
+              <h4>Instructions</h4>
+            </div>
+            <p data-code-target='roundTwoInstructions'>Content</p>
+          </div>
+          <div class="user-codebox-solutions">
+            <div class="user-details">
+              <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
+              <h4 class="user-name"><%= @game.player_two.username %></h4>
+            </div>
+            <textarea data-code-target="roundTwoEditorTwo"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="round-details" id="roundThree">
+        <div class="round-title-div" data-action="click->code#expandRoundThree" id="round-three-click">
+          <h3 class="round-title" id="round-three-title">Round 3</h3>
+        </div>
+        <div class="hidden-round-details" id="round-three-hidden-details">
+          <div class="user-codebox-solutions">
+            <div class="user-details">
+              <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
+              <h4 class="user-name"><%= @game.player_one.username %></h4>
+            </div>
+            <textarea data-code-target="roundThreeEditorOne"></textarea>
+          </div>
+          <div class="round-challenge-instructions">
+            <div class="user-details">
+              <h4>Instructions</h4>
+            </div>
+            <p data-code-target='roundThreeInstructions'>Content</p>
+          </div>
+          <div class="user-codebox-solutions">
+            <div class="user-details">
+              <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
+              <h4 class="user-name"><%= @game.player_two.username %></h4>
+            </div>
+            <textarea data-code-target="roundThreeEditorTwo"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="round-details" id="roundFour">
+        <div class="round-title-div" data-action="click->code#expandRoundFour" id="round-four-click">
+          <h3 class="round-title" id="round-four-title">Round 4</h3>
+        </div>
+        <div class="hidden-round-details" id="round-four-hidden-details">
+          <div class="user-codebox-solutions">
+            <div class="user-details">
+              <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
+              <h4 class="user-name"><%= @game.player_one.username %></h4>
+            </div>
+            <textarea data-code-target="roundFourEditorOne"></textarea>
+          </div>
+          <div class="round-challenge-instructions">
+            <div class="user-details">
+              <h4>Instructions</h4>
+            </div>
+            <p data-code-target='roundFourInstructions'>Content</p>
+          </div>
+          <div class="user-codebox-solutions">
+            <div class="user-details">
+              <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
+              <h4 class="user-name"><%= @game.player_two.username %></h4>
+            </div>
+            <textarea data-code-target="roundFourEditorTwo"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="round-details" id="roundFive">
+        <div class="round-title-div" data-action="click->code#expandRoundFive" id="round-five-click">
+          <h3 class="round-title" id="round-five-title">Round 5</h3>
+        </div>
+        <div class="hidden-round-details" id="round-five-hidden-details">
+          <div class="user-codebox-solutions">
+            <div class="user-details">
+              <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
+              <h4 class="user-name"><%= @game.player_one.username %></h4>
+            </div>
+            <textarea data-code-target="roundFiveEditorOne"></textarea>
+          </div>
+          <div class="round-challenge-instructions">
+            <div class="user-details">
+              <h4>Instructions</h4>
+            </div>
+            <p data-code-target='roundFiveInstructions'>Content</p>
+          </div>
+          <div class="user-codebox-solutions">
+            <div class="user-details">
+              <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
+              <h4 class="user-name"><%= @game.player_two.username %></h4>
+            </div>
+            <textarea data-code-target="roundFiveEditorTwo"></textarea>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
 
 
-  <div data-game-subscription-target="roundWinnerModal" id="roundWinnerModal" class="modal fade show round-winner-modal">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div data-game-subscription-target="roundWinnerModalContent" class="modal-content round-winner-modal-content">
-        <div class="modal-header round-winner-modal-header">
-          <div data-game-subscription-target="roundWinner"></div>
-        </div>
-        <div class="modal-body round-winner-modal-body">
-          <div class="tally-container">
-            <div class="page-section" id="player_one_box">
-              <h6><%= @game.player_one.username %></h6>
-              <p data-game-subscription-target="roundWinnerCountp1"></p>
-            </div>
-            <span>V</span>
-            <div class="page-section" id="player_two_box">
-              <h6 data-game-subscription-target="playerTwoUsername"><%= @game.player_two.username %></h6>
-              <p data-game-subscription-target="roundWinnerCountp2"></p>
-            </div>
-          </div>
-        </div>
-        <div class="modal-tickboxes">
-          <h1 id="left-tick" data-game-subscription-target="playerOneReady"></h1>
-          <h1 id="right-tick" data-game-subscription-target="playerTwoReady"></h1>
-        </div>
-        <div class="modal-footer round-winner-modal-footer">
-          <button data-action="click->game-subscription#nextRound" class="btn btn-second">Next Round <i class="fa-solid fa-arrow-right"></i></button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div data-game-subscription-target="gameWinnerModal" id="gameWinnerModal" class="modal fade show round-winner-modal">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content round-winner-modal-content">
-        <div class="modal-header round-winner-modal-header">
-          <div data-game-subscription-target="gameWinner"></div>
-        </div>
-        <div class="modal-body round-winner-modal-body">
-          <div class="tally-container">
-            <div class="page-section" id="playerOneBox">
-              <h6><%= @game.player_one.username %></h6>
-              <p data-game-subscription-target="gameWinnerCountp1"></p>
-            </div>
-            <span>V</span>
-            <div class="page-section" id="playerTwoBox">
-              <h6 data-game-subscription-target="playerTwoUsername"><%= @game.player_two.username %></h6>
-              <p data-game-subscription-target="gameWinnerCountp2"></p>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer round-winner-modal-footer">
-          <button data-action="click->game-subscription#endGame" class="btn btn-main">Back to Dashboard</button>
-          <button data-action="click->code#showSolutionModal" class="btn btn-second">See code</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <%# player solutions code modal %>
-
-  <div data-code-target="playerSolutionsModal" id="playerSolutionsModal" class="modal fade show round-winner-modal">
-  <a class="back-button" data-action="click->code#closeSolutionModal" ><i class="fa-solid fa-arrow-left"></i> Back</a>
-    <div class="modal-dialog modal-dialog-centered" role="document" id="player-solutions-second-level">
-      <div class="modal-content round-winner-modal-content" id="player-solutions-third-level-content">
-        <div class="round-details" id="roundOne">
-          <div data-action="click->code#expandRoundOne" class="round-title-div" id="round-one-click">
-            <h3 class="round-title" id="round-one-title">Round 1</h3>
-          </div>
-          <div class="hidden-round-details" id="round-one-hidden-details">
-            <div class="user-codebox-solutions">
-              <div class="user-details">
-                <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
-                <h4 class="user-name"><%= @game.player_one.username %></h4>
-              </div>
-              <textarea data-code-target="roundOneEditorOne"></textarea>
-            </div>
-            <div class="round-challenge-instructions">
-              <div class="user-details">
-                <h4>Instructions</h4>
-              </div>
-              <p class="round-instructions" data-code-target='roundOneInstructions'>Content</p>
-            </div>
-            <div class="user-codebox-solutions">
-              <div class="user-details">
-                <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
-                <h4 class="user-name"><%= @game.player_two.username %></h4>
-              </div>
-              <textarea data-code-target="roundOneEditorTwo"></textarea>
-            </div>
-          </div>
-        </div>
-      <div class="round-details" id="roundTwo">
-          <div class="round-title-div" data-action="click->code#expandRoundTwo" id="round-two-click">
-            <h3 class="round-title" id="round-two-title" >Round 2</h3>
-          </div>
-          <div class="hidden-round-details" id="round-two-hidden-details">
-            <div class="user-codebox-solutions">
-              <div class="user-details">
-                <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
-                <h4 class="user-name"><%= @game.player_one.username %></h4>
-              </div>
-              <textarea data-code-target="roundTwoEditorOne"></textarea>
-            </div>
-            <div class="round-challenge-instructions">
-              <div class="user-details">
-                <h4>Instructions</h4>
-              </div>
-              <p data-code-target='roundTwoInstructions'>Content</p>
-            </div>
-            <div class="user-codebox-solutions">
-              <div class="user-details">
-                <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
-                <h4 class="user-name"><%= @game.player_two.username %></h4>
-              </div>
-              <textarea data-code-target="roundTwoEditorTwo"></textarea>
-            </div>
-          </div>
-        </div>
-        <div class="round-details" id="roundThree">
-          <div class="round-title-div" data-action="click->code#expandRoundThree" id="round-three-click">
-            <h3 class="round-title" id="round-three-title">Round 3</h3>
-          </div>
-          <div class="hidden-round-details" id="round-three-hidden-details">
-            <div class="user-codebox-solutions">
-              <div class="user-details">
-                <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
-                <h4 class="user-name"><%= @game.player_one.username %></h4>
-              </div>
-              <textarea data-code-target="roundThreeEditorOne"></textarea>
-            </div>
-            <div class="round-challenge-instructions">
-              <div class="user-details">
-                <h4>Instructions</h4>
-              </div>
-              <p data-code-target='roundThreeInstructions'>Content</p>
-            </div>
-            <div class="user-codebox-solutions">
-              <div class="user-details">
-                <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
-                <h4 class="user-name"><%= @game.player_two.username %></h4>
-              </div>
-              <textarea data-code-target="roundThreeEditorTwo"></textarea>
-            </div>
-          </div>
-        </div>
-        <div class="round-details" id="roundFour">
-          <div class="round-title-div" data-action="click->code#expandRoundFour" id="round-four-click">
-            <h3 class="round-title" id="round-four-title">Round 4</h3>
-          </div>
-          <div class="hidden-round-details" id="round-four-hidden-details">
-            <div class="user-codebox-solutions">
-              <div class="user-details">
-                <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
-                <h4 class="user-name"><%= @game.player_one.username %></h4>
-              </div>
-              <textarea data-code-target="roundFourEditorOne"></textarea>
-            </div>
-            <div class="round-challenge-instructions">
-              <div class="user-details">
-                <h4>Instructions</h4>
-              </div>
-              <p data-code-target='roundFourInstructions'>Content</p>
-            </div>
-            <div class="user-codebox-solutions">
-              <div class="user-details">
-                <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
-                <h4 class="user-name"><%= @game.player_two.username %></h4>
-              </div>
-              <textarea data-code-target="roundFourEditorTwo"></textarea>
-            </div>
-          </div>
-        </div>
-        <div class="round-details" id="roundFive">
-          <div class="round-title-div" data-action="click->code#expandRoundFive" id="round-five-click">
-            <h3 class="round-title" id="round-five-title">Round 5</h3>
-          </div>
-          <div class="hidden-round-details" id="round-five-hidden-details">
-            <div class="user-codebox-solutions">
-              <div class="user-details">
-                <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
-                <h4 class="user-name"><%= @game.player_one.username %></h4>
-              </div>
-              <textarea data-code-target="roundFiveEditorOne"></textarea>
-            </div>
-            <div class="round-challenge-instructions">
-              <div class="user-details">
-                <h4>Instructions</h4>
-              </div>
-              <p data-code-target='roundFiveInstructions'>Content</p>
-            </div>
-            <div class="user-codebox-solutions">
-              <div class="user-details">
-                <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
-                <h4 class="user-name"><%= @game.player_two.username %></h4>
-              </div>
-              <textarea data-code-target="roundFiveEditorTwo"></textarea>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
-  </div>
 </div>

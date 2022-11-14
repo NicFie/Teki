@@ -22,16 +22,6 @@
       </div>
     </div>
   </div>
-  <%# <div class="dashboard-buttons"> %>
-    <%# Below is the original button to go to the waiting path in case you need to use it instead of modal %>
-
-    <%# <%= link_to "Battle to earn points",  waiting_path, class: "btn btn-main" %>
-    <%# <button type="button" style="font-size:20px;" class="btn btn-main" data-toggle="modal" data-target="#exampleModalCenter">
-      Play
-    </button> %>
-    <%# <%= link_to "Play Solo", dashboard_path, class: "btn btn-main" %>
-
-  <%# </div> %>
 
   <!-- Modal -->
   <div class="modal fade round-choice-modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -52,35 +42,14 @@
     </div>
   </div>
 
-  <%# with friend modal %>
-  <div class="modal fade round-choice-modal" id="withFriendModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content round-choice-modal-content">
-        <div class="modal-header round-choice-modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Number of rounds</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="">
-            <%= simple_form_for [current_user, @game], input_html: { data-friend-target="friendForm"} do |f| %>
-              <%= f.input :round_count, as: :radio_buttons, collection: [[1, '⚔️'], [3, "⚔️ ⚔️ ⚔️"], [5, "⚔️ ⚔️ ⚔️ ⚔️ ⚔️"]], label_method: :second, value_method: :first %>
-              <%= f.input :with_friend, as: :select, collection: [['Yes',true], ['No',false]], required: true%>
-              <%= f.button :submit, class: "btn btn-primary", value: "submit" %>
-            <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
-
 
   <%# invite modal %>
-  <div class="modal fade round-choice-modal invite-modal" data-friend-target="inviteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal fade round-choice-modal invite-modal" id="inviteModal" data-friend-target="inviteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content round-choice-modal-content">
         <h3 class="invite-content" data-friend-target="inviteContent"></h3>
-        <button>Accept</button>
-        <button>Decline</button>
+        <button data-action="click->friend#acceptInvite">Accept</button>
+        <button data-action="click->friend#rejectInvite">Decline</button>
       </div>
     </div>
   </div>
