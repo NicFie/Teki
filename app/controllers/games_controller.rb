@@ -303,6 +303,18 @@ class GamesController < ApplicationController
     skip_authorization
   end
 
+  def forfeit_round
+    @game = Game.find(params[:id])
+    @game_round = @game.game_rounds.where('winner_id = 1').first
+    if @game.player_one == current_user
+      @game_round.winner_id = @game.player_two.id
+    else
+      @game_round.winner_id = @game.player_one.id
+    end
+    @game_round.save!
+    skip_authorization
+  end
+
 
   private
 
