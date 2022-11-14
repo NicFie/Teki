@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="ninjaform"
 export default class extends Controller {
-  static targets = ["form"]
+  static targets = ["form", "withFriendForm"]
   connect() {
     console.log("ninja-form connected")
   }
@@ -10,4 +10,8 @@ export default class extends Controller {
   submitForm() {
     this.formTarget.submit();
   }
+  // submitFriendForm() {
+  //   this.withFriendFormTarget.submit();
+  // }
+
 }

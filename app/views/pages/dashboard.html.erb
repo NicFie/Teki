@@ -1,4 +1,4 @@
-<div class="dashboard-wrapper" data-controller="dashboard friend"
+<div class="dashboard-wrapper" data-controller="dashboard ninjaform friend"
                                data-friend-current-user-id-value="<%= current_user.id %>">
 
   <div class="page-section dashboard-information">
@@ -22,16 +22,6 @@
       </div>
     </div>
   </div>
-  <%# <div class="dashboard-buttons"> %>
-    <%# Below is the original button to go to the waiting path in case you need to use it instead of modal %>
-
-    <%# <%= link_to "Battle to earn points",  waiting_path, class: "btn btn-main" %>
-    <%# <button type="button" style="font-size:20px;" class="btn btn-main" data-toggle="modal" data-target="#exampleModalCenter">
-      Play
-    </button> %>
-    <%# <%= link_to "Play Solo", dashboard_path, class: "btn btn-main" %>
-
-  <%# </div> %>
 
   <!-- Modal -->
   <div class="modal fade round-choice-modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -48,6 +38,18 @@
               <%= f.input :round_count, as: :radio_buttons, collection: [[1, '⚔️'], [3, "⚔️ ⚔️ ⚔️"], [5, "⚔️ ⚔️ ⚔️ ⚔️ ⚔️"]], label_method: :second, value_method: :first, label: '', class: 'form-check-inline', :input_html => { :"data-action" => "change->ninjaform#submitForm"} %>
             <% end %>
         </div>
+      </div>
+    </div>
+  </div>
+
+
+  <%# invite modal %>
+  <div class="modal fade round-choice-modal invite-modal" id="inviteModal" data-friend-target="inviteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content round-choice-modal-content">
+        <h3 class="invite-content" data-friend-target="inviteContent"></h3>
+        <button data-action="click->friend#acceptInvite">Accept</button>
+        <button data-action="click->friend#rejectInvite">Decline</button>
       </div>
     </div>
   </div>
