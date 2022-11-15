@@ -308,11 +308,22 @@ class GamesController < ApplicationController
     @game_round = @game.game_rounds.where('winner_id = 1').first
     if @game.player_one == current_user
       @game_round.winner_id = @game.player_two.id
+      @winner = "#{User.find(@game.player_two.id).username} wins!"
     else
       @game_round.winner_id = @game.player_one.id
+      @winner = "#{User.find(@game.player_one.id).username} wins!"
     end
     @game_round.save!
     skip_authorization
+    GameChannel.broadcast_to(
+      @game,
+      {
+        command: "update round winner modal",
+        round_winner: @winner,
+        p1_count: @game.game_rounds.where("winner_id =#{@game.player_one.id}").to_a.size,
+        p2_count: @game.game_rounds.where("winner_id =#{@game.player_two.id}").to_a.size
+      }
+    )
   end
 
 
