@@ -60,8 +60,7 @@ data-game-subscription-player-two-ready-value="<%= false %>">
           <div class="code-submit-buttons">
             <button id="playerOneClear" class="btn btn-second" data-action="click->code#clearPlayerSubmission">Clear</button>
             <button id="playerOneTest" class="btn btn-main" data-action="click->code#playerSubmission">Submit</button>
-            <%# <button id="playerOneForfeit" class="btn btn-second" data-action="click->code#playerForfeit">Forfeit</button> %>
-            <%= link_to "Forfeit round", forfeit_round_game_path, class: 'btn btn-second', data: {turbo_method: :post} %>
+            <%= link_to "Forfeit round", forfeit_round_game_path, class: 'btn btn-second', data: {turbo_method: :post}, id: "playerOneForfeit" %>
             <%# <button id="playerOneSubmit" class="btn btn-second">😀😠🎉</button> %>
           </div>
         <% end %>
@@ -77,6 +76,7 @@ data-game-subscription-player-two-ready-value="<%= false %>">
           <div class="code-submit-buttons">
             <button id="playerTwoClear" class="btn btn-second" data-action="click->code#clearPlayerSubmission">Clear</button>
             <button id="playerTwoTest" class="btn btn-main"  data-action="click->code#playerSubmission">Submit</button>
+            <%= link_to "Forfeit round", forfeit_round_game_path, class: 'btn btn-second', data: {turbo_method: :post}, id: "playerTwoForfeit" %>
             <%# <button id="playerTwoSubmit" class="btn btn-second">😀😠🎉</button> %>
           </div>
         <% end %>
