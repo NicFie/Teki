@@ -187,19 +187,6 @@ export default class extends Controller {
     })
   }
 
-  postReadyStatus(player_one_ready, player_two_ready) {
-    fetch(`/games/${this.gameIdValue}/user_ready_next_round`, {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-        "X-CSRF-Token": this.token,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify({ player_one_ready: player_one_ready, player_two_ready: player_two_ready }),
-    })
-  }
-
   nextRound() {
     if(this.userIdValue == this.playerOneIdValue){
       this.playerOneReadyValue = true
@@ -269,10 +256,30 @@ export default class extends Controller {
     console.log("disconnected")
     if (this.userIdValue == this.playerOneIdValue) {
       console.log(`${this.userIdValue} disconnected`)
+      fetch(`/games/${this.gameIdValue}/game_disconnected`, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "X-CSRF-Token": this.token,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({ disconnected_player: this.playerOneIdValue, other_player: this.playerTwoIdValue }),
+      })
     }
 
     else if (this.userIdValue == this.playerTwoIdValue) {
       console.log(`${this.userIdValue} disconnected`)
+      fetch(`/games/${this.gameIdValue}/game_disconnected`, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "X-CSRF-Token": this.token,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({ disconnected_player: this.playerTwoIdValue, other_player: this.playerOneIdValue }),
+      })
     }
     else {
       console.log("Something went wrong")

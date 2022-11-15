@@ -161,7 +161,7 @@ class GamesController < ApplicationController
       skip_authorization
       start_next_round(@game, @winner)
 
-      
+
 
     end
 
@@ -202,7 +202,7 @@ class GamesController < ApplicationController
     )
     skip_authorization
   end
-  
+
   def forfeit_round
     @game = Game.find(params[:id])
     @game_round = @game.game_rounds.where('winner_id = 1').first
@@ -221,6 +221,19 @@ class GamesController < ApplicationController
   def invite_accepted
     user = User.find(params[:player])
     FriendChannel.broadcast_to(user, { ready: params[:ready], game_id: params[:game_id] })
+  end
+
+  def game_disconnected
+    @game = Game.find(params[:id])
+    p "Reached game_disconnected"
+    @game_rounds = @game.game_rounds
+    @game_rounds.each do |game_round|
+      game_round.winner_id = params[:other_player]
+      game_round.save!
+    end
+    @winner = "#{User.find(params[:other_player]).username} wins!"
+    start_next_round(@game, @winner)
+    skip_authorization
   end
 
   private
@@ -344,7 +357,7 @@ class GamesController < ApplicationController
         game,
         {
           command: "update round winner modal",
-          round_winner: @winner,
+          round_winner: winner,
           p1_count: game.game_rounds.where("winner_id =#{game.player_one.id}").to_a.size,
           p2_count: game.game_rounds.where("winner_id =#{game.player_two.id}").to_a.size
         }

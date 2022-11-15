@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       post :user_ready_next_round
       post :forfeit_round
       post :invite_accepted
+      post :game_disconnected
     end
     resources :game_rounds, only: %i[new create] do
       resources :challenges, only: %i[show]
