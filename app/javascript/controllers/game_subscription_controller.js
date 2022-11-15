@@ -264,4 +264,18 @@ export default class extends Controller {
   endGame() {
     this.updatePage()
   }
+
+  disconnect() {
+    console.log("disconnected")
+    if (this.userIdValue == this.playerOneIdValue) {
+      console.log(`${this.userIdValue} disconnected`)
+    }
+
+    else if (this.userIdValue == this.playerTwoIdValue) {
+      console.log(`${this.userIdValue} disconnected`)
+    }
+    else {
+      console.log("Something went wrong")
+    }
+  }
 }
