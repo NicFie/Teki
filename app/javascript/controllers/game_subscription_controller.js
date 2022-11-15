@@ -278,4 +278,5 @@ export default class extends Controller {
       console.log("Something went wrong")
     }
   }
+  // send post request with JSON body.
 }
