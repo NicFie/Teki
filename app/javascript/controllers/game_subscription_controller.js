@@ -58,6 +58,7 @@ export default class extends Controller {
         if(data.command == "start game") { this.startGameUserUpdate(); }
         if(data.command == "next round") { this.nextRoundStatus(data); }}}
     )
+
     console.log(`Subscribe to the chatroom with the id ${this.gameIdValue}.`);
     console.log(`The current user is ${this.userIdValue}`);
     console.log(`Player one's current Id is ${this.playerOneIdValue}`)

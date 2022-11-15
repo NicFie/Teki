@@ -8,12 +8,22 @@ class GamesController < ApplicationController
   def create
     @check_game = Game.where("player_two_id = ? and round_count = ?", 1, params["game"]["round_count"].to_i)
     if params[:game][:player_one_id] && params[:game][:player_two_id]
-      @game = Game.new(game_params)
-      authorize @game
-      @game.player_one_id = params[:game][:player_one_id]
-      @game.player_two_id = params[:game][:player_two_id]
-      @game.save!
-      add_rounds_and_challenges(@game.id)
+      @existing_game = Game.where(player_one_id: params['game']['player_one_id'].to_i, player_two_id: params['game']['player_two_id'].to_i, round_count: params["game"]["round_count"].to_i, game_winner: nil)
+      if @existing_game.exists?
+        user = User.find(params[:game][:player_one_id])
+        friend_user = User.find(params[:game][:player_two_id])
+        FriendChannel.broadcast_to(friend_user, {command: 'invite', notification: "#{user.username}", current_game_id: @existing_game[0].id, current_user: user, player_one_id: params['game']['player_one_id'].to_i, player_two_id: params['game']['player_two_id'].to_i })
+        FriendChannel.broadcast_to(user, { current_game_id: @existing_game[0].id, current_user: user, player_one_id: params['game']['player_one_id'].to_i, player_two_id: params['game']['player_two_id'].to_i})
+        # redirect_to game_path(@existing_game[0].id)
+        authorize @existing_game
+      else
+        @game = Game.new(game_params)
+        authorize @game
+        @game.player_one_id = params[:game][:player_one_id]
+        @game.player_two_id = params[:game][:player_two_id]
+        @game.save!
+        add_rounds_and_challenges(@game.id)
+      end
     elsif @check_game.exists?
       redirect_to game_path(@check_game[0].id)
       authorize @check_game
@@ -42,9 +52,11 @@ class GamesController < ApplicationController
     if @game.player_two_id == 1
       redirect_to game_path(game)
     else
-      user = User.find(params[:game][:player_two_id])
-      FriendChannel.broadcast_to(user, { notification: "Sending a message to #{user.username}" })
-      redirect_to game_path(game)
+      user = User.find(params[:game][:player_one_id])
+      friend_user = User.find(params[:game][:player_two_id])
+      FriendChannel.broadcast_to(friend_user, { command: 'invite', notification: "#{user.username}", current_game_id: game, current_user: user, player_one_id: params['game']['player_one_id'].to_i, player_two_id: params['game']['player_two_id'].to_i})
+      FriendChannel.broadcast_to(user, { notification: "#{user.username}", current_game_id: game, current_user: user, player_one_id: params['game']['player_one_id'].to_i, player_two_id: params['game']['player_two_id'].to_i})
+      # redirect_to game_path(game)
     end
   end
 
@@ -148,6 +160,9 @@ class GamesController < ApplicationController
       @game_round.save!
       skip_authorization
       start_next_round(@game, @winner)
+
+      
+
     end
 
     respond_to do |format|
@@ -185,10 +200,9 @@ class GamesController < ApplicationController
         round_number: @round_number
       }
     )
-
     skip_authorization
   end
-
+  
   def forfeit_round
     @game = Game.find(params[:id])
     @game_round = @game.game_rounds.where('winner_id = 1').first
@@ -204,11 +218,15 @@ class GamesController < ApplicationController
     start_next_round(@game, @winner)
   end
 
+  def invite_accepted
+    user = User.find(params[:player])
+    FriendChannel.broadcast_to(user, { ready: params[:ready], game_id: params[:game_id] })
+  end
 
   private
 
   def game_params
-    params.require(:game).permit(:player_one_id, :player_two_id, :round_count, :submission_code, game_rounds: [:player_one_code, :player_two_code])
+    params.require(:game).permit(:with_friend, :player_one_id, :player_two_id, :round_count, :submission_code, game_rounds: [:player_one_code, :player_two_code])
   end
 
   def setting_scores(game)
@@ -237,6 +255,7 @@ class GamesController < ApplicationController
   end
 
   def broadcast_game_results(game, winner, game_winner)
+    sorted_game_rounds = game.game_rounds.order('id ASC')
     if game.round_count == 1
       GameChannel.broadcast_to(
         game,
@@ -247,8 +266,8 @@ class GamesController < ApplicationController
           p2_count: game.game_rounds.where("winner_id =#{game.player_two.id}").to_a.size,
           game_winner: game_winner ? game.player_one.username : game.player_two.username,
           round_one_instructions: Challenge.find(game.game_rounds[0].challenge_id).description,
-          p1_r1_solution: game.game_rounds[0].player_one_code,
-          p2_r1_solution: game.game_rounds[0].player_two_code
+          p1_r1_solution: sorted_game_rounds[0].player_one_code,
+          p2_r1_solution: sorted_game_rounds[0].player_two_code
         }
       )
     elsif game.round_count == 3
@@ -262,16 +281,16 @@ class GamesController < ApplicationController
           game_winner: game_winner ? game.player_one.username : game.player_two.username,
           round_one_winner: User.find(game.game_rounds[0].winner_id).username,
           round_one_instructions: Challenge.find(game.game_rounds[0].challenge_id).description,
-          p1_r1_solution: game.game_rounds[0].player_one_code,
-          p2_r1_solution: game.game_rounds[0].player_two_code,
+          p1_r1_solution: sorted_game_rounds[0].player_one_code,
+          p2_r1_solution: sorted_game_rounds[0].player_two_code,
           round_two_winner: User.find(game.game_rounds[1].winner_id).username,
           round_two_instructions: Challenge.find(game.game_rounds[1].challenge_id).description,
-          p1_r2_solution: game.game_rounds[1].player_one_code,
-          p2_r2_solution: game.game_rounds[1].player_two_code,
+          p1_r2_solution: sorted_game_rounds[1].player_one_code,
+          p2_r2_solution: sorted_game_rounds[1].player_two_code,
           round_three_winner: User.find(game.game_rounds[2].winner_id).username,
           round_three_instructions: Challenge.find(game.game_rounds[2].challenge_id).description,
-          p1_r3_solution: game.game_rounds[2].player_one_code,
-          p2_r3_solution: game.game_rounds[2].player_two_code
+          p1_r3_solution: sorted_game_rounds[2].player_one_code,
+          p2_r3_solution: sorted_game_rounds[2].player_two_code
         }
       )
     elsif game.round_count == 5
@@ -285,24 +304,24 @@ class GamesController < ApplicationController
           game_winner: game_winner ? game.player_one.username : game.player_two.username,
           round_one_winner: User.find(game.game_rounds[0].winner_id).username,
           round_one_instructions: Challenge.find(game.game_rounds[0].challenge_id).description,
-          p1_r1_solution: game.game_rounds[0].player_one_code,
-          p2_r1_solution: game.game_rounds[0].player_two_code,
+          p1_r1_solution: sorted_game_rounds[0].player_one_code,
+          p2_r1_solution: sorted_game_rounds[0].player_two_code,
           round_two_winner: User.find(game.game_rounds[1].winner_id).username,
           round_two_instructions: Challenge.find(game.game_rounds[1].challenge_id).description,
-          p1_r2_solution: game.game_rounds[1].player_one_code,
-          p2_r2_solution: game.game_rounds[1].player_two_code,
+          p1_r2_solution: sorted_game_rounds[1].player_one_code,
+          p2_r2_solution: sorted_game_rounds[1].player_two_code,
           round_three_winner: User.find(game.game_rounds[2].winner_id).username,
           round_three_instructions: Challenge.find(game.game_rounds[2].challenge_id).description,
-          p1_r3_solution: game.game_rounds[2].player_one_code,
-          p2_r3_solution: game.game_rounds[2].player_two_code,
+          p1_r3_solution: sorted_game_rounds[2].player_one_code,
+          p2_r3_solution: sorted_game_rounds[2].player_two_code,
           round_four_winner: User.find(game.game_rounds[3].winner_id).username,
           round_four_instructions: Challenge.find(game.game_rounds[3].challenge_id).description,
-          p1_r4_solution: game.game_rounds[3].player_one_code,
-          p2_r4_solution: game.game_rounds[3].player_two_code,
+          p1_r4_solution: sorted_game_rounds[3].player_one_code,
+          p2_r4_solution: sorted_game_rounds[3].player_two_code,
           round_five_winner: User.find(game.game_rounds[4].winner_id).username,
           round_five_instructions: Challenge.find(game.game_rounds[4].challenge_id).description,
-          p1_r5_solution: game.game_rounds[4].player_one_code,
-          p2_r5_solution: game.game_rounds[4].player_two_code
+          p1_r5_solution: sorted_game_rounds[4].player_one_code,
+          p2_r5_solution: sorted_game_rounds[4].player_two_code
         }
       )
     end
