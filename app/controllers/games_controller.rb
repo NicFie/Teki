@@ -138,8 +138,6 @@ class GamesController < ApplicationController
       @output = @output.join
     end
     (all_passed.include?(false) || all_passed.empty?) ? "User #{params[:user_id]} failed." : @winner = "#{User.find(params[:user_id]).username} wins!"
-    @p1_count = 0
-    @p2_count = 0
     # starting the next round code
     @is_a_winner = false
     @is_a_winner = true if (!all_passed.include?(false) && !all_passed.empty?)
@@ -149,29 +147,7 @@ class GamesController < ApplicationController
       @game_round.winner_id = params[:user_id]
       @game_round.save!
       skip_authorization
-
-      if @game.game_rounds.where('winner_id = 1').to_a.size == 0
-        @game_winner = @game.game_rounds.where("winner_id =#{@game.player_one.id}").to_a.size > @game.game_rounds.where("winner_id =#{@game.player_two.id}").to_a.size
-        if @game_winner
-          @game.game_winner = @game.player_one.id
-        else
-          @game.game_winner = @game.player_two.id
-        end
-        @game.save!
-        broadcast_game_results(@game, @winner, @game_winner)
-        setting_scores(@game)
-
-      else
-        GameChannel.broadcast_to(
-          @game,
-          {
-            command: "update round winner modal",
-            round_winner: @winner,
-            p1_count: @game.game_rounds.where("winner_id =#{@game.player_one.id}").to_a.size,
-            p2_count: @game.game_rounds.where("winner_id =#{@game.player_two.id}").to_a.size
-          }
-        )
-      end
+      start_next_round(@game, @winner)
     end
 
     respond_to do |format|
@@ -225,28 +201,7 @@ class GamesController < ApplicationController
     end
     @game_round.save!
     skip_authorization
-
-    if @game.game_rounds.where('winner_id = 1').to_a.size == 0
-      @game_winner = @game.game_rounds.where("winner_id =#{@game.player_one.id}").to_a.size > @game.game_rounds.where("winner_id =#{@game.player_two.id}").to_a.size
-      if @game_winner
-        @game.game_winner = @game.player_one.id
-      else
-        @game.game_winner = @game.player_two.id
-      end
-      @game.save!
-      broadcast_game_results(@game, @winner, @game_winner)
-      setting_scores(@game)
-    else
-      GameChannel.broadcast_to(
-        @game,
-        {
-          command: "update round winner modal",
-          round_winner: @winner,
-          p1_count: @game.game_rounds.where("winner_id =#{@game.player_one.id}").to_a.size,
-          p2_count: @game.game_rounds.where("winner_id =#{@game.player_two.id}").to_a.size
-        }
-      )
-    end
+    start_next_round(@game, @winner)
   end
 
 
@@ -348,6 +303,31 @@ class GamesController < ApplicationController
           round_five_instructions: Challenge.find(game.game_rounds[4].challenge_id).description,
           p1_r5_solution: game.game_rounds[4].player_one_code,
           p2_r5_solution: game.game_rounds[4].player_two_code
+        }
+      )
+    end
+  end
+
+  def start_next_round(game, winner)
+    if game.game_rounds.where('winner_id = 1').to_a.size == 0
+      game_winner = game.game_rounds.where("winner_id =#{game.player_one.id}").to_a.size > game.game_rounds.where("winner_id =#{game.player_two.id}").to_a.size
+      if game_winner
+        game.game_winner = game.player_one.id
+      else
+        game.game_winner = game.player_two.id
+      end
+      game.save!
+      broadcast_game_results(game, winner, game_winner)
+      setting_scores(game)
+
+    else
+      GameChannel.broadcast_to(
+        game,
+        {
+          command: "update round winner modal",
+          round_winner: @winner,
+          p1_count: game.game_rounds.where("winner_id =#{game.player_one.id}").to_a.size,
+          p2_count: game.game_rounds.where("winner_id =#{game.player_two.id}").to_a.size
         }
       )
     end
