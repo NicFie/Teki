@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       post :update_display
       post :user_code
       post :user_ready_next_round
+      post :forfeit_round
       post :invite_accepted
     end
     resources :game_rounds, only: %i[new create] do
