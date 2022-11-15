@@ -54,8 +54,8 @@ class GamesController < ApplicationController
     else
       user = User.find(params[:game][:player_one_id])
       friend_user = User.find(params[:game][:player_two_id])
-      FriendChannel.broadcast_to(friend_user, { command: 'invite', notification: "#{user.username}", current_game_id: game, current_user: user, player_one_id: params['game']['player_one_id'].to_i, player_two_id: params['game']['player_two_id'].to_i})
-      FriendChannel.broadcast_to(user, { notification: "#{user.username}", current_game_id: game, current_user: user, player_one_id: params['game']['player_one_id'].to_i, player_two_id: params['game']['player_two_id'].to_i})
+      FriendChannel.broadcast_to(friend_user, { command: 'invite', notification: "#{user.username}", current_game_id: game.id, current_user: user, player_one_id: params['game']['player_one_id'].to_i, player_two_id: params['game']['player_two_id'].to_i})
+      FriendChannel.broadcast_to(user, { notification: "#{user.username}", current_game_id: game.id, current_user: user, player_one_id: params['game']['player_one_id'].to_i, player_two_id: params['game']['player_two_id'].to_i})
       # redirect_to game_path(game)
     end
   end
