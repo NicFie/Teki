@@ -70,7 +70,7 @@ export default class extends Controller {
       this.preGameModalTarget.style.display = "flex";
       document.querySelectorAll('#typed').forEach(function(el) {
         new Typed(el, {
-        stringsElement: el.previousElementSibling,
+        strings: ['Looking for opponent...'],
         loop: true,
         typeSpeed: 50,
         showCursor: false,
@@ -172,19 +172,6 @@ export default class extends Controller {
       this.roundWinnerCountp2Target.innerText = `${data.p2_count}`;
       this.roundWinnerModalTarget.style.display = "block";
     }
-  }
-
-  postReadyStatus(player_one_ready, player_two_ready) {
-    fetch(`/games/${this.gameIdValue}/user_ready_next_round`, {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-        "X-CSRF-Token": this.token,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify({ player_one_ready: player_one_ready, player_two_ready: player_two_ready }),
-    })
   }
 
   postReadyStatus(player_one_ready, player_two_ready) {

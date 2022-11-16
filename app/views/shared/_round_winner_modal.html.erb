@@ -1,0 +1,29 @@
+<div data-game-subscription-target="roundWinnerModal" id="roundWinnerModal" class="modal fade show round-winner-modal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div data-game-subscription-target="roundWinnerModalContent" class="modal-content round-winner-modal-content">
+      <div class="modal-header round-winner-modal-header">
+        <div data-game-subscription-target="roundWinner"></div>
+      </div>
+      <div class="modal-body round-winner-modal-body">
+        <div class="tally-container">
+          <div class="page-section" id="player_one_box">
+            <h6><%= @game.player_one.username %></h6>
+            <p data-game-subscription-target="roundWinnerCountp1"></p>
+          </div>
+          <span>V</span>
+          <div class="page-section" id="player_two_box">
+            <h6 data-game-subscription-target="playerTwoUsername"><%= @game.player_two.username %></h6>
+            <p data-game-subscription-target="roundWinnerCountp2"></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-tickboxes">
+        <h1 id="left-tick" data-game-subscription-target="playerOneReady"></h1>
+        <h1 id="right-tick" data-game-subscription-target="playerTwoReady"></h1>
+      </div>
+      <div class="modal-footer round-winner-modal-footer">
+        <button data-action="click->game-subscription#nextRound" class="btn btn-second">Next Round <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
