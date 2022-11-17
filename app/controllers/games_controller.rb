@@ -12,9 +12,8 @@ class GamesController < ApplicationController
       if @existing_game.exists?
         user = User.find(params[:game][:player_one_id])
         friend_user = User.find(params[:game][:player_two_id])
-        FriendChannel.broadcast_to(friend_user, {command: 'invite', notification: "#{user.username}", current_game_id: @existing_game[0].id, current_user: user, player_one_id: params['game']['player_one_id'].to_i, player_two_id: params['game']['player_two_id'].to_i })
-        FriendChannel.broadcast_to(user, { current_game_id: @existing_game[0].id, current_user: user, player_one_id: params['game']['player_one_id'].to_i, player_two_id: params['game']['player_two_id'].to_i})
-        # redirect_to game_path(@existing_game[0].id)
+        FriendChannel.broadcast_to(user, { command: 'inviter info', current_game_id: @existing_game[0].id, player_one: user, player_two: friend_user })
+        FriendChannel.broadcast_to(friend_user, { command: 'invited player info', current_game_id: @existing_game[0].id, player_one: user, player_two: friend_user })
         authorize @existing_game
       else
         @game = Game.new(game_params)
@@ -54,8 +53,8 @@ class GamesController < ApplicationController
     else
       user = User.find(params[:game][:player_one_id])
       friend_user = User.find(params[:game][:player_two_id])
-      FriendChannel.broadcast_to(friend_user, { command: 'invite', notification: "#{user.username}", current_game_id: game.id, current_user: user, player_one_id: params['game']['player_one_id'].to_i, player_two_id: params['game']['player_two_id'].to_i})
-      FriendChannel.broadcast_to(user, { notification: "#{user.username}", current_game_id: game.id, current_user: user, player_one_id: params['game']['player_one_id'].to_i, player_two_id: params['game']['player_two_id'].to_i})
+      FriendChannel.broadcast_to(user, { command: 'inviter info', current_game_id: game.id, player_one: user, player_two: friend_user })
+      FriendChannel.broadcast_to(friend_user, { command: 'invited player info', current_game_id: game.id, player_one: user, player_two: friend_user })
       # redirect_to game_path(game)
     end
   end
@@ -160,9 +159,6 @@ class GamesController < ApplicationController
       @game_round.save!
       skip_authorization
       start_next_round(@game, @winner)
-
-
-
     end
 
     respond_to do |format|
@@ -200,6 +196,27 @@ class GamesController < ApplicationController
         round_number: @round_number
       }
     )
+    # reusing this function for game with friend
+    player_one = User.find(params[:player_one])
+    player_two = User.find(params[:player_two])
+    FriendChannel.broadcast_to(
+      player_one,
+      {
+        command: "start game",
+        player_one_ready: params[:player_one_ready],
+        player_two_ready: params[:player_two_ready],
+        round_number: @round_number
+      }
+    )
+    FriendChannel.broadcast_to(
+      player_two,
+      {
+        command: "start game",
+        player_one_ready: params[:player_one_ready],
+        player_two_ready: params[:player_two_ready],
+        round_number: @round_number
+      }
+    )
     skip_authorization
   end
 
@@ -219,8 +236,9 @@ class GamesController < ApplicationController
   end
 
   def invite_accepted
-    user = User.find(params[:player])
-    FriendChannel.broadcast_to(user, { ready: params[:ready], game_id: params[:game_id] })
+    user = User.find(params[:player_one_id])
+    FriendChannel.broadcast_to(user, { command: 'player two accepts', ready: params[:ready], game_id: params[:game_id] })
+    skip_authorization
   end
 
   def game_disconnected

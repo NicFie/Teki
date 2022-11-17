@@ -1,0 +1,32 @@
+<div data-game-subscription-target="preGameModal" data-ninjaform-target="preGameModal" data-friend-target="preGameModal" id="preGameModal" class="modal fade show round-winner-modal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div data-game-subscription-target="preGameLoadingContent" data-friend-target="preGameLoadingContent" data-ninjaform-target="preGameLoadingContent" class="modal-content round-winner-modal-content" id="preGameLoading">
+      <div class="loading-animation">
+        <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      </div>
+      <div id="typed-strings">
+      <h1 id="lookingForOpponent"></h1>
+      </div>
+      <h1 class="typed-loading" id="typed"></h1>
+      <button class="end-search btn btn-main">End Search</button>
+    </div>
+    <div data-game-subscription-target="playerFoundMessage" data-friend-target="playerFoundMessage" data-ninjaform-target="playerFoundMessage" id ="playerFoundMessage" class="modal-content round-winner-modal-content">
+      <h1>Player Found!</h1>
+    </div>
+    <% if @game.player_one %>
+    <div data-game-subscription-target="matchDetailsAndCountdown" data-friend-target="matchDetailsAndCountdown" data-ninjaform-target="matchDetailsAndCountdown" id="matchDetailsAndCountdown" class="modal-content round-winner-modal-content">
+      <div class="tally-container">
+        <div class="page-section">
+          <h6><%= @game.player_one.username %></h6>
+          <%= image_tag(@game.player_one.avatar, class: "user-avatar") %>
+        </div>
+        <span>V</span>
+        <div data-game-subscription-target="playerTwoUsername" class="page-section">
+          <h6><%= @game.player_two.username %></h6>
+          <%= image_tag(@game.player_two.avatar, class: "user-avatar", data: {'game-subscription-target' => 'playerTwoAvatar'}) %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>

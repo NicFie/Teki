@@ -1,9 +1,12 @@
 <div class="dashboard-wrapper" data-controller="dashboard ninjaform friend"
-                               data-friend-current-user-id-value="<%= current_user.id %>">
+                               data-friend-current-user-id-value="<%= current_user.id %>"
+                               data-friend-player-one-ready-value="<%= false %>"
+                               data-friend-player-two-ready-value="<%= false %>"
+                               data-ninjaform-with-friend-value="<%= @with_friend %>">
 
   <div class="page-section dashboard-information">
     <div class="play-box">
-      <button type="button" style="font-size:20px;" class="btn btn-main" data-toggle="modal" data-target="#exampleModalCenter">
+      <button type="button" style="font-size:20px;" class="btn btn-main" data-toggle="modal" data-target="#roundChoice">
         Play
       </button>
     </div>
@@ -18,38 +21,7 @@
       </div>
       <div class="dashboard-data">
         <h6>Total games</h6>
-        <span><%= current_user.games_as_player_one.count + current_user.games_as_player_two.count %></span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal -->
-  <div class="modal fade round-choice-modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content round-choice-modal-content">
-        <div class="modal-header round-choice-modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Number of rounds</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body round-choice round-choice-modal-body" data-controller="ninjaform">
-            <%= simple_form_for [current_user, @game], :html => {:"data-ninjaform-target" => "form", :"data-friend-target" => "form"} do |f| %>
-              <%= f.input :round_count, as: :radio_buttons, collection: [[1, '⚔️'], [3, "⚔️ ⚔️ ⚔️"], [5, "⚔️ ⚔️ ⚔️ ⚔️ ⚔️"]], label_method: :second, value_method: :first, label: '', class: 'form-check-inline', :input_html => { :"data-action" => "change->ninjaform#submitForm"} %>
-            <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <%# invite modal %>
-  <div class="modal fade round-choice-modal invite-modal" id="inviteModal" data-friend-target="inviteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content round-choice-modal-content">
-        <h3 class="invite-content" data-friend-target="inviteContent"></h3>
-        <button data-action="click->friend#acceptInvite">Accept</button>
-        <button data-action="click->friend#rejectInvite">Decline</button>
+        <span><%= current_user.games_as_player_one.where.not(game_winner: nil).count + current_user.games_as_player_two.where.not(game_winner: nil).count %></span>
       </div>
     </div>
   </div>
@@ -89,8 +61,8 @@
               <div><%= f.username %></div>
               <%= image_tag f.avatar, height: '40' %>
               <button class="btn btn-main btn-sm" <%= "disabled" unless f.online? %>
-              data-action="click->friend#checking" data-value="<%= f.id %>"
-              data-toggle="modal" data-target="#exampleModalCenter">Battle</button>
+              data-action="click->friend#checking click->ninjaform#withFriend" data-value="<%= f.id %>"
+              data-toggle="modal" data-target="#roundChoice">Battle</button>
             </div>
           <% end  %>
         </div>
@@ -113,4 +85,11 @@
       </div>
     </div>
   </div>
+
+    <!-- Modals -->
+  <%= render "shared/round_choice_modal" %>
+  <%= render "shared/invite_modal" %>
+  <%= render "shared/pre_game_modal" %>
+  <%= render "shared/pre_game_ready_modal" %>
+
 </div>

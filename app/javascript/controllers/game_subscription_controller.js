@@ -70,7 +70,7 @@ export default class extends Controller {
       this.preGameModalTarget.style.display = "flex";
       document.querySelectorAll('#typed').forEach(function(el) {
         new Typed(el, {
-        stringsElement: el.previousElementSibling,
+        strings: ['Looking for opponent...'],
         loop: true,
         typeSpeed: 50,
         showCursor: false,
@@ -222,7 +222,7 @@ export default class extends Controller {
         this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${data.round_number}</h1><br><h1 class="number-animation">1</h1>`
       }, 3000);
       setTimeout(() => { // countdown
-        this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${data.round_number}</h1><br><h1 class="number-animation">Go!</h1>`
+        this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${data.round_number}</h1><br><h1 class="go-animation">Go!</h1>`
       }, 4000);
       setTimeout(() => { //remove
         this.playerFoundMessageTarget.style.display = "none"
