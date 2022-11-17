@@ -17,7 +17,6 @@ export default class extends Controller {
   ]
 
   connect() {
-    console.log(this.withFriendValue);
   }
 
   withFriend() {

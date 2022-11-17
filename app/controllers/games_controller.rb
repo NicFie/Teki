@@ -236,7 +236,6 @@ class GamesController < ApplicationController
   end
 
   def invite_accepted
-    p "HERE ARE PARAMS #{params}"
     user = User.find(params[:player_one_id])
     FriendChannel.broadcast_to(user, { command: 'player two accepts', ready: params[:ready], game_id: params[:game_id] })
     skip_authorization

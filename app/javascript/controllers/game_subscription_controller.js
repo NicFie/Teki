@@ -222,7 +222,7 @@ export default class extends Controller {
         this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${data.round_number}</h1><br><h1 class="number-animation">1</h1>`
       }, 3000);
       setTimeout(() => { // countdown
-        this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${data.round_number}</h1><br><h1 class="number-animation">Go!</h1>`
+        this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${data.round_number}</h1><br><h1 class="go-animation">Go!</h1>`
       }, 4000);
       setTimeout(() => { //remove
         this.playerFoundMessageTarget.style.display = "none"

@@ -69,6 +69,7 @@ export default class extends Controller {
 
   inviteModal(data) {
     $('#inviteModal').modal('show');
+    $('.modal-backdrop').remove();
     this.inviteContentTarget.innerText = `${data.player_one.username} invited you to a game!`
     this.playerOneId = data.player_one.id
     this.playerTwoId = data.player_two.id
@@ -90,15 +91,29 @@ export default class extends Controller {
       },
       body: JSON.stringify({ ready: this.accepted, player_one_id: data.player_one.id, player_two_id: data.player_two.id, game_id: data.current_game_id }),
     })
+    $('#inviteModal').modal('hide');
     this.preGameReadyModalTarget.style.display = "flex"
+    this.playerOneUsernameTarget.innerText = `${data.player_one.username}`
+    this.playerOneAvatarTarget.innerHTML = `<img src="/assets/${data.player_one.avatar}">`
+    this.playerTwoUsernameTarget.innerText = `${data.player_two.username}`
+    this.playerTwoAvatarTarget.innerHTML = `<img src="/assets/${data.player_two.avatar}">`
   }
 
   redirectInviter(data) {
+    this.preGameModalTarget.style.display = "none"
     this.preGameReadyModalTarget.style.display = "flex"
+    $('.modal-backdrop').remove();
   }
 
   rejectInvite() {
-    // destroy game and redirect player one
+    // destroy game and inform p1
+    // show modal for player one saying "x doesn't want to play now :("
+  }
+
+  endSearch() {
+    // destroy game
+    // show modal saying 'player one got tired of waiting :(' or
+    // something for player 2 or just close it/redirect to dashboard?
   }
 
   dynamicWaitingContent(data) {
@@ -113,6 +128,10 @@ export default class extends Controller {
     this.playerOneId = data.player_one.id
     this.playerTwoId = data.player_two.id
     this.gameId = data.current_game_id
+    this.playerOneUsernameTarget.innerText = `${data.player_one.username}`
+    this.playerOneAvatarTarget.innerHTML = `<img src="/assets/${data.player_one.avatar}">`
+    this.playerTwoUsernameTarget.innerText = `${data.player_two.username}`
+    this.playerTwoAvatarTarget.innerHTML = `<img src="/assets/${data.player_two.avatar}">`
   }
 
   postReadyStatus(player_one_ready, player_two_ready) {
@@ -164,11 +183,9 @@ export default class extends Controller {
         this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${data.round_number}</h1><br><h1 class="number-animation">1</h1>`
       }, 3000);
       setTimeout(() => { // countdown
-        this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${data.round_number}</h1><br><h1 class="number-animation">Go!</h1>`
+        this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${data.round_number}</h1><br><h1 class="go-animation">Go!</h1>`
       }, 4000);
-      setTimeout(() => { //remove
-        this.playerFoundMessageTarget.style.display = "none"
-        this.preGameModalTarget.style.display = "none";
+      setTimeout(() => { //redirect
         window.location.pathname = `/games/${this.gameId}`
       }, 5000);
     }

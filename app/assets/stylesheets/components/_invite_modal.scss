@@ -2,5 +2,25 @@
   display: none;
 }
 .invite-content {
-
+  width: 500px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.invite-title {
+  margin: auto 100px;
+}
+.button-group {
+  display: flex;
+  justify-content: space-around;
+  :nth-child(1) {
+    border-radius: 0 0 0 2px;
+  }
+  :nth-child(2) {
+    border-radius: 0 0 2px 0;
+  }
+  button {
+    width: 50%;
+  }
 }

@@ -6,12 +6,12 @@
       </div>
       <div class="modal-body round-winner-modal-body">
         <div class="tally-container">
-          <div class="page-section" id="playerOneBox">
+          <div class="page-section player-box" id="playerOneBox">
             <h6><%= @game.player_one.username %></h6>
             <p data-game-subscription-target="gameWinnerCountp1"></p>
           </div>
           <span>V</span>
-          <div class="page-section" id="playerTwoBox">
+          <div class="page-section player-box" id="playerTwoBox">
             <h6 data-game-subscription-target="playerTwoUsername"><%= @game.player_two.username %></h6>
             <p data-game-subscription-target="gameWinnerCountp2"></p>
           </div>

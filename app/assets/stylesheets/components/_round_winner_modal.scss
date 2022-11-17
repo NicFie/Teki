@@ -27,10 +27,13 @@
   justify-content: space-between;
   align-items: center;
 
-  div {
+  .player-box {
     width: 120px;
     height: 120px;
 
+    img {
+      height: 50px;
+    }
     p {
       font-size: 50px;
     }
@@ -57,4 +60,8 @@
   position: absolute;
   right: 114px;
   bottom: 84px;
+}
+
+#start-game-ready {
+  justify-content: center;
 }
