@@ -4,10 +4,23 @@
   margin-top: 30px;
   // animation-fill-mode: forwards;
 }
+.go-animation{
+  animation-name: go-animation;
+  animation-duration: 2s;
+  margin-top: 30px;
+  // animation-fill-mode: forwards;
+}
 
 @keyframes number {
   0% {font-size: 20px; color: $white;}
   50% {color: $white;}
+  100% {font-size: 100px; color: $black;}
+}
+
+@keyframes go-animation {
+  0% {font-size: 20px; color: $white;}
+  25% {color: $white;}
+  50% {font-size: 100px; color: $black;}
   100% {font-size: 100px; color: $black;}
 }
 

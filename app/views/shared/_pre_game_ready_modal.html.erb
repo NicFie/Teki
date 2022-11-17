@@ -1,0 +1,26 @@
+<div data-friend-target="preGameReadyModal" id="preGameReadyModal" class="modal fade show round-winner-modal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div data-friend-target="preGameReadyModalContent" class="modal-content round-winner-modal-content">
+      <div class="modal-body round-winner-modal-body">
+        <div class="tally-container">
+          <div class="page-section player-box" id="player_one_box">
+            <h5 data-friend-target="playerOneUsername"></h5>
+            <div data-friend-target="playerOneAvatar"></div>
+          </div>
+          <span>V</span>
+          <div class="page-section player-box" id="player_two_box">
+            <h5 data-friend-target="playerTwoUsername"></h5>
+            <div data-friend-target="playerTwoAvatar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-tickboxes">
+        <h1 id="left-tick" data-friend-target="playerOneReady"></h1>
+        <h1 id="right-tick" data-friend-target="playerTwoReady"></h1>
+      </div>
+      <div class="modal-footer round-winner-modal-footer" id="start-game-ready">
+        <button data-action="click->friend#startGame" class="btn btn-second">Ready</button>
+      </div>
+    </div>
+  </div>
+</div>

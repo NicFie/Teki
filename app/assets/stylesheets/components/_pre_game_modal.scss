@@ -91,7 +91,7 @@
 
 .typed-loading{
   position: absolute;
-  bottom: 30px;
+  bottom: 80px;
 }
 
 
@@ -174,14 +174,16 @@
 
 #preGameLoading{
   display: flex;
-  height: 250px;
+  height: 300px;
   width: 500px;
   align-items: center;
+  justify-content: end;
+  padding: 20px 0px;
 }
 
 #playerFoundMessage, #matchDetailsAndCountdown{
   display: none;
-  height: 250px;
+  height: 300px;
   width: 500px;
   align-items: center;
   justify-content: center;

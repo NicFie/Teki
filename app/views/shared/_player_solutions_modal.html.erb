@@ -1,0 +1,143 @@
+
+  <div data-code-target="playerSolutionsModal" id="playerSolutionsModal" class="modal fade show round-winner-modal">
+    <a class="back-button" data-action="click->code#closeSolutionModal" ><i class="fa-solid fa-arrow-left"></i> Back</a>
+    <div class="modal-dialog modal-dialog-centered" role="document" id="player-solutions-second-level">
+      <div class="modal-content round-winner-modal-content" id="player-solutions-third-level-content">
+        <div class="round-details" id="roundOne">
+          <div data-action="click->code#expandRoundOne" class="round-title-div" id="round-one-click">
+            <h3 class="round-title" id="round-one-title">Round 1</h3>
+          </div>
+          <div class="hidden-round-details" id="round-one-hidden-details">
+            <div class="user-codebox-solutions">
+              <div class="user-details">
+                <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
+                <h4 class="user-name"><%= @game.player_one.username %></h4>
+              </div>
+              <textarea data-code-target="roundOneEditorOne"></textarea>
+            </div>
+            <div class="round-challenge-instructions">
+              <div class="user-details">
+                <h4>Instructions</h4>
+              </div>
+              <p class="round-instructions" data-code-target='roundOneInstructions'>Content</p>
+            </div>
+            <div class="user-codebox-solutions">
+              <div class="user-details">
+                <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
+                <h4 class="user-name"><%= @game.player_two.username %></h4>
+              </div>
+              <textarea data-code-target="roundOneEditorTwo"></textarea>
+            </div>
+          </div>
+        </div>
+      <div class="round-details" id="roundTwo">
+          <div class="round-title-div" data-action="click->code#expandRoundTwo" id="round-two-click">
+            <h3 class="round-title" id="round-two-title" >Round 2</h3>
+          </div>
+          <div class="hidden-round-details" id="round-two-hidden-details">
+            <div class="user-codebox-solutions">
+              <div class="user-details">
+                <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
+                <h4 class="user-name"><%= @game.player_one.username %></h4>
+              </div>
+              <textarea data-code-target="roundTwoEditorOne"></textarea>
+            </div>
+            <div class="round-challenge-instructions">
+              <div class="user-details">
+                <h4>Instructions</h4>
+              </div>
+              <p data-code-target='roundTwoInstructions'>Content</p>
+            </div>
+            <div class="user-codebox-solutions">
+              <div class="user-details">
+                <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
+                <h4 class="user-name"><%= @game.player_two.username %></h4>
+              </div>
+              <textarea data-code-target="roundTwoEditorTwo"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="round-details" id="roundThree">
+          <div class="round-title-div" data-action="click->code#expandRoundThree" id="round-three-click">
+            <h3 class="round-title" id="round-three-title">Round 3</h3>
+          </div>
+          <div class="hidden-round-details" id="round-three-hidden-details">
+            <div class="user-codebox-solutions">
+              <div class="user-details">
+                <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
+                <h4 class="user-name"><%= @game.player_one.username %></h4>
+              </div>
+              <textarea data-code-target="roundThreeEditorOne"></textarea>
+            </div>
+            <div class="round-challenge-instructions">
+              <div class="user-details">
+                <h4>Instructions</h4>
+              </div>
+              <p data-code-target='roundThreeInstructions'>Content</p>
+            </div>
+            <div class="user-codebox-solutions">
+              <div class="user-details">
+                <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
+                <h4 class="user-name"><%= @game.player_two.username %></h4>
+              </div>
+              <textarea data-code-target="roundThreeEditorTwo"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="round-details" id="roundFour">
+          <div class="round-title-div" data-action="click->code#expandRoundFour" id="round-four-click">
+            <h3 class="round-title" id="round-four-title">Round 4</h3>
+          </div>
+          <div class="hidden-round-details" id="round-four-hidden-details">
+            <div class="user-codebox-solutions">
+              <div class="user-details">
+                <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
+                <h4 class="user-name"><%= @game.player_one.username %></h4>
+              </div>
+              <textarea data-code-target="roundFourEditorOne"></textarea>
+            </div>
+            <div class="round-challenge-instructions">
+              <div class="user-details">
+                <h4>Instructions</h4>
+              </div>
+              <p data-code-target='roundFourInstructions'>Content</p>
+            </div>
+            <div class="user-codebox-solutions">
+              <div class="user-details">
+                <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
+                <h4 class="user-name"><%= @game.player_two.username %></h4>
+              </div>
+              <textarea data-code-target="roundFourEditorTwo"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="round-details" id="roundFive">
+          <div class="round-title-div" data-action="click->code#expandRoundFive" id="round-five-click">
+            <h3 class="round-title" id="round-five-title">Round 5</h3>
+          </div>
+          <div class="hidden-round-details" id="round-five-hidden-details">
+            <div class="user-codebox-solutions">
+              <div class="user-details">
+                <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
+                <h4 class="user-name"><%= @game.player_one.username %></h4>
+              </div>
+              <textarea data-code-target="roundFiveEditorOne"></textarea>
+            </div>
+            <div class="round-challenge-instructions">
+              <div class="user-details">
+                <h4>Instructions</h4>
+              </div>
+              <p data-code-target='roundFiveInstructions'>Content</p>
+            </div>
+            <div class="user-codebox-solutions">
+              <div class="user-details">
+                <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
+                <h4 class="user-name"><%= @game.player_two.username %></h4>
+              </div>
+              <textarea data-code-target="roundFiveEditorTwo"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

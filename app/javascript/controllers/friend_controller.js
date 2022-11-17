@@ -1,34 +1,57 @@
 import { Controller } from "@hotwired/stimulus"
 import { createConsumer } from "@rails/actioncable"
+import Typed from "typed.js"
 
 // Connects to data-controller="friend"
 export default class extends Controller {
-  static values = { currentUserId: Number,
-  gameRoundNumber: Number}
-  static targets = ["inviteContent",
+  static values = {
+  currentUserId: Number,
+  gameRoundNumber: Number,
+  playerOneReady: Boolean,
+  playerTwoReady: Boolean
+  }
+
+  static targets = [
+  "inviteContent",
   "inviteModal",
   "form",
   "preGameModal",
   "preGameLoadingContent",
   "playerFoundMessage",
-  "matchDetailsAndCountdown"]
+  "matchDetailsAndCountdown",
+  "preGameReadyModal",
+  "playerOneUsername",
+  "playerOneAvatar",
+  "playerTwoUsername",
+  "playerTwoAvatar",
+  "playerOneReady",
+  "playerTwoReady"
+  ]
 
 
   connect() {
     this.channel = createConsumer().subscriptions.create(
       { channel: "FriendChannel", id: this.currentUserIdValue },
       { received: data => {
-        console.log(data)
-        if(data.command == "invite") { this.inviteModal(data) };
+        if(data.command == "invited player info") {
+          this.inviteModal(data)
+        };
+        if(data.command == 'inviter info') {
+          this.dynamicWaitingContent(data)
+        };
         setInterval(() => {
-          if(this.accepted == true) { this.triggeredByAccept(data) };
+          if(this.accepted == true) {
+            this.triggeredByAccept(data)
+          };
           this.accepted = false;
         }, 500);
-        if(data.ready) {
+        if(data.command == 'player two accepts') {
           this.redirectInviter(data)
-          console.log('data for inviter received')
         };
-      } }
+        if(data.command == 'start game') {
+          this.startGameStatus(data)
+        }
+      }}
     )
   }
 
@@ -46,7 +69,11 @@ export default class extends Controller {
 
   inviteModal(data) {
     $('#inviteModal').modal('show');
-    this.inviteContentTarget.innerText = `${data.notification} invited you to a game!`
+    $('.modal-backdrop').remove();
+    this.inviteContentTarget.innerText = `${data.player_one.username} invited you to a game!`
+    this.playerOneId = data.player_one.id
+    this.playerTwoId = data.player_two.id
+    this.gameId = data.current_game_id
   }
 
   acceptInvite() {
@@ -62,42 +89,106 @@ export default class extends Controller {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify({ ready: this.accepted, player: data.player_one_id, game_id: data.current_game_id }),
+      body: JSON.stringify({ ready: this.accepted, player_one_id: data.player_one.id, player_two_id: data.player_two.id, game_id: data.current_game_id }),
     })
-    window.location.pathname = `/games/${data.current_game_id}`
-    // trigger game starting modal
+    $('#inviteModal').modal('hide');
+    this.preGameReadyModalTarget.style.display = "flex"
+    this.playerOneUsernameTarget.innerText = `${data.player_one.username}`
+    this.playerOneAvatarTarget.innerHTML = `<img src="/assets/${data.player_one.avatar}">`
+    this.playerTwoUsernameTarget.innerText = `${data.player_two.username}`
+    this.playerTwoAvatarTarget.innerHTML = `<img src="/assets/${data.player_two.avatar}">`
   }
 
   redirectInviter(data) {
-    window.location.pathname = `/games/${data.game_id}`
-    // trigger game starting modal
-  }
-
-  startGameUserUpdate() {
-    this.preGameModalTarget.style.display = "flex"
-    this.preGameLoadingContentTarget.style.display = "none"
-    this.playerFoundMessageTarget.style.display = "flex"
-    setTimeout(() => { // countdown
-      this.matchDetailsAndCountdownTarget.style.display = "none";
-      this.playerFoundMessageTarget.style.display = "flex"
-      this.playerFoundMessageTarget.innerHTML = `<h1 class="countdown-title">Round ${this.gameRoundNumberValue + 1}</h1><br><h1 class="number-animation">3</h1>`
-    }, 3000);
-    setTimeout(() => { // countdown
-      this.playerFoundMessageTarget.innerHTML = `<h1 class="countdown-title">Round ${this.gameRoundNumberValue + 1}</h1><br><h1 class="number-animation">2</h1>`
-    }, 4000);
-    setTimeout(() => { // countdown
-      this.playerFoundMessageTarget.innerHTML = `<h1 class="countdown-title">Round ${this.gameRoundNumberValue + 1}</h1><br><h1 class="number-animation">1</h1>`
-    }, 5000);
-    setTimeout(() => { // countdown
-      this.playerFoundMessageTarget.innerHTML = `<h1 class="countdown-title">Round ${this.gameRoundNumberValue + 1}</h1><br><h1 class="number-animation">Go!</h1>`
-    }, 6000);
-    setTimeout(() => { //remove
-      this.playerFoundMessageTarget.style.display = "none"
-      this.preGameModalTarget.style.display = "none";
-    }, 7000);
+    this.preGameModalTarget.style.display = "none"
+    this.preGameReadyModalTarget.style.display = "flex"
+    $('.modal-backdrop').remove();
   }
 
   rejectInvite() {
-    // destroy game and redirect player one
+    // destroy game and inform p1
+    // show modal for player one saying "x doesn't want to play now :("
   }
+
+  endSearch() {
+    // destroy game
+    // show modal saying 'player one got tired of waiting :(' or
+    // something for player 2 or just close it/redirect to dashboard?
+  }
+
+  dynamicWaitingContent(data) {
+    document.querySelectorAll('#typed').forEach(function(el) {
+      new Typed(el, {
+        strings: [`Waiting for ${data.player_two.username}...`],
+        loop: true,
+        typeSpeed: 50,
+        showCursor: false,
+      })
+    })
+    this.playerOneId = data.player_one.id
+    this.playerTwoId = data.player_two.id
+    this.gameId = data.current_game_id
+    this.playerOneUsernameTarget.innerText = `${data.player_one.username}`
+    this.playerOneAvatarTarget.innerHTML = `<img src="/assets/${data.player_one.avatar}">`
+    this.playerTwoUsernameTarget.innerText = `${data.player_two.username}`
+    this.playerTwoAvatarTarget.innerHTML = `<img src="/assets/${data.player_two.avatar}">`
+  }
+
+  postReadyStatus(player_one_ready, player_two_ready) {
+    fetch(`/games/${this.gameId}/user_ready_next_round`, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-CSRF-Token": this.token,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({ player_one_ready: player_one_ready, player_two_ready: player_two_ready, player_one: this.playerOneId, player_two: this.playerTwoId}),
+    })
+  }
+
+  startGame() {
+    if(this.currentUserIdValue == this.playerOneId){
+      this.playerOneReadyValue = true
+      this.postReadyStatus(this.playerOneReadyValue, this.playerTwoReadyValue)
+    };
+    if(this.currentUserIdValue == this.playerTwoId){
+      this.playerTwoReadyValue = true
+      this.postReadyStatus(this.playerOneReadyValue, this.playerTwoReadyValue)
+    };
+  }
+
+
+  startGameStatus(data){
+    if(data.player_one_ready == true){
+      this.playerOneReadyTarget.innerText = '✅'
+      this.playerOneReadyValue = true;
+    }
+    if(data.player_two_ready == true){
+      this.playerTwoReadyTarget.innerText = '✅'
+      this.playerTwoReadyValue = true;
+    }
+    if(data.player_one_ready == true && data.player_two_ready == true){
+      setTimeout(() => { // countdown
+        this.preGameReadyModalTarget.style.display = "none";
+        this.preGameLoadingContentTarget.style.display = "none";
+        this.preGameModalTarget.style.display = "flex";
+        this.playerFoundMessageTarget.style.display = "flex";
+        this.playerFoundMessageTarget.innerHTML = `<h1 class="countdown-title">Round ${data.round_number}</h1><br><h1 class="number-animation">3</h1>`
+      }, 1000);
+      setTimeout(() => { // countdown
+        this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${data.round_number}</h1><br><h1 class="number-animation">2</h1>`
+      }, 2000);
+      setTimeout(() => { // countdown
+        this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${data.round_number}</h1><br><h1 class="number-animation">1</h1>`
+      }, 3000);
+      setTimeout(() => { // countdown
+        this.playerFoundMessageTarget.innerHTML = `<h1 class ="countdown-title">Round ${data.round_number}</h1><br><h1 class="go-animation">Go!</h1>`
+      }, 4000);
+      setTimeout(() => { //redirect
+        window.location.pathname = `/games/${this.gameId}`
+      }, 5000);
+    }
+  }
+
 }
