@@ -6,7 +6,7 @@ class PagesController < ApplicationController
 
   def dashboard
     @users_ordered_by_score = User.where('id != 1').order('score DESC').all
-    @friends = current_user.friends
+    @friends = current_user.friends.order('updated_at DESC')
     users_games = Game.where(
                         player_one_id: current_user.id).where.not(game_winner: nil)
                       .or(Game.where(

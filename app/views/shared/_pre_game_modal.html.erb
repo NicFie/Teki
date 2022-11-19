@@ -5,13 +5,15 @@
         <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
       </div>
       <div id="typed-strings">
-      <h1 id="lookingForOpponent"></h1>
+        <h1 id="lookingForOpponent"></h1>
       </div>
       <h1 class="typed-loading" id="typed"></h1>
-      <button class="end-search btn btn-main">End Search</button>
+      <button class="end-search btn btn-main" data-action="click->friend#endSearch">End Search</button>
     </div>
     <div data-game-subscription-target="playerFoundMessage" data-friend-target="playerFoundMessage" data-ninjaform-target="playerFoundMessage" id ="playerFoundMessage" class="modal-content round-winner-modal-content">
       <h1>Player Found!</h1>
+    </div>
+    <div data-game-subscription-target="playerRejectedInvite" data-friend-target="playerRejectedInvite" data-ninjaform-target="playerRejectedInvite" id ="playerRejectedInvite" class="modal-content round-winner-modal-content">
     </div>
     <% if @game.player_one %>
     <div data-game-subscription-target="matchDetailsAndCountdown" data-friend-target="matchDetailsAndCountdown" data-ninjaform-target="matchDetailsAndCountdown" id="matchDetailsAndCountdown" class="modal-content round-winner-modal-content">

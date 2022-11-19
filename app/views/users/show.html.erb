@@ -13,7 +13,7 @@
           Settings
         </button>
       <% elsif Invitation.reacted?(current_user, @user) %>
-        <p class="mt-5">Friend request sent, waiting response</p>
+        <p>Friend request sent, awaiting response</p>
       <% else %>
         <%= button_to "Friend +", send_invitation_user_path, data: {turbo_method: :post}, class: 'btn btn-main', style:'font-size:20px;'%>
       <% end %>

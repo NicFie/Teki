@@ -15,6 +15,7 @@ export default class extends Controller {
   "inviteContent",
   "inviteModal",
   "form",
+  "Target",
   "preGameModal",
   "preGameLoadingContent",
   "playerFoundMessage",
@@ -25,7 +26,8 @@ export default class extends Controller {
   "playerTwoUsername",
   "playerTwoAvatar",
   "playerOneReady",
-  "playerTwoReady"
+  "playerTwoReady",
+  "playerRejectedInvite"
   ]
 
 
@@ -35,9 +37,11 @@ export default class extends Controller {
       { received: data => {
         if(data.command == "invited player info") {
           this.inviteModal(data)
+          console.log(data)
         };
         if(data.command == 'inviter info') {
           this.dynamicWaitingContent(data)
+          console.log(data)
         };
         setInterval(() => {
           if(this.accepted == true) {
@@ -48,8 +52,14 @@ export default class extends Controller {
         if(data.command == 'player two accepts') {
           this.redirectInviter(data)
         };
+        if(data.command == 'player two rejects') {
+          this.playerTwoRejected(data)
+        };
         if(data.command == 'start game') {
           this.startGameStatus(data)
+        };
+        if(data.command == 'cancel invite') {
+          this.endSearchPlayerTwo(data)
         }
       }}
     )
@@ -61,10 +71,12 @@ export default class extends Controller {
   }
 
   checking(event) {
+    // adds player_one params to game form
     this.formTarget.insertAdjacentHTML("afterbegin",
-    `<input type='hidden' name='game[player_two_id]' value='${event.target.dataset.value}' autocomplete='off'></input>`)
+    `<input type='hidden' name='game[player_one_id]' id="playerOneIdData" value='${this.currentUserIdValue}' autocomplete='off'></input>`)
+    // adds player_two params to game form
     this.formTarget.insertAdjacentHTML("afterbegin",
-    `<input type='hidden' name='game[player_one_id]' value='${this.currentUserIdValue}' autocomplete='off'></input>`)
+    `<input type='hidden' name='game[player_two_id]' id="playerTwoIdData" value='${event.target.dataset.value}' autocomplete='off'></input>`)
   }
 
   inviteModal(data) {
@@ -81,7 +93,7 @@ export default class extends Controller {
   }
 
   triggeredByAccept(data) {
-    fetch(`/games/${data.current_game_id}/invite_accepted`, {
+    fetch(`/games/${data.current_game_id}/invite_response`, {
       method: "POST",
       credentials: "same-origin",
       headers: {
@@ -89,7 +101,7 @@ export default class extends Controller {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify({ ready: this.accepted, player_one_id: data.player_one.id, player_two_id: data.player_two.id, game_id: data.current_game_id }),
+      body: JSON.stringify({ accepted: this.accepted, player_one_id: data.player_one.id, player_two_id: data.player_two.id, game_id: data.current_game_id }),
     })
     $('#inviteModal').modal('hide');
     this.preGameReadyModalTarget.style.display = "flex"
@@ -99,22 +111,66 @@ export default class extends Controller {
     this.playerTwoAvatarTarget.innerHTML = `<img src="/assets/${data.player_two.avatar}">`
   }
 
+  rejectInvite() {
+    $('#inviteModal').modal('hide');
+    this.formTarget.reset()
+    fetch(`/games/${this.gameId}/invite_response`, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-CSRF-Token": this.token,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({ rejected: true, player_one_id: this.playerOneId, player_two_id: this.playerTwoId }),
+    })
+  }
+
+  playerTwoRejected(data) {
+    this.playerRejectedInviteTarget.innerHTML = `<h1>${data.player_two_username} doesn't want to play right now :(</h1>`
+    this.preGameLoadingContentTarget.style.display = "none"
+    this.playerRejectedInviteTarget.style.display = 'flex'
+    setTimeout(() => {
+      this.preGameModalTarget.style.display = "none"
+      this.preGameLoadingContentTarget.style.display = "flex"
+      this.playerRejectedInviteTarget.style.display = 'none'
+      $("#roundChoice").removeClass("show");
+      this.formTarget.reset()
+    }, 3000);
+  }
+
   redirectInviter(data) {
     this.preGameModalTarget.style.display = "none"
     this.preGameReadyModalTarget.style.display = "flex"
-    $('.modal-backdrop').remove();
-  }
-
-  rejectInvite() {
-    // destroy game and inform p1
-    // show modal for player one saying "x doesn't want to play now :("
+    $("#roundChoice").removeClass("show");
   }
 
   endSearch() {
-    // destroy game
-    // show modal saying 'player one got tired of waiting :(' or
-    // something for player 2 or just close it/redirect to dashboard?
+    this.preGameModalTarget.style.display = "none";
+    $("#roundChoice").removeClass("show");
+    this.formTarget.reset()
+    document.querySelectorAll('#typed').forEach(function(al) {
+      al.empty()
+    })
+
+    fetch(`/games/${this.gameId}/cancel_invite`, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-CSRF-Token": this.token,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({ cancel: 'cancel', player_two_id: this.playerTwoId }),
+    })
   }
+
+  endSearchPlayerTwo(data) {
+    $('#inviteModal').modal('hide');
+    this.formTarget.reset()
+
+  }
+
 
   dynamicWaitingContent(data) {
     document.querySelectorAll('#typed').forEach(function(el) {
@@ -171,7 +227,7 @@ export default class extends Controller {
     if(data.player_one_ready == true && data.player_two_ready == true){
       setTimeout(() => { // countdown
         this.preGameReadyModalTarget.style.display = "none";
-        this.preGameLoadingContentTarget.style.display = "none";
+        this.TargetTarget.style.display = "none";
         this.preGameModalTarget.style.display = "flex";
         this.playerFoundMessageTarget.style.display = "flex";
         this.playerFoundMessageTarget.innerHTML = `<h1 class="countdown-title">Round ${data.round_number}</h1><br><h1 class="number-animation">3</h1>`
