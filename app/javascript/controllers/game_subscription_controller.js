@@ -251,4 +251,39 @@ export default class extends Controller {
   endGame() {
     this.updatePage()
   }
+
+  disconnect() {
+    console.log("disconnected")
+    if (this.userIdValue == this.playerOneIdValue) {
+      console.log(`${this.userIdValue} disconnected`)
+      fetch(`/games/${this.gameIdValue}/game_disconnected`, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "X-CSRF-Token": this.token,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({ disconnected_player: this.playerOneIdValue, other_player: this.playerTwoIdValue }),
+      })
+    }
+
+    else if (this.userIdValue == this.playerTwoIdValue) {
+      console.log(`${this.userIdValue} disconnected`)
+      fetch(`/games/${this.gameIdValue}/game_disconnected`, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "X-CSRF-Token": this.token,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({ disconnected_player: this.playerTwoIdValue, other_player: this.playerOneIdValue }),
+      })
+    }
+    else {
+      console.log("Something went wrong")
+    }
+  }
+  // send post request with JSON body.
 }

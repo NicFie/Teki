@@ -252,6 +252,19 @@ class GamesController < ApplicationController
   def cancel_invite
     friend_user = User.find(params[:player_two_id])
     FriendChannel.broadcast_to(friend_user, { command: 'cancel invite' })
+  end 
+  
+  def game_disconnected
+    @game = Game.find(params[:id])
+    p "Reached game_disconnected"
+    @game_rounds = @game.game_rounds
+    @game_rounds.each do |game_round|
+      game_round.winner_id = params[:other_player]
+      game_round.save!
+    end
+    @winner = "#{User.find(params[:other_player]).username} wins!"
+    start_next_round(@game, @winner)
+    skip_authorization
   end
 
   private
@@ -375,7 +388,7 @@ class GamesController < ApplicationController
         game,
         {
           command: "update round winner modal",
-          round_winner: @winner,
+          round_winner: winner,
           p1_count: game.game_rounds.where("winner_id =#{game.player_one.id}").to_a.size,
           p2_count: game.game_rounds.where("winner_id =#{game.player_two.id}").to_a.size
         }
