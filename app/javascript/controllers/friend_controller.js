@@ -64,8 +64,6 @@ export default class extends Controller {
         }
       }}
     )
-
-    console.log(document.querySelectorAll('#typed'))
   }
 
   initialize() {
