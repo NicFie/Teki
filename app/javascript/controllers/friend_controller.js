@@ -27,8 +27,7 @@ export default class extends Controller {
   "playerTwoAvatar",
   "playerOneReady",
   "playerTwoReady",
-  "playerRejectedInvite",
-  "typed"
+  "playerRejectedInvite"
   ]
 
 
