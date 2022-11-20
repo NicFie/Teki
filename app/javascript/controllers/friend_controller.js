@@ -27,7 +27,8 @@ export default class extends Controller {
   "playerTwoAvatar",
   "playerOneReady",
   "playerTwoReady",
-  "playerRejectedInvite"
+  "playerRejectedInvite",
+  "typed"
   ]
 
 
@@ -63,6 +64,8 @@ export default class extends Controller {
         }
       }}
     )
+
+    console.log(document.querySelectorAll('#typed'))
   }
 
   initialize() {
@@ -171,24 +174,24 @@ export default class extends Controller {
   }
 
 
-  dynamicWaitingContent(data) {
-    document.querySelectorAll('#typed').forEach(function(el) {
-      new Typed(el, {
-        strings: [`Waiting for ${data.player_two.username}...`],
-        loop: true,
-        typeSpeed: 50,
-        showCursor: false,
-      })
+  dynamicWaitingContent(info) {
+    this.preGameLoadingContentTarget.removeChild(this.preGameLoadingContentTarget.children[0])
+    this.preGameLoadingContentTarget.insertAdjacentHTML("afterbegin", '<h1 class="typed-loading" id="typed"></h1>')
+    const typed = document.querySelector("#typed")
+    new Typed(typed, {
+      strings: [`Waiting for ${info.player_two.username}...`],
+      loop: true,
+      typeSpeed: 50,
+      showCursor: false,
     })
 
-    console.log(document.querySelectorAll('#typed'))
-    this.playerOneId = data.player_one.id
-    this.playerTwoId = data.player_two.id
-    this.gameId = data.current_game_id
-    this.playerOneUsernameTarget.innerText = `${data.player_one.username}`
-    this.playerOneAvatarTarget.innerHTML = `<img src="/assets/${data.player_one.avatar}">`
-    this.playerTwoUsernameTarget.innerText = `${data.player_two.username}`
-    this.playerTwoAvatarTarget.innerHTML = `<img src="/assets/${data.player_two.avatar}">`
+    this.playerOneId = info.player_one.id
+    this.playerTwoId = info.player_two.id
+    this.gameId = info.current_game_id
+    this.playerOneUsernameTarget.innerText = `${info.player_one.username}`
+    this.playerOneAvatarTarget.innerHTML = `<img src="/assets/${info.player_one.avatar}">`
+    this.playerTwoUsernameTarget.innerText = `${info.player_two.username}`
+    this.playerTwoAvatarTarget.innerHTML = `<img src="/assets/${info.player_two.avatar}">`
   }
 
   postReadyStatus(player_one_ready, player_two_ready) {
