@@ -26,10 +26,13 @@ export default class extends Controller {
   submitForm() {
     if (this.withFriendValue == true) {
       this.formTarget.submit();
+      this.formTarget.removeChild(this.formTarget.firstElementChild);
+      this.formTarget.removeChild(this.formTarget.firstElementChild);
       $('.modal-backdrop').remove();
       this.preGameModalTarget.style.display = "flex"
     } else {
       this.formTarget.submit();
+
     }
   }
 }

@@ -17,6 +17,7 @@
   .play-box{
     display: flex;
     justify-content: center;
+    align-items: center;
     width:30%;
     button{
       height:50%;
@@ -26,6 +27,9 @@
     form {
       //height: 50%;
       align-self: center;
+    }
+    p {
+      margin: 0 !important;
     }
   }
 
@@ -136,6 +140,15 @@
     border-radius: 5px;
     min-width: 110px !important;
     justify-content: space-between;
+
+    .name-online {
+      display: flex;
+      align-items: center;
+      h6 {
+        margin-bottom: 0 !important;
+        padding-top: 5px;
+      }
+    }
 
     img {
       margin: 20px;

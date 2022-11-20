@@ -34,7 +34,8 @@ Rails.application.routes.draw do
       post :user_code
       post :user_ready_next_round
       post :forfeit_round
-      post :invite_accepted
+      post :invite_response
+      post :cancel_invite
       post :game_disconnected
     end
     resources :game_rounds, only: %i[new create] do
