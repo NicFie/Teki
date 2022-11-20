@@ -70,7 +70,7 @@ export default class extends Controller {
     this.accepted = false;
   }
 
-  checking(event) {
+  updateGameForm(event) {
     // adds player_one params to game form
     this.formTarget.insertAdjacentHTML("afterbegin",
     `<input type='hidden' name='game[player_one_id]' id="playerOneIdData" value='${this.currentUserIdValue}' autocomplete='off'></input>`)
@@ -168,7 +168,6 @@ export default class extends Controller {
   endSearchPlayerTwo(data) {
     $('#inviteModal').modal('hide');
     this.formTarget.reset()
-
   }
 
 
@@ -181,6 +180,8 @@ export default class extends Controller {
         showCursor: false,
       })
     })
+
+    console.log(document.querySelectorAll('#typed'))
     this.playerOneId = data.player_one.id
     this.playerTwoId = data.player_two.id
     this.gameId = data.current_game_id
