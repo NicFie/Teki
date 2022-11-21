@@ -1,13 +1,10 @@
 <div data-game-subscription-target="preGameModal" data-ninjaform-target="preGameModal" data-friend-target="preGameModal" id="preGameModal" class="modal fade show round-winner-modal">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div data-game-subscription-target="preGameLoadingContent" data-friend-target="preGameLoadingContent" data-ninjaform-target="preGameLoadingContent" class="modal-content round-winner-modal-content" id="preGameLoading">
+      <h1 class="typed-loading" id="typed"></h1>
       <div class="loading-animation">
         <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
       </div>
-      <div id="typed-strings">
-        <h1 id="lookingForOpponent"></h1>
-      </div>
-      <h1 class="typed-loading" id="typed"></h1>
       <button class="end-search btn btn-main" data-action="click->friend#endSearch">End Search</button>
     </div>
     <div data-game-subscription-target="playerFoundMessage" data-friend-target="playerFoundMessage" data-ninjaform-target="playerFoundMessage" id ="playerFoundMessage" class="modal-content round-winner-modal-content">
