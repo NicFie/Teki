@@ -149,9 +149,6 @@ export default class extends Controller {
     this.preGameModalTarget.style.display = "none";
     $("#roundChoice").removeClass("show");
     this.formTarget.reset()
-    document.querySelectorAll('#typed').forEach(function(al) {
-      al.empty()
-    })
 
     fetch(`/games/${this.gameId}/cancel_invite`, {
       method: "POST",

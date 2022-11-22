@@ -63,9 +63,21 @@
 
 .code-submit-buttons{
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   width: 100%;
-  // padding: 10px;
+  .left-code-submit-buttons {
+    display: flex;
+  }
+  .right-code-submit-buttons {
+    display:flex;
+    justify-content: end;
+    #playerOneClear {
+      background-color: $light-gray;
+    }
+    #playerTwoClear {
+      background-color: $light-gray;
+    }
+  }
 }
 
 

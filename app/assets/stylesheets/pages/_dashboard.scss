@@ -36,12 +36,22 @@
   .right-side-user-info{
 
     display:flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     width: 70%;
     background: $black;
     padding: 15px;
     border-radius: 5px;
     border: solid 1px $white;
+
+    .image-and-name {
+      width: 50%;
+    }
+
+    .dashboard-data-parent {
+      display: flex;
+      justify-content: space-around;
+      width: 50%;
+    }
     img {
       margin-right: 20px;
     }
@@ -55,6 +65,7 @@
       display: flex;
       flex-direction: column;
       text-align: center;
+      margin-left: 50px;
 
       span {
         font-size: 40px;
@@ -177,4 +188,70 @@
 
 .friends-title{
   margin-bottom: 5px !important;
+}
+
+// Media Queries
+
+@media only screen and (max-width: 1050px) {
+  .dashboard-wrapper {
+    margin: 20px;
+    transition: all 0.5s ease;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .dashboard-information{
+    .play-box {
+      button {
+        height: 60px;
+      }
+    }
+    .right-side-user-info {
+      flex-direction: column;
+      .image-and-name {
+        justify-content: space-around;
+        width: 100%;
+        margin-bottom: 10px;
+        .user-image {
+          width:50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          img {
+            height: 50px;
+          }
+        }
+        h1 {
+          width: 50%;
+        }
+      }
+      .dashboard-data-parent {
+        justify-content: space-around;
+        width: 100%;
+        .dashboard-data {
+          margin: 0;
+        }
+      }
+    }
+  }
+  .dashboard-lower {
+    flex-direction: column;
+    .dashboard-lower-left {
+      width: 100%;
+    }
+    .dashboard-lower-right {
+      width: 100%;
+
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .dashboard-information {
+    .right-side-user-info {
+      h1 {
+        font-size: 30px;
+      }
+    }
+  }
 }

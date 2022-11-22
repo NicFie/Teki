@@ -8,7 +8,6 @@ class GamesController < ApplicationController
   def create
     @check_game = Game.where("player_two_id = ? and round_count = ?", 1, params["game"]["round_count"].to_i)
     if params[:game][:player_one_id] && params[:game][:player_two_id]
-      p "HERE ARE PARAMS #{params}"
       @existing_game = Game.where(player_one_id: params['game']['player_one_id'].to_i, player_two_id: params['game']['player_two_id'].to_i, round_count: params["game"]["round_count"].to_i, game_winner: nil)
       if @existing_game.exists?
         user = User.find(params[:game][:player_one_id])
@@ -25,11 +24,9 @@ class GamesController < ApplicationController
         add_rounds_and_challenges(@game.id)
       end
     elsif @check_game.exists?
-      p "HERE ARE chcek game PARAMS #{params}"
       redirect_to game_path(@check_game[0].id)
       authorize @check_game
     else
-      p "HERE ARE else PARAMS #{params}"
       @game = Game.new(game_params)
       authorize @game
       @game.player_one_id = 1
@@ -54,7 +51,6 @@ class GamesController < ApplicationController
     if @game.player_two_id == 1
       redirect_to game_path(game)
     else
-      p "HERE ARE add rounds PARAMS #{params}"
       user = User.find(params[:game][:player_one_id])
       friend_user = User.find(params[:game][:player_two_id])
       FriendChannel.broadcast_to(user, { command: 'inviter info', current_game_id: game.id, player_one: user, player_two: friend_user })
@@ -250,10 +246,10 @@ class GamesController < ApplicationController
   end
 
   def cancel_invite
-    friend_user = User.find(params[:player_two_id])
+    friend_user = User.find(params['player_two_id'])
     FriendChannel.broadcast_to(friend_user, { command: 'cancel invite' })
-  end 
-  
+  end
+
   def game_disconnected
     @game = Game.find(params[:id])
     p "Reached game_disconnected"
