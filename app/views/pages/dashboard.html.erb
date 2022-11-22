@@ -11,23 +11,28 @@
       </button>
     </div>
     <div class="right-side-user-info">
-      <div class="d-flex">
-        <%= image_tag current_user.avatar, height: '80' %>
+      <div class="d-flex image-and-name">
+        <div class="user-image">
+          <%= image_tag current_user.avatar, height: '80' %>
+        </div>
         <h1><%= current_user.username %></h1>
       </div>
-      <div class="dashboard-data">
-        <h6>Score</h6>
-        <span><%= current_user.score %></span>
-      </div>
-      <div class="dashboard-data">
-        <h6>Total games</h6>
-        <span><%= current_user.games_as_player_one.where.not(game_winner: nil).count + current_user.games_as_player_two.where.not(game_winner: nil).count %></span>
+      <div class="dashboard-data-parent">
+        <div class="dashboard-data">
+          <h6>Score</h6>
+          <span><%= current_user.score %></span>
+        </div>
+        <div class="dashboard-data">
+          <h6>Total games</h6>
+          <span><%= current_user.games_as_player_one.where.not(game_winner: nil).count + current_user.games_as_player_two.where.not(game_winner: nil).count %></span>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="dashboard-lower">
-    <div class="page-section" id="leaderboard-section">
+
+    <div class="dashboard-lower-left page-section" id="leaderboard-section">
       <h2>Leaderboard</h2>
       <table class="leaderboard">
         <tbody>
