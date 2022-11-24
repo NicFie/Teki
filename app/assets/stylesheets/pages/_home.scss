@@ -60,8 +60,9 @@
     box-sizing: border-box;
     display: flex;
     flex: 0 1 auto;
-    height: 270px;
     width: 48%;
+    height: 100%;
+    align-self: center;
     border-radius: 5px;
     z-index: 6;
   }
@@ -99,4 +100,64 @@
 
 #lp-main-content {
   margin-top: 200px;
+}
+
+.typed-home {
+  .typed-title {
+    margin-bottom: 3rem;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .lp-card {
+    .lp-card-container {
+      .lp-card-container-text {
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .banner {
+    border-bottom: none;
+    padding: 0 0 150px 0;
+    transition: all 0.5s ease;
+    #lp-main-content {
+      margin-top: 100px;
+      transition: all 0.5s ease;
+    }
+  }
+  .typed-home {
+    .typed-title {
+      margin-bottom: 8rem;
+      transition: all 0.5s ease;
+    }
+    p {
+      font-size: 20px;
+      transition: all 0.5s ease;
+    }
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .banner {
+    border-bottom: none;
+    padding: 0 0 150px 0;
+    transition: all 0.5s ease;
+    #lp-main-content {
+      margin-top: 100px;
+      transition: all 0.5s ease;
+    }
+  }
+  .typed-home {
+    .typed-title {
+      margin-bottom: 12rem;
+      transition: all 0.5s ease;
+    }
+    p {
+      font-size: 20px;
+      transition: all 0.5s ease;
+    }
+  }
 }

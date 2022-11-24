@@ -212,7 +212,6 @@ export default class extends Controller {
     };
   }
 
-
   startGameStatus(data){
     if(data.player_one_ready == true){
       this.playerOneReadyTarget.innerText = '✅'
@@ -225,7 +224,7 @@ export default class extends Controller {
     if(data.player_one_ready == true && data.player_two_ready == true){
       setTimeout(() => { // countdown
         this.preGameReadyModalTarget.style.display = "none";
-        this.TargetTarget.style.display = "none";
+        this.preGameLoadingContentTarget.style.display = "none";
         this.preGameModalTarget.style.display = "flex";
         this.playerFoundMessageTarget.style.display = "flex";
         this.playerFoundMessageTarget.innerHTML = `<h1 class="countdown-title">Round ${data.round_number}</h1><br><h1 class="number-animation">3</h1>`
