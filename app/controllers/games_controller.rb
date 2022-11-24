@@ -16,10 +16,8 @@ class GamesController < ApplicationController
         FriendChannel.broadcast_to(friend_user, { command: 'invited player info', current_game_id: @existing_game[0].id, player_one: user, player_two: friend_user })
         authorize @existing_game
       else
-        @game = Game.new(game_params)
+        @game = Game.new(game_params.merge(player_one_id: params[:game][:player_one_id], player_two_id: params[:game][:player_two_id]))
         authorize @game
-        @game.player_one_id = params[:game][:player_one_id]
-        @game.player_two_id = params[:game][:player_two_id]
         @game.save!
         add_rounds_and_challenges(@game.id)
       end
@@ -27,10 +25,8 @@ class GamesController < ApplicationController
       redirect_to game_path(@check_game[0].id)
       authorize @check_game
     else
-      @game = Game.new(game_params)
+      @game = Game.new(game_params.merge(player_one_id: 1, player_two_id: 1))
       authorize @game
-      @game.player_one_id = 1
-      @game.player_two_id = 1
       @game.save!
       add_rounds_and_challenges(@game.id)
     end
