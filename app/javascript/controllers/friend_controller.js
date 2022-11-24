@@ -146,6 +146,9 @@ export default class extends Controller {
   }
 
   endSearch() {
+    if (window.location.pathname.includes('games')) {
+      window.location.pathname = '/'
+    }
     this.preGameModalTarget.style.display = "none";
     $("#roundChoice").removeClass("show");
     this.formTarget.reset()
