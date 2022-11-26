@@ -88,3 +88,13 @@
 .default-cursor{
   cursor:default;
 }
+
+.navbar-toggler-icon {
+  background-color: $dark-green;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.leagues-button, .logout-button, .settings-button {
+  display: none !important;
+}

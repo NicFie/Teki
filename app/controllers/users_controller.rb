@@ -9,6 +9,8 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @requests = current_user.pending_invitations
+    @current_user = current_user
+    @game = Game.new
     authorize @user
     # @friendship = current_user.friendship_with(@user)
   end
@@ -39,6 +41,7 @@ class UsersController < ApplicationController
   end
 
   def reject_invitation
+    p "HERE ARE PARAMS #{params}"
     @invitation = Invitation.find(params[:id])
     @invitation.destroy
     redirect_to dashboard_path

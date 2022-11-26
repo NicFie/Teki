@@ -63,6 +63,14 @@ export default class extends Controller {
         }
       }}
     )
+
+    var el= document.getElementById("game-show-username");
+    var textLength = el.innerText.length;
+      if (textLength > 10) {
+          el.style.fontSize = "25px"
+          el.style.wordBreak = "break-all"
+      }
+
   }
 
   initialize() {

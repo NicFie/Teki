@@ -15,7 +15,7 @@
         <div class="user-image">
           <%= image_tag current_user.avatar, height: '80' %>
         </div>
-        <h1><%= current_user.username %></h1>
+        <h1 id="game-show-username"><%= current_user.username %></h1>
       </div>
       <div class="dashboard-data-parent">
         <div class="dashboard-data">
@@ -23,7 +23,7 @@
           <span><%= current_user.score %></span>
         </div>
         <div class="dashboard-data">
-          <h6>Total games</h6>
+          <h6>Games</h6>
           <span><%= current_user.games_as_player_one.where.not(game_winner: nil).count + current_user.games_as_player_two.where.not(game_winner: nil).count %></span>
         </div>
       </div>
@@ -37,7 +37,7 @@
       <table class="leaderboard">
         <tbody>
           <tr>
-            <th>Position</th>
+            <th>Rank</th>
             <th>Player</th>
             <th>Score</th>
           </tr>
@@ -76,12 +76,12 @@
       </div>
       <div class="page-section">
         <h2>Your Battles</h2>
-        <table class="leaderboard">
+        <table class="leaderboard past-battles">
           <tbody>
             <tr>
               <th>Opponent</th>
               <th>Date</th>
-              <th>Rounds Won</th>
+              <th>Rounds</th>
               <th>Points</th>
             </tr>
             <% if @latest_battles != nil %>
