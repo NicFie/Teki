@@ -3,9 +3,8 @@ class Game < ApplicationRecord
   belongs_to :player_one, class_name: "User"
   belongs_to :player_two, class_name: "User"
 
-  # scope :with_game_winners, -> { where("game_winner != nil") }
   def add_rounds_and_challenges
-    game = Game.find(id)
+    game = Game.find(self.id)
     rounds = game.round_count
     all_challenges = Challenge.all.to_a
 
@@ -15,5 +14,11 @@ class Game < ApplicationRecord
       all_challenges.delete_at(all_challenges.index(challenge))
       rounds -= 1
     end
+
+    game.save!
+  end
+
+  def self.existing_game(game)
+    Game.where("player_two_id = ? and round_count = ?", 1, game["round_count"].to_i)
   end
 end
