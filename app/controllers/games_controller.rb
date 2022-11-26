@@ -28,31 +28,40 @@ class GamesController < ApplicationController
       @game = Game.new(game_params.merge(player_one_id: 1, player_two_id: 1))
       authorize @game
       @game.save!
-      add_rounds_and_challenges(@game.id)
+      @game.add_rounds_and_challenges
+      if @game.player_two_id == 1
+        redirect_to game_path(@game)
+      else
+        user = User.find(params[:game][:player_one_id])
+        friend_user = User.find(params[:game][:player_two_id])
+        FriendChannel.broadcast_to(user, { command: 'inviter info', current_game_id: game.id, player_one: user, player_two: friend_user })
+        FriendChannel.broadcast_to(friend_user, { command: 'invited player info', current_game_id: game.id, player_one: user, player_two: friend_user })
+      end
+      # add_rounds_and_challenges(@game.id)
     end
   end
 
-  def add_rounds_and_challenges(id)
-    game = Game.find(id)
-    rounds = game.round_count
-    all_challenges = Challenge.all.to_a
+  # def add_rounds_and_challenges(id)
+  #   game = Game.find(id)
+  #   rounds = game.round_count
+  #   all_challenges = Challenge.all.to_a
 
-    while rounds.positive?
-      challenge = all_challenges[rand(0..all_challenges.size - 1)]
-      GameRound.create!(game_id: game.id, challenge_id: challenge.id, winner: User.find(1))
-      all_challenges.delete_at(all_challenges.index(challenge))
-      rounds -= 1
-    end
+  #   while rounds.positive?
+  #     challenge = all_challenges[rand(0..all_challenges.size - 1)]
+  #     GameRound.create!(game_id: game.id, challenge_id: challenge.id, winner: User.find(1))
+  #     all_challenges.delete_at(all_challenges.index(challenge))
+  #     rounds -= 1
+  #   end
 
-    if @game.player_two_id == 1
-      redirect_to game_path(game)
-    else
-      user = User.find(params[:game][:player_one_id])
-      friend_user = User.find(params[:game][:player_two_id])
-      FriendChannel.broadcast_to(user, { command: 'inviter info', current_game_id: game.id, player_one: user, player_two: friend_user })
-      FriendChannel.broadcast_to(friend_user, { command: 'invited player info', current_game_id: game.id, player_one: user, player_two: friend_user })
-    end
-  end
+  #   if @game.player_two_id == 1
+  #     redirect_to game_path(game)
+  #   else
+  #     user = User.find(params[:game][:player_one_id])
+  #     friend_user = User.find(params[:game][:player_two_id])
+  #     FriendChannel.broadcast_to(user, { command: 'inviter info', current_game_id: game.id, player_one: user, player_two: friend_user })
+  #     FriendChannel.broadcast_to(friend_user, { command: 'invited player info', current_game_id: game.id, player_one: user, player_two: friend_user })
+  #   end
+  # end
 
   def show
     @game = Game.find(params[:id])
@@ -60,9 +69,7 @@ class GamesController < ApplicationController
     @rounds = @game.game_rounds
     @rounds_left = @rounds.where('winner_id = 1').first
     redirect_to dashboard_path if @rounds_left.nil?
-    if @rounds_left
-      @current_game_round_id = @game.game_rounds.where('winner_id = 1').first.id
-    end
+    @current_game_round_id = @game.game_rounds.where('winner_id = 1').first.id if @rounds_left
 
     GameChannel.broadcast_to(
       @game,
