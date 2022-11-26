@@ -1,9 +1,10 @@
 class GamesController < ApplicationController
   skip_after_action :verify_authorized, only: %i[game_test user_code user_ready_next_round forfeit_round invite_response game_disconnected]
+  before_action :find_game, only: %i[show edit update game_test user_code user_ready_next_round forfeit_round game_disconnected]
+  after_action :authorize_game, only: %i[new create show edit update]
 
   def new
     @game = Game.new
-    authorize @game
   end
 
   def create
@@ -20,11 +21,9 @@ class GamesController < ApplicationController
       redirect_to game_path(@game)
     end
     @game.add_rounds_and_challenges if @game.game_rounds.empty?
-    authorize @game
   end
 
   def show
-    @game = Game.find(params[:id])
     @requests = current_user.pending_invitations
     @rounds = @game.game_rounds
     @rounds_left = @rounds.where('winner_id = 1').first
@@ -34,40 +33,34 @@ class GamesController < ApplicationController
              player_one: @game.player_one.id,
              player_two: @game.player_two.id,
              player_two_username: @game.player_two.username,
-             player_two_avatar: @game.player_two.avatar}
+             player_two_avatar: @game.player_two.avatar }
 
     game_broadcast(@game, info)
-    authorize @game
   end
 
   def edit
-    @game = Game.find(params[:id])
-    authorize @game
   end
 
   def update
-    @game = Game.find(params[:id])
     @game.update(game_params)
     @game.save!
 
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
     end
-    authorize @game
   end
 
   def game_test
-    @game = Game.find(params[:id])
+    all_passed = []
+    @output = []
 
     begin
       submission = eval(params[:submission_code])
-    rescue SyntaxError => err
-      @output = "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{err.message.gsub!('(eval):3:', '')}"
-      all_passed = []
+    rescue SyntaxError => e
+      p "Syntax Error #{e}"
+      @output << "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{e.message.gsub!('(eval):3:', '')}"
     # tests variable needs modifying to return not just first test but sequentially after round is won
     else
-      @output = []
-      all_passed = []
       game_tests = @game.game_rounds.where('winner_id = 1').first.challenge.tests
       tests = eval(game_tests)
       display_keys = eval(game_tests).keys
@@ -76,13 +69,14 @@ class GamesController < ApplicationController
 
       tests.each do |k, v|
         count += 1
-        p "test key: #{k} test value:  #{v}"
         begin
           call = method(submission).call(k)
-        rescue StandardError => err
-          @output << "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{err.message.gsub!(/(for #<\w+:\w+>\s+\w+\s+\^+|for #<\w+:\w+>)/, '')}<br><br>"
-        rescue ScriptError => err
-          @output << "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{err.message.gsub!(/(for #<\w+:\w+>\s+\w+\s+\^+|for #<\w+:\w+>)/, '')}<br><br>"
+        rescue StandardError => e
+          p "Standard Error #{e.message}"
+          @output << "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{e.message.gsub!(/\^/, '')}<br><br>"
+        rescue ScriptError => e
+          p "Script Error #{e}"
+          @output << "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{e.message.gsub!(/(for #<\w+:\w+>\s+\w+\s+\^+|for #<\w+:\w+>)/, '')}<br><br>"
         else
           if call == v
             all_passed << true
@@ -122,63 +116,31 @@ class GamesController < ApplicationController
       format.js #add this at the beginning to make sure the form is populated.
       format.json { render json: { results: @output } }
     end
-
-    # skip_authorization
   end
 
   def user_code
-    @game = Game.find(params[:id])
     @current_game_round = @game.game_rounds.where('winner_id = 1').first
-    GameChannel.broadcast_to(
-      @game,
-      {
-        command: "update editors",
-        player_one: @current_game_round.player_one_code,
-        player_two: @current_game_round.player_two_code
-      }
-    )
-
-    # skip_authorization
+    info = { command: "update editors",
+             player_one: @current_game_round.player_one_code,
+             player_two: @current_game_round.player_two_code }
+    game_broadcast(@game, info)
   end
 
   def user_ready_next_round
-    @game = Game.find(params[:id])
     @round_number = @game.game_rounds.where('winner_id != 1').size + 1
-    GameChannel.broadcast_to(
-      @game,
-      {
-        command: "next round",
-        player_one_ready: params[:player_one_ready],
-        player_two_ready: params[:player_two_ready],
-        round_number: @round_number
-      }
-    )
-    # reusing this function for game with friend
+    player_ready = { player_one_ready: params[:player_one_ready],
+                     player_two_ready: params[:player_two_ready],
+                     round_number: @round_number }
+    game_info = { command: "next round" }
+    player_info = { command: "start game" }
+    game_broadcast(@game, game_info.merge(player_ready))
     player_one = User.find(params[:player_one])
     player_two = User.find(params[:player_two])
-    FriendChannel.broadcast_to(
-      player_one,
-      {
-        command: "start game",
-        player_one_ready: params[:player_one_ready],
-        player_two_ready: params[:player_two_ready],
-        round_number: @round_number
-      }
-    )
-    FriendChannel.broadcast_to(
-      player_two,
-      {
-        command: "start game",
-        player_one_ready: params[:player_one_ready],
-        player_two_ready: params[:player_two_ready],
-        round_number: @round_number
-      }
-    )
-    # skip_authorization
+    friend_broadcast(player_one, player_info.merge(player_ready))
+    friend_broadcast(player_two, player_info.merge(player_ready))
   end
 
   def forfeit_round
-    @game = Game.find(params[:id])
     @game_round = @game.game_rounds.where('winner_id = 1').first
     if @game.player_one == current_user
       @game_round.winner_id = @game.player_two.id
@@ -188,7 +150,7 @@ class GamesController < ApplicationController
       @winner = "#{User.find(@game.player_one.id).username} wins!"
     end
     @game_round.save!
-    # skip_authorization
+
     start_next_round(@game, @winner)
   end
 
@@ -200,7 +162,6 @@ class GamesController < ApplicationController
     elsif params[:rejected]
       FriendChannel.broadcast_to(user, { command: 'player two rejects', player_two_username: friend.username })
     end
-    # skip_authorization
   end
 
   def cancel_invite
@@ -209,7 +170,6 @@ class GamesController < ApplicationController
   end
 
   def game_disconnected
-    @game = Game.find(params[:id])
     p "Reached game_disconnected"
     @game_rounds = @game.game_rounds
     @game_rounds.each do |game_round|
@@ -218,7 +178,6 @@ class GamesController < ApplicationController
     end
     @winner = "#{User.find(params[:other_player]).username} wins!"
     start_next_round(@game, @winner)
-    # skip_authorization
   end
 
   private
@@ -273,7 +232,7 @@ class GamesController < ApplicationController
   end
 
   def start_next_round(game, winner)
-    if game.game_rounds.where('winner_id = 1').to_a.size == 0
+    if game.game_rounds.where('winner_id = 1').to_a.size.zero?
       game_winner = game.game_rounds.where("winner_id =#{game.player_one.id}").to_a.size > game.game_rounds.where("winner_id =#{game.player_two.id}").to_a.size
       if game_winner
         game.game_winner = game.player_one.id
@@ -301,12 +260,23 @@ class GamesController < ApplicationController
     GameChannel.broadcast_to(game, info)
   end
 
+  def friend_broadcast(player, info)
+    FriendChannel.broadcast_to(player, info)
+  end
+
   def send_game_invite(game, params)
     user = User.find(params[:player_one_id])
     friend_user = User.find(params[:player_two_id])
     info = { current_game_id: game.id, player_one: user, player_two: friend_user }
     FriendChannel.broadcast_to(user, info.merge(command: 'inviter info'))
     FriendChannel.broadcast_to(friend_user, info.merge(command: 'invited player info'))
-    # skip_authorization
+  end
+
+  def find_game
+    @game = Game.find(params[:id])
+  end
+
+  def authorize_game
+    authorize @game
   end
 end
