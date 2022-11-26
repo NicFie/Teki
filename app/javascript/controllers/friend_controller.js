@@ -63,6 +63,14 @@ export default class extends Controller {
         }
       }}
     )
+
+    var el= document.getElementById("game-show-username");
+    var textLength = el.innerText.length;
+      if (textLength > 10) {
+          el.style.fontSize = "25px"
+          el.style.wordBreak = "break-all"
+      }
+
   }
 
   initialize() {
@@ -146,6 +154,9 @@ export default class extends Controller {
   }
 
   endSearch() {
+    if(window.location.pathname.includes('games')) {
+      window.location.pathname = "/"
+    }
     this.preGameModalTarget.style.display = "none";
     $("#roundChoice").removeClass("show");
     this.formTarget.reset()

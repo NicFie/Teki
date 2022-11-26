@@ -1,13 +1,21 @@
 <%# Change the class names!!! %>
-<div class="dashboard-wrapper">
+<div class="dashboard-wrapper"
+                              data-controller="dashboard ninjaform friend"
+                              data-friend-current-user-id-value="<%= current_user.id %>"
+                              data-friend-player-one-ready-value="<%= false %>"
+                              data-friend-player-two-ready-value="<%= false %>"
+                              data-ninjaform-with-friend-value="<%= @with_friend %>">
   <div class="page-section dashboard-information">
     <div class="play-box">
 
 
       <% if current_user.friend_with?(@user) %>
-        <button type="button" style="font-size:20px;" class="btn btn-main">
-          Battle
-        </button>
+      <div class="friend-profile-buttons">
+        <button class="btn btn-main" <%= "disabled" unless @user.online? %>
+              data-action="click->friend#updateGameForm click->ninjaform#withFriend" data-value="<%= @user.id %>"
+              data-toggle="modal" data-target="#roundChoice">Battle</button>
+        <%= link_to '<button type="button" class="btn btn-main">Unfriend</button>'.html_safe, reject_invitation_user_path(Invitation.where(user_id: @current_user.id).and(Invitation.where(friend_id: @user.id)).or(Invitation.where(user_id: @user.id).and(Invitation.where(friend_id: @current_user.id))).first.id), data: {turbo_method: :delete} %>
+      </div>
       <% elsif @user == current_user %>
         <button type="button" style="font-size:20px;" class="btn btn-main">
           Settings
@@ -19,21 +27,29 @@
       <% end %>
     </div>
     <div class="right-side-user-info">
-      <div class="d-flex">
-        <%= image_tag @user.avatar, height: '80' %>
-        <h1><%= @user.username %></h1>
+      <div class="d-flex image-and-name">
+        <div class="user-image">
+          <%= image_tag @user.avatar, height: '80' %>
+        </div>
+        <h1 id="game-show-username"><%= @user.username %></h1>
       </div>
-      <div class="dashboard-data">
-        <h6>Score</h6>
-        <span><%= @user.score %></span>
-      </div>
-      <div class="dashboard-data">
-        <h6>Total games</h6>
-        <span><%= @user.games_as_player_one.count + @user.games_as_player_two.count %></span>
+      <div class="dashboard-data-parent">
+        <div class="dashboard-data">
+          <h6>Score</h6>
+          <span><%= @user.score %></span>
+        </div>
+        <div class="dashboard-data">
+          <h6>Games</h6>
+          <span><%= @user.games_as_player_one.where.not(game_winner: nil).count + @user.games_as_player_two.where.not(game_winner: nil).count %></span>
+        </div>
       </div>
     </div>
   </div>
   <div class="d-flex justify-content-center mt-5">
     <%= link_to "Back to dashboard", dashboard_path, class: 'btn btn-second' %>
   </div>
+  <%= render "shared/round_choice_modal" %>
+  <%= render "shared/invite_modal" %>
+  <%= render "shared/pre_game_modal" %>
+  <%= render "shared/pre_game_ready_modal" %>
 </div>
