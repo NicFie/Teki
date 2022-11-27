@@ -140,7 +140,7 @@
   }
 }
 
-@media only screen and (max-width: 550px) {
+@media only screen and (max-width: 575px) {
   .banner {
     border-bottom: none;
     padding: 0 0 150px 0;
@@ -159,5 +159,25 @@
       font-size: 20px;
       transition: all 0.5s ease;
     }
+  }
+  .lp-card-container {
+    padding: 40px 0 !important;
+  }
+  .lp-card-container-text {
+    padding: 0 1rem !important;
+    font-size: 16px !important;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .typed-home {
+    .typed-title {
+      margin-bottom: 18rem;
+      transition: all 0.5s ease;
+    }
+  }
+  #lp-main-content {
+    margin-top: 50px !important;
+    transition: all 0.5s ease;
   }
 }

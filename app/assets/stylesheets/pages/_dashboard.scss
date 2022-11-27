@@ -163,6 +163,7 @@
       h6 {
         margin-bottom: 0 !important;
         padding-top: 5px;
+        font-size: 0.9rem;
       }
     }
 
@@ -195,6 +196,9 @@
   margin-bottom: 5px !important;
 }
 
+td {
+  font-size: 18px;
+}
 
 // Media Queries
 
@@ -257,15 +261,16 @@
   }
 }
 
-@media only screen and (max-width: 501px) {
+@media only screen and (max-width: 575px) {
   .dashboard-information {
     .right-side-user-info {
       h1 {
-        font-size: 20px;
+        font-size: 30px;
         text-align: center;
+        margin-bottom: 0 !important;
       }
       h6 {
-        font-size: 14px;
+        font-size: 20px;
       }
       span {
         font-size: 18px !important;
@@ -276,7 +281,7 @@
     }
     .play-box {
       button {
-        font-size: 14px !important;
+        font-size: 18px !important;
         padding: 0px 14px !important;
       }
     }
@@ -295,5 +300,11 @@
         }
       }
     }
+  }
+  #leaderboard-section {
+    overflow-y: scroll !important;
+  }
+  .friendlist {
+    overflow-x: scroll !important;
   }
 }

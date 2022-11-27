@@ -1,6 +1,5 @@
 .notification-dropdown {
   color: $white;
-
   position: fixed;
   right: 10px;
   top: 65px;
@@ -10,27 +9,54 @@
   border: $dark-green 2px solid;
   display: none;
   padding: 5px;
+  width: 200px;
+
+  h4 {
+    text-align: center;
+  }
 
   ul {
     list-style-type: none;
     padding: 0px;
+    li {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px 0px;
+      .notification-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .notification-image {
+          width: 40%;
+          img {
+            width: 100% !important;
+          }
+        }
+        .request-buttons {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          gap: 5px;
+          height: 100%;
+          align-items: flex-end;
+          width: 60%;
+          .invite-text {
+            font-size: 15px;
+            width: 100%;
+            text-align: end;
+            font-size: 13px !important;
+            border: none !important;
+          }
+          .buttons-group {
+            display: flex;
+            a {
+              margin: 0 2px;
+            }
+          }
+        }
+      }
+    }
   }
-
-  li {
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  span {
-    font-size: 15px;
-  }
-
-  .request-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 5px;
-    height: 30px;
-  }
-
 }
 
 .notification-dropdown.dropdownopen {

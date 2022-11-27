@@ -115,34 +115,4 @@
   .sidebar {
     display: none;
   }
-  .leagues-button, .settings-button, .logout-button, .notifications-button {
-    display: flex !important;
-    cursor: pointer;
-  }
-  .dropdown-button, .score-button {
-    display: none !important;
-  }
-  .navbar {
-    background-color: $dark-green;
-    transition: background-color 0.5s ease;
-    .container-fluid {
-      button{
-        border: none !important;
-      }
-    }
-  }
-  .nav-collapsed-class {
-    align-items: center;
-    padding: 20px;
-    background-color: $dark-green;
-  }
-  .navbar-toggler {
-    width: 100%;
-  }
-  .navbar-toggler:focus,
-  .navbar-toggler:active,
-  .navbar-toggler-icon:focus {
-    outline: none;
-    box-shadow: none;
-}
 }
