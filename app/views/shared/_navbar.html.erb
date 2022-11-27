@@ -19,33 +19,38 @@
             <% else %>
               <i class="fa-solid fa-bell" data-action="click->notifications#open"></i>
             <% end %>
+            <div class="notification-dropdown" data-notifications-target="dropdown">
+              <h4>Notifications</h4>
+              <ul>
+                <% @requests.each do |request| %>
+                  <li>
+                    <div class="notification-container">
+                      <div class="notification-image">
+                        <%= image_tag User.find(request.user_id).avatar, class: "avatar-large" %>
+                      </div>
+                      <div class="request-buttons">
+                        <span class="invite-text"><strong><%= User.find(request.user_id).username %></strong> wants to add you as a friend.</span>
+                        <div class="buttons-group">
+                          <%= link_to '<i class="fa-solid fa-check"></i>'.html_safe, accept_invitation_user_path(request), data: {turbo_method: :post}, class: 'request-button btn btn-main' %>
+                          <%= link_to '<i class="fa-solid fa-xmark"></i>'.html_safe, reject_invitation_user_path(request), class: 'request-button btn btn-second', data: {turbo_method: :delete} %>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
           </li>
-          <div class="notification-dropdown" data-notifications-target="dropdown">
-            <h4>Notifications</h4>
-            <ul>
-              <% @requests.each do |request| %>
-                <li>
-                  <div>
-                    <%= image_tag User.find(request.user_id).avatar, class: "avatar-large" %>
-                    <span><%= User.find(request.user_id).username %> wants to add you as a friend.</span>
-                  </div>
-                  <div class="request-buttons">
-                    <%= link_to '<i class="fa-solid fa-check"></i>'.html_safe, accept_invitation_user_path(request), data: {turbo_method: :post}, class: 'request-button btn btn-main' %>
-                    <%= link_to '<i class="fa-solid fa-xmark"></i>'.html_safe, reject_invitation_user_path(request), class: 'request-button btn btn-second', data: {turbo_method: :delete} %>
-                  </div>
-                </li>
-              <% end %>
-            </ul>
-          </div>
+
           <%# <li class="nav-item active">
             <i class="fa-solid fa-envelope"></i>
           </li> %>
           <li class="nav-item score-button">
              <span class="default-cursor"> <%= current_user.score %> points</span>
           </li>
-          <li class="nav-item dropdown dropdown-button">
+          <li class="nav-item dropdown dropdown-button" data-action="click->notifications#checkModals">
             <%= image_tag "#{current_user.avatar}", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" data-notifications-target="navbarDropdown">
               <%= link_to "Profile", "#", class: "dropdown-item" %>
               <%= link_to "Settings", user_settings_path, class: "dropdown-item" %>
               <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
@@ -55,7 +60,7 @@
             <i class="fa-solid fa-wrench"></i>
           </li>
           <li class="nav-item active logout-button">
-            <i class="fa-solid fa-right-from-bracket"></i>
+            <%= link_to '<i class="fa-solid fa-right-from-bracket"></i>'.html_safe, destroy_user_session_path, data: {turbo_method: :delete} %>
           </li>
         <% else %>
           <li class="nav-item">

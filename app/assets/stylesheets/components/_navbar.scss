@@ -69,8 +69,19 @@
 }
 
 .dropdown-menu-end {
+  padding: 0px !important;
+  color: $white;
+  position: fixed !important;
+  right: 10px !important;
+  top: 63px !important;
+  z-index: 1;
+  border-radius: 0px 0px 5px 5px;
   background-color: $dark-gray;
-  padding: 0px;
+  border: $dark-green 2px solid;
+  display: none;
+  padding: 5px;
+  width: 200px;
+  font-family: $headers-font;
 
   a {
     color: $white !important;
@@ -97,4 +108,84 @@
 
 .leagues-button, .logout-button, .settings-button {
   display: none !important;
+}
+
+.logout-button {
+  a {
+    color: $white;
+  }
+}
+
+
+// media queries
+
+@media only screen and (max-width:575px) {
+  .leagues-button, .settings-button, .logout-button, .notifications-button {
+    display: flex !important;
+    cursor: pointer;
+  }
+  .dropdown-button, .score-button {
+    display: none !important;
+  }
+  .navbar {
+    background-color: $dark-green;
+    transition: background-color 0.5s ease;
+    .container-fluid {
+      button{
+        border: none !important;
+      }
+    }
+  }
+  .nav-collapsed-class {
+    align-items: center;
+    padding: 20px 0 10px 0;
+    background-color: $dark-green;
+  }
+  .navbar-toggler {
+    width: 100%;
+  }
+  .navbar-toggler:focus,
+  .navbar-toggler:active,
+  .navbar-toggler-icon:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  .request-buttons {
+    margin: 0 4px;
+    flex-direction: row;
+  }
+
+  .notifications-button {
+    flex-direction: column;
+  }
+  .notification-dropdown {
+    position: inherit !important;
+    border: none !important;
+    background-color: $dark-green !important;
+    padding-top: 15px !important;
+    width: 80% !important;
+
+
+    ul {
+      li {
+        padding: 10px 0px;
+
+        .notification-container {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .notification-image {
+            width: 30% !important;
+            img {
+              width: 100% !important;
+            }
+          }
+          span {
+            width: 60%;
+            text-align: end;
+          }
+        }
+      }
+    }
+  }
 }

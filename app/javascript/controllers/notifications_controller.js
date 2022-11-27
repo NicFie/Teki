@@ -2,14 +2,18 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="notifications"
 export default class extends Controller {
-  static targets = ["dropdown"]
+  static targets = ["dropdown", "navbarDropdown"]
   connect() {
     console.log("notifications connected")
   }
 
   open() {
     this.dropdownTarget.classList.toggle("dropdownopen");
-    console.log("opening dropdown")
-    console.log(this.dropdownTarget)
+  }
+
+  checkModals() {
+    if (this.navbarDropdownTarget.classList.contains('show')) {
+      this.dropdownTarget.classList.remove("dropdownopen");
+    }
   }
 }
