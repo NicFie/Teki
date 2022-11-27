@@ -167,6 +167,7 @@
 
 
     ul {
+      width: 100%;
       li {
         padding: 10px 0px;
 
@@ -187,5 +188,9 @@
         }
       }
     }
+  }
+  .nav-item {
+    width: 100% !important;
+    justify-content: center !important;
   }
 }
