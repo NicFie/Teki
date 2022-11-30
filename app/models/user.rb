@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many :invitations
   has_many :pending_invitations, -> { where confirmed: false }, class_name: 'Invitation', foreign_key: 'friend_id'
 
-  validates :username, length: { maximum: 20 }
+  validates :username, length: { maximum: 25 }
 
   # def friendship_with(user)
   #   Friendship.find_by(asker: self, receiver: user) || Friendship.find_by(asker: user, receiver: self)
