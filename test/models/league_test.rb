@@ -18,6 +18,7 @@ class LeagueTest < ActiveSupport::TestCase
 
   test "a league has many users" do
     league = League.create!(name: "Le Wagon 990")
+
     user1 = User.new(username: "will", email: "w@d.com", password: "123456")
     user2 = User.new(username: "wlil", email: "d@w.com", password: "123456")
 
