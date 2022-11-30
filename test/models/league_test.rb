@@ -47,7 +47,7 @@ class LeagueTest < ActiveSupport::TestCase
 
     game1.league_id = league.id
     game2.league_id = league.id
-    
+
     game1.save!
     game2.save!
 
