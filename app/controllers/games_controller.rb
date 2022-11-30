@@ -131,13 +131,12 @@ class GamesController < ApplicationController
     player_ready = { player_one_ready: params[:player_one_ready],
                      player_two_ready: params[:player_two_ready],
                      round_number: @round_number }
-    game_info = { command: "next round" }
-    player_info = { command: "start game" }
-    game_broadcast(@game, game_info.merge(player_ready))
+    game_broadcast(@game, player_ready.merge(command: "next round"))
+
     player_one = User.find(params[:player_one])
     player_two = User.find(params[:player_two])
-    friend_broadcast(player_one, player_info.merge(player_ready))
-    friend_broadcast(player_two, player_info.merge(player_ready))
+    friend_broadcast(player_one, player_ready.merge(command: "start game"))
+    friend_broadcast(player_two, player_ready.merge(command: "start game"))
   end
 
   def forfeit_round

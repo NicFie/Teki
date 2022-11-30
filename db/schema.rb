@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_10_172847) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_30_084226) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,6 +58,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_10_172847) do
     t.integer "winner_score"
     t.integer "loser_score"
     t.boolean "with_friend"
+    t.bigint "league_id"
+    t.index ["league_id"], name: "index_games_on_league_id"
     t.index ["player_one_id"], name: "index_games_on_player_one_id"
     t.index ["player_two_id"], name: "index_games_on_player_two_id"
   end
@@ -69,6 +71,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_10_172847) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_invitations_on_user_id"
+  end
+
+  create_table "leagues", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -83,7 +91,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_10_172847) do
     t.string "avatar"
     t.boolean "admin"
     t.integer "score", default: 0
+    t.bigint "league_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["league_id"], name: "index_users_on_league_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
