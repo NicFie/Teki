@@ -10,6 +10,9 @@ class User < ApplicationRecord
   has_many :games_as_player_two, class_name: "Game", foreign_key: :player_two_id
   has_many :game_rounds, class_name: "GameRound", foreign_key: :winner_id
 
+  has_many :user_leagues
+  has_many :leagues, through: :user_leagues
+
   has_many :invitations
   has_many :pending_invitations, -> { where confirmed: false }, class_name: 'Invitation', foreign_key: 'friend_id'
 
