@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   end
 
   resources :challenges, only: %i[new create]
+  resources :leagues, only: %i[index new create show]
 
   resources :users do
     resources :games, only: %i[new create]

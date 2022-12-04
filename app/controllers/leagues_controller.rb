@@ -1,9 +1,10 @@
 class LeaguesController < ApplicationController
   def index
+    @leagues = policy_scope(League)
     @leagues = current_user.leagues
     @requests = current_user.pending_invitations
 
-    skip_authorization
+    # authorize @leagues
   end
 
   def new
