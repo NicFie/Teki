@@ -3,8 +3,6 @@ class LeaguesController < ApplicationController
     @leagues = policy_scope(League)
     @leagues = current_user.leagues
     @requests = current_user.pending_invitations
-
-    # authorize @leagues
   end
 
   def new
@@ -14,5 +12,9 @@ class LeaguesController < ApplicationController
   end
 
   def show
+    @league = League.find(params[:id])
+    @requests = current_user.pending_invitations
+
+    authorize @league
   end
 end
