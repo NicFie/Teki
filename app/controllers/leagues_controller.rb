@@ -13,7 +13,12 @@ class LeaguesController < ApplicationController
   end
 
   def create
-    @league = League.new
+    @league = League.new(league_params)
+    @league.save!
+    user_league = UserLeague.new(league: @league, user: current_user)
+    user_league.save!
+
+    redirect_to leagues_path
 
     authorize @league
   end
@@ -25,6 +30,10 @@ class LeaguesController < ApplicationController
   end
 
   private
+
+  def league_params
+    params.require(:league).permit(:name)
+  end
 
   def add_requests
     @requests = current_user.pending_invitations

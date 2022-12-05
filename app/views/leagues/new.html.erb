@@ -1,2 +1,7 @@
 <h1>Leagues#new</h1>
 <p>Find me in app/views/leagues/new.html.erb</p>
+
+<%= simple_form_for @league do |f| %>
+  <%= f.input :name %>
+  <%= f.submit %>
+<% end %>
