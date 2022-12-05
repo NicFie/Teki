@@ -3,3 +3,5 @@
 <% @leagues.each do |league| %>
   <p><%= link_to league.name, league_path(league) %></p>
 <% end %>
+
+<%= link_to "New League", new_league_path %>
