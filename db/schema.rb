@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_30_084226) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_05_150453) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -79,6 +79,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_30_084226) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_leagues", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "league_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["league_id"], name: "index_user_leagues_on_league_id"
+    t.index ["user_id"], name: "index_user_leagues_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username", default: "", null: false
     t.string "email", default: "", null: false
@@ -91,9 +100,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_30_084226) do
     t.string "avatar"
     t.boolean "admin"
     t.integer "score", default: 0
-    t.bigint "league_id"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["league_id"], name: "index_users_on_league_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -105,4 +112,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_30_084226) do
   add_foreign_key "games", "users", column: "player_one_id"
   add_foreign_key "games", "users", column: "player_two_id"
   add_foreign_key "invitations", "users"
+  add_foreign_key "user_leagues", "leagues"
+  add_foreign_key "user_leagues", "users"
 end

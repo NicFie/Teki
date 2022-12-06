@@ -1,0 +1,7 @@
+<h1>Leagues#show</h1>
+<p>Find me in app/views/leagues/show.html.erb</p>
+<% @league.users.each do |user| %>
+  <p style="color: white"><%= user.username %></p>
+<% end %>
+
+<%= link_to "View leagues", leagues_path %>
