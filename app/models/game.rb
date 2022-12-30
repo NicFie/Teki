@@ -74,4 +74,5 @@ class Game < ApplicationRecord
 
       { output: output.join, all_passed: passed }
     end
+  end
 end
