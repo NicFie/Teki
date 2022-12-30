@@ -51,70 +51,20 @@ class GamesController < ApplicationController
   end
 
   def game_test
-    all_passed = []
-    @output = []
-
-    begin
-      submission = eval(params[:submission_code])
-    rescue SyntaxError => e
-      p "Syntax Error #{e}"
-      @output << "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{e.message.gsub!('(eval):3:', '')}"
-    # tests variable needs modifying to return not just first test but sequentially after round is won
-    else
-      game_tests = @game.game_rounds.where('winner_id = 1').first.challenge.tests
-      tests = eval(game_tests)
-      display_keys = eval(game_tests).keys
-
-      count = 0
-
-      tests.each do |k, v|
-        count += 1
-        begin
-          call = method(submission).call(k)
-        rescue StandardError => e
-          p "Standard Error #{e.message}"
-          @output << "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{e.message.gsub!(/\^/, '')}<br><br>"
-        rescue ScriptError => e
-          p "Script Error #{e}"
-          @output << "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{e.message.gsub!(/(for #<\w+:\w+>\s+\w+\s+\^+|for #<\w+:\w+>)/, '')}<br><br>"
-        else
-          if call == v
-            all_passed << true
-            @output << "#{count}. <span style=\"color: green; font-weight: bold;\">Test passed:</span><br>When given #{display_keys[count - 1]}, method successfully returned #{v}.<br><br>"
-          else
-            all_passed << false
-            @output << "#{count}. <span style=\"color: #ff6346; font-weight: bold;\">Test failed:</span><br> Given: #{display_keys[count - 1]}. Expected: #{v.class == String ? "'#{v}'" : v}. Got: #{
-              if call.nil?
-                "nil"
-              elsif call.class == String
-                "'#{call}'"
-              elsif call.class == Symbol
-                ":#{call}"
-              else
-                call
-              end
-            }.<br><br>"
-          end
-        end
-      end
-      @output = @output.join
-    end
-    (all_passed.include?(false) || all_passed.empty?) ? "User #{params[:user_id]} failed." : @winner = "#{User.find(params[:user_id]).username} wins!"
+    result = @game.test_game(params[:submission_code])
+    @winner = "#{User.find(params[:user_id]).username} wins!"
     # starting the next round code
-    @is_a_winner = false
-    @is_a_winner = true if (!all_passed.include?(false) && !all_passed.empty?)
 
-    if @is_a_winner == true
+    if !result[:all_passed].include?(false) && !result[:all_passed].empty?
       @game_round = @game.game_rounds.where('winner_id = 1').first
       @game_round.winner_id = params[:user_id]
       @game_round.save!
-      skip_authorization
       start_next_round(@game, @winner)
     end
 
     respond_to do |format|
       format.js #add this at the beginning to make sure the form is populated.
-      format.json { render json: { results: @output } }
+      format.json { render json: { results: result[:output] } }
     end
   end
 
