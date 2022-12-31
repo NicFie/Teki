@@ -53,7 +53,6 @@ class GamesController < ApplicationController
   def game_test
     result = @game.test_game(params[:submission_code])
     @winner = "#{User.find(params[:user_id]).username} wins!"
-    # starting the next round code
 
     if !result[:all_passed].include?(false) && !result[:all_passed].empty?
       @game_round = @game.game_rounds.where('winner_id = 1').first
@@ -135,31 +134,6 @@ class GamesController < ApplicationController
     params.require(:game).permit(:with_friend, :player_one_id, :player_two_id, :round_count, :submission_code, game_rounds: [:player_one_code, :player_two_code])
   end
 
-  def setting_scores(game)
-    winner = User.find(game.game_winner)
-    loser = User.find(winner.id == game.player_one.id ? game.player_two.id : game.player_one.id)
-    rounds_won = game.game_rounds.where("winner_id =#{winner.id}").to_a.size
-    game_won = 3
-    rounds_lost = game.game_rounds.where("winner_id !=#{winner.id}").to_a.size
-    bonus = loser.score / 20
-    if bonus >= 0 && bonus < 50
-      winner.score = (winner.score + rounds_won + game_won + bonus) - rounds_lost
-      loser.score = (loser.score - bonus - rounds_won)
-      game.winner_score = (rounds_won + game_won + bonus) - rounds_lost
-      game.loser_score = bonus + rounds_won
-    else
-      winner.score = (winner.score + rounds_won + game_won + 50) - rounds_lost
-      loser.score = (loser.score - 50 - rounds_won)
-      game.winner_score = (rounds_won + game_won + 50) - rounds_lost
-      game.loser_score = 50 + rounds_won
-    end
-    game.loser_score = game.loser_score - loser.score.abs if loser.score.negative?
-    loser.score = 0 if loser.score.negative?
-    winner.save!
-    loser.save!
-    game.save!
-  end
-
   def broadcast_game_results(game, winner, game_winner)
     sorted_game_rounds = game.game_rounds.order('id ASC')
     nums = ["one", "two", "three", "four", "five"]
@@ -190,7 +164,8 @@ class GamesController < ApplicationController
       end
       game.save!
       broadcast_game_results(game, winner, game_winner)
-      setting_scores(game)
+      game.setting_scores
+      game.save!
 
     else
       GameChannel.broadcast_to(

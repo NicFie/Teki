@@ -75,4 +75,23 @@ class Game < ApplicationRecord
       { output: output.join, all_passed: passed }
     end
   end
+
+  def setting_scores
+    winner = User.find(game_winner)
+    loser = User.find(winner.id == player_one.id ? player_two.id : player_one.id)
+    rounds_won = game_rounds.where("winner_id =#{winner.id}").to_a.size
+    game_won = 3
+    rounds_lost = game_rounds.where("winner_id !=#{winner.id}").to_a.size
+    bonus = loser.score / 20 >= 0 && loser.score / 20 < 50 ? loser.score / 20 : 50
+
+    winner.score = (winner.score + rounds_won + game_won + bonus) - rounds_lost
+    loser.score = (loser.score - bonus - rounds_won)
+    self.winner_score = (rounds_won + game_won + bonus) - rounds_lost
+    self.loser_score = bonus + rounds_won
+
+    self.loser_score -= loser.score.abs if loser.score.negative?
+    loser.score = 0 if loser.score.negative?
+    winner.save!
+    loser.save!
+  end
 end
