@@ -6,5 +6,6 @@ test:
 
 production:
   adapter: redis
-  url: <%= ENV.fetch("REDISCLOUD_URL") { "redis://localhost:6379/1" } %>
+  url: <%= ENV["redis://default:XlVeDJ9F8I3ZcrhoKokmpYnBuzOQjvin@redis-17117.c72.eu-west-1-2.ec2.cloud.redislabs.com:17117"] %>
+  # url: <%= ENV.fetch("REDISCLOUD_URL") { "redis://localhost:6379/1" } %>
   channel_prefix: Teki_production
