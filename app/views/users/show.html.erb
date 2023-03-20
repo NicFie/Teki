@@ -7,8 +7,6 @@
                               data-ninjaform-with-friend-value="<%= @with_friend %>">
   <div class="page-section dashboard-information">
     <div class="play-box">
-
-
       <% if current_user.friend_with?(@user) %>
       <div class="friend-profile-buttons">
         <button class="btn btn-main" <%= "disabled" unless @user.online? %>
