@@ -30,10 +30,10 @@
     <% else %>
       <%= render "shared/navbar" %>
       <div class="page_wrapper">
-        <%= render "shared/sidebar" %>
-        <div class="push-right">
+        <%# <%= render "shared/sidebar" %> 
+        <%# <div class="push-right"> %>
           <%= yield %>
-        </div>
+        <%# </div> %>
       </div>
     <% end %>
     <%= render "shared/flashes" %>
