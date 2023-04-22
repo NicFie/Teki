@@ -102,6 +102,67 @@
           null
         ]
       },
+      "/home/will/code/WillDunwoody/personal-projects/Teki/app/models/game_round.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          1,
+          null
+        ]
+      },
+      "/home/will/code/WillDunwoody/personal-projects/Teki/app/models/friendship.rb": {
+        "lines": [
+          1,
+          null
+        ]
+      },
+      "/home/will/code/WillDunwoody/personal-projects/Teki/app/models/user_league.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null
+        ]
+      },
+      "/home/will/code/WillDunwoody/personal-projects/Teki/app/models/league.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          null
+        ]
+      },
+      "/home/will/code/WillDunwoody/personal-projects/Teki/app/models/invitation.rb": {
+        "lines": [
+          1,
+          1,
+          null,
+          1,
+          0,
+          0,
+          0,
+          null,
+          null,
+          1,
+          0,
+          0,
+          0,
+          null,
+          null,
+          1,
+          0,
+          0,
+          null,
+          0,
+          null,
+          null,
+          null
+        ]
+      },
       "/home/will/code/WillDunwoody/personal-projects/Teki/app/channels/application_cable/channel.rb": {
         "lines": [
           0,
@@ -663,84 +724,28 @@
         "branches": {
         }
       },
-      "/home/will/code/WillDunwoody/personal-projects/Teki/app/models/game_round.rb": {
-        "lines": [
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "branches": {
-        }
-      },
-      "/home/will/code/WillDunwoody/personal-projects/Teki/app/models/invitation.rb": {
-        "lines": [
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "branches": {
-        }
-      },
-      "/home/will/code/WillDunwoody/personal-projects/Teki/app/models/league.rb": {
-        "lines": [
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0
-        ],
-        "branches": {
-        }
-      },
       "/home/will/code/WillDunwoody/personal-projects/Teki/app/models/user.rb": {
         "lines": [
           0,
           null,
           null,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          0,
           null,
           0,
           0,
           null,
           0,
           0,
-          null,
+          0,
+          0,
           0,
           null,
+          0,
+          0,
           null,
+          0,
+          0,
           null,
-          null,
+          0,
           null,
           0,
           0,
@@ -757,16 +762,6 @@
           0,
           0,
           null,
-          0,
-          0,
-          0,
-          0
-        ],
-        "branches": {
-        }
-      },
-      "/home/will/code/WillDunwoody/personal-projects/Teki/app/models/user_league.rb": {
-        "lines": [
           0,
           0,
           0,
@@ -1008,6 +1003,6 @@
         }
       }
     },
-    "timestamp": 1682059738
+    "timestamp": 1682166985
   }
 }

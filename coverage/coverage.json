@@ -532,6 +532,12 @@
         0
       ]
     },
+    "/home/will/code/WillDunwoody/personal-projects/Teki/app/models/friendship.rb": {
+      "lines": [
+        1,
+        null
+      ]
+    },
     "/home/will/code/WillDunwoody/personal-projects/Teki/app/models/game.rb": {
       "lines": [
         1,
@@ -635,49 +641,49 @@
     },
     "/home/will/code/WillDunwoody/personal-projects/Teki/app/models/game_round.rb": {
       "lines": [
-        0,
-        0,
-        0,
-        0,
-        0
+        1,
+        1,
+        1,
+        1,
+        null
       ]
     },
     "/home/will/code/WillDunwoody/personal-projects/Teki/app/models/invitation.rb": {
       "lines": [
-        0,
-        0,
+        1,
+        1,
         null,
-        0,
-        0,
-        0,
-        0,
-        0,
-        null,
-        0,
-        0,
+        1,
         0,
         0,
         0,
         null,
+        null,
+        1,
         0,
         0,
         0,
+        null,
+        null,
+        1,
         0,
         0,
+        null,
         0,
-        0,
-        0
+        null,
+        null,
+        null
       ]
     },
     "/home/will/code/WillDunwoody/personal-projects/Teki/app/models/league.rb": {
       "lines": [
-        0,
-        0,
-        0,
-        0,
+        1,
+        1,
+        1,
+        1,
         null,
-        0,
-        0
+        1,
+        null
       ]
     },
     "/home/will/code/WillDunwoody/personal-projects/Teki/app/models/user.rb": {
@@ -685,26 +691,23 @@
         0,
         null,
         null,
-        0,
-        0,
-        null,
-        0,
-        0,
-        0,
-        0,
-        0,
         null,
         0,
         0,
         null,
         0,
         0,
-        null,
+        0,
+        0,
         0,
         null,
+        0,
+        0,
         null,
+        0,
+        0,
         null,
-        null,
+        0,
         null,
         0,
         0,
@@ -729,10 +732,10 @@
     },
     "/home/will/code/WillDunwoody/personal-projects/Teki/app/models/user_league.rb": {
       "lines": [
-        0,
-        0,
-        0,
-        0
+        1,
+        1,
+        1,
+        null
       ]
     },
     "/home/will/code/WillDunwoody/personal-projects/Teki/app/policies/application_policy.rb": {
@@ -965,7 +968,7 @@
     },
     "Models": {
       "lines": {
-        "covered_percent": 6.015037593984962
+        "covered_percent": 20.8
       }
     },
     "Mailers": {

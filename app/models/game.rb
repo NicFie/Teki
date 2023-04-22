@@ -1,5 +1,5 @@
 class Game < ApplicationRecord
-  has_many :game_rounds, dependent: :destroy
+  has_many :game_rounds, dependent: :destroy_async
   belongs_to :player_one, class_name: "User"
   belongs_to :player_two, class_name: "User"
 

@@ -20,7 +20,7 @@ require 'support/factory_trace'
 require 'support/rspec_benchmark'
 require 'support/vcr'
 
-DatabaseCleaner.url_allowlist = %w[postgres://postgres:postgres@postgres postgresql://localhost/Teki_Test]
+DatabaseCleaner.url_allowlist = %w[postgres://postgres:postgres@postgres postgresql://will:teki_password@localhost:5432/Teki_test]
 
 begin
   ActiveRecord::Migration.maintain_test_schema!
