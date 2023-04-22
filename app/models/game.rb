@@ -3,6 +3,7 @@ class Game < ApplicationRecord
   belongs_to :player_one, class_name: "User"
   belongs_to :player_two, class_name: "User"
 
+  
   def add_rounds_and_challenges
     game = Game.find(self.id)
     rounds = game.round_count
