@@ -59,7 +59,8 @@ export default class extends Controller {
         mode: "ruby",
         theme: playerOneTheme,
         lineNumbers: true,
-        readOnly: playerOneRead
+        readOnly: playerOneRead,
+        lineWrapping: true
       }
     );
 
@@ -69,6 +70,7 @@ export default class extends Controller {
         theme: playerTwoTheme,
         lineNumbers: true,
         readOnly: playerTwoRead,
+        lineWrapping: true
       }
     );
 
@@ -78,7 +80,8 @@ export default class extends Controller {
         mode: "ruby",
         theme: 'dracula',
         lineNumbers: true,
-        readOnly: 'nocursor'
+        readOnly: 'nocursor',
+        lineWrapping: true
       }
     );
     this.round_one_editor_two = codemirror.fromTextArea(
@@ -87,6 +90,7 @@ export default class extends Controller {
         theme: 'dracula',
         lineNumbers: true,
         readOnly: 'nocursor',
+        lineWrapping: true
       }
     );
 
@@ -95,7 +99,8 @@ export default class extends Controller {
         mode: "ruby",
         theme: 'dracula',
         lineNumbers: true,
-        readOnly: 'nocursor'
+        readOnly: 'nocursor',
+        lineWrapping: true
       }
     );
     this.round_two_editor_two = codemirror.fromTextArea(
@@ -104,6 +109,7 @@ export default class extends Controller {
         theme: 'dracula',
         lineNumbers: true,
         readOnly: 'nocursor',
+        lineWrapping: true
       }
     );
 
@@ -112,7 +118,8 @@ export default class extends Controller {
         mode: "ruby",
         theme: 'dracula',
         lineNumbers: true,
-        readOnly: 'nocursor'
+        readOnly: 'nocursor',
+        lineWrapping: true
       }
     );
     this.round_three_editor_two = codemirror.fromTextArea(
@@ -121,6 +128,7 @@ export default class extends Controller {
         theme: 'dracula',
         lineNumbers: true,
         readOnly: 'nocursor',
+        lineWrapping: true
       }
     );
 
@@ -129,7 +137,8 @@ export default class extends Controller {
         mode: "ruby",
         theme: 'dracula',
         lineNumbers: true,
-        readOnly: 'nocursor'
+        readOnly: 'nocursor',
+        lineWrapping: true
       }
     );
     this.round_four_editor_two = codemirror.fromTextArea(
@@ -138,6 +147,7 @@ export default class extends Controller {
         theme: 'dracula',
         lineNumbers: true,
         readOnly: 'nocursor',
+        lineWrapping: true
       }
     );
 
@@ -146,7 +156,8 @@ export default class extends Controller {
         mode: "ruby",
         theme: 'dracula',
         lineNumbers: true,
-        readOnly: 'nocursor'
+        readOnly: 'nocursor',
+        lineWrapping: true
       }
     );
     this.round_five_editor_two = codemirror.fromTextArea(
@@ -155,6 +166,7 @@ export default class extends Controller {
         theme: 'dracula',
         lineNumbers: true,
         readOnly: 'nocursor',
+        lineWrapping: true
       }
     );
 

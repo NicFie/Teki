@@ -30,3 +30,12 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: $headers-font;
 }
+
+a {
+  color: #ffffff;
+}
+
+a:hover {
+  color: #3cf595;
+  text-decoration: none;
+}

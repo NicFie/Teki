@@ -127,3 +127,90 @@
   border-radius: 0px !important;
   border: none;
 }
+
+
+@media only screen and (max-width: 450px) {
+  .game-show-container {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    height: calc(100vh - 101px);
+    padding: 0;
+    gap: 10px;
+    width: 90vw;
+    h4, h3 {
+      font-size: 14px;
+      text-decoration: underline;
+      text-decoration-color: #2D936C;
+    }
+  }
+  .game-show-left {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    height: 30%;
+    .page-section {
+      border-radius: 5px;
+      background-color: #222327;
+      color: #fbfcff;
+      padding: 10px;
+      h3 {
+      margin-bottom: 0 !important;
+      font-size: 14px;
+      }
+    }
+    .game-information {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      position: absolute;
+      width: 42%;
+    }
+    .challenge-instructions {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding-top: 35px;
+    }
+    .challenge-tests {
+      width: 100%;
+    }
+  }
+  .game-show-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    height: 70%;
+  }
+
+  .current-player-codebox {
+    height: 100%;
+  }
+  .user-codebox:not(.current-player-codebox) {
+    display: none;
+  }
+  .game-show-container h4 {
+    text-decoration: underline;
+    text-decoration-color: #2D936C;
+    font-size: 18px;
+  }
+  .round-title {
+    font-size: 20px !important;
+  }
+  .page-section p {
+    font-size: 12px;
+  }
+  .user-codebox {
+    // codemirror style for game page.
+    .CodeMirror{
+      height: 60%;
+      width:100%;
+      font-size: 14px;
+    }
+  }
+
+
+
+}
