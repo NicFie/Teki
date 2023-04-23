@@ -84,3 +84,43 @@
   z-index: 1000;
   font-size: 25px;
 }
+
+@media only screen and (max-width:500px) {
+  #player-solutions-second-level{
+    width: 100% !important;
+    max-width: none !important;
+  }
+  #player-solutions-third-level-content {
+    overflow-y: scroll;
+    width: 100%;
+    max-height: 85%;
+  }
+  .hidden-round-details {
+    flex-direction: column;
+    height: 100% !important;
+  }
+  .user-codebox-solutions {
+    width: 100%;
+    min-height: 35%;
+    order: 2;
+    .CodeMirror {
+      font-size: 13px;
+    }
+  }
+  .round-challenge-instructions {
+    width: 100%;
+    min-height: 30%;
+    order: 0;
+    h4 {
+      margin:0;
+    }
+    p {
+      font-size: 14px;
+    }
+  }
+  .user-details {
+    display: flex;
+    margin: 5px 0;
+    align-items: center;
+  }
+}

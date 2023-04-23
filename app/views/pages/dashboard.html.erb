@@ -47,7 +47,7 @@
               <td>#<%= count %></td>
               <td>
               <%= link_to image_tag(user.avatar, height: '40'), user_path(user) %>
-              <%= user.username %>
+              <%= link_to user.username, user_path(user) %>
               </td>
               <td><%= user.score %></td>
             </tr>
@@ -64,7 +64,7 @@
           <% @friends.each do |f| %>
             <div class="friend-div">
               <div class="name-online">
-                <h6><%= f.username %><h6>
+                <h6><%= link_to f.username, user_path(f) %><h6>
               </div>
               <%= image_tag f.avatar, height: '40' %>
               <button class="btn btn-main btn-sm" <%= "disabled" unless f.online? %>

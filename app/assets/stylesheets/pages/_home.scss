@@ -145,19 +145,28 @@
     border-bottom: none;
     padding: 0 0 150px 0;
     transition: all 0.5s ease;
+    h1 {
+    font-size: 40px;
+    }
     #lp-main-content {
-      margin-top: 100px;
+      margin-top: 10rem;
       transition: all 0.5s ease;
     }
   }
   .typed-home {
+    display: flex;
+    flex-direction: column;
     .typed-title {
-      margin-bottom: 12rem;
+      margin-bottom: 6rem;
       transition: all 0.5s ease;
+
     }
     p {
-      font-size: 20px;
+      font-size: 18px;
       transition: all 0.5s ease;
+    }
+    a {
+      margin-top: 2rem;
     }
   }
   .lp-card-container {
@@ -166,18 +175,5 @@
   .lp-card-container-text {
     padding: 0 1rem !important;
     font-size: 16px !important;
-  }
-}
-
-@media only screen and (max-width: 450px) {
-  .typed-home {
-    .typed-title {
-      margin-bottom: 18rem;
-      transition: all 0.5s ease;
-    }
-  }
-  #lp-main-content {
-    margin-top: 50px !important;
-    transition: all 0.5s ease;
   }
 }
