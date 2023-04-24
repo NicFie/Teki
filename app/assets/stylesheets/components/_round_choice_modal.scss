@@ -57,3 +57,10 @@
     color: $white;
   }
 }
+
+@media only screen and (max-width:500px) {
+  .round-choice label {
+    font-size: 10px;
+    letter-spacing: 0;
+}
+}

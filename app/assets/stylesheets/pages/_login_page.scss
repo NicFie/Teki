@@ -121,3 +121,20 @@
     height: 50px;
   }
 }
+.forgotten-password {
+  margin: 60px 20px;
+  background-color: #222327;
+  color: #fbfcff;
+  border-radius: 10px;
+  border: 2px solid #20F596;
+  padding: 20px;
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+}
+.logins {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 20px;
+}

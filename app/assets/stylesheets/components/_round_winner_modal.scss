@@ -42,26 +42,58 @@
     font-size: 100px;
     color: $light-green;
     vertical-align: middle;
-    margin: 0px 50px;
+    margin: auto;
   }
 }
 
 .modal-tickboxes{
   display: flex;
   justify-content: space-between;
+  position: relative;
 }
 
 #left-tick{
   position: absolute;
-  left: 114px;
-  bottom: 84px;
+  left: 110px;
+  bottom: 0px;
 }
 #right-tick{
   position: absolute;
-  right: 114px;
-  bottom: 84px;
+  right: 110px;
+  bottom: 0px;
 }
 
 #start-game-ready {
   justify-content: center;
+}
+
+
+@media only screen and (max-width:500px) {
+  .tally-container {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .player-box {
+      width: 120px;
+      height: 120px;
+
+      img {
+        height: 50px;
+      }
+      p {
+        font-size: 50px;
+      }
+    }
+    span {
+      font-size: 50px;
+      color: $light-green;
+      vertical-align: middle;
+      margin: auto;
+    }
+  }
+  .round-winner-modal-footer, .round-choice-modal-footer {
+    border-top: 0px;
+    flex-wrap: nowrap;
+  }
 }
