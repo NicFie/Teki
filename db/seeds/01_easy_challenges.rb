@@ -296,28 +296,28 @@ create_challenge(
   method_template: 'def multiply_numbers_in_a_string(string)\n  \nend'
 )
 
-create_challenge(
-  name: 'Add Numbers',
-  difficulty: 1,
-  description: 'Write a method that takes two numbers as arguments and returns their sum.
-
-  For example:
-  Input: [2, 3]
-  Output: 5
-
-  Input: [-10, 20]
-  Output: 10
-
-  Input: [0, 0]
-  Output: 0',
-  language: 'Ruby',
-  tests: {
-    [2, 3] => 5,
-    [-10, 20] => 10,
-    [0, 0] => 0
-  },
-  method_template: 'def add_numbers(a, b)\n  \nend'
-)
+# create_challenge(
+#   name: 'Add Numbers',
+#   difficulty: 1,
+#   description: 'Write a method that takes two numbers as arguments and returns their sum.
+#
+#   For example:
+#   Input: [2, 3]
+#   Output: 5
+#
+#   Input: [-10, 20]
+#   Output: 10
+#
+#   Input: [0, 0]
+#   Output: 0',
+#   language: 'Ruby',
+#   tests: {
+#     [2, 3] => 5,
+#     [-10, 20] => 10,
+#     [0, 0] => 0
+#   },
+#   method_template: 'def add_numbers(a, b)\n  \nend'
+# )
 
 create_challenge(
   name: 'Largest Number',

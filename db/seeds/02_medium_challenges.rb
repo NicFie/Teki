@@ -333,29 +333,29 @@ create_challenge(
   method_template: 'def unique_characters?(str)\n  \nend'
 )
 
-create_challenge(
-  name: 'Array Intersection',
-  difficulty: 2,
-  description: 'Write a method that takes two arrays of numbers as arguments and returns a new array containing their intersection (common elements).
-  The elements in the returned array should be unique, and the order does not matter.
-
-  For example:
-  Input: [1, 2, 3], [3, 4, 5]
-  Output: [3]
-
-  Input: [10, 20, 30], [30, 40, 50]
-  Output: [30]
-
-  Input: [1, 2, 3], [4, 5, 6]
-  Output: []',
-  language: 'Ruby',
-  tests: {
-    [[1, 2, 3], [3, 4, 5]] => [3],
-    [[10, 20, 30], [30, 40, 50]] => [30],
-    [[1, 2, 3], [4, 5, 6]] => []
-  },
-  method_template: 'def array_intersection(arr1, arr2)\n  \nend'
-)
+# create_challenge(
+#   name: 'Array Intersection',
+#   difficulty: 2,
+#   description: 'Write a method that takes two arrays of numbers as arguments and returns a new array containing their intersection (common elements).
+#   The elements in the returned array should be unique, and the order does not matter.
+#
+#   For example:
+#   Input: [1, 2, 3], [3, 4, 5]
+#   Output: [3]
+#
+#   Input: [10, 20, 30], [30, 40, 50]
+#   Output: [30]
+#
+#   Input: [1, 2, 3], [4, 5, 6]
+#   Output: []',
+#   language: 'Ruby',
+#   tests: {
+#     [[1, 2, 3], [3, 4, 5]] => [3],
+#     [[10, 20, 30], [30, 40, 50]] => [30],
+#     [[1, 2, 3], [4, 5, 6]] => []
+#   },
+#   method_template: 'def array_intersection(arr1, arr2)\n  \nend'
+# )
 
 create_challenge(
   name: 'Power of Two',
@@ -407,48 +407,48 @@ create_challenge(
   method_template: 'def palindrome_integer?(num)\n  \nend'
 )
 
-create_challenge(
-  name: 'Rotate Array',
-  difficulty: 2,
-  description: 'Write a method that takes an array of numbers and an integer n as arguments and returns a new array with elements rotated to the right by n positions.
-  Assume 0 <= n < array length.
-
-  For example:
-  Input: [1, 2, 3, 4, 5], 2
-  Output: [4, 5, 1, 2, 3]
-
-  Input: [10, 20, 30, 40, 50], 3
-  Output: [30, 40, 50, 10, 20]',
-  language: 'Ruby',
-  tests: {
-    [[1, 2, 3, 4, 5], 2] => [4, 5, 1, 2, 3],
-    [[10, 20, 30, 40, 50], 3] => [30, 40, 50, 10, 20]
-  },
-  method_template: 'def rotate_array(arr, n)\n  \nend'
-)
-
-create_challenge(
-  name: 'Anagram Check',
-  difficulty: 2,
-  description: 'Write a method that takes two strings as arguments and returns true if they are anagrams (contain the same letters in a different order), false otherwise.
-
-  For example:
-  Input: "listen", "silent"
-  Output: true
-
-  Input: "hello", "world"
-  Output: false
-
-  Input: "rail safety", "fairy tales"
-  Output: true',
-  language: 'Ruby',
-  tests: {
-    ['listen', 'silent'] => true,
-    ['hello', 'world'] => false,
-    ['rail safety', 'fairy tales'] => true
-  },
-  method_template: 'def anagram?(str1, str2)\n  \nend'
-)
+# create_challenge(
+#   name: 'Rotate Array',
+#   difficulty: 2,
+#   description: 'Write a method that takes an array of numbers and an integer n as arguments and returns a new array with elements rotated to the right by n positions.
+#   Assume 0 <= n < array length.
+#
+#   For example:
+#   Input: [1, 2, 3, 4, 5], 2
+#   Output: [4, 5, 1, 2, 3]
+#
+#   Input: [10, 20, 30, 40, 50], 3
+#   Output: [30, 40, 50, 10, 20]',
+#   language: 'Ruby',
+#   tests: {
+#     [[1, 2, 3, 4, 5], 2] => [4, 5, 1, 2, 3],
+#     [[10, 20, 30, 40, 50], 3] => [30, 40, 50, 10, 20]
+#   },
+#   method_template: 'def rotate_array(arr, n)\n  \nend'
+# )
+#
+# create_challenge(
+#   name: 'Anagram Check',
+#   difficulty: 2,
+#   description: 'Write a method that takes two strings as arguments and returns true if they are anagrams (contain the same letters in a different order), false otherwise.
+#
+#   For example:
+#   Input: "listen", "silent"
+#   Output: true
+#
+#   Input: "hello", "world"
+#   Output: false
+#
+#   Input: "rail safety", "fairy tales"
+#   Output: true',
+#   language: 'Ruby',
+#   tests: {
+#     ['listen', 'silent'] => true,
+#     ['hello', 'world'] => false,
+#     ['rail safety', 'fairy tales'] => true
+#   },
+#   method_template: 'def anagram?(str1, str2)\n  \nend'
+# )
 
 create_challenge(
   name: 'Reverse Odd Length Words',
@@ -487,28 +487,28 @@ create_challenge(
   method_template: 'def largest_palindrome(str)\n  \nend'
 )
 
-create_challenge(
-  name: 'Remove Element',
-  difficulty: 2,
-  description: 'Write a method that takes an array of numbers and an integer target as arguments and returns a new array with all occurrences of the target removed.
-
-  For example:
-  Input: [1, 2, 3, 4, 5], 3
-  Output: [1, 2, 4, 5]
-
-  Input: [10, 20, 30, 30, 40, 30], 30
-  Output: [10, 20, 40]
-
-  Input: [1, 1, 1, 1], 1
-  Output: []',
-  language: 'Ruby',
-  tests: {
-    [[1, 2, 3, 4, 5], 3] => [1, 2, 4, 5],
-    [[10, 20, 30, 30, 40, 30], 30] => [10, 20, 40],
-    [[1, 1, 1, 1], 1] => []
-  },
-  method_template: 'def remove_element(arr, target)\n  \nend'
-)
+# create_challenge(
+#   name: 'Remove Element',
+#   difficulty: 2,
+#   description: 'Write a method that takes an array of numbers and an integer target as arguments and returns a new array with all occurrences of the target removed.
+#
+#   For example:
+#   Input: [1, 2, 3, 4, 5], 3
+#   Output: [1, 2, 4, 5]
+#
+#   Input: [10, 20, 30, 30, 40, 30], 30
+#   Output: [10, 20, 40]
+#
+#   Input: [1, 1, 1, 1], 1
+#   Output: []',
+#   language: 'Ruby',
+#   tests: {
+#     [[1, 2, 3, 4, 5], 3] => [1, 2, 4, 5],
+#     [[10, 20, 30, 30, 40, 30], 30] => [10, 20, 40],
+#     [[1, 1, 1, 1], 1] => []
+#   },
+#   method_template: 'def remove_element(arr, target)\n  \nend'
+# )
 
 create_challenge(
   name: 'String Compression',
