@@ -699,4 +699,3 @@ create_challenge(
 )
 
 puts "Finished creating #{Rainbow('30').cyan.bright} #{Rainbow('medium').orange.bright} level challenges #{Rainbow('✔').green.bright}"
-puts "Done! #{Rainbow('✔').green.bright}"

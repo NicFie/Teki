@@ -11,10 +11,12 @@ namespace :db do
     ]
 
     seed_files.each do |file|
-      puts "Seeding data from #{file}..."
+      puts ''
+      puts "Seeding data from #{Rainbow(file.to_s.match(/0\d_(\w+)/)[1]).cyan.bright}..."
       load(file)
     end
 
-    puts "Seed data loaded successfully."
+    puts ""
+    puts "Seed data loaded successfully! #{Rainbow('✔').green.bright}"
   end
 end

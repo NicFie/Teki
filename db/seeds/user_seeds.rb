@@ -7,10 +7,11 @@ User.create!(username: "N1c0l4", email: "nicola@mail.com", password: '123456', a
 User.create!(username: "UltimateRival", email: "DuncanMcLeod@mail.com", admin: true, password: 'Highlander', avatar: "coolest-duck.jpg", score: 0)
 
 
-puts  "
+puts  "#{Rainbow("
         __          __          __          __
       <(o )___    <(o )___    <(o )___    <(o )___
        ( ._> /     ( ._> /     ( ._> /     ( ._> /
-        `---'       `---'       `---'       `---'
+        `---'       `---'       `---'       `---'").yellow.bright}
+
 "
 puts "The four ducks of luck grant you safe passage, dont linger, they could change their mind."
