@@ -1,5 +1,5 @@
 require_relative "boot"
-
+require 'rainbow'
 require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
@@ -15,6 +15,7 @@ module Teki
     end
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
+    config.autoload_paths += %W(#{config.root}/lib)
 
     # Configuration for the application, engines, and railties goes here.
     #
