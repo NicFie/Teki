@@ -521,14 +521,14 @@ create_challenge(
   Output: "a3b4c2"
 
   Input: "hello"
-  Output: "h1e1l2o1"
+  Output: "hel2o"
 
   Input: "abcd"
   Output: "abcd"',
   language: 'Ruby',
   tests: {
     'aaabbbbcc' => 'a3b4c2',
-    'hello' => 'h1e1l2o1',
+    'hello' => 'hel2o',
     'abcd' => 'abcd'
   },
   method_template: 'def string_compression(str)\n  \nend'
