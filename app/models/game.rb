@@ -3,7 +3,6 @@ class Game < ApplicationRecord
   belongs_to :player_one, class_name: "User"
   belongs_to :player_two, class_name: "User"
 
-  
   def add_rounds_and_challenges
     game = Game.find(self.id)
     rounds = game.round_count
@@ -48,9 +47,11 @@ class Game < ApplicationRecord
           p "Call is #{call}"
         rescue StandardError => e
           p "Standard Error #{e.message}"
+          # binding.pry
           output << "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{e.message.gsub!(/for #| for \d:\w+\W+\w+.+\W+/, '')}<br><br>"
         rescue ScriptError => e
           p "Script Error #{e}"
+          # binding.pry
           output << "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{e.message.gsub!(/(for #<\w+:\w+>\s+\w+\s+\^+|for #<\w+:\w+>)/, '')}<br><br>"
         else
           if call == v

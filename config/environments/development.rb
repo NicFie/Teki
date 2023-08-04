@@ -1,6 +1,9 @@
 require "active_support/core_ext/integer/time"
+require 'rainbow'
 
 Rails.application.configure do
+  puts "[#{Rainbow('RAILS_ENV').cyan.bright}] #{Rainbow(ENV['RAILS_ENV']).green.bright}"
+
   config.action_mailer.default_url_options = { host: "http://localhost:3000" }
   # Settings specified here will take precedence over those in config/application.rb.
 
