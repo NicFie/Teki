@@ -12,7 +12,7 @@ class GamesController < ApplicationController
       @game = Game.new(game_params.merge(player_one_id: params[:game][:player_one_id], player_two_id: params[:game][:player_two_id]))
       @game.save!
       send_game_invite(@game, params[:game])
-    elsif Game.existing_game(params["game"]).exists?
+    elsif !Game.existing_game(params["game"]).empty?
       @game = Game.existing_game(params["game"])[0]
       redirect_to game_path(@game)
     else
@@ -20,7 +20,6 @@ class GamesController < ApplicationController
       @game.save!
       redirect_to game_path(@game)
     end
-    @game.add_rounds_and_challenges if @game.game_rounds.empty?
   end
 
   def show
@@ -45,9 +44,7 @@ class GamesController < ApplicationController
     @game.update(game_params)
     @game.save!
 
-    respond_to do |format|
-      format.js #add this at the beginning to make sure the form is populated.
-    end
+    respond_to(&:js)
   end
 
   def game_test

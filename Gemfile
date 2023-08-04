@@ -27,11 +27,16 @@ group :development, :test do
   gem "dotenv-rails"
   gem 'rainbow'
 
-  gem 'rubocop', '~> 1', require: false
-  gem 'rubocop-performance', '~> 1', require: false
-  gem 'rubocop-rails', '~> 2', require: false
-  gem 'rubocop-rspec', '~> 2', require: false
+  gem 'rubocop', '~> 1'
+  gem 'rubocop-performance'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec'
   gem 'pry'
+
+  gem "factory_bot_rails"
+  gem "rspec-rails"
+  gem "shoulda-matchers"
+  gem 'database_cleaner-active_record'
 end
 
 group :development do
@@ -43,5 +48,4 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
-  gem 'rspec-rails', '~> 6.0.0'
 end
