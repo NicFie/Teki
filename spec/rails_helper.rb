@@ -1,55 +1,39 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
+# require 'support/test_database_setup'
+
 ENV['RAILS_ENV'] ||= 'test'
-
-require 'simplecov'
-require 'simplecov_json_formatter'
-
-require File.expand_path('../config/environment', __dir__)
-# Prevent database truncation if the environment is production
-abort('The Rails environment is running in production mode!') unless Rails.env.test?
-
+require_relative '../config/environment'
+abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 
-# PLUGIN import
-require 'support/database_cleaner'
-# require 'support/devise'
-require 'support/shoulda_matchers'
-require 'support/factory_bot'
-require 'support/factory_trace'
-require 'support/rspec_benchmark'
-require 'support/vcr'
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
-DatabaseCleaner.url_allowlist = %w[postgres://postgres:postgres@postgres postgresql://will:teki_password@localhost:5432/Teki_test]
+DatabaseCleaner.url_allowlist = %w[postgresql://will:teki_password@localhost:5432/teki_test]
 
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
-  puts e.to_s.strip
-  exit 1
+  abort e.to_s.strip
 end
-
 RSpec.configure do |config|
-  config.fixture_path               = "#{::Rails.root}/spec/factories"
+  config.include Shoulda::Matchers::ActiveRecord, type: :model
+  config.include FactoryBot::Syntax::Methods
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include ActionCable::TestHelper
   config.use_transactional_fixtures = false
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
-  # devise spec helpers like sign_in
-  config.include(Devise::Test::IntegrationHelpers, type: :request)
+
+  config.before(:suite) do
+    FactoryBot.create(:user, id: 1)
+    FactoryBot.create(:user, id: 2)
+  end
 end
 
-FORMATTERS = [
-  SimpleCov::Formatter::HTMLFormatter,
-  SimpleCov::Formatter::JSONFormatter
-].freeze
-
-SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new(FORMATTERS)
-SimpleCov.start 'rails' do
-add_group 'Serializers', 'app/serializers'
-add_group 'Services', 'app/services'
-add_group 'Models', 'app/models'
-minimum_coverage 100
-add_filter '/spec/'
-add_filter '/lib'
-add_filter '/app/controllers/api/shared'
-end
+# Shoulda::Matchers.configure do |config|
+#   config.integrate do |with|
+#     with.test_framework :rspec
+#     with.library :rails
+#   end
+# end

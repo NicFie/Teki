@@ -1,7 +1,7 @@
 FactoryBot.define do
-  factory :invitations do
-    user
-    user_id { 1 }
+  factory :invitation do
+    association :user
     friend_id { 2 }
+    confirmed { false }
   end
 end

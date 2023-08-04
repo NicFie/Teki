@@ -3,23 +3,27 @@ class Game < ApplicationRecord
   belongs_to :player_one, class_name: "User"
   belongs_to :player_two, class_name: "User"
 
+  validates :player_one_id, :player_two_id, presence: true
+
+  scope :existing_game, ->(game) { where(player_two_id: 1, round_count: game["round_count"].to_i) }
+  after_commit :add_rounds_and_challenges, on: :create
+
   def add_rounds_and_challenges
-    game = Game.find(self.id)
-    rounds = game.round_count
+    return unless game_rounds.empty?
+
+    rounds = round_count
     all_challenges = Challenge.all.to_a
+
+    return if all_challenges.empty? || rounds <= 0
 
     while rounds.positive?
       challenge = all_challenges[rand(0..all_challenges.size - 1)]
-      GameRound.create!(game_id: game.id, challenge_id: challenge.id, winner: User.find(1))
+      GameRound.create!(game_id: id, challenge_id: challenge.id, winner_id: 1)
       all_challenges.delete_at(all_challenges.index(challenge))
       rounds -= 1
     end
 
-    game.save!
-  end
-
-  def self.existing_game(game)
-    Game.where("player_two_id = ? and round_count = ?", 1, game["round_count"].to_i)
+    save!
   end
 
   def test_game(submission_code)
@@ -47,11 +51,9 @@ class Game < ApplicationRecord
           p "Call is #{call}"
         rescue StandardError => e
           p "Standard Error #{e.message}"
-          # binding.pry
           output << "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{e.message.gsub!(/for #| for \d:\w+\W+\w+.+\W+/, '')}<br><br>"
         rescue ScriptError => e
           p "Script Error #{e}"
-          # binding.pry
           output << "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{e.message.gsub!(/(for #<\w+:\w+>\s+\w+\s+\^+|for #<\w+:\w+>)/, '')}<br><br>"
         else
           if call == v

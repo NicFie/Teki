@@ -16,8 +16,8 @@ RSpec.describe User, type: :model do
   end
 
   describe 'online?' do
-    let(:user1) { create(:user) }
-    let(:user2) { create(:user, username: "Will", email: "will@mail.com", updated_at: 5.minutes.ago) }
+    let(:user1) { FactoryBot.create(:user) }
+    let(:user2) { FactoryBot.create(:user, username: "Will", email: "will@mail.com", updated_at: 5.minutes.ago) }
 
     it 'returns true if online' do
       expect(user1.online?).to eq true
