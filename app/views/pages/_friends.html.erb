@@ -1,0 +1,14 @@
+<h2 class="friends-title">Friends</h2>
+<div class="friendlist">
+  <% current_user.order_friends.each do |f| %>
+    <div class="friend-div">
+      <div class="name-online">
+        <h6><%= link_to f.username, user_path(f) %></h6>
+      </div>
+      <%= image_tag f.avatar, height: '40' %>
+      <button class="btn btn-main btn-sm" <%= "disabled" unless f.online? %>
+              data-action="click->friend#updateGameForm click->ninjaform#withFriend" data-value="<%= f.id %>"
+              data-toggle="modal" data-target="#roundChoice">Battle</button>
+    </div>
+  <% end  %>
+</div>

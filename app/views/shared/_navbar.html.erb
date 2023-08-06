@@ -22,7 +22,7 @@
             <div class="notification-dropdown" data-notifications-target="dropdown">
               <h4>Notifications</h4>
               <ul>
-                <% @requests.each do |request| %>
+                <% current_user.pending_invitations.each do |request| %>
                   <li>
                     <div class="notification-container">
                       <div class="notification-image">
