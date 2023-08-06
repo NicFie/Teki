@@ -2,7 +2,7 @@
                                data-friend-current-user-id-value="<%= current_user.id %>"
                                data-friend-player-one-ready-value="<%= false %>"
                                data-friend-player-two-ready-value="<%= false %>"
-                               data-ninjaform-with-friend-value="<%= @with_friend %>">
+                               data-ninjaform-with-friend-value="<%= false %>">
 
   <div class="page-section dashboard-information">
     <div class="play-box">
@@ -24,7 +24,7 @@
         </div>
         <div class="dashboard-data">
           <h6>Games</h6>
-          <span><%= current_user.games_as_player_one.where.not(game_winner: nil).count + current_user.games_as_player_two.where.not(game_winner: nil).count %></span>
+          <span><%= current_user.games_count %></span>
         </div>
       </div>
     </div>
@@ -33,62 +33,15 @@
   <div class="dashboard-lower">
 
     <div class="dashboard-lower-left page-section" id="leaderboard-section">
-      <h2>Leaderboard</h2>
-      <table class="leaderboard">
-        <tbody>
-          <tr>
-            <th>Rank</th>
-            <th>Player</th>
-            <th>Score</th>
-          </tr>
-          <% count = 1 %>
-          <% @users_ordered_by_score[0...10].each do |user| %>
-            <tr class="leaderboard-user">
-              <td>#<%= count %></td>
-              <td>
-              <%= link_to image_tag(user.avatar, height: '40'), user_path(user) %>
-              <%= link_to user.username, user_path(user) %>
-              </td>
-              <td><%= user.score %></td>
-            </tr>
-            <% count += 1 %>
-          <% end  %>
-        </tbody>
-      </table>
+      <%= render "leaderboard" %>
     </div>
 
     <div class="dashboard-lower-right">
       <div class="page-section" id="friends-section">
-        <h2 class="friends-title">Friends</h2>
-        <div class="friendlist">
-          <% @friends.each do |f| %>
-            <div class="friend-div">
-              <div class="name-online">
-                <h6><%= link_to f.username, user_path(f) %><h6>
-              </div>
-              <%= image_tag f.avatar, height: '40' %>
-              <button class="btn btn-main btn-sm" <%= "disabled" unless f.online? %>
-              data-action="click->friend#updateGameForm click->ninjaform#withFriend" data-value="<%= f.id %>"
-              data-toggle="modal" data-target="#roundChoice">Battle</button>
-            </div>
-          <% end  %>
-        </div>
+        <%= render 'friends' %>
       </div>
       <div class="page-section">
-        <h2>Your Battles</h2>
-        <table class="leaderboard past-battles">
-          <tbody>
-            <tr>
-              <th>Opponent</th>
-              <th>Date</th>
-              <th>Rounds</th>
-              <th>Points</th>
-            </tr>
-            <% if @latest_battles != nil %>
-              <%= render "shared/latest_battles_table", battles: @latest_battles%>
-            <% end %>
-          </tbody>
-        </table>
+        <%= render "latest_battles_table" %>
       </div>
     </div>
   </div>

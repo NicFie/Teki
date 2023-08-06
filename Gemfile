@@ -31,7 +31,7 @@ group :development, :test do
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
-  gem 'pry'
+  gem 'pry-byebug'
 
   gem "factory_bot_rails"
   gem "rspec-rails"
@@ -42,6 +42,7 @@ end
 group :development do
   gem "web-console"
   gem 'gem_updater', '~> 5'
+  gem 'unique_validation_inspector'
 end
 
 group :test do

@@ -19,6 +19,20 @@ class User < ApplicationRecord
 
   validates :username, presence: true, length: { maximum: 25 }
 
+  scope :leader_board, -> { where.not(id: 1).order(score: :desc).first(10) }
+
+  def completed_games
+    games_as_player_one.or(games_as_player_two).where.not(game_winner: nil)
+  end
+
+  def latest_games
+    completed_games.order(updated_at: :desc).first(5)
+  end
+
+  def games_count
+    completed_games.count
+  end
+
   def friends
     friends_i_sent_invitation = Invitation.where(user_id: id, confirmed: true).pluck(:friend_id)
     friends_i_got_invitation = Invitation.where(friend_id: id, confirmed: true).pluck(:user_id)
@@ -28,6 +42,10 @@ class User < ApplicationRecord
 
   def friend_with?(user)
     Invitation.confirmed_record?(id, user.id)
+  end
+
+  def order_friends
+    friends.order(updated_at: :desc)
   end
 
   def send_invitation(user)
