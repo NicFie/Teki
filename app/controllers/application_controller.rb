@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
   after_action :verify_policy_scoped, only: :index, unless: :skip_pundit?
   after_action :update_user_online, if: :user_signed_in?
 
+  helper_method :current_game
+
   # Uncomment by the end of the project, we need pundit error msgs atm!
 
   # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -14,6 +16,11 @@ class ApplicationController < ActionController::Base
   #   flash[:alert] = "You are not authorized to perform this action."
   #   redirect_to(root_path)
   # end
+  #
+  def current_game
+    game_id = params[:game_id] || request.path.match(/\/games\/(\d+)/)[1]
+    @current_game ||= Game.find_by(id: game_id) if game_id.present?
+  end
 
   private
 
