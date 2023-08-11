@@ -4,7 +4,7 @@ class GamesController < ApplicationController
   after_action :authorize_game, only: %i[new create show edit update]
 
   def show
-    redirect_to dashboard_path unless current_game.current_round
+    redirect_to dashboard_path unless current_round
 
     info = { command: "start game",
              player_one: current_game.player_one.id,
@@ -83,7 +83,7 @@ class GamesController < ApplicationController
   end
 
   def forfeit_round
-    @game_round = @game.current_round
+    @game_round = current_round
     if @game.player_one == current_user
       @game_round.winner_id = @game.player_two.id
       @winner = "#{User.find(@game.player_two.id).username} wins!"

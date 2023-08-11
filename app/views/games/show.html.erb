@@ -8,8 +8,8 @@
      data-code-player-one-id-value="<%= current_game.player_one.id %>"
      data-code-player-two-id-value="<%= current_game.player_two.id %>"
      data-code-update-url="<%= game_path(current_game) %>"
-     data-code-current-game-round-value="<%= current_game.current_round.id %>"
-     data-code-game-round-method-value="<%= current_game.challenge.method_template %>"
+     data-code-current-game-round-value="<%= current_round.id %>"
+     data-code-game-round-method-value="<%= current_round.method_template %>"
      data-game-subscription-game-id-value="<%= current_game.id %>"
      data-game-subscription-current-user-username-value="<%= current_user.username %>"
      data-game-subscription-player-two-username-value="<%= current_game.player_two.username %>"
@@ -17,7 +17,7 @@
      data-game-subscription-player-two-id-value="<%= current_game.player_two.id %>"
      data-game-subscription-update-url="<%= game_path(current_game) %>"
      data-game-subscription-rounds-value="<%= current_game.game_rounds %>"
-     data-game-subscription-game-round-method-value="<%= current_game.challenge.method_template %>"
+     data-game-subscription-game-round-method-value="<%= current_round.method_template %>"
      data-game-subscription-game-round-number="<%= current_game.round_number %>"
 
      data-game-subscription-player-one-ready-value="<%= false %>"
@@ -42,7 +42,7 @@
 
     <div class="page-section challenge-instructions">
       <h4>Instructions</h4>
-      <p><%= simple_format current_game.challenge.description %></p>
+      <p><%= simple_format current_round.challenge.description %></p>
     </div>
 
     <div class="page-section challenge-tests">

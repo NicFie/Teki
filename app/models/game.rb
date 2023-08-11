@@ -17,9 +17,9 @@ class Game < ApplicationRecord
   #   game_rounds.find_by(winner_id: 1)
   # end
 
-  def challenge
-    current_round.challenge
-  end
+  # def challenge
+  #   current_round.challenge
+  # end
 
   def add_rounds_and_challenges
     return unless game_rounds.empty?
