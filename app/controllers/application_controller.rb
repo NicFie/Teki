@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
   after_action :update_user_online, if: :user_signed_in?
 
   helper_method :current_game
-  helper_method :current_round
 
   # Uncomment by the end of the project, we need pundit error msgs atm!
 
@@ -21,10 +20,6 @@ class ApplicationController < ActionController::Base
   def current_game
     game_id = params[:game_id] || request.path.match(/\/games\/(\d+)/)[1]
     @current_game ||= Game.find_by(id: game_id) if game_id.present?
-  end
-
-  def current_round
-    current_game.game_rounds.find_by(winner_id: 1)
   end
 
   private
