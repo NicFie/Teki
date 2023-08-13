@@ -8,6 +8,10 @@ class Game < ApplicationRecord
   scope :existing_game, ->(game) { where(player_two_id: 1, round_count: game["round_count"].to_i) }
   after_commit :add_rounds_and_challenges, on: :create
 
+  def round_number
+    round_count - game_rounds.where(winner_id: 1).size
+  end
+
   def add_rounds_and_challenges
     return unless game_rounds.empty?
 

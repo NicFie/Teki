@@ -1,45 +1,48 @@
 <div class="game-show-container" data-controller="code game-subscription challenge-instructions friend"
-    data-code-game-id-value="<%= @game.id %>"
-    data-code-game-round-count-value="<%= @game.round_count %>"
-    data-code-user-id-value="<%= current_user.id %>"
-    data-code-player-one-id-value="<%= @game.player_one.id %>"
-    data-code-player-two-id-value="<%= @game.player_two.id %>"
-    data-code-update-url="<%= game_path(@game) %>"
-    data-code-current-game-round-value="<%= @current_game_round_id %>"
-    data-code-game-round-method-value="<%= @rounds_left.challenge.method_template %>"
-    data-game-subscription-game-id-value="<%= @game.id %>"
-    data-game-subscription-user-id-value="<%= current_user.id %>"
-    data-game-subscription-current-user-username-value="<%= current_user.username %>"
-    data-game-subscription-player-two-username-value="<%= @game.player_two.username %>"
-    data-game-subscription-player-one-id-value="<%= @game.player_one.id %>"
-    data-game-subscription-player-two-id-value="<%= @game.player_two.id %>"
-    data-game-subscription-update-url="<%= game_path(@game) %>"
-    data-game-subscription-loaded-value="<%= false %>"
-    data-game-subscription-rounds-value="<%= @rounds %>"
-    data-game-subscription-game-round-method-value="<%= @rounds_left.challenge.method_template %>"
-    data-game-subscription-game-round-number="<%= @game.game_rounds.where('winner_id != 1').size %>"
-    data-game-subscription-player-one-ready-value="<%= false %>"
-    data-game-subscription-player-two-ready-value="<%= false %>"
-    data-friend-game-round-number="<%= @game.game_rounds.where('winner_id != 1').size %>">
+     data-code-user-id-value="<%= current_user.id %>"
+     data-game-subscription-user-id-value="<%= current_user.id %>"
+
+     data-friend-game-round-number="<%= current_game.round_number %>"
+     data-code-game-id-value="<%= current_game.id %>"
+     data-code-game-round-count-value="<%= current_game.round_count %>"
+     data-code-player-one-id-value="<%= current_game.player_one.id %>"
+     data-code-player-two-id-value="<%= current_game.player_two.id %>"
+     data-code-update-url="<%= game_path(current_game) %>"
+     data-code-current-game-round-value="<%= current_round.id %>"
+     data-code-game-round-method-value="<%= current_round.method_template %>"
+     data-game-subscription-game-id-value="<%= current_game.id %>"
+     data-game-subscription-current-user-username-value="<%= current_user.username %>"
+     data-game-subscription-player-two-username-value="<%= current_game.player_two.username %>"
+     data-game-subscription-player-one-id-value="<%= current_game.player_one.id %>"
+     data-game-subscription-player-two-id-value="<%= current_game.player_two.id %>"
+     data-game-subscription-update-url="<%= game_path(current_game) %>"
+     data-game-subscription-rounds-value="<%= current_game.game_rounds %>"
+     data-game-subscription-game-round-method-value="<%= current_round.method_template %>"
+     data-game-subscription-game-round-number="<%= current_game.round_number %>"
+
+     data-game-subscription-player-one-ready-value="<%= false %>"
+     data-game-subscription-loaded-value="<%= false %>"
+     data-game-subscription-player-two-ready-value="<%= false %>">
+
   <div class="game-show-left">
     <div class="page-section game-information">
-      <h3>Round <%= (@game.game_rounds.where('winner_id != 1').size + 1)%>/<%=@game.round_count%></h3>
+      <h3>Round <%= (current_game.round_number + 1) %>/<%= current_game.round_count %></h3>
       <%# <div class="d-flex">
         <div class="d-flex flex-column align-items-center">
-          <%= image_tag(@game.player_one.avatar, class: "user-avatar")
-          <h5 class="mt-2"><%= @game.player_one.username %><%# </h5>
+          <%= image_tag(current_game.player_one.avatar, class: "user-avatar")
+          <h5 class="mt-2"><%= current_game.player_one.username %><%# </h5>
         <%# </div>
         <span>V</span>
         <div class="d-flex flex-column align-items-center">
-          <%= image_tag(@game.player_two.avatar, class: "user-avatar", data: {'game-subscription-target' => 'playerTwoAvatar'}) %>
-          <%# <h5 class="mt-2"><%= @game.player_two.username %><%# </h5>
+          <%= image_tag(current_game.player_two.avatar, class: "user-avatar", data: {'game-subscription-target' => 'playerTwoAvatar'}) %>
+          <%# <h5 class="mt-2"><%= current_game.player_two.username %><%# </h5>
         <%# </div>
       </div> %>
     </div>
 
     <div class="page-section challenge-instructions">
       <h4>Instructions</h4>
-      <p><%= simple_format @rounds_left.challenge.description %></p>
+      <p><%= simple_format current_round.challenge.description %></p>
     </div>
 
     <div class="page-section challenge-tests">
@@ -48,14 +51,14 @@
     </div>
   </div>
 
-  <div class="game-show-right <%= "game-show-right-reversed" if current_user == @game.player_two %>">
-    <div class="user-codebox <%= "current-player-codebox" if current_user == @game.player_one %>" id="user-codebox-1" data-action="keyup->code#playerTyping">
+  <div class="game-show-right <%= "game-show-right-reversed" if current_user == current_game.player_two %>">
+    <div class="user-codebox <%= "current-player-codebox" if current_user == current_game.player_one %>" id="user-codebox-1" data-action="keyup->code#playerTyping">
       <div class="user-details">
-        <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
-        <h4 class="user-name"><%= @game.player_one.username %></h4>
+        <div><%= image_tag(current_game.player_one.avatar, class: "user-avatar-small") %></div>
+        <h4 class="user-name"><%= current_game.player_one.username %></h4>
       </div>
       <textarea data-code-target="editorone"></textarea>
-      <% if @game.player_one == current_user %>
+      <% if current_game.player_one == current_user %>
         <div class="code-submit-buttons">
           <div class="left-code-submit-buttons">
             <%= link_to "Forfeit", forfeit_round_game_path, class: 'btn btn-second', data: {turbo_method: :post}, id: "playerOneForfeit" %>
@@ -69,13 +72,13 @@
       <% end %>
     </div>
 
-    <div class="user-codebox <%= "current-player-codebox" if current_user == @game.player_two %>" id="user-codebox-2" data-action="keyup->code#playerTyping">
+    <div class="user-codebox <%= "current-player-codebox" if current_user == current_game.player_two %>" id="user-codebox-2" data-action="keyup->code#playerTyping">
       <div class="user-details">
-        <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
-        <h4 class="user-name"><%= @game.player_two.username %></h4>
+        <div><%= image_tag(current_game.player_two.avatar, class: "user-avatar-small") %></div>
+        <h4 class="user-name"><%= current_game.player_two.username %></h4>
       </div>
       <textarea data-code-target="editortwo"></textarea>
-      <% if @game.player_two == current_user %>
+      <% if current_game.player_two == current_user %>
         <div class="code-submit-buttons">
           <div class="left-code-submit-buttons">
             <%= link_to "Forfeit", forfeit_round_game_path, class: 'btn btn-second', data: {turbo_method: :post}, id: "playerTwoForfeit" %>
