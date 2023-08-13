@@ -1,5 +1,4 @@
 class Game < ApplicationRecord
-  # has_one :challenge, through: :current_round
   has_many :game_rounds, dependent: :destroy_async
   belongs_to :player_one, class_name: "User"
   belongs_to :player_two, class_name: "User"
@@ -12,14 +11,6 @@ class Game < ApplicationRecord
   def round_number
     round_count - game_rounds.where(winner_id: 1).size
   end
-
-  # def current_round
-  #   game_rounds.find_by(winner_id: 1)
-  # end
-
-  # def challenge
-  #   current_round.challenge
-  # end
 
   def add_rounds_and_challenges
     return unless game_rounds.empty?
