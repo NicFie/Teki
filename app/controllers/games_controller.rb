@@ -3,23 +3,8 @@ class GamesController < ApplicationController
   before_action :find_game, only: %i[show edit update game_test user_code user_ready_next_round forfeit_round game_disconnected]
   after_action :authorize_game, only: %i[new create show edit update]
 
-  def show
-    redirect_to dashboard_path unless current_round
-
-    info = { command: "start game",
-             player_one: current_game.player_one.id,
-             player_two: current_game.player_two.id,
-             player_two_username: current_game.player_two.username,
-             player_two_avatar: current_game.player_two.avatar }
-
-    game_broadcast(current_game, info)
-  end
-
   def new
     @game = Game.new
-  end
-
-  def edit
   end
 
   def create
@@ -35,6 +20,24 @@ class GamesController < ApplicationController
       @game.save!
       redirect_to game_path(@game)
     end
+  end
+
+  def show
+    @requests = current_user.pending_invitations
+    @rounds = @game.game_rounds
+    @rounds_left = @rounds.where('winner_id = 1').first
+    redirect_to dashboard_path if @rounds_left.nil?
+    @current_game_round_id = @game.game_rounds.where('winner_id = 1').first.id if @rounds_left
+    info = { command: "start game",
+             player_one: @game.player_one.id,
+             player_two: @game.player_two.id,
+             player_two_username: @game.player_two.username,
+             player_two_avatar: @game.player_two.avatar }
+
+    game_broadcast(@game, info)
+  end
+
+  def edit
   end
 
   def update
@@ -83,7 +86,7 @@ class GamesController < ApplicationController
   end
 
   def forfeit_round
-    @game_round = current_round
+    @game_round = @game.game_rounds.where('winner_id = 1').first
     if @game.player_one == current_user
       @game_round.winner_id = @game.player_two.id
       @winner = "#{User.find(@game.player_two.id).username} wins!"
