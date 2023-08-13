@@ -1,8 +1,3 @@
-require:
-  - rubocop-performance
-  - rubocop-rails
-inherit_from: .rubocop_todo.yml
-
 AllCops:
   NewCops: enable
   Exclude:
@@ -40,10 +35,7 @@ Lint/MissingSuper:
 Style/FrozenStringLiteralComment:
   Enabled: false
 Layout/LineLength:
-  Enabled: true
-  Max: 200
-Layout/IndentationWidth:
-  Width: 2
+  Max: 120
 Style/EmptyMethod:
   Enabled: false
 Bundler/OrderedGems:
