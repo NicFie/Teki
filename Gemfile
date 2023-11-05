@@ -21,11 +21,11 @@ gem "devise"
 gem "autoprefixer-rails"
 gem "font-awesome-sass", "~> 6.1"
 gem "simple_form", github: "heartcombo/simple_form"
+gem 'rainbow'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem "dotenv-rails"
-  gem 'rainbow'
 
   gem 'rubocop', '~> 1'
   gem 'rubocop-performance'
