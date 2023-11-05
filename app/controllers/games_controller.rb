@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
-  skip_after_action :verify_authorized, only: %i[game_test user_code user_ready_next_round forfeit_round invite_response game_disconnected]
-  before_action :find_game, only: %i[show edit update game_test user_code user_ready_next_round forfeit_round game_disconnected]
+  skip_after_action :verify_authorized, only: %i[game_test user_code user_ready_next_round forfeit_round invite_response game_disconnected round_won]
+  before_action :find_game, only: %i[show edit update game_test user_code user_ready_next_round forfeit_round game_disconnected round_won]
   after_action :authorize_game, only: %i[new create show edit update]
 
   def new
@@ -27,6 +27,8 @@ class GamesController < ApplicationController
     @rounds = @game.game_rounds
     @rounds_left = @rounds.where('winner_id = 1').first
     redirect_to dashboard_path if @rounds_left.nil?
+
+    @game_tests = @game.game_rounds.where('winner_id = 1').first&.challenge&.tests
     @current_game_round_id = @game.game_rounds.where('winner_id = 1').first.id if @rounds_left
     info = { command: "start game",
              player_one: @game.player_one.id,
@@ -62,6 +64,14 @@ class GamesController < ApplicationController
       format.js #add this at the beginning to make sure the form is populated.
       format.json { render json: { results: result[:output] } }
     end
+  end
+
+  def round_won
+    @winner = "#{User.find(params[:user_id]).username} wins!"
+    @game_round = @game.game_rounds.where('winner_id = 1').first
+    @game_round.winner_id = params[:user_id]
+    @game_round.save!
+    start_next_round(@game, @winner)
   end
 
   def user_code

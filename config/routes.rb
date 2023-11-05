@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   resources :games, only: %i[show edit update] do
     member do
       post :game_test
+      post :round_won
       post :update_display
       post :user_code
       post :user_ready_next_round

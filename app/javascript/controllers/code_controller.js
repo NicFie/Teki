@@ -11,7 +11,9 @@ export default class extends Controller {
     playerTwoId: Number,
     gameRoundMethod: String,
     currentGameRound: Number,
-    gameRoundCount: Number
+    gameRoundCount: Number,
+    serviceUrl: String,
+    gameTests: String
   }
 
   static targets = [
@@ -247,18 +249,28 @@ export default class extends Controller {
   }
 
   sendCode(code, user_id) {
-    fetch(`/games/${this.gameIdValue}/game_test`, {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-        "X-CSRF-Token": this.token,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify({ submission_code: code, user_id: user_id }),
-    })
-    .then((response) => response.json())
-    .then(data => this.outputTarget.innerHTML = data.results)
+      fetch(`${this.serviceUrlValue}/execute`, {
+          method: "POST",
+          body: JSON.stringify({ submission_code: code, user_id: user_id, tests: this.gameTestsValue }),
+      })
+      .then((response) => response.json())
+      .then(data => {
+          this.outputTarget.innerHTML = data.output
+          data.all_passed === true && this.finishRound(user_id);
+      })
+  }
+
+  finishRound(user_id) {
+      fetch(`${this.gameIdValue}/round_won`, {
+          method: "POST",
+          credentials: "same-origin",
+          headers: {
+              "X-CSRF-Token": this.token,
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+          },
+          body: JSON.stringify({ user_id: user_id})
+      })
   }
 
   showSolutionModal(){
