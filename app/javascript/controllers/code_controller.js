@@ -256,7 +256,7 @@ export default class extends Controller {
       .then((response) => response.json())
       .then(data => {
           this.outputTarget.innerHTML = data.output
-          data.all_passed == true && this.finishRound(user_id);
+          data.all_passed === true && this.finishRound(user_id);
       })
   }
 

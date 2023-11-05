@@ -7,7 +7,7 @@
     data-code-update-url="<%= game_path(@game) %>"
     data-code-current-game-round-value="<%= @current_game_round_id %>"
     data-code-game-round-method-value="<%= @rounds_left.challenge.method_template %>"
-    data-code-service-url-value="<%= ENV['TEST_SERVICE'] %>"
+    data-code-service-url-value="<%= ENV['RUBY_TEST_SERVICE'] %>"
     data-code-game-tests-value="<%= @game_tests %>"
     data-game-subscription-game-id-value="<%= @game.id %>"
     data-game-subscription-user-id-value="<%= current_user.id %>"
