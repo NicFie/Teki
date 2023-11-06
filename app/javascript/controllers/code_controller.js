@@ -6,14 +6,7 @@ const codemirror = require("../codemirror/codemirror");
 export default class extends Controller {
   static values = {
     gameId: Number,
-    userId: Number,
-    playerOneId: Number,
-    playerTwoId: Number,
-    gameRoundMethod: String,
-    currentGameRound: Number,
-    gameRoundCount: Number,
-    serviceUrl: String,
-    gameTests: String
+    currentGameRound: Number
   }
 
   static targets = [
@@ -40,157 +33,112 @@ export default class extends Controller {
 
   initialize() {
     this.token = document.getElementsByName("csrf-token")[0].content
-
-    let playerOneRead = ""
-    let playerTwoRead = ""
-    let playerOneTheme = ""
-    let playerTwoTheme = ""
-    if (this.playerOneIdValue == this.userIdValue) {
-      playerTwoRead = "nocursor"
-      playerOneTheme = "dracula"
-      playerTwoTheme = "dracula_blurred"
-    } else {
-      playerOneRead = "nocursor";
-      playerOneTheme = "dracula_blurred"
-      playerTwoTheme = "dracula"
-    }
-
-    // Generating codemirror windows
-    this.editor_one = codemirror.fromTextArea(
-      this.editoroneTarget, {
-        mode: "ruby",
-        theme: playerOneTheme,
-        lineNumbers: true,
-        readOnly: playerOneRead,
-        lineWrapping: true
-      }
-    );
-
-    this.editor_two = codemirror.fromTextArea(
-      this.editortwoTarget, {
-        mode: "ruby",
-        theme: playerTwoTheme,
-        lineNumbers: true,
-        readOnly: playerTwoRead,
-        lineWrapping: true
-      }
-    );
-
-    // Solutions modal code editors
-    this.round_one_editor_one = codemirror.fromTextArea(
-      this.roundOneEditorOneTarget, {
-        mode: "ruby",
-        theme: 'dracula',
-        lineNumbers: true,
-        readOnly: 'nocursor',
-        lineWrapping: true
-      }
-    );
-    this.round_one_editor_two = codemirror.fromTextArea(
-      this.roundOneEditorTwoTarget, {
-        mode: "ruby",
-        theme: 'dracula',
-        lineNumbers: true,
-        readOnly: 'nocursor',
-        lineWrapping: true
-      }
-    );
-
-    this.round_two_editor_one = codemirror.fromTextArea(
-      this.roundTwoEditorOneTarget, {
-        mode: "ruby",
-        theme: 'dracula',
-        lineNumbers: true,
-        readOnly: 'nocursor',
-        lineWrapping: true
-      }
-    );
-    this.round_two_editor_two = codemirror.fromTextArea(
-      this.roundTwoEditorTwoTarget, {
-        mode: "ruby",
-        theme: 'dracula',
-        lineNumbers: true,
-        readOnly: 'nocursor',
-        lineWrapping: true
-      }
-    );
-
-    this.round_three_editor_one = codemirror.fromTextArea(
-      this.roundThreeEditorOneTarget, {
-        mode: "ruby",
-        theme: 'dracula',
-        lineNumbers: true,
-        readOnly: 'nocursor',
-        lineWrapping: true
-      }
-    );
-    this.round_three_editor_two = codemirror.fromTextArea(
-      this.roundThreeEditorTwoTarget, {
-        mode: "ruby",
-        theme: 'dracula',
-        lineNumbers: true,
-        readOnly: 'nocursor',
-        lineWrapping: true
-      }
-    );
-
-    this.round_four_editor_one = codemirror.fromTextArea(
-      this.roundFourEditorOneTarget, {
-        mode: "ruby",
-        theme: 'dracula',
-        lineNumbers: true,
-        readOnly: 'nocursor',
-        lineWrapping: true
-      }
-    );
-    this.round_four_editor_two = codemirror.fromTextArea(
-      this.roundFourEditorTwoTarget, {
-        mode: "ruby",
-        theme: 'dracula',
-        lineNumbers: true,
-        readOnly: 'nocursor',
-        lineWrapping: true
-      }
-    );
-
-    this.round_five_editor_one = codemirror.fromTextArea(
-      this.roundFiveEditorOneTarget, {
-        mode: "ruby",
-        theme: 'dracula',
-        lineNumbers: true,
-        readOnly: 'nocursor',
-        lineWrapping: true
-      }
-    );
-    this.round_five_editor_two = codemirror.fromTextArea(
-      this.roundFiveEditorTwoTarget, {
-        mode: "ruby",
-        theme: 'dracula',
-        lineNumbers: true,
-        readOnly: 'nocursor',
-        lineWrapping: true
-      }
-    );
-
-    // setting the challenge default method in codemirror windows
-    this.editor_one.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
-    this.editor_two.setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
-
-    this.playerTyping()
   }
 
   connect() {
-    console.log(`Code player 1 is ${this.playerOneIdValue}`)
-    console.log(`Code player 2 is ${this.playerTwoIdValue}`)
-    console.log(`This user is ${this.userIdValue}`)
+    console.log(`Code player 1 is ${this.playerOneId}`)
+    console.log(`Code player 2 is ${this.playerTwoId}`)
+    console.log(`This user is ${this.userId}`)
     this.channel = createConsumer().subscriptions.create(
       { channel: "GameChannel", id: this.gameIdValue },
       { received: data => {
-        if(data.command == "update editors") { this.updatePlayerEditor(data) };
-        if(data.command == "update game winner modal") { this.setSolutionModal(data) };
+        if(data.command == "update editors") { this.updatePlayerEditor(data) }
+        if(data.command == "update game winner modal") { this.setSolutionModal(data) }
       }}
     )
+      this.gameMetaData()
+      this.playerTyping()
   }
+
+gameMetaData() {
+    fetch(`${this.gameIdValue}/game_metadata`, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+            "X-CSRF-Token": this.token,
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }})
+        .then(response => response.json())
+        .then(data => {
+            let meta_data = data.meta_data
+            this.gameRoundMethod = meta_data.gameRoundMethod
+            this.gameTests = meta_data.gameTests
+            this.playerOneId = meta_data.playerOneId
+            this.playerTwoId = meta_data.playerTwoId
+            this.roundCount = meta_data.roundCount
+            this.rubyServiceUrl = meta_data.rubyServiceUrl
+            this.updateUrl = meta_data.updateUrl
+            this.userId = meta_data.userId
+            this.gameRound = meta_data.gameRound
+
+            this.setupEditors()
+        })
+        .then(e => {
+            this.editor_one.setValue(this.gameRoundMethod.replaceAll('\\n', '\n'));
+            this.editor_two.setValue(this.gameRoundMethod.replaceAll('\\n', '\n'));
+        })
+        .catch(er => {
+            console.log(er)
+        })
+    }
+
+    setupEditors() {
+        let playerOneRead = ""
+        let playerTwoRead = ""
+        let playerOneTheme = ""
+        let playerTwoTheme = ""
+        if (this.playerOneId == this.userId) {
+            playerTwoRead = "nocursor"
+            playerOneTheme = "dracula"
+            playerTwoTheme = "dracula_blurred"
+        } else {
+            playerOneRead = "nocursor";
+            playerOneTheme = "dracula_blurred"
+            playerTwoTheme = "dracula"
+        }
+
+        // Generating codemirror windows
+        this.editor_one = codemirror.fromTextArea(
+            this.editoroneTarget, {
+                mode: "ruby",
+                theme: playerOneTheme,
+                lineNumbers: true,
+                readOnly: playerOneRead,
+                lineWrapping: true
+            }
+        );
+
+        this.editor_two = codemirror.fromTextArea(
+            this.editortwoTarget, {
+                mode: "ruby",
+                theme: playerTwoTheme,
+                lineNumbers: true,
+                readOnly: playerTwoRead,
+                lineWrapping: true
+            }
+        );
+
+        const data = {
+            mode: "ruby",
+            theme: 'dracula',
+            lineNumbers: true,
+            readOnly: 'nocursor',
+            lineWrapping: true
+        }
+
+        // Solutions modal code editors
+        this.round_one_editor_one = codemirror.fromTextArea(this.roundOneEditorOneTarget, data);
+        this.round_one_editor_two = codemirror.fromTextArea(this.roundOneEditorTwoTarget, data);
+        this.round_two_editor_one = codemirror.fromTextArea(this.roundTwoEditorOneTarget, data);
+        this.round_two_editor_two = codemirror.fromTextArea(this.roundTwoEditorTwoTarget, data);
+        this.round_three_editor_one = codemirror.fromTextArea(this.roundThreeEditorOneTarget, data);
+        this.round_three_editor_two = codemirror.fromTextArea(this.roundThreeEditorTwoTarget, data);
+        this.round_four_editor_one = codemirror.fromTextArea(this.roundFourEditorOneTarget, data);
+        this.round_four_editor_two = codemirror.fromTextArea(this.roundFourEditorTwoTarget, data);
+        this.round_five_editor_one = codemirror.fromTextArea(this.roundFiveEditorOneTarget, data);
+        this.round_five_editor_two = codemirror.fromTextArea(this.roundFiveEditorTwoTarget, data);
+    }
 
   patchForm(form) {
     fetch(`/game_rounds/${this.currentGameRoundValue}`, {
@@ -205,11 +153,11 @@ export default class extends Controller {
   }
 
   playerOneOrTwo() {
-    return ((this.userIdValue === this.playerOneIdValue) ? "one" : "two")
+    return ((this.userId === this.playerOneId) ? "one" : "two")
   }
 
   editorOneOrTwo() {
-    return ((this.userIdValue === this.playerOneIdValue) ? this.editor_one : this.editor_two)
+    return ((this.userId === this.playerOneId) ? this.editor_one : this.editor_two)
   }
 
   playerTyping() {
@@ -232,26 +180,27 @@ export default class extends Controller {
   }
 
   updatePlayerEditor(data) {
-    if(this.userIdValue === this.playerTwoIdValue) {
+    if(this.userId === this.playerTwoId) {
       this.editor_one.setValue(data.player_one)
-    } else if (this.userIdValue === this.playerOneIdValue) {
+    } else if (this.userId === this.playerOneId) {
       this.editor_two.setValue(data.player_two)
     }
   }
 
   // Code submissions and sendCode function
   clearPlayerSubmission() {
-    this.editorOneOrTwo().setValue(this.gameRoundMethodValue.replaceAll('\\n', '\n'));
+    this.editorOneOrTwo().setValue(this.gameRoundMethod.replaceAll('\\n', '\n'));
   }
 
   playerSubmission() {
-    this.sendCode(this.editorOneOrTwo().getValue(), this.userIdValue);
+    this.sendCode(this.editorOneOrTwo().getValue(), this.userId);
   }
 
   sendCode(code, user_id) {
-      fetch(`${this.serviceUrlValue}/execute`, {
+      console.log(this.roundCount)
+      fetch(`${this.rubyServiceUrl}/execute`, {
           method: "POST",
-          body: JSON.stringify({ submission_code: code, user_id: user_id, tests: this.gameTestsValue }),
+          body: JSON.stringify({ submission_code: code, user_id: user_id, tests: this.gameTests }),
       })
       .then((response) => response.json())
       .then(data => {
@@ -338,7 +287,8 @@ export default class extends Controller {
   }
 
   setSolutionModal(data) {
-    if(this.gameRoundCountValue == 1){
+      console.log(data.round_cound == 1)
+    if(data.round_count == 1) {
       this.round_one_editor_one.setValue(data.p1_r1_solution)
       this.round_one_editor_two.setValue(data.p2_r1_solution)
       this.roundOneInstructionsTarget.innerText = `${data.round_one_instructions}`
@@ -347,7 +297,7 @@ export default class extends Controller {
       document.getElementById("roundThree").style.display = "none"
       document.getElementById("roundFour").style.display = "none"
       document.getElementById("roundFive").style.display = "none"
-    }else if(this.gameRoundCountValue == 3){
+    }else if(data.round_count == 3) {
       this.round_one_editor_one.setValue(data.p1_r1_solution)
       this.round_one_editor_two.setValue(data.p2_r1_solution)
       this.roundOneInstructionsTarget.innerText = `${data.round_one_instructions}`
@@ -359,7 +309,7 @@ export default class extends Controller {
       this.roundThreeInstructionsTarget.innerText = `${data.round_three_instructions}`
       document.getElementById("roundFour").style.display = "none"
       document.getElementById("roundFive").style.display = "none"
-    }else if(this.gameRoundCountValue == 5){
+    }else if(data.round_count == 5) {
       this.round_one_editor_one.setValue(data.p1_r1_solution)
       this.round_one_editor_two.setValue(data.p2_r1_solution)
       this.roundOneInstructionsTarget.innerText = `${data.round_one_instructions}`
@@ -377,5 +327,4 @@ export default class extends Controller {
       this.roundFiveInstructionsTarget.innerText = `${data.round_five_instructions}`
     }
   }
-
 }

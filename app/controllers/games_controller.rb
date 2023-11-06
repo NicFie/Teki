@@ -1,8 +1,24 @@
 class GamesController < ApplicationController
-  skip_after_action :verify_authorized, only: %i[game_test user_code user_ready_next_round forfeit_round invite_response game_disconnected round_won]
-  before_action :find_game, only: %i[show edit update game_test user_code user_ready_next_round forfeit_round game_disconnected round_won]
-  after_action :authorize_game, only: %i[new create show edit update]
+  skip_after_action :verify_authorized, only: %i[user_code user_ready_next_round forfeit_round invite_response game_disconnected round_won game_metadata]
+  before_action :find_game, only: %i[show update user_code user_ready_next_round forfeit_round game_disconnected round_won game_metadata]
+  after_action :authorize_game, only: %i[new create show update]
 
+  def show
+    @requests = current_user.pending_invitations
+    @rounds = @game.game_rounds
+    @rounds_left = @rounds.where('winner_id = 1').first
+    redirect_to dashboard_path if @rounds_left.nil?
+
+    @game_tests = @game.game_rounds.where('winner_id = 1').first&.challenge&.tests
+    @current_game_round_id = @game.game_rounds.where('winner_id = 1').first.id if @rounds_left
+    info = { command: "start game",
+             player_one: @game.player_one.id,
+             player_two: @game.player_two.id,
+             player_two_username: @game.player_two.username,
+             player_two_avatar: @game.player_two.avatar }
+
+    game_broadcast(@game, info)
+  end
   def new
     @game = Game.new
   end
@@ -22,25 +38,6 @@ class GamesController < ApplicationController
     end
   end
 
-  def show
-    @requests = current_user.pending_invitations
-    @rounds = @game.game_rounds
-    @rounds_left = @rounds.where('winner_id = 1').first
-    redirect_to dashboard_path if @rounds_left.nil?
-
-    @game_tests = @game.game_rounds.where('winner_id = 1').first&.challenge&.tests
-    @current_game_round_id = @game.game_rounds.where('winner_id = 1').first.id if @rounds_left
-    info = { command: "start game",
-             player_one: @game.player_one.id,
-             player_two: @game.player_two.id,
-             player_two_username: @game.player_two.username,
-             player_two_avatar: @game.player_two.avatar }
-
-    game_broadcast(@game, info)
-  end
-
-  def edit
-  end
 
   def update
     @game.update(game_params)
@@ -49,20 +46,23 @@ class GamesController < ApplicationController
     respond_to(&:js)
   end
 
-  def game_test
-    result = @game.test_game(params[:submission_code])
-    @winner = "#{User.find(params[:user_id]).username} wins!"
+  def game_metadata
+    data = {
+      gameId: @game.id,
+      roundCount: @game.round_count,
+      userId: current_user.id,
+      playerOneId: @game.player_one.id,
+      playerTwoId: @game.player_two.id,
+      updateUrl: game_path(@game),
+      gameRoundMethod: @game.game_rounds.where(winner_id: 1).first&.challenge&.method_template,
+      rubyServiceUrl: ENV.fetch('RUBY_TEST_SERVICE'),
+      gameTests: @game.game_rounds.where(winner_id: 1).first&.challenge&.tests
+    }
 
-    if !result[:all_passed].include?(false) && !result[:all_passed].empty?
-      @game_round = @game.game_rounds.where('winner_id = 1').first
-      @game_round.winner_id = params[:user_id]
-      @game_round.save!
-      start_next_round(@game, @winner)
-    end
+    data[:gameRound] = @game.game_rounds.where('winner_id = 1').first&.id if @rounds_left
 
     respond_to do |format|
-      format.js #add this at the beginning to make sure the form is populated.
-      format.json { render json: { results: result[:output] } }
+      format.json { render json: { meta_data: data } }
     end
   end
 
@@ -149,7 +149,8 @@ class GamesController < ApplicationController
              round_winner: winner,
              p1_count: game.game_rounds.where("winner_id =#{game.player_one.id}").to_a.size,
              p2_count: game.game_rounds.where("winner_id =#{game.player_two.id}").to_a.size,
-             game_winner: game_winner ? game.player_one.username : game.player_two.username }
+             game_winner: game_winner ? game.player_one.username : game.player_two.username,
+             round_count: game.round_count }
 
     for i in 1..game.round_count do
       info["round_#{nums[i - 1]}_winner"] = User.find(game.game_rounds[i - 1].winner_id).username
