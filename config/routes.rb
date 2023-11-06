@@ -30,7 +30,6 @@ Rails.application.routes.draw do
 
   resources :games, only: %i[show edit update] do
     member do
-      post :game_test
       post :round_won
       post :update_display
       post :user_code
@@ -39,6 +38,7 @@ Rails.application.routes.draw do
       post :invite_response
       post :cancel_invite
       post :game_disconnected
+      post :game_metadata
     end
     resources :game_rounds, only: %i[new create] do
       resources :challenges, only: %i[show]
