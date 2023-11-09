@@ -1,8 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 import { createConsumer } from "@rails/actioncable"
+import { postForm } from '../utils/fileUtils';
 const codemirror = require("../codemirror/codemirror");
 
-// Connects to data-controller="code"
 export default class extends Controller {
   static values = {
     gameId: Number,
@@ -32,55 +32,36 @@ export default class extends Controller {
   ]
 
   initialize() {
-    this.token = document.getElementsByName("csrf-token")[0].content
+    this.gameId = this.gameIdValue
   }
 
   connect() {
-    console.log(`Code player 1 is ${this.playerOneId}`)
-    console.log(`Code player 2 is ${this.playerTwoId}`)
-    console.log(`This user is ${this.userId}`)
     this.channel = createConsumer().subscriptions.create(
-      { channel: "GameChannel", id: this.gameIdValue },
+      { channel: "GameChannel", id: this.gameId },
       { received: data => {
         if(data.command == "update editors") { this.updatePlayerEditor(data) }
         if(data.command == "update game winner modal") { this.setSolutionModal(data) }
       }}
     )
-      this.gameMetaData()
-      this.playerTyping()
+
+      this.gameMetaData().then()
   }
 
-gameMetaData() {
-    fetch(`${this.gameIdValue}/game_metadata`, {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-            "X-CSRF-Token": this.token,
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        }})
-        .then(response => response.json())
-        .then(data => {
-            let meta_data = data.meta_data
-            this.gameRoundMethod = meta_data.gameRoundMethod
-            this.gameTests = meta_data.gameTests
-            this.playerOneId = meta_data.playerOneId
-            this.playerTwoId = meta_data.playerTwoId
-            this.roundCount = meta_data.roundCount
-            this.rubyServiceUrl = meta_data.rubyServiceUrl
-            this.updateUrl = meta_data.updateUrl
-            this.userId = meta_data.userId
-            this.gameRound = meta_data.gameRound
+    async gameMetaData() {
+        const response = await postForm(`${this.gameId}/game_metadata`, {});
+        const { roundCount, userId, playerOneId, playerTwoId, gameRoundMethod, gameTests, rubyServiceUrl, updateUrl, gameRoundId } = response.meta_data;
 
-            this.setupEditors()
-        })
-        .then(e => {
-            this.editor_one.setValue(this.gameRoundMethod.replaceAll('\\n', '\n'));
-            this.editor_two.setValue(this.gameRoundMethod.replaceAll('\\n', '\n'));
-        })
-        .catch(er => {
-            console.log(er)
-        })
+        this.gameRoundMethod = gameRoundMethod;
+        this.gameTests = gameTests;
+        this.playerOneId = playerOneId;
+        this.playerTwoId = playerTwoId;
+        this.roundCount = roundCount;
+        this.rubyServiceUrl = rubyServiceUrl;
+        this.updateUrl = updateUrl;
+        this.userId = userId;
+        this.gameRoundId = gameRoundId;
+
+        this.setupEditors();
     }
 
     setupEditors() {
@@ -119,6 +100,9 @@ gameMetaData() {
             }
         );
 
+        this.editor_one.setValue(this.gameRoundMethod.replaceAll('\\n', '\n'))
+        this.editor_two.setValue(this.gameRoundMethod.replaceAll('\\n', '\n'))
+
         const data = {
             mode: "ruby",
             theme: 'dracula',
@@ -140,17 +124,6 @@ gameMetaData() {
         this.round_five_editor_two = codemirror.fromTextArea(this.roundFiveEditorTwoTarget, data);
     }
 
-  patchForm(form) {
-    fetch(`/game_rounds/${this.currentGameRoundValue}`, {
-      body: form,
-      method: 'PATCH',
-      credentials: "include",
-      dataType: "script",
-      headers: {
-              "X-CSRF-Token": this.token
-       },
-    })
-  }
 
   playerOneOrTwo() {
     return ((this.userId === this.playerOneId) ? "one" : "two")
@@ -161,29 +134,23 @@ gameMetaData() {
   }
 
   playerTyping() {
-    let playerCodeForm = new FormData()
-    playerCodeForm.append(`game_round[player_${this.playerOneOrTwo()}_code]`, this.editorOneOrTwo().getValue())
-    this.patchForm(playerCodeForm)
-    this.getPlayerCode()
+    const code = this.editorOneOrTwo().getValue();
+    const url = `/games/${this.gameId}/user_code`
+    const body =   { code: code, user_id: this.userId }
+    postForm(url, body).then()
   }
 
   getPlayerCode() {
-    fetch(`/games/${this.gameIdValue}/user_code`, {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-        "X-CSRF-Token": this.token,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-    })
+    const url =   `/games/${this.gameId}/user_code`
+    const body = {}
+    postForm(url, body).then()
   }
 
   updatePlayerEditor(data) {
-    if(this.userId === this.playerTwoId) {
-      this.editor_one.setValue(data.player_one)
-    } else if (this.userId === this.playerOneId) {
-      this.editor_two.setValue(data.player_two)
+    if(data.user_id === this.playerTwoId && data.user_id !== this.userId) {
+      this.editor_two.setValue(data.code)
+    } else if (data.user_id === this.playerOneId && data.user_id !== this.userId) {
+      this.editor_one.setValue(data.code)
     }
   }
 
@@ -196,8 +163,12 @@ gameMetaData() {
     this.sendCode(this.editorOneOrTwo().getValue(), this.userId);
   }
 
+  forfeitRound() {
+      let user_id = (this.userId === this.playerOneId) ? this.playerTwoId : this.playerOneId
+      this.finishRound(user_id, `${this.gameIdValue}/forfeit_round`)
+  }
+
   sendCode(code, user_id) {
-      console.log(this.roundCount)
       fetch(`${this.rubyServiceUrl}/execute`, {
           method: "POST",
           body: JSON.stringify({ submission_code: code, user_id: user_id, tests: this.gameTests }),
@@ -210,16 +181,12 @@ gameMetaData() {
   }
 
   finishRound(user_id) {
-      fetch(`${this.gameIdValue}/round_won`, {
-          method: "POST",
-          credentials: "same-origin",
-          headers: {
-              "X-CSRF-Token": this.token,
-              "Content-Type": "application/json",
-              "Accept": "application/json"
-          },
-          body: JSON.stringify({ user_id: user_id})
-      })
+      let player_one_code = this.editor_one.getValue()
+      let player_two_code = this.editor_two.getValue()
+
+      const url = `${this.gameIdValue}/round_won`
+      const body = { user_id: user_id, player_one_code: player_one_code, player_two_code: player_two_code }
+      postForm(url, body)
   }
 
   showSolutionModal(){
@@ -231,7 +198,6 @@ gameMetaData() {
   closeSolutionModal(){
     document.getElementById("playerSolutionsModal").style.display = "none"
   }
-
 
   expandRoundOne() {
     let x = document.getElementById("round-one-hidden-details");
@@ -287,7 +253,6 @@ gameMetaData() {
   }
 
   setSolutionModal(data) {
-      console.log(data.round_cound == 1)
     if(data.round_count == 1) {
       this.round_one_editor_one.setValue(data.p1_r1_solution)
       this.round_one_editor_two.setValue(data.p2_r1_solution)

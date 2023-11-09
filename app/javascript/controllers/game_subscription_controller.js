@@ -183,7 +183,7 @@ export default class extends Controller {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify({ player_one_ready: player_one_ready, player_two_ready: player_two_ready }),
+      body: JSON.stringify({ player_one_ready: player_one_ready, player_two_ready: player_two_ready, player_one: this.playerOneIdValue, player_two: this.playerTwoIdValue }),
     })
   }
 

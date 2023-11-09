@@ -52,7 +52,7 @@
       <% if @game.player_one == current_user %>
         <div class="code-submit-buttons">
           <div class="left-code-submit-buttons">
-            <%= link_to "Forfeit", forfeit_round_game_path, class: 'btn btn-second', data: {turbo_method: :post}, id: "playerOneForfeit" %>
+            <button id="playerOneForfeit" class="btn btn-second" data-action="click->code#forfeitRound">Forfeit</button>
           </div>
           <div class="right-code-submit-buttons">
             <button id="playerOneClear" class="btn btn-second" data-action="click->code#clearPlayerSubmission">Clear</button>
@@ -72,7 +72,7 @@
       <% if @game.player_two == current_user %>
         <div class="code-submit-buttons">
           <div class="left-code-submit-buttons">
-            <%= link_to "Forfeit", forfeit_round_game_path, class: 'btn btn-second', data: {turbo_method: :post}, id: "playerTwoForfeit" %>
+            <button id="playerTwoForfeit" class="btn btn-second" data-action="click->code#forfeitRound">Forfeit</button>
           </div>
           <div class="right-code-submit-buttons">
             <button id="playerTwoClear" class="btn btn-second" data-action="click->code#clearPlayerSubmission">Clear</button>
