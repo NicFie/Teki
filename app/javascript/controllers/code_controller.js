@@ -1,7 +1,13 @@
 import { Controller } from "@hotwired/stimulus"
 import { createConsumer } from "@rails/actioncable"
 import { postForm } from '../utils/fileUtils';
-const codemirror = require("../codemirror/codemirror");
+// const codemirror = require("../codemirror/codemirror");
+import { basicSetup, EditorView } from "codemirror"
+import { StreamLanguage } from "@codemirror/language"
+import { ruby } from "@codemirror/legacy-modes/mode/ruby"
+import { dracula } from '@uiw/codemirror-theme-dracula';
+
+
 
 export default class extends Controller {
   static values = {
@@ -61,14 +67,8 @@ export default class extends Controller {
         let playerOneTheme = (this.playerOneId === this.userId) ? "dracula" : "dracula_blurred";
         let playerTwoTheme = (this.playerOneId === this.userId) ? "dracula_blurred" : "dracula";
 
-        const editorConfig = {
-            mode: "ruby",
-            lineNumbers: true,
-            lineWrapping: true,
-        };
-
-        this.editor_one = this.setupCodeMirror(this.editoroneTarget, playerOneTheme, playerOneRead, editorConfig);
-        this.editor_two = this.setupCodeMirror(this.editortwoTarget, playerTwoTheme, playerTwoRead, editorConfig);
+        this.editor_one = this.setupCodeMirror(this.editoroneTarget, playerOneRead, this.gameRoundMethod.replaceAll("\\n", "\n"));
+        this.editor_two = this.setupCodeMirror(this.editortwoTarget, playerTwoRead, this.gameRoundMethod.replaceAll("\\n", "\n"));
         this.editor_one.setValue(this.gameRoundMethod.replaceAll("\\n", "\n"))
         this.editor_two.setValue(this.gameRoundMethod.replaceAll("\\n", "\n"))
 
@@ -80,8 +80,15 @@ export default class extends Controller {
         }
     }
 
-    setupCodeMirror(target, theme, readOnly, config) {
-        return codemirror.fromTextArea(target, { ...config, theme, readOnly });
+    setupCodeMirror(target, readOnly, info) {
+        // return codemirror.fromTextArea(target, { ...config, theme, readOnly });
+        const editor = document.querySelector('#user-codebox-1')
+
+        new EditorView({
+            doc: info,
+            extensions: [dracula, basicSetup, StreamLanguage.define(ruby)],
+            parent: target
+        })
     }
 
   playerOneOrTwo() {
