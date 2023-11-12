@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-const codemirror = require("../codemirror/codemirror");
+// const codemirror = require("../codemirror/codemirror");
 import { createConsumer } from "@rails/actioncable"
 
 

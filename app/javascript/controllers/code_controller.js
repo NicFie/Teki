@@ -1,7 +1,14 @@
 import { Controller } from "@hotwired/stimulus"
 import { createConsumer } from "@rails/actioncable"
 import { postForm } from '../utils/fileUtils';
-const codemirror = require("../codemirror/codemirror");
+// const codemirror = require("../codemirror/codemirror");
+import { basicSetup, EditorView } from "codemirror"
+import { EditorState, Compartment } from "@codemirror/state"
+import { StreamLanguage } from "@codemirror/language"
+import { ruby } from "@codemirror/legacy-modes/mode/ruby"
+import { dracula } from '@uiw/codemirror-theme-dracula';
+
+
 
 export default class extends Controller {
   static values = {
@@ -56,32 +63,41 @@ export default class extends Controller {
     }
 
     setupEditors() {
-        let playerOneRead = (this.playerOneId === this.userId)? "" : "nocursor";
-        let playerTwoRead = (this.playerOneId === this.userId) ? "nocursor" : "";
-        let playerOneTheme = (this.playerOneId === this.userId) ? "dracula" : "dracula_blurred";
-        let playerTwoTheme = (this.playerOneId === this.userId) ? "dracula_blurred" : "dracula";
+        let playerOneRead = (this.playerOneId === this.userId)
+        let playerTwoRead = (this.playerOneId !== this.userId)
 
-        const editorConfig = {
-            mode: "ruby",
-            lineNumbers: true,
-            lineWrapping: true,
-        };
+        this.editor_one = this.setupCodeMirror(this.editoroneTarget, playerOneRead, this.gameRoundMethod.replaceAll("\\n", "\n"));
+        this.editor_two = this.setupCodeMirror(this.editortwoTarget, playerTwoRead, this.gameRoundMethod.replaceAll("\\n", "\n"));
 
-        this.editor_one = this.setupCodeMirror(this.editoroneTarget, playerOneTheme, playerOneRead, editorConfig);
-        this.editor_two = this.setupCodeMirror(this.editortwoTarget, playerTwoTheme, playerTwoRead, editorConfig);
-        this.editor_one.setValue(this.gameRoundMethod.replaceAll("\\n", "\n"))
-        this.editor_two.setValue(this.gameRoundMethod.replaceAll("\\n", "\n"))
-
-        // Solutions modal code editors
         for (let i = 1; i <= 5; i++) {
             let round = ["One", "Two", "Three", "Four", "Five"]
-            this[`round_${round[i - 1].toLowerCase()}_editor_one`] = this.setupCodeMirror(this[`round${round[i - 1]}EditorOneTarget`], "dracula", "nocursor", editorConfig);
-            this[`round_${round[i - 1].toLowerCase()}_editor_two`] = this.setupCodeMirror(this[`round${round[i - 1]}EditorTwoTarget`], "dracula", "nocursor", editorConfig);
+            this[`round_${round[i - 1].toLowerCase()}_editor_one`] = this.setupCodeMirror(this[`round${round[i - 1]}EditorOneTarget`], false,  this.gameRoundMethod.replaceAll("\\n", "\n"));
+            this[`round_${round[i - 1].toLowerCase()}_editor_two`] = this.setupCodeMirror(this[`round${round[i - 1]}EditorTwoTarget`], false,  this.gameRoundMethod.replaceAll("\\n", "\n"));
         }
     }
 
-    setupCodeMirror(target, theme, readOnly, config) {
-        return codemirror.fromTextArea(target, { ...config, theme, readOnly });
+    setupCodeMirror(target, read, info) {
+        let theme = {
+            ".cm-activeLine": { backgroundColor: "transparent !important" },
+            ".cm-activeLineGutter": { backgroundColor: "transparent !important" }
+        };
+
+        if (read) {
+            theme["&"] = { pointerEvents: "none", userSelect: "none" };
+            theme[".cm-content"] = { caretColor: "transparent" };
+        }
+
+        let state = EditorState.create({
+            doc: info,
+            extensions: [dracula,
+                EditorView.editable.of(read),
+                EditorState.readOnly.of(!read),
+                EditorView.theme(theme),
+                basicSetup,
+                StreamLanguage.define(ruby)]
+        })
+
+        return new EditorView({ state, parent: target })
     }
 
   playerOneOrTwo() {
@@ -93,7 +109,7 @@ export default class extends Controller {
   }
 
   playerTyping() {
-    const code = this.editorOneOrTwo().getValue();
+    const code = this.editorOneOrTwo().state.doc.toString()
     const url = `/games/${this.gameId}/user_code`
     const body =   { code: code, user_id: this.userId }
     postForm(url, body).then()
@@ -105,21 +121,30 @@ export default class extends Controller {
     postForm(url, body).then()
   }
 
+  updateEditorCode(editor, code) {
+      let transaction = editor.state.update({
+          changes: { from: 0, to: editor.state.doc.length, insert: code }
+      });
+
+      editor.update([transaction]);
+  }
+
   updatePlayerEditor(data) {
     if(data.user_id === this.playerTwoId && data.user_id !== this.userId) {
-      this.editor_two.setValue(data.code)
+        this.updateEditorCode(this.editor_two, data.code)
     } else if (data.user_id === this.playerOneId && data.user_id !== this.userId) {
-      this.editor_one.setValue(data.code)
+        this.updateEditorCode(this.editor_one, data.code)
     }
   }
 
   // Code submissions and sendCode function
   clearPlayerSubmission() {
-    this.editorOneOrTwo().setValue(this.gameRoundMethod.replaceAll("\\n", "\n"));
+    let editor = this.editorOneOrTwo()
+    this.updateEditorCode(editor, this.gameRoundMethod.replaceAll("\\n", "\n"));
   }
 
   playerSubmission() {
-    this.sendCode(this.editorOneOrTwo().getValue(), this.userId);
+    this.sendCode(this.editorOneOrTwo().state.doc.toString(), this.userId);
   }
 
   forfeitRound() {
@@ -140,8 +165,8 @@ export default class extends Controller {
   }
 
   finishRound(user_id) {
-      let player_one_code = this.editor_one.getValue()
-      let player_two_code = this.editor_two.getValue()
+      let player_one_code = this.editor_one.state.doc.toString()
+      let player_two_code = this.editor_two.state.doc.toString()
 
       const url = `${this.gameId}/round_won`
       const body = { user_id: user_id, player_one_code: player_one_code, player_two_code: player_two_code }
@@ -209,8 +234,10 @@ export default class extends Controller {
   setSolutionModal(data) {
       for (let i = 1; i <= data.round_count; i++) {
           let round = ["One", "Two", "Three", "Four", "Five"]
-          this[`round_${round[i - 1].toLowerCase()}_editor_one`].setValue(data[`p1_r${i}_solution`])
-          this[`round_${round[i - 1].toLowerCase()}_editor_two`].setValue(data[`p2_r${i}_solution`])
+          let editor_one = this[`round_${round[i - 1].toLowerCase()}_editor_one`]
+          let editor_two = this[`round_${round[i - 1].toLowerCase()}_editor_two`]
+          this.updateEditorCode(editor_one, data[`p1_r${i}_solution`])
+          this.updateEditorCode(editor_two, data[`p2_r${i}_solution`])
           this[`round${round[i - 1]}InstructionsTarget`].innerText = data[`round_${round[i - 1].toLowerCase()}_instructions`]
           document.getElementById(`round${round[i - 1]}`).classList.remove("hidden")
       }
