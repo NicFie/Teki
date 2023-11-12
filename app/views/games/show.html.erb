@@ -48,7 +48,9 @@
         <div><%= image_tag(@game.player_one.avatar, class: "user-avatar-small") %></div>
         <h4 class="user-name"><%= @game.player_one.username %></h4>
       </div>
-      <div data-code-target="editorone"></div>
+      <div class="codemirror-box">
+        <div data-code-target="editorone"></div>
+      </div>
       <% if @game.player_one == current_user %>
         <div class="code-submit-buttons">
           <div class="left-code-submit-buttons">
@@ -68,7 +70,9 @@
         <div><%= image_tag(@game.player_two.avatar, class: "user-avatar-small") %></div>
         <h4 class="user-name"><%= @game.player_two.username %></h4>
       </div>
-      <div data-code-target="editortwo"></div>
+      <div class="codemirror-box">
+        <div data-code-target="editortwo"></div>
+      </div>
       <% if @game.player_two == current_user %>
         <div class="code-submit-buttons">
           <div class="left-code-submit-buttons">
