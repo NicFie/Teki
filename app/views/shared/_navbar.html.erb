@@ -31,8 +31,8 @@
                       <div class="request-buttons">
                         <span class="invite-text"><strong><%= User.find(request.user_id).username %></strong> wants to add you as a friend.</span>
                         <div class="buttons-group">
-                          <%= link_to '<i class="fa-solid fa-check"></i>'.html_safe, accept_invitation_user_path(request), data: {turbo_method: :post}, class: 'request-button btn btn-main' %>
-                          <%= link_to '<i class="fa-solid fa-xmark"></i>'.html_safe, reject_invitation_user_path(request), class: 'request-button btn btn-second', data: {turbo_method: :delete} %>
+                          <%= button_to '<i class="fa-solid fa-check"></i>'.html_safe, accept_invitation_user_path(request), data: {turbo_method: :post}, class: 'request-button btn btn-main' %>
+                          <%= button_to '<i class="fa-solid fa-xmark"></i>'.html_safe, reject_invitation_user_path(request), class: 'request-button btn btn-second', data: {turbo_method: :delete} %>
                         </div>
                       </div>
                     </div>

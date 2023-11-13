@@ -9,7 +9,7 @@
     <div class="play-box">
       <% if current_user.friend_with?(@user) %>
       <div class="friend-profile-buttons">
-        <button class="btn btn-main" <%= "disabled" unless @user.online? %>
+        <button class="btn btn-main" <%= "disabled" unless @user.online %>
               data-action="click->friend#updateGameForm click->ninjaform#withFriend" data-value="<%= @user.id %>"
               data-toggle="modal" data-target="#roundChoice">Battle</button>
         <%= link_to '<button type="button" class="btn btn-main">Unfriend</button>'.html_safe, reject_invitation_user_path(Invitation.where(user_id: @current_user.id).and(Invitation.where(friend_id: @user.id)).or(Invitation.where(user_id: @user.id).and(Invitation.where(friend_id: @current_user.id))).first.id), data: {turbo_method: :delete} %>

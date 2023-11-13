@@ -26,7 +26,7 @@ class User < ApplicationRecord
   end
 
   def latest_games
-    completed_games.order(updated_at: :desc).first(5)
+    completed_games.includes(:player_one, :player_two, :game_rounds).order(updated_at: :desc).limit(5)
   end
 
   def games_count
@@ -50,9 +50,5 @@ class User < ApplicationRecord
 
   def send_invitation(user)
     invitations.create(friend_id: user.id)
-  end
-
-  def online?
-    updated_at > 3.minutes.ago
   end
 end
