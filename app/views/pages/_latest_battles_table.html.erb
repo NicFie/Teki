@@ -8,7 +8,7 @@
     <th>Points</th>
   </tr>
   <% unless current_user.latest_games.empty? %>
-    <% current_user.latest_games.each do |b| %>
+    <% current_user.latest_games.includes(:game_rounds).each do |b| %>
       <tr style='height: 40px;'>
         <td>
           <% if b.player_one == current_user %>

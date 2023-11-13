@@ -6,8 +6,11 @@
         <h6><%= link_to f.username, user_path(f) %></h6>
       </div>
       <%= image_tag f.avatar, height: '40' %>
-      <button class="btn btn-main btn-sm" <%= "disabled" unless f.online? %>
-              data-action="click->friend#updateGameForm click->ninjaform#withFriend" data-value="<%= f.id %>"
+      <button class="btn btn-main btn-sm"
+              <%= "disabled" unless f.online %>
+              data-friend-id="<%= f.id %>"
+              data-action="click->friend#updateGameForm click->ninjaform#withFriend"
+              data-value="<%= f.id %>"
               data-toggle="modal" data-target="#roundChoice">Battle</button>
     </div>
   <% end  %>

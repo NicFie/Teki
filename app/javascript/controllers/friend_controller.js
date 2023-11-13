@@ -32,9 +32,13 @@ export default class extends Controller {
 
 
   connect() {
-    this.channel = createConsumer().subscriptions.create(
+    createConsumer().subscriptions.create(
       { channel: "FriendChannel", id: this.currentUserIdValue },
       { received: data => {
+          if (data.command == "update user status") {
+            const friendButton = document.querySelector(`[data-friend-id='${data.user_id}']`);
+            if (friendButton) { friendButton.disabled = !data.online }
+          }
         if(data.command == "invited player info") {
           this.inviteModal(data)
           console.log(data)
