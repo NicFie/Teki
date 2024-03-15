@@ -34,6 +34,7 @@ group :development, :test do
   gem "rubocop-rails"
   gem "rubocop-rspec"
   gem "simplecov"
+  gem 'panolint'
 
   gem "database_cleaner-active_record"
   gem "factory_bot_rails"
