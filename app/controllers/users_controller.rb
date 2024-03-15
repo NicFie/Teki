@@ -15,9 +15,7 @@ class UsersController < ApplicationController
     # @friendship = current_user.friendship_with(@user)
   end
 
-  def send_game_invitation
-
-  end
+  def send_game_invitation; end
 
   def send_invitation
     @invitation = current_user.send_invitation(User.find(params[:id]))

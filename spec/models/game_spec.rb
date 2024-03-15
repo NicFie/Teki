@@ -1,15 +1,15 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Game, type: :model do
   describe "associations" do
-    it { should have_many(:game_rounds).dependent(:destroy) }
-    it { should belong_to(:player_one).class_name("User") }
-    it { should belong_to(:player_two).class_name("User") }
+    it { is_expected.to have_many(:game_rounds).dependent(:destroy) }
+    it { is_expected.to belong_to(:player_one).class_name("User") }
+    it { is_expected.to belong_to(:player_two).class_name("User") }
   end
 
   describe "validations" do
-    it { should validate_presence_of(:player_one_id) }
-    it { should validate_presence_of(:player_two_id) }
+    it { is_expected.to validate_presence_of(:player_one_id) }
+    it { is_expected.to validate_presence_of(:player_two_id) }
   end
 
   describe "scopes" do
@@ -40,7 +40,7 @@ RSpec.describe Game, type: :model do
     end
   end
 
-  #TODO finish writing tests
+  # TODO finish writing tests
   # describe "#setting_scores" do
   #   let(:game) { FactoryBot.create(:game, player_one: 3, game_winner: 1 ) }
   #   let!(:challenges) { FactoryBot.create_list(:challenge, 5) }

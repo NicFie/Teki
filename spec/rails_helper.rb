@@ -1,15 +1,15 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'spec_helper'
-require 'simplecov'
+require "spec_helper"
+require "simplecov"
 SimpleCov.start
 # require 'support/test_database_setup'
 
-ENV['RAILS_ENV'] ||= 'test'
-require_relative '../config/environment'
+ENV["RAILS_ENV"] ||= "test"
+require_relative "../config/environment"
 abort("The Rails environment is running in production mode!") if Rails.env.production?
-require 'rspec/rails'
+require "rspec/rails"
 
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
+Dir[Rails.root.join("spec", "support", "**", "*.rb")].each { |f| require f }
 
 begin
   ActiveRecord::Migration.maintain_test_schema!
