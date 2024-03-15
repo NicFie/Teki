@@ -16,11 +16,12 @@ jobs:
           - "5432:5432"
         env:
           POSTGRES_DB: rails_test
-          POSTGRES_USER: rails
-          POSTGRES_PASSWORD: password
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
     env:
       RAILS_ENV: test
-      DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
+      TEST_DB_URL: "postgres://postgres:postgres@localhost:5432/rails_test"
+      DATABASE_URL: "postgres://postgres:postgres@localhost:5432/rails_test"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
