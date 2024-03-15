@@ -33,6 +33,7 @@ group :development, :test do
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
   gem 'pry-byebug'
+  gem 'simplecov'
 
   gem "factory_bot_rails"
   gem "rspec-rails"

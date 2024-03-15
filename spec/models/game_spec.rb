@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Game, type: :model do
   describe "associations" do
-    it { should have_many(:game_rounds).dependent(:destroy_async) }
+    it { should have_many(:game_rounds).dependent(:destroy) }
     it { should belong_to(:player_one).class_name("User") }
     it { should belong_to(:player_two).class_name("User") }
   end
@@ -34,6 +34,18 @@ RSpec.describe Game, type: :model do
 
     it "creates the specified number of game rounds with challenges and sets a winner" do
       game.add_rounds_and_challenges
+
+      expect(game.game_rounds.count).to eq(3)
+      expect(game.game_rounds.pluck(:winner_id)).to all(eq(1))
+    end
+  end
+
+  describe "#setting_scores" do
+    let(:game) { FactoryBot.create(:game, player_one: 3, game_winner: 1 ) }
+    let!(:challenges) { FactoryBot.create_list(:challenge, 5) }
+
+    it "creates the specified number of game rounds with challenges and sets a winner" do
+      game.setting_scores
 
       expect(game.game_rounds.count).to eq(3)
       expect(game.game_rounds.pluck(:winner_id)).to all(eq(1))
