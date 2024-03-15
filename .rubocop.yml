@@ -10,6 +10,7 @@ inherit_from: .rubocop_todo.yml
 AllCops:
   Exclude:
     - db/schema.rb
+    - 'vendor/'
 
 Naming/AccessorMethodName:
   Description: Check the naming of accessor methods for get_/set_.
