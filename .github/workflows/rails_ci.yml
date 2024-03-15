@@ -47,4 +47,4 @@ jobs:
         PGPASSWORD: postgres
         TEST_DB_URL: postgres://postgres:postgres@localhost/teki_test
       run: |
-        bin/rails test
+        bin/rspec
