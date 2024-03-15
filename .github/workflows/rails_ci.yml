@@ -8,7 +8,7 @@ jobs:
     
     services:
       postgres:
-        image: postgres:11
+        image: postgres:14
         env:
           POSTGRES_PASSWORD: postgres
         ports:
@@ -25,7 +25,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7 # or the version you use
+        ruby-version: 3.1.2
     - name: Install Dependencies
       run: |
         gem install bundler
