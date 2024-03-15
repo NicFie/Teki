@@ -40,7 +40,7 @@ jobs:
         DATABASE_URL: postgres://postgres:postgres@localhost:5432/teki_test
       run: |
         bin/rails db:create db:schema:load --trace
-    - name: Run Tests
+    - name: Run Rspec Tests
       env:
         RAILS_ENV: test
         PGHOST: localhost
