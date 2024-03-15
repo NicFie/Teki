@@ -1,5 +1,7 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
+require 'simplecov'
+SimpleCov.start
 # require 'support/test_database_setup'
 
 ENV['RAILS_ENV'] ||= 'test'
@@ -9,7 +11,7 @@ require 'rspec/rails'
 
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
-DatabaseCleaner.url_allowlist = %w[postgresql://will:teki_password@localhost:5432/teki_test]
+DatabaseCleaner.url_allowlist = %w[postgresql://will:teki_password@localhost:5432/teki_test postgres://postgres:postgres@localhost/teki_test]
 
 begin
   ActiveRecord::Migration.maintain_test_schema!
