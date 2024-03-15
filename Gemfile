@@ -28,13 +28,13 @@ group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem "dotenv-rails"
 
+  gem "panolint"
   gem "pry-byebug"
   gem "rubocop", "~> 1"
   gem "rubocop-performance"
   gem "rubocop-rails"
   gem "rubocop-rspec"
   gem "simplecov"
-  gem 'panolint'
 
   gem "database_cleaner-active_record"
   gem "factory_bot_rails"

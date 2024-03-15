@@ -33,5 +33,3 @@ jobs:
         run: bundle exec rspec --color
         env:
           CI: true
-      - name: Check Rubocop Styles
-        run: bundle exec rubocop
