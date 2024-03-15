@@ -37,7 +37,7 @@ class Game < ApplicationRecord
       output << "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{e.message.gsub!('(eval):3:', '')}"
     # tests variable needs modifying to return not just first test but sequentially after round is won
     else
-      game_tests = game_rounds.where('winner_id = 1').first.challenge.tests
+      game_tests = game_rounds.where("winner_id = 1").first&.challenge&.tests
       tests = eval(game_tests)
       display_keys = eval(game_tests).keys
 

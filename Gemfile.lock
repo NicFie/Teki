@@ -94,6 +94,7 @@ GEM
     bindex (0.8.1)
     bootsnap (1.17.0)
       msgpack (~> 1.2)
+    brakeman (5.4.1)
     builder (3.2.4)
     bullet (7.1.3)
       activesupport (>= 3.0.0)
@@ -195,6 +196,13 @@ GEM
     nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    panolint (0.1.6)
+      brakeman (>= 4.8, < 6.0)
+      rubocop (>= 0.83, < 2.0)
+      rubocop-performance (~> 1.5)
+      rubocop-rails (~> 2.5)
+      rubocop-rake (~> 0.5)
+      rubocop-rspec (~> 2.0)
     parallel (1.23.0)
     parser (3.2.2.4)
       ast (~> 2.4.1)
@@ -307,6 +315,8 @@ GEM
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
+    rubocop-rake (0.6.0)
+      rubocop (~> 1.0)
     rubocop-rspec (2.25.0)
       rubocop (~> 1.40)
       rubocop-capybara (~> 2.17)
@@ -394,6 +404,7 @@ DEPENDENCIES
   gem_updater (~> 5)
   importmap-rails
   jbuilder
+  panolint
   pg (~> 1.1)
   pry-byebug
   puma (~> 6.0)

@@ -1,16 +1,16 @@
 Rails.application.routes.draw do
   devise_for :users
-  #root to: "pages#home"
-  get '/dashboard', to: 'pages#dashboard', as: 'dashboard'
-  get '/user-settings', to: 'pages#user_settings', as: 'user_settings'
+  # root to: "pages#home"
+  get "/dashboard", to: "pages#dashboard", as: "dashboard"
+  get "/user-settings", to: "pages#user_settings", as: "user_settings"
   # get '/user_code', to: 'games#user_code', as: 'user_code'
 
   devise_scope :user do
     authenticated :user do
-      get '/', to: 'pages#dashboard', as: 'authenticated_root'
+      get "/", to: "pages#dashboard", as: "authenticated_root"
     end
     unauthenticated do
-      get '/', to: 'pages#home', as: 'unauthenticated_root'
+      get "/", to: "pages#home", as: "unauthenticated_root"
     end
   end
 

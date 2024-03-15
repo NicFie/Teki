@@ -6,8 +6,7 @@ class UserPolicy < ApplicationPolicy
     end
   end
 
-  def index
-  end
+  def index; end
 
   def send_game_invitation?
     true

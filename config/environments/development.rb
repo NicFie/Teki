@@ -1,5 +1,5 @@
 require "active_support/core_ext/integer/time"
-require 'rainbow'
+require "rainbow"
 
 Rails.application.configure do
   puts "[#{Rainbow('RAILS_ENV').cyan.bright}] #{Rainbow(ENV['RAILS_ENV']).green.bright}"
@@ -29,7 +29,7 @@ Rails.application.configure do
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      "Cache-Control" => "public, max-age=#{2.days.to_i}"
+      "Cache-Control" => "public, max-age=#{2.days.to_i}",
     }
   else
     config.action_controller.perform_caching = false
@@ -71,8 +71,6 @@ Rails.application.configure do
     Bullet.console = true
     Bullet.rails_logger = true
   end
-
-  
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
