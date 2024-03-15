@@ -36,8 +36,8 @@ jobs:
         PGHOST: localhost
         PGUSER: postgres
         PGPASSWORD: postgres
-        TEST_DB_URL: postgres://postgres:postgres@localhost:5432/teki_test
-        DATABASE_URL: postgres://postgres:postgres@localhost:5432/teki_test
+        TEST_DB_URL: "postgres://postgres:postgres@localhost:5432/teki_test"
+        DATABASE_URL: "postgres://postgres:postgres@localhost:5432/teki_test"
       run: |
         bin/rails db:create db:schema:load --trace
     - name: Run Rspec Tests
@@ -46,7 +46,7 @@ jobs:
         PGHOST: localhost
         PGUSER: postgres
         PGPASSWORD: postgres
-        TEST_DB_URL: postgres://postgres:postgres@localhost:5432/teki_test
-        DATABASE_URL: postgres://postgres:postgres@localhost:5432/teki_test
+        TEST_DB_URL: "postgres://postgres:postgres@localhost:5432/teki_test"
+        DATABASE_URL: "postgres://postgres:postgres@localhost:5432/teki_test"
       run: |
         bundle exec rspec
