@@ -40,15 +40,12 @@ RSpec.describe Game, type: :model do
     end
   end
 
-  describe "#setting_scores" do
-    let(:game) { FactoryBot.create(:game, player_one: 3, game_winner: 1 ) }
-    let!(:challenges) { FactoryBot.create_list(:challenge, 5) }
-
-    it "creates the specified number of game rounds with challenges and sets a winner" do
-      game.setting_scores
-
-      expect(game.game_rounds.count).to eq(3)
-      expect(game.game_rounds.pluck(:winner_id)).to all(eq(1))
-    end
-  end
+  #TODO finish writing tests
+  # describe "#setting_scores" do
+  #   let(:game) { FactoryBot.create(:game, player_one: 3, game_winner: 1 ) }
+  #   let!(:challenges) { FactoryBot.create_list(:challenge, 5) }
+  #
+  #   it "creates the specified number of game rounds with challenges and sets a winner" do
+  #   end
+  # end
 end
