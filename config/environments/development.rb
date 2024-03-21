@@ -1,9 +1,9 @@
-require "active_support/core_ext/integer/time"
-require "rainbow"
+require 'active_support/core_ext/integer/time'
+require 'rainbow'
 
 Rails.application.configure do
-  puts "[#{Rainbow('RAILS_ENV').cyan.bright}] #{Rainbow(ENV['RAILS_ENV']).green.bright}"
-  config.hosts << "www.tekitournie.test"
+  puts "[#{Rainbow('RAILS_ENV').cyan.bright}] #{Rainbow(ENV.fetch('RAILS_ENV', 'Development')).green.bright}"
+  config.hosts << 'www.tekitournie.test'
   # config.action_mailer.default_url_options = { host: "http://localhost:3000" }
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -23,13 +23,13 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join("tmp/caching-dev.txt").exist?
+  if Rails.root.join('tmp/caching-dev.txt').exist?
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      "Cache-Control" => "public, max-age=#{2.days.to_i}",
+      'Cache-Control' => "public, max-age=#{2.days.to_i}",
     }
   else
     config.action_controller.perform_caching = false

@@ -1,7 +1,7 @@
 puts "Creating #{Rainbow('30').cyan.bright} #{Rainbow('medium').orange.bright} challenges"
 
 create_challenge(
-  name: "Type of Triangle",
+  name: 'Type of Triangle',
   difficulty: 2,
   description: 'Given an array of the side lengths of a triangle, determine its type.
 
@@ -16,18 +16,18 @@ create_challenge(
   [2, 6, 5] --> "scalene"
   [4, 4, 7] --> "isosceles"
   [3, 5, 5, 2] --> "not a triangle"',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
-    [2, 3, 4] => "scalene",
-    [4, 4, 7] => "isosceles",
-    [8, 8, 8] => "equilateral",
-    [10] => "not a triangle",
+    [2, 3, 4] => 'scalene',
+    [4, 4, 7] => 'isosceles',
+    [8, 8, 8] => 'equilateral',
+    [10] => 'not a triangle',
   },
   method_template: 'def type_of_triangle(integer)\n  \nend',
 )
 
 create_challenge(
-  name: "Reverse Odd Length Words",
+  name: 'Reverse Odd Length Words',
   difficulty: 2,
   description: 'Given a string, reverse all the words which have odd length. The even length words are not changed.
 
@@ -35,17 +35,17 @@ create_challenge(
   "Bananas" --> "sananaB"
   "One two three four" --> "enO owt eerht four"
   "Make sure uoy only esrever sdrow of ddo length" --> "Make sure you only reverse words of odd length"',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
-    "Even even even even even even even even even" => "Even even even even even even even even even",
-    "Odd Odd odd" => "ddO ddO ddo",
-    "Make sure you only reverse words of odd length" => "Make sure uoy only esrever sdrow of ddo length",
+    'Even even even even even even even even even' => 'Even even even even even even even even even',
+    'Odd Odd odd' => 'ddO ddO ddo',
+    'Make sure you only reverse words of odd length' => 'Make sure uoy only esrever sdrow of ddo length',
   },
   method_template: 'def reverse_odd_length_words(integer)\n  \nend',
 )
 
 create_challenge(
-  name: "Position in Alphabet",
+  name: 'Position in Alphabet',
   difficulty: 2,
   description: 'Given a number between 1-26, return what letter is at that position in the alphabet. Return "invalid" if the number given is not within that range, or isn\'t an integer.
 
@@ -53,19 +53,19 @@ create_challenge(
   1 --> "a"
   26.0 --> "z"
   0 --> "invalid"',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
-    4 => "d",
-    9 => "i",
-    -1 => "invalid",
-    4.5 => "invalid",
-    21.0 => "u",
+    4 => 'd',
+    9 => 'i',
+    -1 => 'invalid',
+    4.5 => 'invalid',
+    21.0 => 'u',
   },
   method_template: 'def position_in_alphabet(integer)\n  \nend',
 )
 
 create_challenge(
-  name: "Find Bob",
+  name: 'Find Bob',
   difficulty: 2,
   description: 'Given an array of names, find Bob.
   Return his location in the array, or -1 if Bob is not there. This method returns an integer
@@ -74,18 +74,18 @@ create_challenge(
   ["Will", "Nicola", "Bob"] --> 2
   ["Bob", "Nicola", "Aaron", "Dareos"] --> 0
   ["Will", "Nicola", "Aaron"] --> -1',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
-    ["Jimmy", "Layla", "Mandy"] => -1,
-    ["Bob", "Nathan", "Hayden"] => 0,
-    ["Paul", "Layla", "Bob"] => 2,
-    ["Garry", "Maria", "Bethany", "Bob", "Pauline"] => 3,
+    ['Jimmy', 'Layla', 'Mandy'] => -1,
+    ['Bob', 'Nathan', 'Hayden'] => 0,
+    ['Paul', 'Layla', 'Bob'] => 2,
+    ['Garry', 'Maria', 'Bethany', 'Bob', 'Pauline'] => 3,
   },
   method_template: 'def find_bob(array)\n  \nend',
 )
 
 create_challenge(
-  name: "Letter increment",
+  name: 'Letter increment',
   difficulty: 2,
   description: 'Given a one word string, write a method that changes every letter to the next letter. Ignore any punctuation.
   This method returns a string.
@@ -94,17 +94,17 @@ create_challenge(
   "a" --> "b"
   "bye!" --> "czf!"
   "Welcome" --> "Xfmdpnf"',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
-    "Hello" => "Ifmmp",
-    "lol!?" => "mpm!?",
-    "bye" => "czf",
+    'Hello' => 'Ifmmp',
+    'lol!?' => 'mpm!?',
+    'bye' => 'czf',
   },
   method_template: 'def letter_increment(string)\n  \nend',
 )
 
 create_challenge(
-  name: "Decimator",
+  name: 'Decimator',
   difficulty: 2,
   description: 'Write a DECIMATOR method which takes a string and decimates it (i.e. it removes the last 1/10 of the characters).
   Always round up: if the string has 21 characters, 1/10 of the characters would be 2.1 characters, hence the DECIMATOR removes 3 characters. The DECIMATOR shows no mercy!
@@ -118,18 +118,18 @@ create_challenge(
 
   "ABCDEFGHIJKLMNOPQRSTUVWXYZ" --> "ABCDEFGHIJKLMNOPQRSTUVW"
   # 26 characters, removed 3.',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" => "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrst",
-    "A" => "",
-    "1234567890AB" => "1234567890",
-    "" => "",
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrst',
+    'A' => '',
+    '1234567890AB' => '1234567890',
+    '' => '',
   },
   method_template: 'def decimator(string)\n  \nend',
 )
 
 create_challenge(
-  name: "Binary Zeroes",
+  name: 'Binary Zeroes',
   difficulty: 2,
   description: 'Given a binary string, write a method that returns the longest sequence of consecutive zeroes in a binary string.
   If no zeroes exist in the input, return an empty string.
@@ -139,18 +139,18 @@ create_challenge(
   "01100001011000" --> "0000"
   "100100100" --> "00"
   "11111" --> ""',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
-    "1000000000011101" => "0000000000",
-    "100001110000100000" => "00000",
-    "101010101" => "0",
-    "111111" => "",
+    '1000000000011101' => '0000000000',
+    '100001110000100000' => '00000',
+    '101010101' => '0',
+    '111111' => '',
   },
   method_template: 'def binary_zeroes(string)\n  \nend',
 )
 
 create_challenge(
-  name: "Squares and Cubes",
+  name: 'Squares and Cubes',
   difficulty: 2,
   description: 'Given an array of two numbers, check if the square root of the first number is equal to the cube root of the second number.
   This method returns a boolean.
@@ -159,7 +159,7 @@ create_challenge(
   [4, 8] --> true
   [16, 48] --> false
   [9, 27] --> true',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
     [5, 12] => false,
     [25, 125] => true,
@@ -171,7 +171,7 @@ create_challenge(
 )
 
 create_challenge(
-  name: "Find Odd Integer",
+  name: 'Find Odd Integer',
   difficulty: 2,
   description: 'Create a method that takes an array and finds the integer which appears an odd number of times.
   This method returns an integer.
@@ -180,7 +180,7 @@ create_challenge(
   [1, 1, 2, -2, 5, 2, 4, 4, -1, -2, 5] --> -1
   [20, 1, 1, 2, 2, 3, 3, 5, 5, 4, 20, 4, 5] --> 5
   [10] --> 10',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
     [20, 1, -1, 2, -2, 3, 3, 5, 5, 1, 2, 4, 20, 4, -1, -2, 5] => 5,
     [1, 1, 1, 1, 1, 1, 10, 1, 1, 1, 1] => 10,
@@ -191,7 +191,7 @@ create_challenge(
 )
 
 create_challenge(
-  name: "No Yelling",
+  name: 'No Yelling',
   difficulty: 2,
   description: 'Create a method that transforms sentences ending with multiple question marks ? or exclamation marks ! into a sentence only ending with one without changing punctuation in the middle of the sentences.
   This method returns a string.
@@ -200,18 +200,18 @@ create_challenge(
   "What went wrong?????????" --> "What went wrong?"
   "Oh my goodness!!!" --> "Oh my goodness!"
   "I just can\'t believe!!!!!!! it." --> "I just can\'t believe!!!!!!! it."',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
-    "What went wrong?????????" => "What went wrong?",
-    "Oh my goodness!!!" => "Oh my goodness!",
-    "WHAT!" => "WHAT!",
+    'What went wrong?????????' => 'What went wrong?',
+    'Oh my goodness!!!' => 'Oh my goodness!',
+    'WHAT!' => 'WHAT!',
     "That's a ton!! of cheese!!!!!!!!" => "That's a ton!! of cheese!",
   },
   method_template: 'def no_yelling(string)\n  \nend',
 )
 
 create_challenge(
-  name: "Reverse Words",
+  name: 'Reverse Words',
   difficulty: 2,
   description: 'Write a method that takes a string as an argument and returns the string with each word reversed.
   Words are separated by a single space. The order of words should remain the same.
@@ -225,17 +225,17 @@ create_challenge(
 
   Input: "123 456 789"
   Output: "321 654 987"',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
-    "Hello World" => "olleH dlroW",
-    "Ruby is fun" => "ybuR si nuf",
-    "123 456 789" => "321 654 987",
+    'Hello World' => 'olleH dlroW',
+    'Ruby is fun' => 'ybuR si nuf',
+    '123 456 789' => '321 654 987',
   },
   method_template: 'def reverse_words(string)\n  \nend',
 )
 
 create_challenge(
-  name: "Sum of Squares",
+  name: 'Sum of Squares',
   difficulty: 2,
   description: 'Write a method that takes an array of numbers and returns the sum of the squares of all elements.
 
@@ -248,7 +248,7 @@ create_challenge(
 
   Input: [0, 0, 0]
   Output: 0',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
     [1, 2, 3, 4, 5] => 55,
     [10, -3, 8, 1] => 130,
@@ -258,7 +258,7 @@ create_challenge(
 )
 
 create_challenge(
-  name: "Pangram Check",
+  name: 'Pangram Check',
   difficulty: 2,
   description: 'A pangram is a sentence that contains every letter of the alphabet at least once.
   Write a method that takes a string as an argument and returns true if it is a pangram, false otherwise.
@@ -272,17 +272,17 @@ create_challenge(
 
   Input: "Pack my box with five dozen liquor jugs"
   Output: true',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
-    "The quick brown fox jumps over the lazy dog" => true,
-    "Hello World" => false,
-    "Pack my box with five dozen liquor jugs" => true,
+    'The quick brown fox jumps over the lazy dog' => true,
+    'Hello World' => false,
+    'Pack my box with five dozen liquor jugs' => true,
   },
   method_template: 'def pangram?(sentence)\n  \nend',
 )
 
 create_challenge(
-  name: "Fibonacci Sequence",
+  name: 'Fibonacci Sequence',
   difficulty: 2,
   description: 'Write a method that takes an integer n and returns the nth number in the Fibonacci sequence.
   The Fibonacci sequence starts with 0 and 1, and each subsequent number is the sum of the two preceding ones.
@@ -300,7 +300,7 @@ create_challenge(
 
   Input: 10
   Output: 55',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
     0 => 0,
     1 => 1,
@@ -311,7 +311,7 @@ create_challenge(
 )
 
 create_challenge(
-  name: "Unique Characters",
+  name: 'Unique Characters',
   difficulty: 2,
   description: 'Write a method that takes a string as an argument and returns true if all characters in the string are unique, false otherwise.
 
@@ -324,11 +324,11 @@ create_challenge(
 
   Input: "123456789"
   Output: true',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
-    "abcdefg" => true,
-    "hello" => false,
-    "123456789" => true,
+    'abcdefg' => true,
+    'hello' => false,
+    '123456789' => true,
   },
   method_template: 'def unique_characters?(str)\n  \nend',
 )
@@ -358,7 +358,7 @@ create_challenge(
 # )
 
 create_challenge(
-  name: "Power of Two",
+  name: 'Power of Two',
   difficulty: 2,
   description: 'Write a method that takes an integer n as an argument and returns true if n is a power of 2, false otherwise.
 
@@ -374,7 +374,7 @@ create_challenge(
 
   Input: 64
   Output: true',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
     1 => true,
     4 => true,
@@ -385,7 +385,7 @@ create_challenge(
 )
 
 create_challenge(
-  name: "Palindrome Integer",
+  name: 'Palindrome Integer',
   difficulty: 2,
   description: 'Write a method that takes an integer as an argument and returns true if it is a palindrome (reads the same backward as forward), false otherwise.
 
@@ -398,7 +398,7 @@ create_challenge(
 
   Input: 12345
   Output: false',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
     121 => true,
     12321 => true,
@@ -451,7 +451,7 @@ create_challenge(
 # )
 
 create_challenge(
-  name: "Reverse Odd Length Words",
+  name: 'Reverse Odd Length Words',
   difficulty: 2,
   description: 'Given a string, reverse all the words which have odd length. The even length words are not changed.
 
@@ -459,17 +459,17 @@ create_challenge(
   "Bananas" --> "sananaB"
   "One two three four" --> "enO owt eerht four"
   "Make sure uoy only esrever sdrow of ddo length" --> "Make sure you only reverse words of odd length"',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
-    "Even even even even even even even even even" => "Even even even even even even even even even",
-    "Odd Odd odd" => "ddO ddO ddo",
-    "Make sure you only reverse words of odd length" => "Make sure uoy only esrever sdrow of ddo length",
+    'Even even even even even even even even even' => 'Even even even even even even even even even',
+    'Odd Odd odd' => 'ddO ddO ddo',
+    'Make sure you only reverse words of odd length' => 'Make sure uoy only esrever sdrow of ddo length',
   },
   method_template: 'def reverse_odd_length_words(string)\n  \nend',
 )
 
 create_challenge(
-  name: "Largest Palindrome",
+  name: 'Largest Palindrome',
   difficulty: 2,
   description: 'Write a method that takes a string as an argument and returns the largest palindrome substring within that string.
   If there are multiple palindromes of the same length, return the first one found.
@@ -478,11 +478,11 @@ create_challenge(
   "racecar" --> "racecar"
   "hello" --> "ll"
   "abbacc" --> "abba"',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
-    "racecar" => "racecar",
-    "hello" => "ll",
-    "abbacc" => "abba",
+    'racecar' => 'racecar',
+    'hello' => 'll',
+    'abbacc' => 'abba',
   },
   method_template: 'def largest_palindrome(str)\n  \nend',
 )
@@ -511,7 +511,7 @@ create_challenge(
 # )
 
 create_challenge(
-  name: "String Compression",
+  name: 'String Compression',
   difficulty: 2,
   description: 'Write a method that takes a string as an argument and returns a compressed version of the string.
   The compression should replace repeated characters with the character followed by the number of occurrences.
@@ -525,17 +525,17 @@ create_challenge(
 
   Input: "abcd"
   Output: "abcd"',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
-    "aaabbbbcc" => "a3b4c2",
-    "hello" => "hel2o",
-    "abcd" => "abcd",
+    'aaabbbbcc' => 'a3b4c2',
+    'hello' => 'hel2o',
+    'abcd' => 'abcd',
   },
   method_template: 'def string_compression(str)\n  \nend',
 )
 
 create_challenge(
-  name: "Sum of Digits",
+  name: 'Sum of Digits',
   difficulty: 2,
   description: 'Write a method that takes an integer as an argument and returns the sum of its digits.
 
@@ -548,7 +548,7 @@ create_challenge(
 
   Input: 98765
   Output: 35',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
     123 => 6,
     456 => 15,
@@ -558,7 +558,7 @@ create_challenge(
 )
 
 create_challenge(
-  name: "Common Prefix",
+  name: 'Common Prefix',
   difficulty: 2,
   description: 'Write a method that takes an array of strings as an argument and returns the longest common prefix among the strings.
   If there is no common prefix, return an empty string.
@@ -569,16 +569,16 @@ create_challenge(
 
   Input: ["dog", "race", "car"]
   Output: ""',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
-    ["flower", "flow", "flight"] => "fl",
-    ["dog", "race", "car"] => "",
+    ['flower', 'flow', 'flight'] => 'fl',
+    ['dog', 'race', 'car'] => '',
   },
   method_template: 'def common_prefix(strings)\n  \nend',
 )
 
 create_challenge(
-  name: "Roman to Integer",
+  name: 'Roman to Integer',
   difficulty: 2,
   description: 'Write a method that takes a string representing a Roman numeral and returns the corresponding integer value.
   Roman numerals are represented by the following symbols: I, V, X, L, C, D, M.
@@ -595,18 +595,18 @@ create_challenge(
 
   Input: "LVIII"
   Output: 58',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
-    "III" => 3,
-    "IV" => 4,
-    "IX" => 9,
-    "LVIII" => 58,
+    'III' => 3,
+    'IV' => 4,
+    'IX' => 9,
+    'LVIII' => 58,
   },
   method_template: 'def roman_to_integer(roman)\n  \nend',
 )
 
 create_challenge(
-  name: "Square Root",
+  name: 'Square Root',
   difficulty: 2,
   description: 'Write a method that takes a non-negative integer x and returns its square root as an integer.
   You may assume that the input will be a valid non-negative integer.
@@ -620,7 +620,7 @@ create_challenge(
 
   Input: 16
   Output: 4',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
     4 => 2,
     9 => 3,
@@ -630,7 +630,7 @@ create_challenge(
 )
 
 create_challenge(
-  name: "Majority Element",
+  name: 'Majority Element',
   difficulty: 2,
   description: 'Write a method that takes an array of numbers and returns the majority element (element that appears more than n/2 times, where n is the length of the array).
   Assume there is always a majority element.
@@ -644,7 +644,7 @@ create_challenge(
 
   Input: [1]
   Output: 1',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
     [3, 2, 3] => 3,
     [2, 2, 1, 1, 1, 2, 2] => 2,
@@ -654,7 +654,7 @@ create_challenge(
 )
 
 create_challenge(
-  name: "Count Primes",
+  name: 'Count Primes',
   difficulty: 2,
   description: 'Write a method that takes an integer n as an argument and returns the number of prime numbers less than n.
   Assume n is a positive integer greater than 1.
@@ -668,7 +668,7 @@ create_challenge(
 
   Input: 30
   Output: 10 (Primes less than 30 are 2, 3, 5, 7, 11, 13, 17, 19, 23, 29)',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
     10 => 4,
     20 => 8,
@@ -678,7 +678,7 @@ create_challenge(
 )
 
 create_challenge(
-  name: "Reverse Words in a String",
+  name: 'Reverse Words in a String',
   difficulty: 2,
   description: 'Write a method that takes a string as an argument and returns the string with the order of the words reversed.
   Words in the input string are separated by one or more spaces.
@@ -690,10 +690,10 @@ create_challenge(
 
   Input: "  The sky is blue   "
   Output: "blue is sky The"',
-  language: "Ruby",
+  language: 'Ruby',
   tests: {
-    "hello world" => "world hello",
-    "  The sky is blue   " => "blue is sky The",
+    'hello world' => 'world hello',
+    '  The sky is blue   ' => 'blue is sky The',
   },
   method_template: 'def reverse_words(str)\n  \nend',
 )

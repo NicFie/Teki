@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :league do
-    name { "Teki League" }
+    name { 'Teki League' }
   end
 end

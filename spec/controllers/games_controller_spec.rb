@@ -1,4 +1,4 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe GamesController, type: :controller do
   # TODO Continue writing tests for GamesController

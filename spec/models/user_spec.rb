@@ -1,24 +1,24 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe "associations" do
+  describe 'associations' do
     it { is_expected.to validate_presence_of(:username) }
 
     it { is_expected.to have_many(:invitations) }
     it { is_expected.to have_many(:pending_invitations) }
     it { is_expected.to have_many(:user_leagues) }
     it { is_expected.to have_many(:leagues).through(:user_leagues) }
-    it { is_expected.to have_many(:friendships_as_asker).class_name("Friendship").dependent(:destroy_async) }
-    it { is_expected.to have_many(:friendships_as_receiver).class_name("Friendship").dependent(:destroy_async) }
-    it { is_expected.to have_many(:games_as_player_one).class_name("Game") }
-    it { is_expected.to have_many(:games_as_player_two).class_name("Game") }
+    it { is_expected.to have_many(:friendships_as_asker).class_name('Friendship').dependent(:destroy_async) }
+    it { is_expected.to have_many(:friendships_as_receiver).class_name('Friendship').dependent(:destroy_async) }
+    it { is_expected.to have_many(:games_as_player_one).class_name('Game') }
+    it { is_expected.to have_many(:games_as_player_two).class_name('Game') }
     it { is_expected.to have_many(:game_rounds) }
   end
 
-  describe "User game methods" do
+  describe 'User game methods' do
     before(:context) do
       @user1 = create(:user, online: true)
-      @user2 = create(:user, username: "Will", email: "will@mail.com")
+      @user2 = create(:user, username: 'Will', email: 'will@mail.com')
       @user3 = create(:user)
       @user4 = create(:user)
 
@@ -39,34 +39,34 @@ RSpec.describe User, type: :model do
       DatabaseCleaner.clean_with(:truncation)
     end
 
-    describe "online?" do
-      it "returns true if online" do
+    describe 'online?' do
+      it 'returns true if online' do
         expect(@user1.online?).to eq true
       end
 
-      it "returns false if user offline for more than 3 minutes" do
+      it 'returns false if user offline for more than 3 minutes' do
         expect(@user2.online?).to eq false
       end
     end
 
-    describe "#completed_games" do
-      it "returns amount of games completed by user" do
+    describe '#completed_games' do
+      it 'returns amount of games completed by user' do
         expect(@user1.completed_games.length).to eq 12
       end
     end
 
-    describe "#latest_games" do
-      it "returns last 5 games user has played if player has played more than 5 games" do
+    describe '#latest_games' do
+      it 'returns last 5 games user has played if player has played more than 5 games' do
         expect(@user1.latest_games.length).to eq 5
       end
 
-      it "returns amount of games played if player has played less than 5 games" do
+      it 'returns amount of games played if player has played less than 5 games' do
         expect(@user3.latest_games.length).to eq 3
       end
     end
 
-    describe "#games_count" do
-      it "returns amount of games a user has played" do
+    describe '#games_count' do
+      it 'returns amount of games a user has played' do
         expect(@user1.games_count).to eq 12
         expect(@user3.games_count).to eq 3
       end
@@ -78,7 +78,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "User friend methods" do
+  describe 'User friend methods' do
     before(:context) do
       @friend_user = create(:user)
       @friend1 = create(:user)
@@ -90,23 +90,23 @@ RSpec.describe User, type: :model do
       create(:invitation, user: @friend_user, friend_id: @non_friend.id, confirmed: false)
     end
 
-    describe "#friends" do
-      it "returns only confirmed friends" do
+    describe '#friends' do
+      it 'returns only confirmed friends' do
         expect(@friend_user.friends).to contain_exactly(@friend1, @friend2)
       end
     end
 
-    describe "#friends_with" do
-      it "returns true if you are friends" do
+    describe '#friends_with' do
+      it 'returns true if you are friends' do
         expect(@friend_user.friend_with?(@friend1)).to eq true
       end
 
-      it "returns false if you are not friends" do
+      it 'returns false if you are not friends' do
         expect(@friend_user.friend_with?(@non_friend)).to eq false
       end
     end
 
-    describe "#order_friends" do
+    describe '#order_friends' do
       before do
         @friend1.update!(updated_at: 1.minute.ago)
         @friend2.update!(updated_at: 2.minutes.ago)
@@ -114,15 +114,15 @@ RSpec.describe User, type: :model do
         @friend2.reload
       end
 
-      it "returns friends ordered by updated_at in descending order" do
+      it 'returns friends ordered by updated_at in descending order' do
         expect(@friend_user.order_friends.first).to eq @friend1
         expect(@friend_user.order_friends.second).to eq @friend2
       end
     end
 
-    describe "#send_invitation" do
+    describe '#send_invitation' do
       # TODO test what happens if a user is invited twice
-      it "creates a friend invitation" do
+      it 'creates a friend invitation' do
         invitations = @friend_user.invitations.count
         @friend_user.send_invitation(@non_friend)
         expect(@friend_user.invitations.count).to eq invitations + 1
