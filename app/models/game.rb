@@ -63,7 +63,7 @@ class Game < ApplicationRecord
             passed << false
             output << "#{count}. <span style=\"color: #ff6346; font-weight: bold;\">Test failed:</span><br> Given: #{display_keys[count - 1]}. Expected: #{v.class == String ? "'#{v}'" : v}. Got: #{
               if call.nil?
-                "nil"
+                'nil'
               elsif call.class == String
                 "'#{call}'"
               elsif call.class == Symbol

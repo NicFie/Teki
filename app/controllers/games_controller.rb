@@ -13,13 +13,14 @@ class GamesController < ApplicationController
     @game_tests = @game.game_rounds.where('winner_id = 1').first&.challenge&.tests
     @current_game_round_id = @game.game_rounds.where('winner_id = 1').first.id if @rounds_left
     info = { command: 'start game',
-             player_one: @game.player_one.id,
-             player_two: @game.player_two.id,
-             player_two_username: @game.player_two.username,
-             player_two_avatar: @game.player_two.avatar }
+                 player_one: @game.player_one.id,
+                 player_two: @game.player_two.id,
+                 player_two_username: @game.player_two.username,
+                 player_two_avatar: @game.player_two.avatar }
 
     game_broadcast(info)
   end
+
   def new
     @game = Game.new
   end

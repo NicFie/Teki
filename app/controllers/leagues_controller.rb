@@ -6,6 +6,12 @@ class LeaguesController < ApplicationController
     @leagues = current_user.leagues
   end
 
+  def show
+    @league = League.find(params[:id])
+
+    authorize @league
+  end
+
   def new
     @league = League.new
 
@@ -19,12 +25,6 @@ class LeaguesController < ApplicationController
     user_league.save!
 
     redirect_to leagues_path
-
-    authorize @league
-  end
-
-  def show
-    @league = League.find(params[:id])
 
     authorize @league
   end
