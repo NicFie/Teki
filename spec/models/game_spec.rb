@@ -40,7 +40,7 @@ RSpec.describe Game, type: :model do
     end
   end
 
-  # TODO finish writing tests
+  # TODO: finish writing tests
   # describe "#setting_scores" do
   #   let(:game) { FactoryBot.create(:game, player_one: 3, game_winner: 1 ) }
   #   let!(:challenges) { FactoryBot.create_list(:challenge, 5) }

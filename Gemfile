@@ -16,7 +16,7 @@ gem 'redis'
 gem 'sassc-rails'
 gem 'stimulus-rails'
 gem 'turbo-rails'
-gem 'tzinfo-data', platforms: %i[ mingw mswin x64_mingw jruby ]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'autoprefixer-rails'
 gem 'devise'
@@ -27,7 +27,7 @@ gem 'simple_form', github: 'heartcombo/simple_form'
 
 group :development, :test do
   gem 'bullet'
-  gem 'debug', platforms: %i[ mri mingw x64_mingw ]
+  gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'dotenv-rails'
 
   gem 'panolint'

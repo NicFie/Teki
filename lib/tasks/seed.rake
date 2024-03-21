@@ -8,7 +8,7 @@ namespace :db do
     seed_files.each do |file|
       match = file.to_s.match(/0\d_(\w+)/)[1] if file.to_s.match?(/0\d_(\w+)/)
       puts ''
-      puts "Seeding data from #{Rainbow(match ? match : 'user_seeds').cyan.bright}..."
+      puts "Seeding data from #{Rainbow(match || 'user_seeds').cyan.bright}..."
       load(file)
     end
 

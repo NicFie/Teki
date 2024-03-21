@@ -121,7 +121,7 @@ RSpec.describe User, type: :model do
     end
 
     describe '#send_invitation' do
-      # TODO test what happens if a user is invited twice
+      # TODO: test what happens if a user is invited twice
       it 'creates a friend invitation' do
         invitations = @friend_user.invitations.count
         @friend_user.send_invitation(@non_friend)

@@ -23,7 +23,7 @@ create_challenge(
     [8, 8, 8] => 'equilateral',
     [10] => 'not a triangle',
   },
-  method_template: 'def type_of_triangle(integer)\n  \nend',
+  method_template: 'def type_of_triangle(integer)\n  \nend'
 )
 
 create_challenge(
@@ -41,7 +41,7 @@ create_challenge(
     'Odd Odd odd' => 'ddO ddO ddo',
     'Make sure you only reverse words of odd length' => 'Make sure uoy only esrever sdrow of ddo length',
   },
-  method_template: 'def reverse_odd_length_words(integer)\n  \nend',
+  method_template: 'def reverse_odd_length_words(integer)\n  \nend'
 )
 
 create_challenge(
@@ -61,7 +61,7 @@ create_challenge(
     4.5 => 'invalid',
     21.0 => 'u',
   },
-  method_template: 'def position_in_alphabet(integer)\n  \nend',
+  method_template: 'def position_in_alphabet(integer)\n  \nend'
 )
 
 create_challenge(
@@ -81,7 +81,7 @@ create_challenge(
     ['Paul', 'Layla', 'Bob'] => 2,
     ['Garry', 'Maria', 'Bethany', 'Bob', 'Pauline'] => 3,
   },
-  method_template: 'def find_bob(array)\n  \nend',
+  method_template: 'def find_bob(array)\n  \nend'
 )
 
 create_challenge(
@@ -100,7 +100,7 @@ create_challenge(
     'lol!?' => 'mpm!?',
     'bye' => 'czf',
   },
-  method_template: 'def letter_increment(string)\n  \nend',
+  method_template: 'def letter_increment(string)\n  \nend'
 )
 
 create_challenge(
@@ -125,7 +125,7 @@ create_challenge(
     '1234567890AB' => '1234567890',
     '' => '',
   },
-  method_template: 'def decimator(string)\n  \nend',
+  method_template: 'def decimator(string)\n  \nend'
 )
 
 create_challenge(
@@ -146,7 +146,7 @@ create_challenge(
     '101010101' => '0',
     '111111' => '',
   },
-  method_template: 'def binary_zeroes(string)\n  \nend',
+  method_template: 'def binary_zeroes(string)\n  \nend'
 )
 
 create_challenge(
@@ -167,7 +167,7 @@ create_challenge(
     [36, 217] => false,
     [9, 27] => true,
   },
-  method_template: 'def binary_zeroes(array)\n  \nend',
+  method_template: 'def binary_zeroes(array)\n  \nend'
 )
 
 create_challenge(
@@ -187,7 +187,7 @@ create_challenge(
     [20, 1, 1, 2, 2, 3, 3, 5, 5, 4, 20, 4, 5] => 5,
     [10] => 10,
   },
-  method_template: 'def find_odd_integer(array)\n  \nend',
+  method_template: 'def find_odd_integer(array)\n  \nend'
 )
 
 create_challenge(
@@ -207,7 +207,7 @@ create_challenge(
     'WHAT!' => 'WHAT!',
     "That's a ton!! of cheese!!!!!!!!" => "That's a ton!! of cheese!",
   },
-  method_template: 'def no_yelling(string)\n  \nend',
+  method_template: 'def no_yelling(string)\n  \nend'
 )
 
 create_challenge(
@@ -231,7 +231,7 @@ create_challenge(
     'Ruby is fun' => 'ybuR si nuf',
     '123 456 789' => '321 654 987',
   },
-  method_template: 'def reverse_words(string)\n  \nend',
+  method_template: 'def reverse_words(string)\n  \nend'
 )
 
 create_challenge(
@@ -254,7 +254,7 @@ create_challenge(
     [10, -3, 8, 1] => 130,
     [0, 0, 0] => 0,
   },
-  method_template: 'def sum_of_squares(array)\n  \nend',
+  method_template: 'def sum_of_squares(array)\n  \nend'
 )
 
 create_challenge(
@@ -278,7 +278,7 @@ create_challenge(
     'Hello World' => false,
     'Pack my box with five dozen liquor jugs' => true,
   },
-  method_template: 'def pangram?(sentence)\n  \nend',
+  method_template: 'def pangram?(sentence)\n  \nend'
 )
 
 create_challenge(
@@ -307,7 +307,7 @@ create_challenge(
     5 => 5,
     10 => 55,
   },
-  method_template: 'def fibonacci(n)\n  \nend',
+  method_template: 'def fibonacci(n)\n  \nend'
 )
 
 create_challenge(
@@ -330,7 +330,7 @@ create_challenge(
     'hello' => false,
     '123456789' => true,
   },
-  method_template: 'def unique_characters?(str)\n  \nend',
+  method_template: 'def unique_characters?(str)\n  \nend'
 )
 
 # create_challenge(
@@ -381,7 +381,7 @@ create_challenge(
     10 => false,
     64 => true,
   },
-  method_template: 'def power_of_two?(n)\n  \nend',
+  method_template: 'def power_of_two?(n)\n  \nend'
 )
 
 create_challenge(
@@ -401,10 +401,10 @@ create_challenge(
   language: 'Ruby',
   tests: {
     121 => true,
-    12321 => true,
-    12345 => false,
+    12_321 => true,
+    12_345 => false,
   },
-  method_template: 'def palindrome_integer?(num)\n  \nend',
+  method_template: 'def palindrome_integer?(num)\n  \nend'
 )
 
 # create_challenge(
@@ -465,7 +465,7 @@ create_challenge(
     'Odd Odd odd' => 'ddO ddO ddo',
     'Make sure you only reverse words of odd length' => 'Make sure uoy only esrever sdrow of ddo length',
   },
-  method_template: 'def reverse_odd_length_words(string)\n  \nend',
+  method_template: 'def reverse_odd_length_words(string)\n  \nend'
 )
 
 create_challenge(
@@ -484,7 +484,7 @@ create_challenge(
     'hello' => 'll',
     'abbacc' => 'abba',
   },
-  method_template: 'def largest_palindrome(str)\n  \nend',
+  method_template: 'def largest_palindrome(str)\n  \nend'
 )
 
 # create_challenge(
@@ -531,7 +531,7 @@ create_challenge(
     'hello' => 'hel2o',
     'abcd' => 'abcd',
   },
-  method_template: 'def string_compression(str)\n  \nend',
+  method_template: 'def string_compression(str)\n  \nend'
 )
 
 create_challenge(
@@ -552,9 +552,9 @@ create_challenge(
   tests: {
     123 => 6,
     456 => 15,
-    98765 => 35,
+    98_765 => 35,
   },
-  method_template: 'def sum_of_digits(n)\n  \nend',
+  method_template: 'def sum_of_digits(n)\n  \nend'
 )
 
 create_challenge(
@@ -574,7 +574,7 @@ create_challenge(
     ['flower', 'flow', 'flight'] => 'fl',
     ['dog', 'race', 'car'] => '',
   },
-  method_template: 'def common_prefix(strings)\n  \nend',
+  method_template: 'def common_prefix(strings)\n  \nend'
 )
 
 create_challenge(
@@ -602,7 +602,7 @@ create_challenge(
     'IX' => 9,
     'LVIII' => 58,
   },
-  method_template: 'def roman_to_integer(roman)\n  \nend',
+  method_template: 'def roman_to_integer(roman)\n  \nend'
 )
 
 create_challenge(
@@ -626,7 +626,7 @@ create_challenge(
     9 => 3,
     16 => 4,
   },
-  method_template: 'def square_root(x)\n  \nend',
+  method_template: 'def square_root(x)\n  \nend'
 )
 
 create_challenge(
@@ -650,7 +650,7 @@ create_challenge(
     [2, 2, 1, 1, 1, 2, 2] => 2,
     [1] => 1,
   },
-  method_template: 'def majority_element(arr)\n  \nend',
+  method_template: 'def majority_element(arr)\n  \nend'
 )
 
 create_challenge(
@@ -674,7 +674,7 @@ create_challenge(
     20 => 8,
     30 => 10,
   },
-  method_template: 'def count_primes(n)\n  \nend',
+  method_template: 'def count_primes(n)\n  \nend'
 )
 
 create_challenge(
@@ -695,7 +695,7 @@ create_challenge(
     'hello world' => 'world hello',
     '  The sky is blue   ' => 'blue is sky The',
   },
-  method_template: 'def reverse_words(str)\n  \nend',
+  method_template: 'def reverse_words(str)\n  \nend'
 )
 
 puts "Finished creating #{Rainbow('30').cyan.bright} #{Rainbow('medium').orange.bright} level challenges #{Rainbow('✔').green.bright}"

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe GamesController, type: :controller do
-  # TODO Continue writing tests for GamesController
+  # TODO: Continue writing tests for GamesController
   # FactoryBot.create_list(:challenge, 5)
   # let(:player_one) { FactoryBot.create(:user) }
   # let(:player_two) { FactoryBot.create(:user) }

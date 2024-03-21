@@ -13,10 +13,11 @@ class GamesController < ApplicationController
     @game_tests = @game.game_rounds.where('winner_id = 1').first&.challenge&.tests
     @current_game_round_id = @game.game_rounds.where('winner_id = 1').first.id if @rounds_left
     info = { command: 'start game',
-                 player_one: @game.player_one.id,
-                 player_two: @game.player_two.id,
-                 player_two_username: @game.player_two.username,
-                 player_two_avatar: @game.player_two.avatar }
+             player_one: @game.player_one.id,
+             player_two: @game.player_two.id,
+             player_two_username: @game.player_two.username,
+             player_two_avatar: @game.player_two.avatar
+    }
 
     game_broadcast(info)
   end
@@ -147,7 +148,7 @@ class GamesController < ApplicationController
   end
 
   def game_params
-    params.require(:game).permit(:with_friend, :player_one_id, :player_two_id, :round_count, :submission_code, game_rounds: [:player_one_code, :player_two_code])
+    params.require(:game).permit(:with_friend, :player_one_id, :player_two_id, :round_count, :submission_code, game_rounds: %i[player_one_code player_two_code])
   end
 
   def broadcast_game_results(winner, game_winner)

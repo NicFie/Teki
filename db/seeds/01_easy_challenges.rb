@@ -12,7 +12,7 @@ create_challenge(
     4 => 'even steven',
     5 => 'that was odd...',
   },
-  method_template: 'def not_even_odd(number)\n  \nend',
+  method_template: 'def not_even_odd(number)\n  \nend'
 )
 
 create_challenge(
@@ -32,7 +32,7 @@ create_challenge(
     ['a', 3] => [['a', 3], ['a', 3], ['a', 3]],
     [2, 4] => [[2, 4], [2, 4], [2, 4], [2, 4], [2, 4], [2, 4]],
   },
-  method_template: 'def array_array_array(array)\n  \nend',
+  method_template: 'def array_array_array(array)\n  \nend'
 )
 
 create_challenge(
@@ -56,7 +56,7 @@ create_challenge(
     'aaabbbbhaijjjm' => '0/14',
     'aaaxbbbbyyhwawiwjjjwwm' => '8/22',
   },
-  method_template: 'def printer_error(string)\n  \nend',
+  method_template: 'def printer_error(string)\n  \nend'
 )
 
 create_challenge(
@@ -77,7 +77,7 @@ create_challenge(
     [2, 4, 0, 100, 4, 11, 2602, 36] => 11,
     [160, 3, 1719, 19, 11, 13, -21] => 160,
   },
-  method_template: 'def find_the_outlier(array)\n  \nend',
+  method_template: 'def find_the_outlier(array)\n  \nend'
 )
 
 create_challenge(
@@ -94,7 +94,7 @@ create_challenge(
     [5, 3, 2, 8, 1, 4] => [1, 3, 5, 8, 4, 2],
     [21, 7, 35, 1, 8, 12, 2, 0] => [1, 7, 21, 35, 12, 8, 2, 0],
   },
-  method_template: 'def up_and_down(array)\n  \nend',
+  method_template: 'def up_and_down(array)\n  \nend'
 )
 
 create_challenge(
@@ -108,11 +108,11 @@ create_challenge(
     Input: 123456789 Output: 987654321',
   language: 'Ruby',
   tests: {
-    42145 => 54421,
-    145263 => 654321,
-    123456789 => 987654321,
+    42_145 => 54_421,
+    145_263 => 654_321,
+    123_456_789 => 987_654_321,
   },
-  method_template: 'def descending_order(number)\n  \nend',
+  method_template: 'def descending_order(number)\n  \nend'
 )
 
 create_challenge(
@@ -128,7 +128,7 @@ create_challenge(
     [1, 48, 32, 6, 90, 2, 3] => 4,
     [32, 3, 1, 8, 5, 4] => 2,
   },
-  method_template: 'def numbers_greater_than_five(array)\n  \nend',
+  method_template: 'def numbers_greater_than_five(array)\n  \nend'
 )
 
 create_challenge(
@@ -144,7 +144,7 @@ create_challenge(
     [1303, 41, 86, 997, 100] => 3,
     [120, 2, 1, 60, -1, 80] => 1,
   },
-  method_template: 'def prime_number_algorithm(array)\n  \nend',
+  method_template: 'def prime_number_algorithm(array)\n  \nend'
 )
 
 create_challenge(
@@ -160,7 +160,7 @@ create_challenge(
     [1303, 41, 86, 997, 100] => 2341,
     [120, 2, 1, 60, -1, 80] => 2,
   },
-  method_template: 'def sum_of_prime_numbers(array)\n  \nend',
+  method_template: 'def sum_of_prime_numbers(array)\n  \nend'
 )
 
 create_challenge(
@@ -176,11 +176,11 @@ create_challenge(
     (1 x 2 x 3 x 4 x 5 x 6 = 720',
   language: 'Ruby',
   tests: {
-    8 => 40320,
+    8 => 40_320,
     2 => 2,
     4 => 24,
   },
-  method_template: 'def factorial_numbers(number)\n  \nend',
+  method_template: 'def factorial_numbers(number)\n  \nend'
 )
 
 create_challenge(
@@ -199,7 +199,7 @@ create_challenge(
     4230 => false,
     666 => true,
   },
-  method_template: 'def repeated_digit_checker(integer)\n  \nend',
+  method_template: 'def repeated_digit_checker(integer)\n  \nend'
 )
 
 create_challenge(
@@ -220,7 +220,7 @@ create_challenge(
     2 => 1,
     14 => 233,
   },
-  method_template: 'def fibonacci_algorithm(integer)\n  \nend',
+  method_template: 'def fibonacci_algorithm(integer)\n  \nend'
 )
 
 create_challenge(
@@ -237,7 +237,7 @@ create_challenge(
     [1, 9, 4, 10, 2, 3, 8, 5, 7] => 6,
     [9, 3, 2, 4, 7, 10, 5, 6, 1] => 8,
   },
-  method_template: 'def missing_number_game(array)\n  \nend',
+  method_template: 'def missing_number_game(array)\n  \nend'
 )
 
 create_challenge(
@@ -256,7 +256,7 @@ create_challenge(
     21 => 5,
     30 => 6,
   },
-  method_template: 'def four_passengers_and_driver(integer)\n  \nend',
+  method_template: 'def four_passengers_and_driver(integer)\n  \nend'
 )
 
 create_challenge(
@@ -274,7 +274,7 @@ create_challenge(
     "h3k h3p .;/#';" => 9,
     '1' => 1,
   },
-  method_template: 'def multiply_numbers_in_a_string(string)\n  \nend',
+  method_template: 'def multiply_numbers_in_a_string(string)\n  \nend'
 )
 
 create_challenge(
@@ -293,7 +293,7 @@ create_challenge(
     'sample partner autonomy swallow trend' => 'trend sample partner swallow autonomy',
     'introduce fashionable cause sacrifice reality' => 'introduce fashionable cause sacrifice reality',
   },
-  method_template: 'def multiply_numbers_in_a_string(string)\n  \nend',
+  method_template: 'def multiply_numbers_in_a_string(string)\n  \nend'
 )
 
 # create_challenge(
@@ -339,7 +339,7 @@ create_challenge(
     [10, 20, 5, 15] => 20,
     [-5, -10, -2, -8] => -2,
   },
-  method_template: 'def largest_number(array)\n  \nend',
+  method_template: 'def largest_number(array)\n  \nend'
 )
 
 create_challenge(
@@ -362,7 +362,7 @@ create_challenge(
     'racecar' => 'racecar',
     '12345' => '54321',
   },
-  method_template: 'def reverse_string(str)\n  \nend',
+  method_template: 'def reverse_string(str)\n  \nend'
 )
 
 create_challenge(
@@ -389,7 +389,7 @@ create_challenge(
     23 => true,
     4 => false,
   },
-  method_template: 'def prime_number?(number)\n  \nend',
+  method_template: 'def prime_number?(number)\n  \nend'
 )
 
 create_challenge(
@@ -412,7 +412,7 @@ create_challenge(
     3 => 6,
     0 => 1,
   },
-  method_template: 'def factorial(n)\n  \nend',
+  method_template: 'def factorial(n)\n  \nend'
 )
 
 create_challenge(
@@ -435,7 +435,7 @@ create_challenge(
     [10, -3, 8, 1] => 16,
     [0, 0, 0] => 0,
   },
-  method_template: 'def sum_of_array(array)\n  \nend',
+  method_template: 'def sum_of_array(array)\n  \nend'
 )
 
 create_challenge(
@@ -462,7 +462,7 @@ create_challenge(
     'level' => true,
     'abcde' => false,
   },
-  method_template: 'def palindrome?(str)\n  \nend',
+  method_template: 'def palindrome?(str)\n  \nend'
 )
 
 create_challenge(
@@ -485,7 +485,7 @@ create_challenge(
     [10, 20, 5, 15] => 5,
     [-5, -10, -2, -8] => -10,
   },
-  method_template: 'def minimum_number(array)\n  \nend',
+  method_template: 'def minimum_number(array)\n  \nend'
 )
 
 create_challenge(
@@ -508,7 +508,7 @@ create_challenge(
     [10, 10, 20, 30, 20] => [10, 20, 30],
     [] => [],
   },
-  method_template: 'def remove_duplicates(array)\n  \nend',
+  method_template: 'def remove_duplicates(array)\n  \nend'
 )
 
 create_challenge(
@@ -531,7 +531,7 @@ create_challenge(
     [10, -3, 8, 1] => 4.0,
     [0, 0, 0] => 0.0,
   },
-  method_template: 'def average_of_array(array)\n  \nend',
+  method_template: 'def average_of_array(array)\n  \nend'
 )
 
 create_challenge(
@@ -558,7 +558,7 @@ create_challenge(
     [1, 2, 3, 4] => 3,
     [0, 0, 0, 0] => 0,
   },
-  method_template: 'def middle_element(array)\n  \nend',
+  method_template: 'def middle_element(array)\n  \nend'
 )
 
 create_challenge(
@@ -581,7 +581,7 @@ create_challenge(
     'Hello, how are you?' => 4,
     'One word.' => 2,
   },
-  method_template: 'def word_count(sentence)\n  \nend',
+  method_template: 'def word_count(sentence)\n  \nend'
 )
 
 create_challenge(
@@ -604,7 +604,7 @@ create_challenge(
     [10, -3, 8, 1] => -240,
     [1, 1, 1, 1, 1] => 1,
   },
-  method_template: 'def multiply_array(array)\n  \nend',
+  method_template: 'def multiply_array(array)\n  \nend'
 )
 
 create_challenge(
@@ -631,7 +631,7 @@ create_challenge(
     -10 => true,
     0 => true,
   },
-  method_template: 'def even_number?(number)\n  \nend',
+  method_template: 'def even_number?(number)\n  \nend'
 )
 
 create_challenge(
@@ -647,7 +647,7 @@ create_challenge(
     [1, 48, 32, 6, 90, 2, 3] => 4,
     [32, 3, 1, 8, 5, 4] => 2,
   },
-  method_template: 'def numbers_greater_than_five(array)\n  \nend',
+  method_template: 'def numbers_greater_than_five(array)\n  \nend'
 )
 
 create_challenge(
@@ -663,7 +663,7 @@ create_challenge(
     [1303, 41, 86, 997, 100] => 3,
     [120, 2, 1, 60, -1, 80] => 1,
   },
-  method_template: 'def prime_number_algorithm(array)\n  \nend',
+  method_template: 'def prime_number_algorithm(array)\n  \nend'
 )
 
 create_challenge(
@@ -679,7 +679,7 @@ create_challenge(
     [1303, 41, 86, 997, 100] => 2341,
     [120, 2, 1, 60, -1, 80] => 2,
   },
-  method_template: 'def sum_of_prime_numbers(array)\n  \nend',
+  method_template: 'def sum_of_prime_numbers(array)\n  \nend'
 )
 
 create_challenge(
@@ -695,11 +695,11 @@ create_challenge(
     (1 x 2 x 3 x 4 x 5 x 6 = 720',
   language: 'Ruby',
   tests: {
-    8 => 40320,
+    8 => 40_320,
     2 => 2,
     4 => 24,
   },
-  method_template: 'def factorial_numbers(number)\n  \nend',
+  method_template: 'def factorial_numbers(number)\n  \nend'
 )
 
 create_challenge(
@@ -718,7 +718,7 @@ create_challenge(
     4230 => false,
     666 => true,
   },
-  method_template: 'def repeated_digit_checker(integer)\n  \nend',
+  method_template: 'def repeated_digit_checker(integer)\n  \nend'
 )
 
 create_challenge(
@@ -739,7 +739,7 @@ create_challenge(
     2 => 1,
     14 => 233,
   },
-  method_template: 'def fibonacci_algorithm(integer)\n  \nend',
+  method_template: 'def fibonacci_algorithm(integer)\n  \nend'
 )
 
 create_challenge(
@@ -756,7 +756,7 @@ create_challenge(
     [1, 9, 4, 10, 2, 3, 8, 5, 7] => 6,
     [9, 3, 2, 4, 7, 10, 5, 6, 1] => 8,
   },
-  method_template: 'def missing_number_game(array)\n  \nend',
+  method_template: 'def missing_number_game(array)\n  \nend'
 )
 
 create_challenge(
@@ -775,7 +775,7 @@ create_challenge(
     21 => 5,
     30 => 6,
   },
-  method_template: 'def four_passengers_and_driver(integer)\n  \nend',
+  method_template: 'def four_passengers_and_driver(integer)\n  \nend'
 )
 
 create_challenge(
@@ -793,7 +793,7 @@ create_challenge(
     "h3k h3p .;/#';" => 9,
     '1' => 1,
   },
-  method_template: 'def multiply_numbers_in_a_string(string)\n  \nend',
+  method_template: 'def multiply_numbers_in_a_string(string)\n  \nend'
 )
 
 create_challenge(
@@ -812,7 +812,7 @@ create_challenge(
     'sample partner autonomy swallow trend' => 'trend sample partner swallow autonomy',
     'introduce fashionable cause sacrifice reality' => 'introduce fashionable cause sacrifice reality',
   },
-  method_template: 'def multiply_numbers_in_a_string(string)\n  \nend',
+  method_template: 'def multiply_numbers_in_a_string(string)\n  \nend'
 )
 
 puts "Finished creating #{Rainbow('40').cyan.bright} #{Rainbow('easy').green.bright} challenges #{Rainbow('✔').green.bright}"
