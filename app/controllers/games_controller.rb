@@ -16,8 +16,7 @@ class GamesController < ApplicationController
              player_one: @game.player_one.id,
              player_two: @game.player_two.id,
              player_two_username: @game.player_two.username,
-             player_two_avatar: @game.player_two.avatar
-    }
+             player_two_avatar: @game.player_two.avatar }
 
     game_broadcast(info)
   end
