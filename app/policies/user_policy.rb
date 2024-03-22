@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
@@ -11,7 +13,7 @@ class UserPolicy < ApplicationPolicy
   def send_game_invitation?
     true
   end
-  
+
   def show?
     true
   end

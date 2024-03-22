@@ -1,4 +1,4 @@
-name: "Teki Testing"
+name: "build"
 on: 
   push:
     branches: [develop, master]
@@ -33,3 +33,5 @@ jobs:
         run: bundle exec rspec --color
         env:
           CI: true
+      - name: Run linting
+        run: bundle exec rubocop
