@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :invitation do
-    user
+    association :user
     friend_id { 2 }
     confirmed { false }
   end
