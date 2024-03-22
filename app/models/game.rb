@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Game < ApplicationRecord
   has_many :game_rounds, dependent: :destroy
   belongs_to :player_one, class_name: 'User'
@@ -61,12 +63,12 @@ class Game < ApplicationRecord
             output << "#{count}. <span style=\"color: green; font-weight: bold;\">Test passed:</span><br>When given #{display_keys[count - 1]}, method successfully returned #{v}.<br><br>"
           else
             passed << false
-            output << "#{count}. <span style=\"color: #ff6346; font-weight: bold;\">Test failed:</span><br> Given: #{display_keys[count - 1]}. Expected: #{v.class == String ? "'#{v}'" : v}. Got: #{
+            output << "#{count}. <span style=\"color: #ff6346; font-weight: bold;\">Test failed:</span><br> Given: #{display_keys[count - 1]}. Expected: #{v.instance_of?(String) ? "'#{v}'" : v}. Got: #{
               if call.nil?
                 'nil'
-              elsif call.class == String
+              elsif call.instance_of?(String)
                 "'#{call}'"
-              elsif call.class == Symbol
+              elsif call.instance_of?(Symbol)
                 ":#{call}"
               else
                 call

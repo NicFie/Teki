@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'challenge_creator'
 require 'rainbow'
 include ChallengeCreator

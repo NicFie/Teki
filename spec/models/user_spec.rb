@@ -75,7 +75,7 @@ RSpec.describe User do
       it "returns 0 if user hasn't played any games" do
         expect(user_without_games.games_count).to be 0
       end
- 
+
       it 'does not return nil if player has played 0 games' do
         expect(user_without_games.games_count).not_to be_nil
       end

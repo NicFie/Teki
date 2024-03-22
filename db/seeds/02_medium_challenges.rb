@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 puts "Creating #{Rainbow('30').cyan.bright} #{Rainbow('medium').orange.bright} challenges"
 
 create_challenge(

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GamePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve

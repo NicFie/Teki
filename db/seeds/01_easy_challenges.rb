@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 puts 'creating Katas erm... Challenges !'
 
 puts "Creating #{Rainbow('40').cyan.bright} #{Rainbow('easy').green.bright} challenges"

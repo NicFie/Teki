@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 puts 'Creating Users'
 User.create!(username: 'Waiting for Opponent...', email: 'opponent@mail.com', password: '123456', avatar: 'ninja.png', score: 0)
 User.create!(username: '4ar0n', email: 'aaron@mail.com', admin: true, password: '123456', avatar: 'cool-emote.png', score: 0)

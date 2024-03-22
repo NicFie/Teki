@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ChallengeCreator
   def create_challenge(attributes)
     Challenge.find_or_create_by!(name: attributes[:name]) do |challenge|

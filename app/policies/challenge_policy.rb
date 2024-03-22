@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChallengePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve

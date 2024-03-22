@@ -163,7 +163,7 @@ class GamesController < ApplicationController
              game_winner: game_winner ? @game.player_one.username : @game.player_two.username,
              round_count: @game.round_count }
 
-    for i in 1..@game.round_count do
+    (1..@game.round_count).each do |i|
       info["round_#{nums[i - 1]}_winner"] = User.find(@game.game_rounds[i - 1].winner_id).username
       info["round_#{nums[i - 1]}_instructions"] = Challenge.find(sorted_game_rounds[i - 1].challenge_id).description
       info["p1_r#{i}_solution"] = sorted_game_rounds[i - 1].player_one_code
@@ -174,7 +174,7 @@ class GamesController < ApplicationController
   end
 
   def start_next_round(winner)
-    if @game.game_rounds.where('winner_id = 1').to_a.size.zero?
+    if @game.game_rounds.where('winner_id = 1').to_a.empty?
       game_winner = @game.game_rounds.where("winner_id =#{@game.player_one.id}").to_a.size > @game.game_rounds.where("winner_id =#{@game.player_two.id}").to_a.size
       @game.game_winner = if game_winner
                             @game.player_one.id

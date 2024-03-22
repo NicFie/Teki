@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LeaguesController < ApplicationController
   before_action :add_requests, only: %i[index new show]
 
