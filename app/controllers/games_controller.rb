@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GamesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[user_code]
   skip_after_action :verify_authorized, only: %i[user_code user_ready_next_round forfeit_round invite_response game_disconnected round_won game_metadata]

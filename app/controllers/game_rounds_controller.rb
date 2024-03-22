@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GameRoundsController < ApplicationController
   def index
     @game_rounds = GameRound.where(winner_id: current_user)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
@@ -41,38 +43,38 @@ RSpec.describe User, type: :model do
 
     describe 'online?' do
       it 'returns true if online' do
-        expect(@user1.online?).to eq true
+        expect(@user1.online?).to be true
       end
 
       it 'returns false if user offline for more than 3 minutes' do
-        expect(@user2.online?).to eq false
+        expect(@user2.online?).to be false
       end
     end
 
     describe '#completed_games' do
       it 'returns amount of games completed by user' do
-        expect(@user1.completed_games.length).to eq 12
+        expect(@user1.completed_games.length).to be 12
       end
     end
 
     describe '#latest_games' do
       it 'returns last 5 games user has played if player has played more than 5 games' do
-        expect(@user1.latest_games.length).to eq 5
+        expect(@user1.latest_games.length).to be 5
       end
 
       it 'returns amount of games played if player has played less than 5 games' do
-        expect(@user3.latest_games.length).to eq 3
+        expect(@user3.latest_games.length).to be 3
       end
     end
 
     describe '#games_count' do
       it 'returns amount of games a user has played' do
-        expect(@user1.games_count).to eq 12
-        expect(@user3.games_count).to eq 3
+        expect(@user1.games_count).to be 12
+        expect(@user3.games_count).to be 3
       end
 
       it "returns 0 if user hasn't played any games" do
-        expect(@user4.games_count).to eq 0
+        expect(@user4.games_count).to be 0
         expect(@user4.games_count).not_to be_nil
       end
     end
@@ -98,11 +100,11 @@ RSpec.describe User, type: :model do
 
     describe '#friends_with' do
       it 'returns true if you are friends' do
-        expect(@friend_user.friend_with?(@friend1)).to eq true
+        expect(@friend_user.friend_with?(@friend1)).to be true
       end
 
       it 'returns false if you are not friends' do
-        expect(@friend_user.friend_with?(@non_friend)).to eq false
+        expect(@friend_user.friend_with?(@non_friend)).to be false
       end
     end
 
@@ -115,8 +117,7 @@ RSpec.describe User, type: :model do
       end
 
       it 'returns friends ordered by updated_at in descending order' do
-        expect(@friend_user.order_friends.first).to eq @friend1
-        expect(@friend_user.order_friends.second).to eq @friend2
+        expect(@friend_user.order_friends).to eq [@friend1, @friend2]
       end
     end
 
@@ -125,7 +126,7 @@ RSpec.describe User, type: :model do
       it 'creates a friend invitation' do
         invitations = @friend_user.invitations.count
         @friend_user.send_invitation(@non_friend)
-        expect(@friend_user.invitations.count).to eq invitations + 1
+        expect(@friend_user.invitations.count).to be invitations + 1
       end
     end
   end
