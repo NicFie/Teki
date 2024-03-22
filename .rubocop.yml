@@ -15,6 +15,9 @@ AllCops:
     - 'log/**/*'
     - 'public/**/*'
     - 'storage/**/*'
+    - 'db/schema.rb'
+    - 'db/migrate/*'
+    - 'config/**/*'
 
 Style/Documentation:
   Enabled: false
@@ -40,27 +43,14 @@ Metrics/ModuleLength:
 Rails/LexicallyScopedActionFilter:
   Enabled: false
 
-Style/NumericPredicate:
-  EnforcedStyle: comparison
-
 Rails/SkipsModelValidations:
   Enabled: false
 
 Rails/BulkChangeTable:
   Enabled: false
 
-Layout/HashAlignment:
-  Enabled: true
-  EnforcedHashRocketStyle: table
-  EnforcedColonStyle: table
-
 Layout/SpaceAroundOperators:
   Enabled: true
-
-Layout/ExtraSpacing:
-  AllowForAlignment: true
-  ForceEqualSignAlignment: true
-  Enabled: false
 
 Layout/LineLength:
   Enabled: false
@@ -75,9 +65,10 @@ Rails/UnknownEnv:
   Environments:
     - production
     - development
-    - staging
-    - puma_dev
     - test
+
+Rails/Output:
+  Enabled: false
 
 Lint/RedundantCopDisableDirective:
   Enabled: false
@@ -95,7 +86,7 @@ Style/HashSyntax:
   EnforcedShorthandSyntax: never
 
 Style/SymbolArray:
-  EnforcedStyle: brackets
+  EnforcedStyle: percent
 
 Style/WordArray:
   EnforcedStyle: brackets
@@ -103,8 +94,17 @@ Style/WordArray:
 Style/TrailingCommaInArrayLiteral:
   EnforcedStyleForMultiline: consistent_comma
 
+Style/RegexpLiteral:
+  Enabled: false
+
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented_relative_to_receiver
+
+Security/Eval:
+  Enabled: false
+
+Style/MixinUsage:
+  Enabled: false
 
 # Rails performance ####################################################################################################
 
@@ -137,9 +137,6 @@ Rails/LinkToBlank:
   Enabled: true
 
 Rails/NegateInclude:
-  Enabled: true
-
-Rails/Output:
   Enabled: true
 
 Rails/Pick:
@@ -182,3 +179,6 @@ RSpec/PendingWithoutReason:
 
 RSpec/SpecFilePathFormat:
   Enabled: false
+
+FactoryBot/AssociationStyle:
+  EnforcedStyle: explicit
