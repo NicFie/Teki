@@ -9,11 +9,6 @@ RSpec.describe Game do
     it { is_expected.to belong_to(:player_two).class_name('User') }
   end
 
-  describe 'validations' do
-    it { is_expected.to validate_presence_of(:player_one_id) }
-    it { is_expected.to validate_presence_of(:player_two_id) }
-  end
-
   describe 'scopes' do
     describe '.existing_game' do
       let(:player_one) { create(:user) }

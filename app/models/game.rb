@@ -5,8 +5,6 @@ class Game < ApplicationRecord
   belongs_to :player_one, class_name: 'User'
   belongs_to :player_two, class_name: 'User'
 
-  validates :player_one_id, :player_two_id, presence: true
-
   scope :existing_game, ->(game) { where(player_two_id: 1, round_count: game['round_count'].to_i) }
   after_commit :add_rounds_and_challenges, on: :create
 
