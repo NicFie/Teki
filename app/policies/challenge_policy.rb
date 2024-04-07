@@ -1,12 +1,13 @@
+# frozen_string_literal: true
+
 class ChallengePolicy < ApplicationPolicy
   class Scope < Scope
-     def resolve
-       scope.all
-     end
+    def resolve
+      scope.all
+    end
   end
 
   def show?
     true
   end
-
 end

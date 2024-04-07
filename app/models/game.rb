@@ -1,11 +1,11 @@
+# frozen_string_literal: true
+
 class Game < ApplicationRecord
   has_many :game_rounds, dependent: :destroy
-  belongs_to :player_one, class_name: "User"
-  belongs_to :player_two, class_name: "User"
+  belongs_to :player_one, class_name: 'User'
+  belongs_to :player_two, class_name: 'User'
 
-  validates :player_one_id, :player_two_id, presence: true
-
-  scope :existing_game, ->(game) { where(player_two_id: 1, round_count: game["round_count"].to_i) }
+  scope :existing_game, ->(game) { where(player_two_id: 1, round_count: game['round_count'].to_i) }
   after_commit :add_rounds_and_challenges, on: :create
 
   def add_rounds_and_challenges
@@ -37,7 +37,7 @@ class Game < ApplicationRecord
       output << "<span style=\"color: #ffe66d; font-weight: bold;\">ERROR:</span> #{e.message.gsub!('(eval):3:', '')}"
     # tests variable needs modifying to return not just first test but sequentially after round is won
     else
-      game_tests = game_rounds.where("winner_id = 1").first&.challenge&.tests
+      game_tests = game_rounds.where('winner_id = 1').first&.challenge&.tests
       tests = eval(game_tests)
       display_keys = eval(game_tests).keys
 
@@ -46,7 +46,7 @@ class Game < ApplicationRecord
       tests.each do |k, v|
         count += 1
         begin
-          p "Arriving in call"
+          p 'Arriving in call'
           call = method(submission).call(k)
           p "Call is #{call}"
         rescue StandardError => e
@@ -61,12 +61,12 @@ class Game < ApplicationRecord
             output << "#{count}. <span style=\"color: green; font-weight: bold;\">Test passed:</span><br>When given #{display_keys[count - 1]}, method successfully returned #{v}.<br><br>"
           else
             passed << false
-            output << "#{count}. <span style=\"color: #ff6346; font-weight: bold;\">Test failed:</span><br> Given: #{display_keys[count - 1]}. Expected: #{v.class == String ? "'#{v}'" : v}. Got: #{
+            output << "#{count}. <span style=\"color: #ff6346; font-weight: bold;\">Test failed:</span><br> Given: #{display_keys[count - 1]}. Expected: #{v.instance_of?(String) ? "'#{v}'" : v}. Got: #{
               if call.nil?
-                "nil"
-              elsif call.class == String
+                'nil'
+              elsif call.instance_of?(String)
                 "'#{call}'"
-              elsif call.class == Symbol
+              elsif call.instance_of?(Symbol)
                 ":#{call}"
               else
                 call

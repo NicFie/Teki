@@ -1,9 +1,17 @@
+# frozen_string_literal: true
+
 class LeaguesController < ApplicationController
   before_action :add_requests, only: %i[index new show]
 
   def index
     @leagues = policy_scope(League)
     @leagues = current_user.leagues
+  end
+
+  def show
+    @league = League.find(params[:id])
+
+    authorize @league
   end
 
   def new
@@ -19,12 +27,6 @@ class LeaguesController < ApplicationController
     user_league.save!
 
     redirect_to leagues_path
-
-    authorize @league
-  end
-
-  def show
-    @league = League.find(params[:id])
 
     authorize @league
   end

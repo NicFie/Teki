@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :user_league do
-    association :user
-    association :league
+    # TODO: setup factories for user_leagues
   end
 end

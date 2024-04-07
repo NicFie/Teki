@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -5,17 +7,17 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :friendships_as_asker, class_name: "Friendship", foreign_key: :asker_id, dependent: :destroy_async
-  has_many :friendships_as_receiver, class_name: "Friendship", foreign_key: :receiver_id, dependent: :destroy_async
-  has_many :games_as_player_one, class_name: "Game", foreign_key: :player_one_id
-  has_many :games_as_player_two, class_name: "Game", foreign_key: :player_two_id
-  has_many :game_rounds, class_name: "GameRound", foreign_key: :winner_id
+  has_many :friendships_as_asker, class_name: 'Friendship', foreign_key: :asker_id, dependent: :destroy_async, inverse_of: :asker
+  has_many :friendships_as_receiver, class_name: 'Friendship', foreign_key: :receiver_id, dependent: :destroy_async, inverse_of: :receiver
+  has_many :games_as_player_one, class_name: 'Game', foreign_key: :player_one_id, inverse_of: :player_one
+  has_many :games_as_player_two, class_name: 'Game', foreign_key: :player_two_id, inverse_of: :player_two
+  has_many :game_rounds, class_name: 'GameRound', foreign_key: :winner_id, inverse_of: :winner
 
   has_many :user_leagues
   has_many :leagues, through: :user_leagues
 
   has_many :invitations
-  has_many :pending_invitations, -> { where confirmed: false }, class_name: 'Invitation', foreign_key: 'friend_id'
+  has_many :pending_invitations, -> { where confirmed: false }, class_name: 'Invitation', foreign_key: 'friend_id', inverse_of: :user
 
   validates :username, presence: true, length: { maximum: 25 }
 

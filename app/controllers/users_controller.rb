@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   # skip_authorization only: [:send_invitation]
   def index
@@ -19,22 +21,20 @@ class UsersController < ApplicationController
 
   def send_invitation
     @invitation = current_user.send_invitation(User.find(params[:id]))
-    if @invitation.save!
-      redirect_to dashboard_path
-    else
-      raise
-    end
+    raise unless @invitation.save!
+
+    redirect_to dashboard_path
+
     skip_authorization
   end
 
   def accept_invitation
     @invitation = Invitation.find(params[:id])
     @invitation.confirmed = true
-    if @invitation.save!
-      redirect_to dashboard_path
-    else
-      raise
-    end
+    raise unless @invitation.save!
+
+    redirect_to dashboard_path
+
     skip_authorization
   end
 
